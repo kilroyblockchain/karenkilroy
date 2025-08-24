@@ -1,0 +1,31 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import App from './App.js';
+import PrintPage from './PrintPage.js';
+
+// Basic error boundary to avoid silent blank pages
+function ErrorBoundary({ children }) {
+    try { return children; } catch (e) {
+        console.error(e);
+        return <pre style={{ padding: 16, color: '#b91c1c' }}>Render error: {String(e)}</pre>;
+    }
+}
+
+const rootEl = document.getElementById('root');
+const root = createRoot(rootEl);
+
+root.render(
+    <React.StrictMode>
+        <BrowserRouter>
+            <ErrorBoundary>
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/print" element={<PrintPage />} />
+                    {/* Fallback so unknown paths don’t go blank */}
+                    <Route path="*" element={<App />} />
+                </Routes>
+            </ErrorBoundary>
+        </BrowserRouter>
+    </React.StrictMode>
+);
