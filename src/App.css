@@ -181,7 +181,13 @@ div#root {
   box-sizing: border-box;
   position: relative;
   min-height: 100vh;
-  z-index: 2; /* Ensures it's above shapes */
+  z-index: 2;
+  pointer-events: none; /* Let clicks pass through to shapes behind */
+}
+
+/* Re-enable clicks on actual resume content */
+div#root * {
+  pointer-events: auto;
 }
 
 /* Click-to-spin animation */
@@ -205,6 +211,12 @@ div#root {
 .shape.spin-ccw     { animation: spinCCW 1s ease-in-out !important; }
 .shape.spin-flip-x  { animation: spinFlipX 1s ease-in-out !important; }
 .shape.spin-flip-y  { animation: spinFlipY 1s ease-in-out !important; }
+
+/* Shoot across the page */
+.shape.shooting {
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  animation: none !important;
+}
 
 /* Additional shapes */
 .hexagon {
@@ -268,6 +280,113 @@ div#root {
   left: 85vw;
   clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
   filter: drop-shadow(0 0 10px rgba(124, 77, 255, 0.7));
+}
+
+/* High shapes - scattered near the top */
+.spark {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 40% 40%, #fff, #00e5ff);
+  border-radius: 50%;
+  top: 3vh;
+  left: 35vw;
+  box-shadow: 0 0 20px 8px rgba(0, 229, 255, 0.5);
+}
+
+/* Bolts don't spin */
+.bolt, .bolt-2, .bolt-3, .bolt-4, .bolt-5 {
+  animation: none;
+}
+
+.bolt {
+  width: 50px;
+  height: 60px;
+  background: linear-gradient(180deg, #ffea00, #ff6d00);
+  top: 2vh;
+  right: 30vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(255, 234, 0, 0.8));
+}
+
+.bolt-2 {
+  width: 35px;
+  height: 45px;
+  background: linear-gradient(180deg, #fff176, #f57f17);
+  top: 20vh;
+  left: 88vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 10px rgba(255, 241, 118, 0.8));
+}
+
+.bolt-3 {
+  width: 60px;
+  height: 72px;
+  background: linear-gradient(180deg, #e1f5fe, #0288d1);
+  top: 45vh;
+  right: 8vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 14px rgba(2, 136, 209, 0.8));
+}
+
+.bolt-4 {
+  width: 40px;
+  height: 50px;
+  background: linear-gradient(180deg, #ff80ab, #c51162);
+  top: 75vh;
+  left: 55vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(197, 17, 98, 0.8));
+}
+
+.bolt-5 {
+  width: 45px;
+  height: 55px;
+  background: linear-gradient(180deg, #b388ff, #6200ea);
+  top: 12vh;
+  left: 45vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(98, 0, 234, 0.8));
+}
+
+.pill {
+  width: 90px;
+  height: 40px;
+  background: linear-gradient(90deg, #e91e63, #9c27b0);
+  border-radius: 20px;
+  top: 8vh;
+  left: 65vw;
+  box-shadow: 0 0 15px 5px rgba(233, 30, 99, 0.5);
+}
+
+.arrow {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #00bcd4, #006064);
+  top: 6vh;
+  left: 80vw;
+  clip-path: polygon(50% 0%, 100% 50%, 75% 50%, 75% 100%, 25% 100%, 25% 50%, 0% 50%);
+  filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));
+}
+
+.mini-ring {
+  width: 35px;
+  height: 35px;
+  border: 6px solid #69f0ae;
+  border-radius: 50%;
+  background: transparent;
+  top: 4vh;
+  left: 15vw;
+  box-shadow: 0 0 12px 3px rgba(105, 240, 174, 0.6);
+}
+
+.gem {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(160deg, #ce93d8, #4a148c);
+  top: 10vh;
+  right: 12vw;
+  clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+  box-shadow: 0 0 15px 5px rgba(206, 147, 216, 0.5);
 }
 
 /* main.container background */
