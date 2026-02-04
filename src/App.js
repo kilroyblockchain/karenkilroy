@@ -168,7 +168,7 @@ export default function App() {
           <h2 id="education-heading">Education</h2>
           <ul className="education-list" aria-label="Education list">
             <li>Hammel College – Office Automation, Database Management (1981–1982, 4.0 GPA)</li>
-            <li>University of Arkansas – Studies in Music (Voice/Piano) &amp; Poultry Science (2023, 4.0 GPA)</li>
+            <li>University of Arkansas – Studies in Music (Voice/Piano 2023-current) (4.0 GPA); Infrastructure and Cloud Computing, Sam M. Walton College of Business (2026)</li>
           </ul>
         </section>
       </main>
