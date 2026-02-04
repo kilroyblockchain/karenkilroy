@@ -11,5 +11,50 @@
 <body>
 <noscript>You need JavaScript enabled to run this app.</noscript>
 <div id="root"></div>
+
+<div class="shape sphere"></div>
+<div class="shape triangle"></div>
+<div class="shape cube"></div>
+<div class="shape diamond"></div>
+<div class="shape cone"></div>
+<div class="shape torus"></div>
+<div class="shape torus-knot"></div>
+<div class="shape tetrahedron"></div>
+<div class="shape hexagon"></div>
+<div class="shape star"></div>
+<div class="shape crescent"></div>
+<div class="shape pentagon"></div>
+<div class="shape ring"></div>
+<div class="shape cross"></div>
+
+<script>
+  // Parallax scroll effect for shapes
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const shapes = document.querySelectorAll('.shape');
+    shapes.forEach(shape => {
+      shape.style.transform = `translateY(${scrollY * 0.3}px)`;
+    });
+  });
+
+  // Click-to-spin: random direction on each click
+  const spinClasses = ['spin-cw', 'spin-ccw', 'spin-flip-x', 'spin-flip-y'];
+  document.querySelectorAll('.shape').forEach(shape => {
+    shape.style.cursor = 'pointer';
+    shape.addEventListener('click', () => {
+      // Remove any existing spin class
+      spinClasses.forEach(c => shape.classList.remove(c));
+      // Force reflow so re-adding the same class restarts the animation
+      void shape.offsetWidth;
+      // Pick a random spin direction
+      const pick = spinClasses[Math.floor(Math.random() * spinClasses.length)];
+      shape.classList.add(pick);
+      // Clean up after animation ends
+      shape.addEventListener('animationend', () => {
+        shape.classList.remove(pick);
+      }, { once: true });
+    });
+  });
+</script>
 </body>
 </html>

@@ -10,13 +10,269 @@
 
 * { box-sizing: border-box; }
 
+/* Main Body Gradient Animation */
+@keyframes gradientPulse {
+  0% {
+    background-image: linear-gradient(to right, purple, lightblue);
+    opacity: 1;
+  }
+  50% {
+    background-image: linear-gradient(to right, purple, yellow, lightblue);
+    opacity: 0.8;
+  }
+  100% {
+    background-image: linear-gradient(to right, purple, lightblue);
+    opacity: 1;
+  }
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
-  background: var(--bg);
   color: var(--text);
   margin: 0;
   padding: 2rem;
   line-height: 1.5;
+  animation: none;
+  background:
+    radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 90px 110px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 130px 40px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 150px 150px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 100px 70px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 220px 80px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 270px 120px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 300px 30px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 350px 90px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 380px 10px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 420px 140px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 450px 60px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 500px 20px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 550px 100px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 580px 50px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 600px 130px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 650px 70px, #eee, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 680px 10px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 700px 150px, #eee, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 750px 40px, #eee, rgba(0,0,0,0)),
+    #000;
+  background-size: 700px 700px;
+  min-height: 200vh; /* Ensure there's scrollable content for parallax */
+}
+
+/* Shape base styles and animation */
+.shape {
+  position: fixed; /* Crucial for parallax relative to viewport */
+  opacity: 0.7;
+  animation: shapeFloat 10s infinite alternate ease-in-out;
+  z-index: 1; /* Ensures shapes are behind content but above body background */
+  transition: transform 0.1s linear; /* Smooth parallax movement */
+}
+
+/* Sphere (scattered position) */
+.sphere {
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle at 30% 30%, #ff00ff, #800080);
+  border-radius: 50%;
+  top: 5vh; /* viewport height */
+  left: 10vw; /* viewport width */
+  box-shadow: 0 0 20px 5px rgba(255, 0, 255, 0.6);
+}
+
+/* Triangle (scattered position) */
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 75px solid transparent;
+  border-right: 75px solid transparent;
+  border-bottom: 130px solid #00ffff;
+  top: 30vh;
+  right: 15vw;
+  transform: rotate(30deg);
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.7));
+}
+
+/* Cube (scattered position) */
+.cube {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(45deg, #ffa500, #ff8c00);
+  top: 50vh;
+  left: 5vw;
+  transform: rotateX(45deg) rotateY(45deg);
+  box-shadow: 10px 10px 20px rgba(255, 165, 0, 0.6);
+}
+
+/* Diamond (scattered position) */
+.diamond {
+  width: 90px;
+  height: 90px;
+  background-color: #00ff00; /* Green */
+  top: 15vh;
+  left: 75vw;
+  transform: rotate(45deg); /* Make it a diamond */
+  box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+}
+
+/* Cone (simplified 2D representation with pseudo-3D effect) */
+.cone {
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 120px solid #ff69b4; /* Hot Pink */
+  border-radius: 50% 50% 0 0;
+  top: 65vh;
+  left: 20vw;
+  transform: rotateX(60deg); /* Tilt for 3D effect */
+  filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.7));
+}
+
+/* Torus (Donut) */
+.torus {
+  width: 100px;
+  height: 100px;
+  border: 20px solid #ffff00; /* Yellow border */
+  border-radius: 50%;
+  background: transparent;
+  top: 80vh;
+  right: 5vw;
+  transform: rotateX(70deg) rotateY(30deg); /* Tilt for 3D effect */
+  box-shadow: 0 0 20px 5px rgba(255, 255, 0, 0.6);
+}
+
+/* Torus Knot */
+.torus-knot {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  top: 10%;
+  left: 5%;
+}
+
+/* Tetrahedron */
+.tetrahedron {
+  width: 60px;
+  height: 60px;
+  background: conic-gradient(from 0deg at 50% 50%, #ffcc00, #ff6600, #ff0000);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  animation: shapeFloat 12s ease-in-out infinite alternate;
+  bottom: 15%;
+  right: 8%;
+}
+
+/* Animation for floating shapes */
+@keyframes shapeFloat {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(20px) rotate(180deg);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
+
+/* div#root stacking context */
+div#root {
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
+  z-index: 2; /* Ensures it's above shapes */
+}
+
+/* Click-to-spin animation */
+@keyframes spinCW {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(720deg); }
+}
+@keyframes spinCCW {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-720deg); }
+}
+@keyframes spinFlipX {
+  from { transform: rotateX(0deg); }
+  to { transform: rotateX(720deg); }
+}
+@keyframes spinFlipY {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(720deg); }
+}
+.shape.spin-cw      { animation: spinCW 1s ease-in-out !important; }
+.shape.spin-ccw     { animation: spinCCW 1s ease-in-out !important; }
+.shape.spin-flip-x  { animation: spinFlipX 1s ease-in-out !important; }
+.shape.spin-flip-y  { animation: spinFlipY 1s ease-in-out !important; }
+
+/* Additional shapes */
+.hexagon {
+  width: 80px;
+  height: 46px;
+  background: linear-gradient(135deg, #00e5ff, #1a237e);
+  position: relative;
+  top: 40vh;
+  right: 10vw;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  box-shadow: 0 0 15px 5px rgba(0, 229, 255, 0.5);
+}
+
+.star {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  top: 90vh;
+  left: 40vw;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+}
+
+.crescent {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 20px 0 0 0 #e040fb;
+  top: 25vh;
+  left: 50vw;
+  filter: drop-shadow(0 0 10px rgba(224, 64, 251, 0.6));
+}
+
+.pentagon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(180deg, #76ff03, #00c853);
+  top: 70vh;
+  left: 70vw;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  box-shadow: 0 0 15px 5px rgba(118, 255, 3, 0.5);
+}
+
+.ring {
+  width: 60px;
+  height: 60px;
+  border: 8px solid #ff1744;
+  border-radius: 50%;
+  background: transparent;
+  top: 55vh;
+  right: 25vw;
+  box-shadow: 0 0 15px 3px rgba(255, 23, 68, 0.6);
+}
+
+.cross {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #7c4dff, #536dfe);
+  top: 85vh;
+  left: 85vw;
+  clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
+  filter: drop-shadow(0 0 10px rgba(124, 77, 255, 0.7));
+}
+
+/* main.container background */
+main.container {
+  background-color: white;
 }
 
 /* Top action bar */
