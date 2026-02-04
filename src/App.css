@@ -68,98 +68,258 @@ body {
   transition: transform 0.1s linear; /* Smooth parallax movement */
 }
 
-/* Sphere (scattered position) */
+/* Row 1: ~3vh */
 .sphere {
   width: 100px;
   height: 100px;
   background: radial-gradient(circle at 30% 30%, #ff00ff, #800080);
   border-radius: 50%;
-  top: 5vh; /* viewport height */
-  left: 10vw; /* viewport width */
+  top: 3vh;
+  left: 2vw;
   box-shadow: 0 0 20px 5px rgba(255, 0, 255, 0.6);
 }
 
-/* Triangle (scattered position) */
+.mini-ring {
+  width: 35px;
+  height: 35px;
+  border: 6px solid #69f0ae;
+  border-radius: 50%;
+  background: transparent;
+  top: 4vh;
+  left: 25vw;
+  box-shadow: 0 0 12px 3px rgba(105, 240, 174, 0.6);
+}
+
+.spark {
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle at 40% 40%, #fff, #00e5ff);
+  border-radius: 50%;
+  top: 2vh;
+  left: 48vw;
+  box-shadow: 0 0 20px 8px rgba(0, 229, 255, 0.5);
+}
+
+.pill {
+  width: 90px;
+  height: 40px;
+  background: linear-gradient(90deg, #e91e63, #9c27b0);
+  border-radius: 20px;
+  top: 5vh;
+  left: 72vw;
+  box-shadow: 0 0 15px 5px rgba(233, 30, 99, 0.5);
+}
+
+.arrow {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #00bcd4, #006064);
+  top: 3vh;
+  left: 92vw;
+  clip-path: polygon(50% 0%, 100% 50%, 75% 50%, 75% 100%, 25% 100%, 25% 50%, 0% 50%);
+  filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));
+}
+
+/* Row 2: ~18vh */
+.diamond {
+  width: 90px;
+  height: 90px;
+  background-color: #00ff00;
+  top: 18vh;
+  left: 3vw;
+  transform: rotate(45deg);
+  box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+}
+
+.bolt-5 {
+  width: 45px;
+  height: 55px;
+  background: linear-gradient(180deg, #b388ff, #6200ea);
+  top: 16vh;
+  left: 30vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(98, 0, 234, 0.8));
+}
+
+.gem {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(160deg, #ce93d8, #4a148c);
+  top: 15vh;
+  left: 55vw;
+  clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+  box-shadow: 0 0 15px 5px rgba(206, 147, 216, 0.5);
+}
+
+.bolt-2 {
+  width: 35px;
+  height: 45px;
+  background: linear-gradient(180deg, #fff176, #f57f17);
+  top: 20vh;
+  left: 78vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 10px rgba(255, 241, 118, 0.8));
+}
+
+.torus-knot {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff00cc, #3333ff);
+  top: 18vh;
+  left: 93vw;
+}
+
+/* Row 3: ~38vh */
 .triangle {
   width: 0;
   height: 0;
   border-left: 75px solid transparent;
   border-right: 75px solid transparent;
   border-bottom: 130px solid #00ffff;
-  top: 30vh;
-  right: 15vw;
+  top: 35vh;
+  left: 1vw;
   transform: rotate(30deg);
   filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.7));
 }
 
-/* Cube (scattered position) */
+.crescent {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 20px 0 0 0 #e040fb;
+  top: 38vh;
+  left: 28vw;
+  filter: drop-shadow(0 0 10px rgba(224, 64, 251, 0.6));
+}
+
+.bolt {
+  width: 50px;
+  height: 60px;
+  background: linear-gradient(180deg, #ffea00, #ff6d00);
+  top: 36vh;
+  left: 52vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(255, 234, 0, 0.8));
+}
+
+.hexagon {
+  width: 80px;
+  height: 46px;
+  background: linear-gradient(135deg, #00e5ff, #1a237e);
+  top: 40vh;
+  left: 75vw;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  box-shadow: 0 0 15px 5px rgba(0, 229, 255, 0.5);
+}
+
+.bolt-3 {
+  width: 60px;
+  height: 72px;
+  background: linear-gradient(180deg, #e1f5fe, #0288d1);
+  top: 37vh;
+  left: 92vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 14px rgba(2, 136, 209, 0.8));
+}
+
+/* Row 4: ~58vh */
 .cube {
   width: 80px;
   height: 80px;
   background: linear-gradient(45deg, #ffa500, #ff8c00);
-  top: 50vh;
-  left: 5vw;
+  top: 55vh;
+  left: 4vw;
   transform: rotateX(45deg) rotateY(45deg);
   box-shadow: 10px 10px 20px rgba(255, 165, 0, 0.6);
 }
 
-/* Diamond (scattered position) */
-.diamond {
-  width: 90px;
-  height: 90px;
-  background-color: #00ff00; /* Green */
-  top: 15vh;
-  left: 75vw;
-  transform: rotate(45deg); /* Make it a diamond */
-  box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+.ring {
+  width: 60px;
+  height: 60px;
+  border: 8px solid #ff1744;
+  border-radius: 50%;
+  background: transparent;
+  top: 58vh;
+  left: 30vw;
+  box-shadow: 0 0 15px 3px rgba(255, 23, 68, 0.6);
 }
 
-/* Cone (simplified 2D representation with pseudo-3D effect) */
+.bolt-4 {
+  width: 40px;
+  height: 50px;
+  background: linear-gradient(180deg, #ff80ab, #c51162);
+  top: 56vh;
+  left: 53vw;
+  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
+  filter: drop-shadow(0 0 12px rgba(197, 17, 98, 0.8));
+}
+
 .cone {
   width: 0;
   height: 0;
   border-left: 60px solid transparent;
   border-right: 60px solid transparent;
-  border-bottom: 120px solid #ff69b4; /* Hot Pink */
+  border-bottom: 120px solid #ff69b4;
   border-radius: 50% 50% 0 0;
-  top: 65vh;
-  left: 20vw;
-  transform: rotateX(60deg); /* Tilt for 3D effect */
+  top: 60vh;
+  left: 76vw;
+  transform: rotateX(60deg);
   filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.7));
 }
 
-/* Torus (Donut) */
+.pentagon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(180deg, #76ff03, #00c853);
+  top: 57vh;
+  left: 91vw;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  box-shadow: 0 0 15px 5px rgba(118, 255, 3, 0.5);
+}
+
+/* Row 5: ~80vh */
 .torus {
   width: 100px;
   height: 100px;
-  border: 20px solid #ffff00; /* Yellow border */
+  border: 20px solid #ffff00;
   border-radius: 50%;
   background: transparent;
-  top: 80vh;
-  right: 5vw;
-  transform: rotateX(70deg) rotateY(30deg); /* Tilt for 3D effect */
+  top: 78vh;
+  left: 2vw;
+  transform: rotateX(70deg) rotateY(30deg);
   box-shadow: 0 0 20px 5px rgba(255, 255, 0, 0.6);
 }
 
-/* Torus Knot */
-.torus-knot {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #ff00cc, #3333ff);
-  top: 10%;
-  left: 5%;
+.star {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  top: 82vh;
+  left: 27vw;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
 }
 
-/* Tetrahedron */
 .tetrahedron {
   width: 60px;
   height: 60px;
   background: conic-gradient(from 0deg at 50% 50%, #ffcc00, #ff6600, #ff0000);
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   animation: shapeFloat 12s ease-in-out infinite alternate;
-  bottom: 15%;
-  right: 8%;
+  top: 80vh;
+  left: 50vw;
+}
+
+.cross {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, #7c4dff, #536dfe);
+  top: 83vh;
+  left: 74vw;
+  clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
+  filter: drop-shadow(0 0 10px rgba(124, 77, 255, 0.7));
 }
 
 /* Animation for floating shapes */
@@ -218,175 +378,9 @@ div#root * {
   animation: none !important;
 }
 
-/* Additional shapes */
-.hexagon {
-  width: 80px;
-  height: 46px;
-  background: linear-gradient(135deg, #00e5ff, #1a237e);
-  position: relative;
-  top: 40vh;
-  right: 10vw;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-  box-shadow: 0 0 15px 5px rgba(0, 229, 255, 0.5);
-}
-
-.star {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(135deg, #ffd700, #ff8c00);
-  top: 90vh;
-  left: 40vw;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
-}
-
-.crescent {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: inset 20px 0 0 0 #e040fb;
-  top: 25vh;
-  left: 50vw;
-  filter: drop-shadow(0 0 10px rgba(224, 64, 251, 0.6));
-}
-
-.pentagon {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(180deg, #76ff03, #00c853);
-  top: 70vh;
-  left: 70vw;
-  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-  box-shadow: 0 0 15px 5px rgba(118, 255, 3, 0.5);
-}
-
-.ring {
-  width: 60px;
-  height: 60px;
-  border: 8px solid #ff1744;
-  border-radius: 50%;
-  background: transparent;
-  top: 55vh;
-  right: 25vw;
-  box-shadow: 0 0 15px 3px rgba(255, 23, 68, 0.6);
-}
-
-.cross {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(45deg, #7c4dff, #536dfe);
-  top: 85vh;
-  left: 85vw;
-  clip-path: polygon(35% 0%, 65% 0%, 65% 35%, 100% 35%, 100% 65%, 65% 65%, 65% 100%, 35% 100%, 35% 65%, 0% 65%, 0% 35%, 35% 35%);
-  filter: drop-shadow(0 0 10px rgba(124, 77, 255, 0.7));
-}
-
-/* High shapes - scattered near the top */
-.spark {
-  width: 40px;
-  height: 40px;
-  background: radial-gradient(circle at 40% 40%, #fff, #00e5ff);
-  border-radius: 50%;
-  top: 3vh;
-  left: 35vw;
-  box-shadow: 0 0 20px 8px rgba(0, 229, 255, 0.5);
-}
-
 /* Bolts don't spin */
 .bolt, .bolt-2, .bolt-3, .bolt-4, .bolt-5 {
   animation: none;
-}
-
-.bolt {
-  width: 50px;
-  height: 60px;
-  background: linear-gradient(180deg, #ffea00, #ff6d00);
-  top: 2vh;
-  right: 30vw;
-  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
-  filter: drop-shadow(0 0 12px rgba(255, 234, 0, 0.8));
-}
-
-.bolt-2 {
-  width: 35px;
-  height: 45px;
-  background: linear-gradient(180deg, #fff176, #f57f17);
-  top: 20vh;
-  left: 88vw;
-  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
-  filter: drop-shadow(0 0 10px rgba(255, 241, 118, 0.8));
-}
-
-.bolt-3 {
-  width: 60px;
-  height: 72px;
-  background: linear-gradient(180deg, #e1f5fe, #0288d1);
-  top: 45vh;
-  right: 8vw;
-  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
-  filter: drop-shadow(0 0 14px rgba(2, 136, 209, 0.8));
-}
-
-.bolt-4 {
-  width: 40px;
-  height: 50px;
-  background: linear-gradient(180deg, #ff80ab, #c51162);
-  top: 75vh;
-  left: 55vw;
-  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
-  filter: drop-shadow(0 0 12px rgba(197, 17, 98, 0.8));
-}
-
-.bolt-5 {
-  width: 45px;
-  height: 55px;
-  background: linear-gradient(180deg, #b388ff, #6200ea);
-  top: 12vh;
-  left: 45vw;
-  clip-path: polygon(30% 0%, 70% 0%, 55% 40%, 80% 40%, 25% 100%, 40% 55%, 15% 55%);
-  filter: drop-shadow(0 0 12px rgba(98, 0, 234, 0.8));
-}
-
-.pill {
-  width: 90px;
-  height: 40px;
-  background: linear-gradient(90deg, #e91e63, #9c27b0);
-  border-radius: 20px;
-  top: 8vh;
-  left: 65vw;
-  box-shadow: 0 0 15px 5px rgba(233, 30, 99, 0.5);
-}
-
-.arrow {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #00bcd4, #006064);
-  top: 6vh;
-  left: 80vw;
-  clip-path: polygon(50% 0%, 100% 50%, 75% 50%, 75% 100%, 25% 100%, 25% 50%, 0% 50%);
-  filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));
-}
-
-.mini-ring {
-  width: 35px;
-  height: 35px;
-  border: 6px solid #69f0ae;
-  border-radius: 50%;
-  background: transparent;
-  top: 4vh;
-  left: 15vw;
-  box-shadow: 0 0 12px 3px rgba(105, 240, 174, 0.6);
-}
-
-.gem {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(160deg, #ce93d8, #4a148c);
-  top: 10vh;
-  right: 12vw;
-  clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
-  box-shadow: 0 0 15px 5px rgba(206, 147, 216, 0.5);
 }
 
 /* main.container background */
