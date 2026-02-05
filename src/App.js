@@ -64,33 +64,45 @@ export default function App() {
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            AI engineer, educator, and author with 20+ years in full-stack development and technical leadership.
-            Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Creator of NYX NoCode, an
-            AI-driven web app builder empowering students and educators to create apps with natural language. O’Reilly
-            author of four books on AI and technology. Proven track record in product innovation, technical writing, and
-            shaping industry standards as Co-Chair of the C2PA AI/ML Task Force and contributor to the SMPTE/ETC AI/ML
-            Task Force.
+            AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical
+            leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
+            of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
+            and rapid prototyping. O'Reilly author of four books on AI and emerging technologies. Proven track record
+            in product innovation, technical communication, and industry standards leadership as Co-Chair of the C2PA
+            AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
           </p>
         </section>
 
         <section className="section skills-section" aria-labelledby="skills-heading">
           <h2 id="skills-heading">Core Skills</h2>
-          <ul className="skills" aria-label="Core skills list">
-            <li>AI/ML</li>
-            <li>Generative AI</li>
-            <li>Azure OpenAI (ChatGPT-5, Model Router)</li>
-            <li>Claude Code</li>
-            <li>Deepgram speech AI</li>
-            <li>Retrieval-Augmented Generation (RAG)</li>
-            <li>ReactJS</li>
-            <li>Node.js</li>
-            <li>Azure</li>
-            <li>API Integration</li>
-            <li>No-Code Platforms</li>
-            <li>Standards &amp; Provenance (C2PA, SMPTE)</li>
-            <li>Model Context Protocol (MCP)</li>
-            <li>Technical Writing &amp; Education</li>
-          </ul>
+
+          <div className="skills-group" aria-label="AI and ML skills">
+            <h3 className="skills-group-title">AI &amp; ML</h3>
+            <ul className="skills">
+              <li>Generative AI, Retrieval-Augmented Generation (RAG)</li>
+              <li>Azure OpenAI (ChatGPT-5, Model Router), Claude Code</li>
+              <li>Deepgram Speech AI</li>
+              <li>Model Context Protocol (MCP)</li>
+            </ul>
+          </div>
+
+          <div className="skills-group" aria-label="Cloud and Application Development skills">
+            <h3 className="skills-group-title">Cloud &amp; Application Development</h3>
+            <ul className="skills">
+              <li>ReactJS, Node.js</li>
+              <li>Azure API Integration</li>
+              <li>No-Code / Low-Code Platforms</li>
+            </ul>
+          </div>
+
+          <div className="skills-group" aria-label="Standards, Governance and Communication skills">
+            <h3 className="skills-group-title">Standards, Governance &amp; Communication</h3>
+            <ul className="skills">
+              <li>Content Provenance (C2PA, SMPTE)</li>
+              <li>AI Supply Chain &amp; Governance</li>
+              <li>Technical Writing &amp; Education</li>
+            </ul>
+          </div>
         </section>
 
         {/* Force this section to page 2 in print */}
@@ -103,10 +115,10 @@ export default function App() {
             <p className="job-dates">2024 – Present</p>
             <div className="job-desc">
               <ul>
-                <li>Built an AI-driven no-code platform using ReactJS + Azure OpenAI (ChatGPT-5, Model Router).</li>
+                <li>Built an AI-driven no-code platform using ReactJS and Azure OpenAI, incorporating model routing and RAG-based memory.</li>
                 <li>Integrated Deepgram transcription and real-time voice input into classroom AI workflows.</li>
-                <li>Developed Peopleoids, a RAG assistant with instant memory, portable to finetuning.</li>
-                <li>Delivered hackathons and educational programs showcasing rapid deployment of AI in classrooms.</li>
+                <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for finetuning and reuse.</li>
+                <li>Delivered hackathons and educational programs demonstrating rapid deployment of AI applications.</li>
               </ul>
             </div>
           </article>
@@ -117,9 +129,9 @@ export default function App() {
             <p className="job-dates">2019 – 2024</p>
             <div className="job-desc">
               <ul>
-                <li>Published 4 books: Natural Language and Search (2024), Blockchain Tethered AI (2023), AI and the Law (2021), Blockchain as a Service (2019).</li>
-                <li>Technical reviewer for Mastering Blockchain and Mastering Corda.</li>
-                <li>Wrote “AI’s Opaque Box is Actually a Supply Chain.”</li>
+                <li>Published four books: <em>Natural Language and Search</em> (2024), <em>Blockchain Tethered AI</em> (2023), <em>AI and the Law</em> (2021), <em>Blockchain as a Service</em> (2019).</li>
+                <li>Technical reviewer for <em>Mastering Blockchain</em> and <em>Mastering Corda</em>.</li>
+                <li>Authored "AI's Opaque Box is Actually a Supply Chain."</li>
               </ul>
             </div>
           </article>
@@ -130,9 +142,9 @@ export default function App() {
             <p className="job-dates">2016 – Present</p>
             <div className="job-desc">
               <ul>
-                <li>Led AI and workflow systems including RILEY (IBM Watson Build North America winner, 2017).</li>
-                <li>Directed engineering on FLO (Forms Workflow) and CASEY (Case Management).</li>
-                <li>Managed business operations and technology delivery.</li>
+                <li>Led development of AI and workflow systems including <strong>RILEY</strong> (IBM Watson Build North America winner, 2017).</li>
+                <li>Directed engineering for <strong>FLO</strong> (Forms Workflow) and <strong>CASEY</strong> (Case Management).</li>
+                <li>Oversaw business operations and end-to-end technology delivery.</li>
               </ul>
             </div>
           </article>
@@ -141,13 +153,33 @@ export default function App() {
             <strong>Earlier Roles (Condensed)</strong>
             <div className="experience-details" style={{ marginTop: '0.5rem' }}>
               <ul>
-                <li><span className="experience-role">CTO – Jamersan LLC</span> (2016): Led dev/support at a Magento-focused agency.</li>
-                <li><span className="experience-role">Principal App Developer – CA Technologies</span> (2014–2015): Led digital commerce team.</li>
-                <li><span className="experience-role">Training Consultant – Magento Inc.</span> (2010–2014): Founding member of Magento U.</li>
-                <li><span className="experience-role">Director of Online Marketing – Suarez Corp.</span> (2010–2012): Built shared shopping/social features.</li>
+                <li><span className="experience-role">CTO – Jamersan LLC</span> (2016)</li>
+                <li><span className="experience-role">Principal App Developer – CA Technologies</span> (2014–2015)</li>
+                <li><span className="experience-role">Training Consultant – Magento Inc.</span> (2010–2014), Founding member of Magento U</li>
+                <li><span className="experience-role">Director of Online Marketing – Suarez Corp.</span> (2010–2012)</li>
               </ul>
             </div>
           </section>
+        </section>
+
+        <section className="section speaking-section" aria-labelledby="speaking-heading">
+          <h2 id="speaking-heading">Speaking &amp; Standards Leadership</h2>
+          <ul className="speaking-list">
+            <li>
+              <strong>International Red Cross</strong> — <em>C2PA Content Credentials for AI/ML Provenance</em>
+              <p className="speaking-desc">
+                Invited presentation on applying C2PA standards to authenticate AI-generated content and support trust
+                and verification in humanitarian and high-risk information environments.
+              </p>
+            </li>
+            <li>
+              <strong>Actian</strong> — <em>Blockchain Kill Switches for Governed AI Systems</em>
+              <p className="speaking-desc">
+                Industry talk on blockchain-based control mechanisms for shutdown, compliance, and risk mitigation in
+                distributed AI and data infrastructures.
+              </p>
+            </li>
+          </ul>
         </section>
 
         <section className="section certifications" aria-labelledby="certifications-heading">
@@ -156,8 +188,8 @@ export default function App() {
             <li>AI Fluency for Students – Anthropic (Aug 2025)</li>
             <li>Teaching the AI Fluency Framework – Anthropic (Aug 2025)</li>
             <li>Venture Building Certification – Builders + Backers (Jul 2025)</li>
-            <li>IBM Champion – 2025, 2024, 2023, 2022, 2021, 2020</li>
-            <li>IBM: Watson Chatbot, Robotics Process Automation, Bluemix Essentials, Blockchain Essentials (2017–2018)</li>
+            <li>IBM Champion – 2020–2025</li>
+            <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials</li>
             <li>Coursera (Johns Hopkins): COVID-19 Contact Tracing &amp; Impact (2020)</li>
             <li>Magento Front End Developer Certification (2013)</li>
             <li>FAA Private Pilot License (1979)</li>
@@ -167,8 +199,9 @@ export default function App() {
         <section className="section education" aria-labelledby="education-heading">
           <h2 id="education-heading">Education</h2>
           <ul className="education-list" aria-label="Education list">
-            <li>Hammel College – Office Automation, Database Management (1981–1982, 4.0 GPA)</li>
-            <li>University of Arkansas – Studies in Music (Voice/Piano 2023-current) (4.0 GPA); Infrastructure and Cloud Computing, Sam M. Walton College of Business (2026)</li>
+            <li><strong>Hammel College</strong> – Office Automation &amp; Database Management (1981–1982), 4.0 GPA</li>
+            <li><strong>University of Arkansas</strong> – Studies in Music (Voice/Piano), 4.0 GPA (2023–Present)</li>
+            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> – Infrastructure &amp; Cloud Computing (2026)</li>
           </ul>
         </section>
       </main>

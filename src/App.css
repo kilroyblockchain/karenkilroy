@@ -455,6 +455,20 @@ main.container {
   padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.9rem;
 }
 
+/* Skills group sub-headings */
+.skills-group { margin-bottom: 0.75rem; }
+.skills-group-title {
+  font-weight: 600; font-size: 1rem; color: var(--brand-deep);
+  margin: 0 0 0.35rem;
+}
+
+/* Speaking & Standards Leadership */
+.speaking-list { list-style: none; padding-left: 0; margin: 0; }
+.speaking-list li { margin-bottom: 1rem; }
+.speaking-desc {
+  margin: 0.25rem 0 0 0; font-size: 0.95rem; color: #374151; line-height: 1.5;
+}
+
 .job { margin-bottom: 1.6rem; }
 .job-title { font-weight: 700; font-size: 1.1rem; color: var(--brand-deep); margin: 0; }
 .job-company { font-weight: 600; font-size: 1rem; color: var(--brand); margin: 0.1rem 0 0.2rem; }
