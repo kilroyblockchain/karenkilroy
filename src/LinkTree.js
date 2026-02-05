@@ -69,6 +69,14 @@ const LinkTree = () => {
     },
     // Talks & Media
     {
+      title: "Blockchain AI Kill Switch",
+      subtitle: "Actian Panel w/ Perrin & Issenbert",
+      url: "https://www.youtube.com/watch?v=xgqtv2nv0_4",
+      icon: Youtube,
+      highlight: true,
+      gradient: "from-red-600 to-red-400"
+    },
+    {
       title: "AI Talk: What Makes It Smart?",
       subtitle: "YouTube Presentation",
       url: "https://www.youtube.com/watch?v=MbO7Sii_JKU",
