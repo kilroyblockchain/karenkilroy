@@ -88,14 +88,30 @@ const Portfolio = () => {
             </a>
           </div>
         </div>
-        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
-          <Terminal className="text-blue-500 mb-4" />
-          <div className="space-y-3 font-mono text-sm">
-            <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
-            <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
-            <p className="text-slate-500">{`// Shipping NYX NoCode + Peopleoids for instant memory RAG`}</p>
-            <p className="text-yellow-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
-            <p className="text-pink-400">{`> Karen.alsoStudying("Voice", "Piano");`}</p>
+        <div className="space-y-6">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+            <img
+              src="/img/karen_kilroy_by_daphne_youree_2018-full_length-200.2d7c381ebb00a6a4b32a.png"
+              alt="Karen Kilroy smiling against a dark background"
+              className="w-full h-64 object-cover"
+              style={{ objectPosition: 'center 25%' }}
+            />
+            <div className="p-5 text-sm text-slate-400 flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <p className="text-slate-100 font-semibold">Karen Kilroy</p>
+              </div>
+              <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Inventor · Artist · Musician</div>
+            </div>
+          </div>
+          <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
+            <Terminal className="text-blue-500 mb-4" />
+            <div className="space-y-3 font-mono text-sm">
+              <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
+              <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
+              <p className="text-slate-500">{`// Shipping NYX NoCode + Peopleoids for instant memory RAG`}</p>
+              <p className="text-yellow-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
+              <p className="text-pink-400">{`> Karen.alsoStudying("Voice", "Piano");`}</p>
+            </div>
           </div>
         </div>
       </header>
