@@ -172,7 +172,7 @@ const Portfolio = () => {
 
       {/* Stats Bar */}
       <section className="border-y border-slate-800 bg-slate-900/50">
-        <div className="max-w-6xl mx-auto py-12 px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div className="max-w-4xl mx-auto py-12 px-6 grid grid-cols-3 gap-8 text-center">
           <div>
             <div className="text-3xl font-bold text-blue-500">20+</div>
             <div className="text-sm text-slate-500 uppercase tracking-widest">Years Experience</div>
@@ -185,10 +185,7 @@ const Portfolio = () => {
             <div className="text-3xl font-bold text-blue-500">6</div>
             <div className="text-sm text-slate-500 uppercase tracking-widest">IBM Champion Awards</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-blue-500">1979</div>
-            <div className="text-sm text-slate-500 uppercase tracking-widest">Pilot + Performing Artist Roots</div>
-          </div>
+
         </div>
       </section>
 

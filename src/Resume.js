@@ -191,7 +191,7 @@ export default function Resume() {
             <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials</li>
             <li>Coursera (Johns Hopkins): COVID-19 Contact Tracing &amp; Impact (2020)</li>
             <li>Magento Front End Developer Certification (2013)</li>
-            <li>FAA Private Pilot License (1979)</li>
+            <li>FAA Private Pilot License, Single Engine Land</li>
           </ul>
         </section>
 
