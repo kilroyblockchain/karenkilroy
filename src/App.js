@@ -1,209 +1,150 @@
 import React from 'react';
-import './App.css';
+import { Book, Award, Mail, Linkedin, Terminal } from 'lucide-react';
 
-export default function App() {
-  const handlePrintClick = () => window.print();
-
-  // inside App.js
-  const handleDownloadPdfClick = () => {
-    const link = document.createElement('a');
-    link.href = '/Karen_Kilroy-Resume-August_2025.pdf';
-    link.download = 'Karen_Kilroy-Resume-August_2025.pdf';
-    link.click();
-  };
-
+const Portfolio = () => {
+  const books = [
+    { title: "Natural Language and Search", year: "2024" },
+    { title: "Blockchain Tethered AI", year: "2023" },
+    { title: "AI and the Law", year: "2021" },
+    { title: "Blockchain as a Service", year: "2019" }
+  ];
 
   return (
-      <main className="container" role="main" aria-label="Resume of Karen Kilroy">
-        {/* Action bar  (hidden in print) */}
-        <div className="topbar print-hide" role="region" aria-label="Actions">
-          <button className="print-btn" onClick={handlePrintClick} aria-label="Print this resume">
-            🖨️ Print
-          </button>
-          <button className="print-btn outline" onClick={handleDownloadPdfClick} aria-label="Download PDF (no print dialog)">
-            ⬇️ Download PDF
-          </button>
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
+      {/* Navigation */}
+      <nav className="p-6 flex justify-between items-center border-b border-slate-800 backdrop-blur-md sticky top-0 z-50 bg-slate-950/80">
+        <span className="text-xl font-bold tracking-tighter">KAREN KILROY</span>
+        <div className="flex gap-6">
+          <a href="#about" className="hover:text-blue-400 transition">About</a>
+          <a href="#books" className="hover:text-blue-400 transition">Books</a>
+          <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
         </div>
+      </nav>
 
-        <header className="header">
-          <h1 className="site-title">Karen Kilroy</h1>
-          <img
-              src="https://drive.nyx.baby/nyxnocode/karen%40knowbots.org%2F1751995949315.jpeg"
-              alt="Karen Kilroy"
-              className="header-image"
-          />
-        </header>
-
-        {/* WEB CONTACT (screen only) — no phone */}
-        <p className="contact screen-only" aria-label="Contact (web)">
-          Contact:{' '}
-          <a
+      {/* Hero Section */}
+      <header className="px-6 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <div className="inline-block px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
+            6x IBM Champion &amp; O'Reilly Author
+          </div>
+          <h1 className="text-6xl font-extrabold mb-6 leading-tight">
+            Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
+          </h1>
+          <p className="text-lg text-slate-400 mb-8 max-w-lg">
+            AI engineer and author specializing in Generative AI, standards provenance (C2PA),
+            and no-code innovation. Shaping how humanity interacts with machine intelligence.
+          </p>
+          <div className="flex gap-4">
+            <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform?usp=header"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-strong"
-          >
-            Submit inquiry via Google Form
-          </a>{' '}
-          | LinkedIn:{' '}
-          <a
+              className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+            >
+              <Mail size={18} /> Inquire via Google Form
+            </a>
+            <a
               href="https://linkedin.com/in/karenkilroy"
               target="_blank"
               rel="noopener noreferrer"
-              className="link-strong"
-          >
-            linkedin.com/in/karenkilroy
-          </a>
-        </p>
+              className="border border-slate-700 hover:bg-slate-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+            >
+              <Linkedin size={18} /> LinkedIn
+            </a>
+          </div>
+        </div>
+        <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
+          <Terminal className="text-blue-500 mb-4" />
+          <div className="space-y-3 font-mono text-sm">
+            <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
+            <p className="text-blue-300">{`> Karen.focus = ["Generative AI", "C2PA Standards"];`}</p>
+            <p className="text-slate-500">{`// Latest Project: NYX NoCode`}</p>
+            <p className="text-yellow-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
+          </div>
+        </div>
+      </header>
 
-        {/* PRINT CONTACT (print only) — shows email + phone */}
-        <p className="contact print-only" aria-label="Contact (print)">
-          Email: <a href="mailto:karen@nyx.baby">karen@nyx.baby</a> | Phone: 330-289-1351 | LinkedIn: linkedin.com/in/karenkilroy
-        </p>
+      {/* Stats Bar */}
+      <section className="border-y border-slate-800 bg-slate-900/50">
+        <div className="max-w-6xl mx-auto py-12 px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div className="text-3xl font-bold text-blue-500">20+</div>
+            <div className="text-sm text-slate-500 uppercase tracking-widest">Years Experience</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-blue-500">4</div>
+            <div className="text-sm text-slate-500 uppercase tracking-widest">O'Reilly Books</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-blue-500">6</div>
+            <div className="text-sm text-slate-500 uppercase tracking-widest">IBM Champion Awards</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-blue-500">1</div>
+            <div className="text-sm text-slate-500 uppercase tracking-widest">Private Pilot License</div>
+          </div>
+        </div>
+      </section>
 
-        <section className="section summary-section" aria-labelledby="summary-heading">
-          <h2 id="summary-heading">Summary</h2>
-          <p className="summary">
-            AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical
-            leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
-            of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
-            and rapid prototyping. O'Reilly author of four books on AI and emerging technologies. Proven track record
-            in product innovation, technical communication, and industry standards leadership as Co-Chair of the C2PA
-            AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
-          </p>
-        </section>
+      {/* Books Section */}
+      <section id="books" className="py-24 px-6 max-w-6xl mx-auto">
+        <div className="flex items-center gap-4 mb-12">
+          <Book className="text-blue-500" size={32} />
+          <h2 className="text-3xl font-bold">O'Reilly Publications</h2>
+        </div>
+        <div className="grid md:grid-cols-4 gap-6">
+          {books.map((book, i) => (
+            <div key={i} className="group bg-slate-900 border border-slate-800 p-6 rounded-xl hover:border-blue-500/50 transition cursor-default">
+              <div className="h-40 bg-slate-800 rounded mb-4 overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center justify-center font-bold text-xs text-slate-500 uppercase p-4 text-center">
+                  {book.title}
+                </div>
+              </div>
+              <h3 className="font-bold text-lg mb-1 group-hover:text-blue-400 transition">{book.title}</h3>
+              <p className="text-slate-500 text-sm">{book.year}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <section className="section skills-section" aria-labelledby="skills-heading">
-          <h2 id="skills-heading">Core Skills</h2>
-
-          <div className="skills-group" aria-label="AI and ML skills">
-            <h3 className="skills-group-title">AI &amp; ML</h3>
-            <ul className="skills">
-              <li>Generative AI, Retrieval-Augmented Generation (RAG)</li>
-              <li>Azure OpenAI (ChatGPT-5, Model Router), Claude Code</li>
-              <li>Deepgram Speech AI</li>
-              <li>Model Context Protocol (MCP)</li>
-            </ul>
+      {/* Experience Section */}
+      <section id="projects" className="py-24 px-6 bg-slate-900/30">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-4 mb-12">
+            <Award className="text-blue-500" size={32} />
+            <h2 className="text-3xl font-bold">Strategic Impact</h2>
           </div>
 
-          <div className="skills-group" aria-label="Cloud and Application Development skills">
-            <h3 className="skills-group-title">Cloud &amp; Application Development</h3>
-            <ul className="skills">
-              <li>ReactJS, Node.js</li>
-              <li>Azure API Integration</li>
-              <li>No-Code / Low-Code Platforms</li>
-            </ul>
-          </div>
-
-          <div className="skills-group" aria-label="Standards, Governance and Communication skills">
-            <h3 className="skills-group-title">Standards, Governance &amp; Communication</h3>
-            <ul className="skills">
-              <li>Content Provenance (C2PA, SMPTE)</li>
-              <li>AI Supply Chain &amp; Governance</li>
-              <li>Technical Writing &amp; Education</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* Force this section to page 2 in print */}
-        <section className="section experience-section page-break-before" aria-labelledby="experience-heading">
-          <h2 id="experience-heading">Professional Experience</h2>
-
-          <article className="job" aria-label="Founder and Engineer at NYX NoCode">
-            <p className="job-title">Founder &amp; Engineer</p>
-            <p className="job-company">NYX NoCode</p>
-            <p className="job-dates">2024 – Present</p>
-            <div className="job-desc">
-              <ul>
-                <li>Built an AI-driven no-code platform using ReactJS and Azure OpenAI, incorporating model routing and RAG-based memory.</li>
-                <li>Integrated Deepgram transcription and real-time voice input into classroom AI workflows.</li>
-                <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for finetuning and reuse.</li>
-                <li>Delivered hackathons and educational programs demonstrating rapid deployment of AI applications.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="job" aria-label="Author at O’Reilly Media">
-            <p className="job-title">Author</p>
-            <p className="job-company">O’Reilly Media</p>
-            <p className="job-dates">2019 – 2024</p>
-            <div className="job-desc">
-              <ul>
-                <li>Published four books: <em>Natural Language and Search</em> (2024), <em>Blockchain Tethered AI</em> (2023), <em>AI and the Law</em> (2021), <em>Blockchain as a Service</em> (2019).</li>
-                <li>Technical reviewer for <em>Mastering Blockchain</em> and <em>Mastering Corda</em>.</li>
-                <li>Authored "AI's Opaque Box is Actually a Supply Chain."</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="job" aria-label="CEO at Kilroy Blockchain">
-            <p className="job-title">CEO</p>
-            <p className="job-company">Kilroy Blockchain</p>
-            <p className="job-dates">2016 – Present</p>
-            <div className="job-desc">
-              <ul>
-                <li>Led development of AI and workflow systems including <strong>RILEY</strong> (IBM Watson Build North America winner, 2017).</li>
-                <li>Directed engineering for <strong>FLO</strong> (Forms Workflow) and <strong>CASEY</strong> (Case Management).</li>
-                <li>Oversaw business operations and end-to-end technology delivery.</li>
-              </ul>
-            </div>
-          </article>
-
-          <section aria-label="Earlier Roles (Condensed)" style={{ marginTop: '1rem' }}>
-            <strong>Earlier Roles (Condensed)</strong>
-            <div className="experience-details" style={{ marginTop: '0.5rem' }}>
-              <ul>
-                <li><span className="experience-role">CTO – Jamersan LLC</span> (2016)</li>
-                <li><span className="experience-role">Principal App Developer – CA Technologies</span> (2014–2015)</li>
-                <li><span className="experience-role">Training Consultant – Magento Inc.</span> (2010–2014), Founding member of Magento U</li>
-                <li><span className="experience-role">Director of Online Marketing – Suarez Corp.</span> (2010–2012)</li>
-              </ul>
-            </div>
-          </section>
-        </section>
-
-        <section className="section speaking-section" aria-labelledby="speaking-heading">
-          <h2 id="speaking-heading">Speaking &amp; Standards Leadership</h2>
-          <ul className="speaking-list">
-            <li>
-              <strong>International Red Cross</strong> — <em>C2PA Content Credentials for AI/ML Provenance</em>
-              <p className="speaking-desc">
-                Invited presentation on applying C2PA standards to authenticate AI-generated content and support trust
-                and verification in humanitarian and high-risk information environments.
+          <div className="space-y-12">
+            <div className="relative pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+              <h3 className="text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
+              <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
+              <p className="text-slate-400 leading-relaxed">
+                Pioneering AI-driven web app creation for education. Architected platforms using
+                ReactJS + Azure OpenAI with real-time voice integration via Deepgram.
               </p>
-            </li>
-            <li>
-              <strong>Actian</strong> — <em>Blockchain Kill Switches for Governed AI Systems</em>
-              <p className="speaking-desc">
-                Industry talk on blockchain-based control mechanisms for shutdown, compliance, and risk mitigation in
-                distributed AI and data infrastructures.
+            </div>
+
+            <div className="relative pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
+              <h3 className="text-xl font-bold">CEO — Kilroy Blockchain</h3>
+              <p className="text-blue-400 text-sm mb-4">2016 – Present</p>
+              <p className="text-slate-400 leading-relaxed">
+                Lead architect for RILEY, winner of the IBM Watson Build Challenge. Focused on
+                enterprise workflow automation and ethical AI deployment.
               </p>
-            </li>
-          </ul>
-        </section>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <section className="section certifications" aria-labelledby="certifications-heading">
-          <h2 id="certifications-heading">Certifications</h2>
-          <ul className="cert-list" aria-label="Certifications list">
-            <li>AI Fluency for Students – Anthropic (Aug 2025)</li>
-            <li>Teaching the AI Fluency Framework – Anthropic (Aug 2025)</li>
-            <li>Venture Building Certification – Builders + Backers (Jul 2025)</li>
-            <li>IBM Champion – 2020–2025</li>
-            <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials</li>
-            <li>Coursera (Johns Hopkins): COVID-19 Contact Tracing &amp; Impact (2020)</li>
-            <li>Magento Front End Developer Certification (2013)</li>
-            <li>FAA Private Pilot License (1979)</li>
-          </ul>
-        </section>
-
-        <section className="section education" aria-labelledby="education-heading">
-          <h2 id="education-heading">Education</h2>
-          <ul className="education-list" aria-label="Education list">
-            <li><strong>Hammel College</strong> – Office Automation &amp; Database Management (1981–1982), 4.0 GPA</li>
-            <li><strong>University of Arkansas</strong> – Studies in Music (Voice/Piano), 4.0 GPA (2023–Present)</li>
-            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> – Infrastructure &amp; Cloud Computing (2026)</li>
-          </ul>
-        </section>
-      </main>
+      {/* Footer */}
+      <footer className="py-12 border-t border-slate-900 text-center text-slate-500 text-sm">
+        <p>&copy; {new Date().getFullYear()} Karen Kilroy. Built with React &amp; AI.</p>
+      </footer>
+    </div>
   );
-}
+};
+
+export default Portfolio;

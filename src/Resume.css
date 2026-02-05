@@ -1,0 +1,142 @@
+.resume-page {
+  --bg: #f9fafb;
+  --text: #1f2937;
+  --panel: #ffffff;
+  --brand: #2563eb;
+  --brand-deep: #1e40af;
+  --muted: #4b5563;
+  --muted-2: #6b7280;
+
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+  color: var(--text);
+  padding: 2rem;
+  line-height: 1.5;
+  min-height: 100vh;
+  background: #1a1a2e;
+  box-sizing: border-box;
+}
+
+.resume-page *, .resume-page *::before, .resume-page *::after {
+  box-sizing: border-box;
+}
+
+/* Top action bar */
+.resume-page .topbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  position: sticky;
+  top: 0;
+  padding-top: 0.25rem;
+  z-index: 10;
+}
+
+.resume-page .print-btn {
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: var(--brand);
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.resume-page .print-btn:hover { filter: brightness(0.95); }
+.resume-page .print-btn.outline {
+  background: #fff;
+  color: var(--brand);
+  border-color: var(--brand);
+}
+
+.resume-page .container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--panel);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+}
+
+.resume-page .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.resume-page .site-title { font-weight: 700; font-size: 2.8rem; color: #111827; margin: 0; }
+.resume-page .header-image {
+  width: 160px; height: 160px; border-radius: 50%; object-fit: cover; margin-left: 1rem; border: 2px solid var(--brand);
+}
+
+.resume-page .contact { font-weight: 500; font-size: 0.95rem; color: var(--muted); margin-bottom: 2rem; }
+.resume-page .link-strong { color: var(--brand); text-decoration: none; font-weight: 600; }
+
+.resume-page .section { margin-bottom: 2rem; }
+.resume-page .section h2 {
+  font-weight: 700; font-size: 1.4rem;
+  border-bottom: 3px solid var(--brand);
+  padding-bottom: 0.3rem; margin-bottom: 1rem; color: var(--brand);
+}
+
+.resume-page .summary { font-size: 1.1rem; color: #374151; }
+
+.resume-page .skills { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; list-style: none; padding-left: 0; margin: 0; }
+.resume-page .skills li {
+  background: #e0e7ff; color: #3730a3; font-weight: 600;
+  padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.9rem;
+}
+
+.resume-page .skills-group { margin-bottom: 0.75rem; }
+.resume-page .skills-group-title {
+  font-weight: 600; font-size: 1rem; color: var(--brand-deep);
+  margin: 0 0 0.35rem;
+}
+
+.resume-page .speaking-list { list-style: none; padding-left: 0; margin: 0; }
+.resume-page .speaking-list li { margin-bottom: 1rem; }
+.resume-page .speaking-desc {
+  margin: 0.25rem 0 0 0; font-size: 0.95rem; color: #374151; line-height: 1.5;
+}
+
+.resume-page .job { margin-bottom: 1.6rem; }
+.resume-page .job-title { font-weight: 700; font-size: 1.1rem; color: var(--brand-deep); margin: 0; }
+.resume-page .job-company { font-weight: 600; font-size: 1rem; color: var(--brand); margin: 0.1rem 0 0.2rem; }
+.resume-page .job-dates { font-style: italic; font-size: 0.9rem; color: var(--muted-2); margin-bottom: 0.4rem; }
+.resume-page .job-desc { margin-left: 1rem; color: #374151; }
+.resume-page .job-desc ul { margin-top: 0.3rem; margin-bottom: 0.8rem; padding-left: 1.2rem; list-style: disc; }
+
+.resume-page .cert-list, .resume-page .education-list { list-style: none; padding-left: 0; margin: 0; }
+.resume-page .cert-list li, .resume-page .education-list li { margin-bottom: 0.5rem; color: #374151; }
+
+.resume-page .experience-role { font-weight: 600; }
+.resume-page .experience-details ul { list-style: disc; padding-left: 1.2rem; }
+
+/* Visibility helpers */
+.resume-page .screen-only { display: block; }
+.resume-page .print-only  { display: none; }
+
+/* PRINT STYLES */
+@media print {
+  .resume-page { background: #ffffff !important; padding: 0 !important; }
+  .resume-page .print-hide { display: none !important; }
+  .resume-page .screen-only { display: none !important; }
+  .resume-page .print-only  { display: block !important; }
+  .resume-page .page-break-before { break-before: page; page-break-before: always; }
+
+  .resume-page .container {
+    max-width: none !important; width: auto !important;
+    box-shadow: none !important; border-radius: 0 !important;
+    margin: 0 !important; padding: 0.5in !important;
+  }
+
+  .resume-page .section h2, .resume-page .job, .resume-page .skills, .resume-page .contact {
+    break-inside: avoid; page-break-inside: avoid;
+  }
+
+  .resume-page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .resume-page a[href^="http"]::after {
+    content: " (" attr(href) ")"; font-weight: 400; font-size: 10pt; color: #6b7280;
+  }
+}

@@ -1,10 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './index.css';
 import App from './App.js';
-import PrintPage from './PrintPage.js';
+import Resume from './Resume.js';
 
-// Basic error boundary to avoid silent blank pages
 function ErrorBoundary({ children }) {
     try { return children; } catch (e) {
         console.error(e);
@@ -21,8 +21,7 @@ root.render(
             <ErrorBoundary>
                 <Routes>
                     <Route path="/" element={<App />} />
-                    <Route path="/print" element={<PrintPage />} />
-                    {/* Fallback so unknown paths don’t go blank */}
+                    <Route path="/resume" element={<Resume />} />
                     <Route path="*" element={<App />} />
                 </Routes>
             </ErrorBoundary>

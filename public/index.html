@@ -3,103 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Karen Kilroy — Resume</title>
+  <title>Karen Kilroy — Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
 <noscript>You need JavaScript enabled to run this app.</noscript>
 <div id="root"></div>
-
-<div class="shape sphere"></div>
-<div class="shape triangle"></div>
-<div class="shape cube"></div>
-<div class="shape diamond"></div>
-<div class="shape cone"></div>
-<div class="shape torus"></div>
-<div class="shape torus-knot"></div>
-<div class="shape tetrahedron"></div>
-<div class="shape hexagon"></div>
-<div class="shape star"></div>
-<div class="shape crescent"></div>
-<div class="shape pentagon"></div>
-<div class="shape ring"></div>
-<div class="shape cross"></div>
-<div class="shape spark"></div>
-<div class="shape bolt"></div>
-<div class="shape bolt-2"></div>
-<div class="shape bolt-3"></div>
-<div class="shape bolt-4"></div>
-<div class="shape bolt-5"></div>
-<div class="shape pill"></div>
-<div class="shape arrow"></div>
-<div class="shape mini-ring"></div>
-<div class="shape gem"></div>
-
-<script>
-  // Parallax scroll effect for shapes
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const shapes = document.querySelectorAll('.shape');
-    shapes.forEach(shape => {
-      shape.style.transform = `translateY(${scrollY * 0.3}px)`;
-    });
-  });
-
-  // Click interaction: spin or shoot across the page
-  const spinClasses = ['spin-cw', 'spin-ccw', 'spin-flip-x', 'spin-flip-y'];
-
-  function randomBetween(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  document.querySelectorAll('.shape').forEach(shape => {
-    shape.style.cursor = 'pointer';
-    shape.addEventListener('click', () => {
-      // ~30% chance to shoot across the page
-      if (Math.random() < 0.3) {
-        // Pick a random direction to fly
-        const angle = Math.random() * Math.PI * 2;
-        const distance = randomBetween(800, 1500);
-        const dx = Math.cos(angle) * distance;
-        const dy = Math.sin(angle) * distance;
-        const spin = randomBetween(360, 1080) * (Math.random() < 0.5 ? 1 : -1);
-
-        // Reset transform to a known starting point, add the class, reflow, THEN animate
-        shape.style.transition = 'none';
-        shape.style.transform = 'translate(0, 0) rotate(0deg)';
-        shape.classList.add('shooting');
-        void shape.offsetWidth; // force browser to compute the starting state
-        shape.style.transition = '';
-        shape.style.transform = `translate(${dx}px, ${dy}px) rotate(${spin}deg)`;
-
-        // After it flies off, reset to a new random position
-        setTimeout(() => {
-          // Temporarily disable transition for the reset
-          shape.style.transition = 'none';
-          shape.style.transform = '';
-          // Move it to a new random spot
-          shape.style.top = randomBetween(5, 90) + 'vh';
-          shape.style.left = randomBetween(5, 90) + 'vw';
-          shape.style.right = 'auto';
-          shape.style.bottom = 'auto';
-          void shape.offsetWidth; // force reflow
-          shape.classList.remove('shooting');
-          shape.style.transition = '';
-        }, 850);
-      } else {
-        // Spin in a random direction
-        spinClasses.forEach(c => shape.classList.remove(c));
-        void shape.offsetWidth;
-        const pick = spinClasses[Math.floor(Math.random() * spinClasses.length)];
-        shape.classList.add(pick);
-        shape.addEventListener('animationend', () => {
-          shape.classList.remove(pick);
-        }, { once: true });
-      }
-    });
-  });
-</script>
 </body>
 </html>
