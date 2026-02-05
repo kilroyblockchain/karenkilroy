@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Globe, Sparkles, Link2, BookOpen, Shield, Trophy, FileText,
-  Youtube, Mic, Github, Linkedin, Mail, ExternalLink, ArrowLeft
+  Youtube, Mic, Linkedin, Mail, ExternalLink, ArrowLeft
 } from 'lucide-react';
 
 const LinkTree = () => {
@@ -47,9 +47,9 @@ const LinkTree = () => {
     },
     // Research & Writing
     {
-      title: "O'Reilly Author Page",
-      subtitle: "All Publications",
-      url: "https://www.oreilly.com/people/karen-kilroy/",
+      title: "Creating Trackable, Traceable AI",
+      subtitle: "O'Reilly Playlist",
+      url: "https://learning.oreilly.com/playlists/b961e90f-1fdd-4e3b-b7d8-a5ba197951b2/",
       icon: BookOpen,
       gradient: "from-red-500 to-orange-400"
     },
@@ -192,14 +192,6 @@ const LinkTree = () => {
         {/* Footer */}
         <div className="mt-12 text-center">
           <div className="flex justify-center gap-6 mb-6">
-            <a
-              href="https://github.com/KarenK123"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-slate-500 hover:text-slate-300 transition-colors"
-            >
-              <Github size={22} />
-            </a>
             <a
               href="https://www.linkedin.com/in/karenkilroy/"
               target="_blank"
