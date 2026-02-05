@@ -92,13 +92,6 @@ const LinkTree = () => {
     },
     // Build & Connect
     {
-      title: "GitHub",
-      subtitle: "Code & Systems",
-      url: "https://github.com/KarenK123",
-      icon: Github,
-      gradient: "from-slate-500 to-slate-400"
-    },
-    {
       title: "LinkedIn",
       subtitle: "Professional Profile",
       url: "https://www.linkedin.com/in/karenkilroy/",
