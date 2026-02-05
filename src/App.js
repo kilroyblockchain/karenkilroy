@@ -6,7 +6,7 @@ const Portfolio = () => {
     { title: "Natural Language and Search", year: "2024", img: "/img/nls.jpg", url: "https://www.oreilly.com/library/view/natural-language-and/9781098156268/" },
     { title: "Blockchain Tethered AI", year: "2023", img: "/img/bta.jpg", url: "https://www.oreilly.com/library/view/blockchain-tethered-ai/9781098130541/" },
     { title: "AI and the Law", year: "2021", img: "/img/ai_and_the_law.jpeg", url: "https://www.oreilly.com/library/view/ai-and-the/9781492091837/" },
-    { title: "Blockchain as a Service", year: "2019", img: "/img/baas.jpeg", url: "https://www.oreilly.com/library/view/blockchain-as-a/9781492073475/" }
+    { title: "Blockchain as a Service", year: "2019", img: "/img/baas.png", url: "https://www.oreilly.com/library/view/blockchain-as-a/9781492073475/" }
   ];
 
   const focusList = [
@@ -48,7 +48,7 @@ const Portfolio = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
             <span className="font-semibold tracking-tight">Hi, I’m Karen</span>
-            <span className="text-slate-400">Founder · Educator · Pilot</span>
+            <span className="text-slate-400">AI Technologist · O'Reilly Author · IBM Champion</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
             Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
@@ -61,7 +61,7 @@ const Portfolio = () => {
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current build</p>
               <p className="text-slate-100 font-semibold">NYX NoCode</p>
-              <p>Natural language → React apps, backed by Azure OpenAI + model routing memory.</p>
+              <p>NYX NoCode is an educator-led platform that transforms classrooms into creative studios, giving students hands-on experience with generative AI and modern computing.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Content authenticity</p>
@@ -92,11 +92,11 @@ const Portfolio = () => {
           </div>
         </div>
         <div className="space-y-6">
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden crt-container">
             <img
-              src="/img/karen_kilroy_by_daphne_youree_2018-full_length-200.2d7c381ebb00a6a4b32a.png"
-              alt="Karen Kilroy smiling against a dark background"
-              className="w-full h-64 object-cover"
+              src="/img/headshot2.png"
+              alt="Karen Kilroy"
+              className="w-full h-80 object-cover crt-image"
               style={{ objectPosition: 'center 25%' }}
             />
             <div className="p-5 text-sm text-slate-400 flex items-center justify-between flex-wrap gap-3">
@@ -111,8 +111,9 @@ const Portfolio = () => {
             <div className="space-y-3 font-mono text-sm">
               <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
               <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
-              <p className="text-slate-500">{`// Shipping NYX NoCode + Peopleoids for instant memory RAG`}</p>
-              <p className="text-yellow-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
+              <p className="text-yellow-400">{`> Karen.achievement("IBM Watson Build 2017", "North America");`}</p>
+              <p className="text-slate-500">{`// Led the winning team`}</p>
+              <p className="text-cyan-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
               <p className="text-pink-400">{`> Karen.alsoStudying("Voice", "Piano");`}</p>
             </div>
           </div>
@@ -281,3 +282,4 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
+

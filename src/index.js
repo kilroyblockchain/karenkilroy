@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App.js';
 import Resume from './Resume.js';
+import LinkTree from './LinkTree.js';
 
 function ErrorBoundary({ children }) {
     try { return children; } catch (e) {
@@ -22,6 +23,7 @@ root.render(
                 <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/resume" element={<Resume />} />
+                    <Route path="/links" element={<LinkTree />} />
                     <Route path="*" element={<App />} />
                 </Routes>
             </ErrorBoundary>
