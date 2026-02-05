@@ -64,9 +64,12 @@ const Portfolio = () => {
               <p>Natural language → React apps, backed by Azure OpenAI + model routing memory.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Lifelong practice</p>
-              <p className="text-slate-100 font-semibold">Voice + Flight</p>
-              <p>University of Arkansas music student, FAA-licensed pilot since 1979.</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Content authenticity</p>
+              <p className="text-slate-100 font-semibold">C2PA AI/ML Task Force Co-chair</p>
+              <p>
+                From winning IBM Watson Build in 2017 to co-chairing the C2PA Coalition&apos;s AI/ML Task Force, I&apos;ve stayed focused on
+                trustworthy provenance for every asset.
+              </p>
             </div>
           </div>
           <div className="flex gap-4">
