@@ -55,7 +55,7 @@ const Portfolio = () => {
             Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
-            I'm an AI infrastructure engineer and educator focused on trustworthy deployment.
+            I'm a developer and writer focused on trustworthy AI deployment.
             I build Azure OpenAI platforms, voice-forward workflows, and governance patterns that keep teams shipping quickly while staying auditable.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
@@ -127,7 +127,7 @@ const Portfolio = () => {
           <div>
             <p className="text-blue-400 uppercase text-xs tracking-[0.4em] mb-4">About Karen</p>
             <h2 className="text-4xl font-bold mb-6 leading-snug">
-              AI infrastructure engineer and educator focused on trustworthy deployment.
+              Developer and author focused on trustworthy AI deployment.
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
               My path runs from leading the IBM Watson Build&ndash;winning RILEY team at Kilroy Blockchain to NYX NoCode&mdash;where
