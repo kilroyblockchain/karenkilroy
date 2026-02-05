@@ -1,5 +1,5 @@
 import React from 'react';
-import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck } from 'lucide-react';
+import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2 } from 'lucide-react';
 
 const Portfolio = () => {
   const books = [
@@ -40,6 +40,7 @@ const Portfolio = () => {
           <a href="#books" className="hover:text-blue-400 transition">Books</a>
           <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
           <a href="#signal" className="hover:text-blue-400 transition">Signal</a>
+          <a href="/links" className="hover:text-blue-400 transition flex items-center gap-1"><Link2 size={14} /> Links</a>
         </div>
       </nav>
 
@@ -54,8 +55,8 @@ const Portfolio = () => {
             Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
-            I’m an AI infrastructure engineer, educator, and six-time IBM Champion who still brings a vocalist’s ear to every product review.
-            NYX NoCode, Peopleoids, and my Azure OpenAI builds keep classrooms and enterprises shipping faster without sacrificing provenance or accountability.
+            I'm an AI infrastructure engineer and educator focused on trustworthy deployment.
+            I build Azure OpenAI platforms, voice-forward workflows, and governance patterns that keep teams shipping quickly while staying auditable.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
@@ -126,12 +127,13 @@ const Portfolio = () => {
           <div>
             <p className="text-blue-400 uppercase text-xs tracking-[0.4em] mb-4">About Karen</p>
             <h2 className="text-4xl font-bold mb-6 leading-snug">
-              AI infrastructure engineer, educator, and author with two decades of building products that balance creativity with compliance.
+              AI infrastructure engineer and educator focused on trustworthy deployment.
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
-              I led RILEY (IBM Watson Build Challenge winner), co-founded Kilroy Blockchain, and now operate NYX NoCode—an AI-driven web
-              app builder that lets classrooms and rapid prototypers speak in natural language and deploy in React. I wrote four O'Reilly
-              books, chair the C2PA AI/ML Task Force, contribute to the SMPTE/ETC AI/ML Task Force, and still design onboarding that feels human.
+              My path runs from leading the IBM Watson Build&ndash;winning RILEY team at Kilroy Blockchain to NYX NoCode&mdash;where
+              educators and students can create and deploy modern React apps with Azure OpenAI. I also wrote <em>Blockchain Tethered AI</em>,
+              exploring how systems can bind data, identity, and accountability in ways that hold up outside the lab. Alongside the builds,
+              I co-chair the C2PA AI/ML Task Force, helping turn content provenance into something teams can actually implement in production.
             </p>
             <div className="space-y-4">
               {focusList.map((item, index) => (
