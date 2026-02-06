@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Globe, Sparkles, Link2, BookOpen, Shield, Trophy, FileText,
-  Youtube, Mic, Linkedin, Mail, ExternalLink, ArrowLeft
+  Youtube, Mic, Radio, Linkedin, Mail, ExternalLink, ArrowLeft
 } from 'lucide-react';
 
 const LinkTree = () => {
@@ -89,6 +89,28 @@ const LinkTree = () => {
       url: "https://adddot.io/podcast/s3e9/",
       icon: Mic,
       gradient: "from-violet-500 to-purple-400"
+    },
+    // NPR KUAF Interviews
+    {
+      title: "Paybots AI",
+      subtitle: "NPR KUAF · June 2025",
+      url: "https://www.kuaf.com/show/ozarks-at-large/2025-06-26/paying-people-for-their-contributions-to-machine-learning-with-paybots-ai",
+      icon: Radio,
+      gradient: "from-blue-500 to-sky-400"
+    },
+    {
+      title: "NYX NoCode Hackathon",
+      subtitle: "NPR KUAF · April 2025",
+      url: "https://www.kuaf.com/show/ozarks-at-large/2025-04-22/creating-the-unexpected-with-ai-during-menas-no-code-hackathon",
+      icon: Radio,
+      gradient: "from-blue-500 to-sky-400"
+    },
+    {
+      title: "NYX NoCode in Mena Schools",
+      subtitle: "NPR KUAF · Nov 2024",
+      url: "https://www.kuaf.com/show/ozarks-at-large/2024-11-26/nyx-no-code-enables-mena-students-to-create-using-ai",
+      icon: Radio,
+      gradient: "from-blue-500 to-sky-400"
     },
     // Build & Connect
     {
