@@ -24,7 +24,7 @@ const LinkTree = () => {
       gradient: "from-purple-500 to-pink-400"
     },
     {
-      title: "C2PA",
+      title: "Coalition for Content Provenance and Authenticity (C2PA)",
       subtitle: "AI/ML Task Force Co-Chair",
       url: "https://c2pa.org",
       icon: Shield,
