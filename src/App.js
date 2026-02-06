@@ -138,7 +138,7 @@ const Portfolio = () => {
             <div className="space-y-3 font-mono text-sm">
               <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
               <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
-              <p className="text-yellow-400">{`> Karen.achievement("IBM Watson Build 2017", "North America");`}</p>
+              <p className="text-yellow-400">{`> Karen.winner("IBM Watson Build 2017", "North America");`}</p>
               <p className="text-slate-500">{`// Led the winning team`}</p>
               <p className="text-cyan-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
               <p className="text-pink-400">{`> Karen.alsoStudying("Voice", "Piano");`}</p>
