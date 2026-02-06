@@ -162,7 +162,7 @@ const LinkTree = () => {
           <h1 className="text-xl md:text-2xl font-bold mb-2 tracking-tight">Karen Kilroy</h1>
           <p className="text-blue-400 font-medium mb-2 md:mb-3 text-sm md:text-base">AI Technologist</p>
           <p className="text-slate-400 text-xs md:text-sm max-w-xs mx-auto leading-relaxed">
-            O'Reilly Author  ·  IBM Champion  ·  C2PA AI/ML Co-Chair
+              Developer · Author · Speaker
           </p>
           <p className="text-slate-500 text-xs mt-2">
             Designing trustworthy, explainable, production-grade AI systems.
