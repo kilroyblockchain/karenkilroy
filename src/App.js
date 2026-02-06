@@ -73,9 +73,9 @@ const Portfolio = () => {
       {/* Hero Section */}
       <header className="px-4 md:px-6 py-12 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div>
-          <div className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2 px-3 py-2 sm:py-1 rounded-xl sm:rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
-            <span className="font-semibold tracking-tight">Hi, I'm Karen</span>
-            <span className="text-slate-400 text-xs sm:text-sm">AI Technologist · O'Reilly Author · IBM Champion</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-sm mb-6">
+            <span className="text-blue-400 text-xs sm:text-sm">Developer · Author · Speaker</span>
+
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
             Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
@@ -279,10 +279,14 @@ const Portfolio = () => {
       {/* Speaking & Standards */}
       <section id="signal" className="py-12 md:py-24 px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-12">
-            <Mic className="text-blue-500" size={28} />
-            <h2 className="text-xl md:text-3xl font-bold">Speaking &amp; Standards</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4 mb-4 md:mb-6">
+            <div className="flex items-center gap-3">
+              <Mic className="text-blue-500" size={28} />
+              <h2 className="text-xl md:text-3xl font-bold">Speaking &amp; Standards</h2>
+            </div>
+            <span className="text-emerald-400 text-xs font-medium bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full w-fit">Available for Engagements</span>
           </div>
+          <p className="text-slate-400 text-sm mb-8 md:mb-12 max-w-2xl">Recent speaking engagements on AI governance, content provenance, and trustworthy systems.</p>
           <div className="grid md:grid-cols-2 gap-4 md:gap-8">
             {speakingHighlights.map((item, idx) => (
               <div key={idx} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6">
@@ -294,6 +298,16 @@ const Portfolio = () => {
                 <p className="text-slate-400 text-sm">{item.description}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 text-center">
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition text-sm"
+            >
+              <Mic size={18} /> Book for Speaking
+            </a>
           </div>
         </div>
       </section>
