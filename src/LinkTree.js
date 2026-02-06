@@ -141,27 +141,27 @@ const LinkTree = () => {
       {/* Back to main site */}
       <a
         href="/"
-        className="absolute top-6 left-6 flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors z-10"
+        className="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors z-10"
       >
-        <ArrowLeft size={18} />
-        <span className="text-sm">Back to site</span>
+        <ArrowLeft size={16} />
+        <span className="text-xs md:text-sm">Back to site</span>
       </a>
 
-      <div className="relative z-10 max-w-lg mx-auto px-6 py-16">
+      <div className="relative z-10 max-w-lg mx-auto px-4 md:px-6 py-12 md:py-16">
         {/* Profile Header */}
-        <div className="text-center mb-10">
-          <div className="relative inline-block mb-6">
+        <div className="text-center mb-8 md:mb-10">
+          <div className="relative inline-block mb-4 md:mb-6">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full blur-lg opacity-50 animate-pulse" />
             <img
               src="/img/headshot.jpg"
               alt="Karen Kilroy"
-              className="relative w-28 h-28 rounded-full object-cover border-2 border-slate-700 shadow-2xl"
+              className="relative w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-slate-700 shadow-2xl"
               style={{ objectPosition: 'center 20%' }}
             />
           </div>
-          <h1 className="text-2xl font-bold mb-2 tracking-tight">Karen Kilroy</h1>
-          <p className="text-blue-400 font-medium mb-3">AI Technologist</p>
-          <p className="text-slate-400 text-sm max-w-xs mx-auto leading-relaxed">
+          <h1 className="text-xl md:text-2xl font-bold mb-2 tracking-tight">Karen Kilroy</h1>
+          <p className="text-blue-400 font-medium mb-2 md:mb-3 text-sm md:text-base">AI Technologist</p>
+          <p className="text-slate-400 text-xs md:text-sm max-w-xs mx-auto leading-relaxed">
             O'Reilly Author  ·  IBM Champion  ·  C2PA AI/ML Co-Chair
           </p>
           <p className="text-slate-500 text-xs mt-2">
@@ -170,7 +170,7 @@ const LinkTree = () => {
         </div>
 
         {/* Links */}
-        <div className="space-y-3">
+        <div className="space-y-2 md:space-y-3">
           {links.map((link, index) => {
             const Icon = link.icon;
             return (
@@ -179,7 +179,7 @@ const LinkTree = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group relative block w-full p-4 rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 ${
+                className={`group relative block w-full p-3 md:p-4 rounded-xl border transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 ${
                   link.highlight
                     ? 'bg-gradient-to-r ' + link.gradient + ' border-transparent text-white shadow-lg hover:shadow-xl hover:shadow-blue-500/20'
                     : 'bg-slate-900/80 border-slate-800 hover:border-slate-700 hover:bg-slate-800/80'
@@ -188,23 +188,23 @@ const LinkTree = () => {
                   animationDelay: `${index * 50}ms`
                 }}
               >
-                <div className="flex items-center gap-4">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
+                <div className="flex items-center gap-3 md:gap-4">
+                  <div className={`flex-shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 ${
                     link.highlight
                       ? 'bg-white/20'
                       : `bg-gradient-to-br ${link.gradient} text-white`
                   }`}>
-                    <Icon size={20} />
+                    <Icon size={18} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className={`font-semibold truncate ${link.highlight ? 'text-white' : 'text-slate-100'}`}>
+                    <h3 className={`font-semibold text-sm md:text-base truncate ${link.highlight ? 'text-white' : 'text-slate-100'}`}>
                       {link.title}
                     </h3>
-                    <p className={`text-sm truncate ${link.highlight ? 'text-white/80' : 'text-slate-400'}`}>
+                    <p className={`text-xs md:text-sm truncate ${link.highlight ? 'text-white/80' : 'text-slate-400'}`}>
                       {link.subtitle}
                     </p>
                   </div>
-                  <ExternalLink size={16} className={`flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${link.highlight ? 'text-white/80' : 'text-slate-500'}`} />
+                  <ExternalLink size={14} className={`flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity ${link.highlight ? 'text-white/80' : 'text-slate-500'}`} />
                 </div>
               </a>
             );
@@ -212,15 +212,15 @@ const LinkTree = () => {
         </div>
 
         {/* Footer */}
-        <div className="mt-12 text-center">
-          <div className="flex justify-center gap-6 mb-6">
+        <div className="mt-8 md:mt-12 text-center">
+          <div className="flex justify-center gap-6 mb-4 md:mb-6">
             <a
               href="https://www.linkedin.com/in/karenkilroy/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-slate-500 hover:text-blue-400 transition-colors"
             >
-              <Linkedin size={22} />
+              <Linkedin size={20} />
             </a>
           </div>
           <p className="text-slate-600 text-xs">

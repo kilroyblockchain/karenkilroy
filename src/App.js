@@ -1,7 +1,9 @@
-import React from 'react';
-import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2, Menu, X } from 'lucide-react';
 
 const Portfolio = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const books = [
     { title: "Natural Language and Search", year: "2024", img: "/img/nls.jpg", url: "https://www.oreilly.com/library/view/natural-language-and/9781098156268/" },
     { title: "Blockchain Tethered AI", year: "2023", img: "/img/bta.jpg", url: "https://www.oreilly.com/library/view/blockchain-tethered-ai/9781098130541/" },
@@ -33,25 +35,49 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans">
       {/* Navigation */}
-      <nav className="p-6 flex justify-between items-center border-b border-slate-800 backdrop-blur-md sticky top-0 z-50 bg-slate-950/80">
-        <span className="text-xl font-bold tracking-tighter">KAREN KILROY</span>
-        <div className="flex gap-6">
+      <nav className="p-4 md:p-6 flex justify-between items-center border-b border-slate-800 backdrop-blur-md sticky top-0 z-50 bg-slate-950/80">
+        <span className="text-lg md:text-xl font-bold tracking-tighter">KAREN KILROY</span>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex gap-6">
           <a href="#about" className="hover:text-blue-400 transition">About</a>
           <a href="#books" className="hover:text-blue-400 transition">Books</a>
           <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
           <a href="#signal" className="hover:text-blue-400 transition">Signal</a>
           <a href="/links" className="hover:text-blue-400 transition flex items-center gap-1"><Link2 size={14} /> Links</a>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 hover:bg-slate-800 rounded-lg transition"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
 
-      {/* Hero Section */}
-      <header className="px-6 py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
-            <span className="font-semibold tracking-tight">Hi, I’m Karen</span>
-            <span className="text-slate-400">AI Technologist · O'Reilly Author · IBM Champion</span>
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-[65px] z-40 bg-slate-950/95 backdrop-blur-md">
+          <div className="flex flex-col items-center gap-6 pt-12 text-lg">
+            <a href="#about" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>About</a>
+            <a href="#books" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Books</a>
+            <a href="#projects" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Projects</a>
+            <a href="#signal" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Signal</a>
+            <a href="/links" className="hover:text-blue-400 transition flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}><Link2 size={18} /> Links</a>
           </div>
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <header className="px-4 md:px-6 py-12 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div>
+          <div className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-1 sm:gap-2 px-3 py-2 sm:py-1 rounded-xl sm:rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
+            <span className="font-semibold tracking-tight">Hi, I'm Karen</span>
+            <span className="text-slate-400 text-xs sm:text-sm">AI Technologist · O'Reilly Author · IBM Champion</span>
+          </div>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
             Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
@@ -73,20 +99,20 @@ const Portfolio = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <a
               href="https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform?usp=header"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+              className="bg-blue-600 hover:bg-blue-700 px-4 sm:px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition text-sm sm:text-base"
             >
-              <Mail size={18} /> Inquire via Google Form
+              <Mail size={18} /> <span className="hidden sm:inline">Inquire via Google Form</span><span className="sm:hidden">Contact</span>
             </a>
             <a
               href="https://linkedin.com/in/karenkilroy"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-slate-700 hover:bg-slate-800 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition"
+              className="border border-slate-700 hover:bg-slate-800 px-4 sm:px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition text-sm sm:text-base"
             >
               <Linkedin size={18} /> LinkedIn
             </a>
@@ -122,11 +148,11 @@ const Portfolio = () => {
       </header>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6 bg-slate-900/30">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-[3fr,2fr] gap-12">
+      <section id="about" className="py-12 md:py-20 px-4 md:px-6 bg-slate-900/30">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-[3fr,2fr] gap-8 md:gap-12">
           <div>
-            <p className="text-blue-400 uppercase text-xs tracking-[0.4em] mb-4">About Karen</p>
-            <h2 className="text-4xl font-bold mb-6 leading-snug">
+            <p className="text-blue-400 uppercase text-xs tracking-[0.3em] md:tracking-[0.4em] mb-3 md:mb-4">About Karen</p>
+            <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-snug">
               Developer and author focused on trustworthy AI deployment.
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
@@ -144,24 +170,24 @@ const Portfolio = () => {
               ))}
             </div>
           </div>
-          <div className="space-y-6">
-            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-2">Where I shine</p>
-              <p className="text-lg font-semibold mb-2">AI Supply Chain + Governance</p>
+          <div className="space-y-4 md:space-y-6">
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 md:p-6">
+              <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 mb-2">Where I shine</p>
+              <p className="text-base md:text-lg font-semibold mb-2">AI Supply Chain + Governance</p>
               <p className="text-slate-400 text-sm">
-                Model Context Protocol, provenance standards, and “explain it like we’re in a boardroom” technical storytelling.
+                Model Context Protocol, provenance standards, and "explain it like we're in a boardroom" technical storytelling.
               </p>
             </div>
-            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-2">Still learning</p>
-              <p className="text-lg font-semibold mb-2">University of Arkansas</p>
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 md:p-6">
+              <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 mb-2">Still learning</p>
+              <p className="text-base md:text-lg font-semibold mb-2">University of Arkansas</p>
               <p className="text-slate-400 text-sm">
                 Voice &amp; piano studies plus Infrastructure &amp; Cloud Computing coursework keep me grounded in art and architecture.
               </p>
             </div>
-            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-6">
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-2">Signature</p>
-              <p className="text-lg font-semibold mb-2">Six-time IBM Champion</p>
+            <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 md:p-6">
+              <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 mb-2">Signature</p>
+              <p className="text-base md:text-lg font-semibold mb-2">Six-time IBM Champion</p>
               <p className="text-slate-400 text-sm">
                 Bridging technical leadership with hands-on builds, coaching teams to ship ethical AI, and keeping documentation beautiful.
               </p>
@@ -172,30 +198,30 @@ const Portfolio = () => {
 
       {/* Stats Bar */}
       <section className="border-y border-slate-800 bg-slate-900/50">
-        <div className="max-w-4xl mx-auto py-12 px-6 grid grid-cols-3 gap-8 text-center">
+        <div className="max-w-4xl mx-auto py-8 md:py-12 px-4 md:px-6 grid grid-cols-3 gap-4 md:gap-8 text-center">
           <div>
-            <div className="text-3xl font-bold text-blue-500">20+</div>
-            <div className="text-sm text-slate-500 uppercase tracking-widest">Years Experience</div>
+            <div className="text-2xl md:text-3xl font-bold text-blue-500">20+</div>
+            <div className="text-xs md:text-sm text-slate-500 uppercase tracking-wider md:tracking-widest">Years Experience</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-blue-500">4</div>
-            <div className="text-sm text-slate-500 uppercase tracking-widest">O'Reilly Books</div>
+            <div className="text-2xl md:text-3xl font-bold text-blue-500">4</div>
+            <div className="text-xs md:text-sm text-slate-500 uppercase tracking-wider md:tracking-widest">O'Reilly Books</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-blue-500">6</div>
-            <div className="text-sm text-slate-500 uppercase tracking-widest">IBM Champion Awards</div>
+            <div className="text-2xl md:text-3xl font-bold text-blue-500">6</div>
+            <div className="text-xs md:text-sm text-slate-500 uppercase tracking-wider md:tracking-widest">IBM Champion</div>
           </div>
 
         </div>
       </section>
 
       {/* Books Section */}
-      <section id="books" className="py-24 px-6 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4 mb-12">
-          <Book className="text-blue-500" size={32} />
-          <h2 className="text-3xl font-bold">O'Reilly Publications</h2>
+      <section id="books" className="py-12 md:py-24 px-4 md:px-6 max-w-6xl mx-auto">
+        <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-12">
+          <Book className="text-blue-500" size={28} />
+          <h2 className="text-2xl md:text-3xl font-bold">O'Reilly Publications</h2>
         </div>
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {books.map((book, i) => (
             <a key={i} href={book.url} target="_blank" rel="noopener noreferrer" className="group bg-slate-900 border border-slate-800 p-6 rounded-xl hover:border-blue-500/50 transition block">
               <div className="aspect-[2/3] bg-slate-800 rounded mb-4 overflow-hidden shadow-lg">
@@ -209,17 +235,17 @@ const Portfolio = () => {
       </section>
 
       {/* Experience Section */}
-      <section id="projects" className="py-24 px-6 bg-slate-900/30">
+      <section id="projects" className="py-12 md:py-24 px-4 md:px-6 bg-slate-900/30">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center gap-4 mb-12">
-            <Award className="text-blue-500" size={32} />
-            <h2 className="text-3xl font-bold">Strategic Impact</h2>
+          <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-12">
+            <Award className="text-blue-500" size={28} />
+            <h2 className="text-2xl md:text-3xl font-bold">Strategic Impact</h2>
           </div>
 
-          <div className="space-y-12">
-            <div className="relative pl-8 border-l-2 border-slate-800">
+          <div className="space-y-8 md:space-y-12">
+            <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
               <div className="absolute -left-[9px] top-0 w-4 h-4 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-              <h3 className="text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
+              <h3 className="text-lg md:text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
               <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
               <p className="text-slate-400 leading-relaxed">
                 Built an AI-driven no-code platform using ReactJS + Azure OpenAI with Deepgram voice input so educators can spin up classroom-ready
@@ -251,20 +277,20 @@ const Portfolio = () => {
       </section>
 
       {/* Speaking & Standards */}
-      <section id="signal" className="py-24 px-6">
+      <section id="signal" className="py-12 md:py-24 px-4 md:px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-4 mb-12">
-            <Mic className="text-blue-500" size={32} />
-            <h2 className="text-3xl font-bold">Speaking &amp; Standards Leadership</h2>
+          <div className="flex items-center gap-3 md:gap-4 mb-8 md:mb-12">
+            <Mic className="text-blue-500" size={28} />
+            <h2 className="text-xl md:text-3xl font-bold">Speaking &amp; Standards</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-8">
             {speakingHighlights.map((item, idx) => (
-              <div key={idx} className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  {idx === 0 ? <Mic size={20} className="text-blue-500" /> : <ShieldCheck size={20} className="text-blue-500" />}
-                  <p className="text-sm uppercase tracking-[0.3em] text-slate-500">{item.org}</p>
+              <div key={idx} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6">
+                <div className="flex items-center gap-3 mb-3 md:mb-4">
+                  {idx === 0 ? <Mic size={18} className="text-blue-500" /> : <ShieldCheck size={18} className="text-blue-500" />}
+                  <p className="text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500">{item.org}</p>
                 </div>
-                <p className="text-xl font-semibold mb-2">{item.topic}</p>
+                <p className="text-lg md:text-xl font-semibold mb-2">{item.topic}</p>
                 <p className="text-slate-400 text-sm">{item.description}</p>
               </div>
             ))}
@@ -273,7 +299,7 @@ const Portfolio = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-slate-900 text-center text-slate-500 text-sm">
+      <footer className="py-8 md:py-12 border-t border-slate-900 text-center text-slate-500 text-sm px-4">
         <p>&copy; {new Date().getFullYear()} Karen Kilroy. Built with React &amp; AI.</p>
       </footer>
     </div>
