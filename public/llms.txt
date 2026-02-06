@@ -1,0 +1,27 @@
+# Karen Kilroy - AI Technologist
+
+> Developer and author focused on trustworthy AI deployment. O'Reilly Author, IBM Champion, C2PA AI/ML Task Force Co-Chair.
+
+## About
+
+Karen Kilroy is a developer, author, and educator building trustworthy AI systems. She led the IBM Watson Build-winning RILEY team at Kilroy Blockchain and now develops NYX NoCode, an educator-led platform that transforms classrooms into creative studios for generative AI.
+
+## Key Work
+
+- **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI
+- **Kilroy Blockchain**: Responsible AI systems and governance
+- **C2PA AI/ML Task Force**: Co-chair helping implement content provenance standards
+- **O'Reilly Books**: Blockchain Tethered AI, Natural Language and Search, AI and the Law, Blockchain as a Service
+
+## Links
+
+- Homepage: https://karenkilroy.com
+- Links: https://karenkilroy.com/links
+- Resume: https://karenkilroy.com/resume
+- NYX NoCode: https://nyx.baby
+- Kilroy Blockchain: https://www.kilroyblockchain.com
+- LinkedIn: https://www.linkedin.com/in/karenkilroy/
+
+## Contact
+
+For inquiries, use the contact form at karenkilroy.com
