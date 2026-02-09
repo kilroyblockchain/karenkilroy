@@ -90,6 +90,13 @@ const LinkTree = () => {
       icon: Mic,
       gradient: "from-violet-500 to-purple-400"
     },
+    {
+      title: "Friends of Justin",
+      subtitle: "knowbots.org",
+      url: "https://friendsofjustin.knowbots.org",
+      icon: Link2,
+      gradient: "from-violet-500 to-purple-400"
+    },
     // NPR KUAF Interviews
     {
       title: "Paybots AI",
