@@ -306,8 +306,9 @@ const Portfolio = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition text-sm"
             >
-              <Mic size={18} /> Book for Speaking
+              <Mic size={18} /> Book an Engagement
             </a>
+            <p className="text-slate-400 text-sm mt-2">Speaking • Consulting • AI Systems Development</p>
           </div>
         </div>
       </section>

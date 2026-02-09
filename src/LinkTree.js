@@ -128,8 +128,8 @@ const LinkTree = () => {
       gradient: "from-blue-600 to-blue-400"
     },
     {
-      title: "Contact / Collaborate",
-      subtitle: "Let's Build Together",
+      title: "Book an Engagement",
+      subtitle: "Speaking • Consulting • AI Systems Development",
       url: "https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform",
       icon: Mail,
       gradient: "from-pink-500 to-rose-400"
