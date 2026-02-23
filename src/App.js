@@ -121,7 +121,7 @@ const Portfolio = () => {
         <div className="space-y-6">
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden crt-container">
             <img
-              src="/img/headshot2.png"
+              src="/img/headshot2.jpg"
               alt="Karen Kilroy"
               className="w-full h-80 object-cover crt-image"
               style={{ objectPosition: 'center 25%' }}
