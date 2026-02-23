@@ -82,7 +82,7 @@ const Portfolio = () => {
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
             I'm a developer and author focused on trustworthy AI deployment.
-            I build Azure OpenAI platforms, voice-forward workflows, and governance patterns that keep teams shipping quickly while staying auditable.
+            I build Azure AI Foundry-enhanced platforms, voice-forward workflows, and governance patterns that keep teams shipping quickly while staying auditable.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
