@@ -129,7 +129,7 @@ const Portfolio = () => {
             <div className="p-5 text-sm text-slate-400 flex items-center justify-between flex-wrap gap-3">
               <div>
                 <p className="text-slate-100 font-semibold">Karen Kilroy</p>
-                <p className="text-xs text-slate-400 mt-0.5">Photo: Daphne Youree</p>
+                <p className="text-xs text-slate-400 mt-0.5">Photo: <a href="https://www.daphneyoureephotography.com/" target="_blank" rel="noopener noreferrer" className="hover:text-slate-200 underline underline-offset-2 transition-colors">Daphne Youree</a></p>
               </div>
               <div className="text-xs uppercase tracking-[0.3em] text-slate-500">Inventor · Artist · Musician</div>
             </div>
