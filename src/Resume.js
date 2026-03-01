@@ -178,6 +178,12 @@ export default function Resume() {
                 distributed AI and data infrastructures.
               </p>
             </li>
+            <li>
+              <strong>University of Arkansas AI Club</strong> — <em>C2PA and Content Credentials</em>
+              <p className="speaking-desc">
+                Talk on C2PA and Content Credentials for 175+ student, faculty, and community members.
+              </p>
+            </li>
           </ul>
         </section>
 

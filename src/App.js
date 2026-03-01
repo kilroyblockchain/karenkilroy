@@ -29,6 +29,12 @@ const Portfolio = () => {
       topic: "Blockchain Kill Switches for Governed AI Systems",
       description:
         "Shared how blockchain-backed controls keep distributed AI infra compliant, explainable, and ready for shutdown when needed."
+    },
+    {
+      org: "University of Arkansas AI Club",
+      topic: "C2PA Content Credentials for AI Agents",
+      description:
+        "Talk on C2PA and Content Credentials for 175+ student, faculty, and community members."
     }
   ];
 
