@@ -22,7 +22,7 @@ const Portfolio = () => {
       org: "International Red Cross",
       topic: "C2PA Content Credentials for AI/ML Provenance",
       description:
-        "Invited talk on authenticating AI-generated content so humanitarian teams can verify every asset in the field."
+        "Talk on authenticating AI-generated content so humanitarian teams can verify every asset in the field."
     },
     {
       org: "Actian",
@@ -31,10 +31,10 @@ const Portfolio = () => {
         "Shared how blockchain-backed controls keep distributed AI infra compliant, explainable, and ready for shutdown when needed."
     },
     {
-      org: "University of Arkansas AI Club",
+      org: "University of Arkansas",
       topic: "C2PA Content Credentials for AI Agents",
       description:
-        "Talk on C2PA and Content Credentials for 175+ student, faculty, and community members."
+        "Talk on C2PA and Content Credentials for AI Club with 175+ student, faculty, and community attendees."
     }
   ];
 
