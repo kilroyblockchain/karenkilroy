@@ -32,9 +32,9 @@ const Portfolio = () => {
     },
     {
       org: "University of Arkansas",
-      topic: "C2PA Content Credentials and Open Claw AI Agents",
+      topic: "C2PA Content Credentials and Open Claw",
       description:
-        "Hands-on training on trust networks. For AI Club with 175+ student, faculty, and community attendees."
+        "Hands-on training on creating AI agent trust networks. For AI Club with 175+ student, faculty, and community attendees."
     }
   ];
 
