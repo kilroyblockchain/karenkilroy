@@ -5,6 +5,7 @@ import './index.css';
 import App from './App.js';
 import Resume from './Resume.js';
 import LinkTree from './LinkTree.js';
+import Free2PA from './Free2PA.js';
 
 function ErrorBoundary({ children }) {
     try { return children; } catch (e) {
@@ -24,6 +25,7 @@ root.render(
                     <Route path="/" element={<App />} />
                     <Route path="/resume" element={<Resume />} />
                     <Route path="/links" element={<LinkTree />} />
+                    <Route path="/free2pa" element={<Free2PA />} />
                     <Route path="*" element={<App />} />
                 </Routes>
             </ErrorBoundary>
