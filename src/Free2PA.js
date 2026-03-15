@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Download, Upload, ExternalLink } from 'lucide-react';
 
 // ─── Trusted cert (kilroy — signs all RadioHead demo files) ───────────────────
@@ -411,7 +411,147 @@ const Card = ({ children, style }) => (
   </div>
 );
 
+const STEPS = [
+  {
+    num: 1,
+    title: 'Real or Fake?',
+    tag: 'Activity 1 · contentauthenticity.org',
+    content: (
+      <Card>
+        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
+          Download the AI-generated image below — then drop it into the Adobe Content Credentials verifier.
+          <strong style={{ color: '#f8fafc' }}> Don't look up how it was made yet.</strong> See what the tool tells you first.
+        </p>
+        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
+          <a href="/img/Firefly_battlefield.png" download
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#4f8ef7', color: '#fff', textDecoration: 'none', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
+            <Download size={15} /> Download the image
+          </a>
+          <a href="https://verify.contentauthenticity.org" target="_blank" rel="noopener noreferrer"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
+            <ExternalLink size={15} /> Open verifier <ExternalLink size={12} />
+          </a>
+        </div>
+        <div style={{ background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.85rem', color: '#64748b' }}>
+          💬 <strong style={{ color: '#94a3b8' }}>What did you find?</strong> Who signed it? What tool created it? Is it real or AI-generated?
+        </div>
+      </Card>
+    ),
+  },
+  {
+    num: 2,
+    title: 'Read the Manifest in Plain English',
+    tag: "Activity 2 · Paul Melcher's C2PA Translator",
+    content: (
+      <Card>
+        <p style={{ color: '#94a3b8', marginBottom: 16, lineHeight: 1.7 }}>
+          The verifier tells you <em>pass or fail</em>. Paul Melcher's tool goes further —
+          it translates the raw C2PA manifest into plain English so you can read every assertion,
+          every action, and every claim generator yourself.
+          Upload the same image you just verified and see what's actually inside.
+        </p>
+        <a href="https://melchersystem.com/c2pa-content-credentials-translator/" target="_blank" rel="noopener noreferrer"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem', marginBottom: 16 }}>
+          <ExternalLink size={15} /> Open C2PA Translator <ExternalLink size={12} />
+        </a>
+        <div style={{ background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem', color: '#64748b' }}>
+          💬 <strong style={{ color: '#94a3b8' }}>What does it say?</strong> Who created it? What tool? What digital source type?
+          This is the difference between trusting a label and reading the ingredients.
+        </div>
+      </Card>
+    ),
+  },
+  {
+    num: 3,
+    title: "Meet RadioHead's Files",
+    tag: 'Download these for Activities 4 & 5',
+    content: (
+      <Card>
+        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
+          These are the 9 real files that define RadioHead — the AI agent running at KUAF.
+          Each one has been cryptographically signed with Free2PA.
+          Download a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
+          and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar — you'll use them in Activities 4 and 5.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
+          {RADIOHEAD_FILES.map(f => (
+            <div key={f.name} style={{ background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '12px 14px' }}>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0', marginBottom: 4 }}>{f.label}</div>
+              <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: 10 }}>{f.desc}</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <a href={`/free2pa/${f.name}`} download
+                  style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                  .md
+                </a>
+                <a href={`/free2pa/${f.name}.c2pa.json`} download
+                  style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                  sidecar
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    ),
+  },
+  {
+    num: 4,
+    title: 'Tamper & Watch It Fail',
+    tag: 'Activity 4 · Live Verifier',
+    content: (
+      <Card>
+        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
+          Upload a RadioHead <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
+          and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar.
+          All 3 checks should <span style={{ color: '#68d391', fontWeight: 700 }}>PASS</span>.<br />
+          Then open the <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> in a text editor,
+          change one word, save it — and verify again. Watch it <span style={{ color: '#fc8181', fontWeight: 700 }}>FAIL</span>.
+        </p>
+        <Verifier />
+        <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem', color: '#64748b' }}>
+          <strong style={{ color: '#94a3b8' }}>Try all 3 failure modes:</strong>
+          <span style={{ color: '#fc8181' }}> ①</span> Edit the file (hash fails) &nbsp;·&nbsp;
+          <span style={{ color: '#fc8181' }}> ②</span> Delete the sidecar (no proof) &nbsp;·&nbsp;
+          <span style={{ color: '#fc8181' }}> ③</span> Swap in a different sidecar (wrong signature)
+        </div>
+      </Card>
+    ),
+  },
+  {
+    num: 5,
+    title: 'Sign Your Own File',
+    tag: 'Activity 5 · Trust Networks',
+    content: (
+      <Card>
+        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
+          Write anything — a haiku, a claw bot config, your own agent SOUL.md.
+          Sign it below. You'll get a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar to download.
+          Then verify it in Activity 4 above.
+        </p>
+        <SignYourOwn />
+        <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem' }}>
+          <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 8 }}>What you'll see:</div>
+          <div style={{ color: '#94a3b8', lineHeight: 1.7 }}>
+            ✅ <strong>Hash</strong> — passes (you just signed it)<br />
+            ✅ <strong>Signature</strong> — passes (your browser key verified it)<br />
+            ❌ <strong>Trust</strong> — <span style={{ color: '#fc8181' }}>FAILS</span> — your cert isn't in the trust store yet
+          </div>
+          <div style={{ marginTop: 10, color: '#64748b' }}>
+            That's the lesson. Anyone can sign anything. Trust is granted, not automatic.
+            Download your cert and share it with Karen to join the network.
+          </div>
+        </div>
+      </Card>
+    ),
+  },
+];
+
 export default function Free2PA() {
+  useEffect(() => { document.title = 'C2PA / Free2PA Demo — Karen Kilroy'; }, []);
+  const [current, setCurrent] = useState(0);
+  const total = STEPS.length;
+  const step = STEPS[current];
+
   return (
     <div style={{ minHeight: '100vh', background: '#0f1117', color: '#e2e8f0', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif' }}>
       <style>{`
@@ -431,12 +571,12 @@ export default function Free2PA() {
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
 
         {/* ── Hero ── */}
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+        <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
             {ROBOT_SVG}
           </div>
           <h1 style={{ fontSize: '2.6rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#f8fafc', marginBottom: 10 }}>
-            Free2PA <span style={{ color: '#4f8ef7' }}>Demo</span>
+            C2PA / Free2PA <span style={{ color: '#4f8ef7' }}>Demo</span>
           </h1>
           <p style={{ fontSize: '1.1rem', color: '#94a3b8', maxWidth: 560, margin: '0 auto 20px' }}>
             Hands-on activities for the University of Arkansas AI Club.<br />
@@ -448,102 +588,44 @@ export default function Free2PA() {
           </div>
         </div>
 
-        {/* ── Step 1: Real or Fake ── */}
-        <STEP num="1" title="Real or Fake?" tag="Activity 1 · contentauthenticity.org">
-          <Card>
-            <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-              Download the AI-generated image below — then drop it into the Adobe Content Credentials verifier.
-              <strong style={{ color: '#f8fafc' }}> Don't look up how it was made yet.</strong> See what the tool tells you first.
-            </p>
-            <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
-              <a href="/img/Firefly_battlefield.png" download
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#4f8ef7', color: '#fff', textDecoration: 'none', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
-                <Download size={15} /> Download the image
-              </a>
-              <a href="https://verify.contentauthenticity.org" target="_blank" rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
-                <ExternalLink size={15} /> Open verifier <ExternalLink size={12} />
-              </a>
-            </div>
-            <div style={{ background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.85rem', color: '#64748b' }}>
-              💬 <strong style={{ color: '#94a3b8' }}>What did you find?</strong> Who signed it? What tool created it? Is it real or AI-generated?
-            </div>
-          </Card>
+        {/* ── Progress dots ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 36 }}>
+          {STEPS.map((s, i) => (
+            <button key={i} onClick={() => setCurrent(i)} style={{
+              width: i === current ? 32 : 10,
+              height: 10,
+              borderRadius: 5,
+              border: 'none',
+              cursor: 'pointer',
+              background: i === current ? '#4f8ef7' : i < current ? '#2d5fa8' : '#2d3748',
+              transition: 'all 0.2s',
+              padding: 0,
+            }} aria-label={`Go to step ${s.num}`} />
+          ))}
+          <span style={{ fontSize: '0.78rem', color: '#64748b', marginLeft: 8 }}>
+            {current + 1} / {total}
+          </span>
+        </div>
+
+        {/* ── Current step ── */}
+        <STEP num={step.num} title={step.title} tag={step.tag}>
+          {step.content}
         </STEP>
 
-        {/* ── Step 2: Download RadioHead files ── */}
-        <STEP num="2" title="Meet RadioHead's Files" tag="Download these for Activities 3 & 4">
-          <Card style={{ marginBottom: 16 }}>
-            <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-              These are the 9 real files that define RadioHead — the AI agent running at KUAF.
-              Each one has been cryptographically signed with Free2PA.
-              Download a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
-              and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar — you'll use them in Activities 3 and 4.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
-              {RADIOHEAD_FILES.map(f => (
-                <div key={f.name} style={{ background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '12px 14px' }}>
-                  <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0', marginBottom: 4 }}>{f.label}</div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: 10 }}>{f.desc}</div>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <a href={`/free2pa/${f.name}`} download
-                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                      .md
-                    </a>
-                    <a href={`/free2pa/${f.name}.c2pa.json`} download
-                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                      sidecar
-                    </a>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </STEP>
-
-        {/* ── Step 3: Verify ── */}
-        <STEP num="3" title="Tamper & Watch It Fail" tag="Activity 3 · Live Verifier">
-          <Card style={{ marginBottom: 16 }}>
-            <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-              Upload a RadioHead <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
-              and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar.
-              All 3 checks should <span style={{ color: '#68d391', fontWeight: 700 }}>PASS</span>.<br />
-              Then open the <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> in a text editor,
-              change one word, save it — and verify again. Watch it <span style={{ color: '#fc8181', fontWeight: 700 }}>FAIL</span>.
-            </p>
-            <Verifier />
-            <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem', color: '#64748b' }}>
-              <strong style={{ color: '#94a3b8' }}>Try all 3 failure modes:</strong>
-              <span style={{ color: '#fc8181' }}> ①</span> Edit the file (hash fails) &nbsp;·&nbsp;
-              <span style={{ color: '#fc8181' }}> ②</span> Delete the sidecar (no proof) &nbsp;·&nbsp;
-              <span style={{ color: '#fc8181' }}> ③</span> Swap in a different sidecar (wrong signature)
-            </div>
-          </Card>
-        </STEP>
-
-        {/* ── Step 4: Sign ── */}
-        <STEP num="4" title="Sign Your Own File" tag="Activity 4 · Trust Networks">
-          <Card>
-            <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-              Write anything — a haiku, a claw bot config, your own agent SOUL.md.
-              Sign it below. You'll get a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar to download.
-              Then verify it in Activity 3 above.
-            </p>
-            <SignYourOwn />
-            <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem' }}>
-              <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 8 }}>What you'll see:</div>
-              <div style={{ color: '#94a3b8', lineHeight: 1.7 }}>
-                ✅ <strong>Hash</strong> — passes (you just signed it)<br />
-                ✅ <strong>Signature</strong> — passes (your browser key verified it)<br />
-                ❌ <strong>Trust</strong> — <span style={{ color: '#fc8181' }}>FAILS</span> — your cert isn't in the trust store yet
-              </div>
-              <div style={{ marginTop: 10, color: '#64748b' }}>
-                That's the lesson. Anyone can sign anything. Trust is granted, not automatic.
-                Download your cert and share it with Karen to join the network.
-              </div>
-            </div>
-          </Card>
-        </STEP>
+        {/* ── Navigation ── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8, marginBottom: 48 }}>
+          <button onClick={() => setCurrent(c => c - 1)} disabled={current === 0}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: current === 0 ? '#1e2330' : '#2d3748', color: current === 0 ? '#4a5568' : '#e2e8f0', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 20px', fontWeight: 700, fontSize: '0.88rem', cursor: current === 0 ? 'not-allowed' : 'pointer' }}>
+            ← Previous
+          </button>
+          {current < total - 1
+            ? <button onClick={() => setCurrent(c => c + 1)}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#4f8ef7', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer' }}>
+                Next Activity →
+              </button>
+            : <span style={{ fontSize: '0.88rem', color: '#68d391', fontWeight: 700 }}>🎉 All done!</span>
+          }
+        </div>
 
         {/* ── Resources ── */}
         <Card>
@@ -552,6 +634,7 @@ export default function Free2PA() {
             {[
               ['C2PA Spec', 'c2pa.org', 'https://c2pa.org'],
               ['Free Verifier', 'verify.contentauthenticity.org', 'https://verify.contentauthenticity.org'],
+              ['C2PA Translator', 'melchersystem.com (Paul Melcher)', 'https://melchersystem.com/c2pa-content-credentials-translator/'],
               ['CC Foundations Course', 'learn.contentauthenticity.org', 'https://learn.contentauthenticity.org'],
               ['CAI Discord', 'discord.gg/CAI', 'https://discord.gg/CAI'],
               ['Open-source SDK', 'opensource.contentauthenticity.org', 'https://opensource.contentauthenticity.org/docs'],
