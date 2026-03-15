@@ -16,16 +16,23 @@ i1Q=
 
 // ─── RadioHead files available for download ───────────────────────────────────
 const RADIOHEAD_FILES = [
-  { name: 'SOUL.md',        label: 'SOUL.md',        desc: 'Personality & values' },
-  { name: 'IDENTITY.md',    label: 'IDENTITY.md',    desc: 'Name & role' },
-  { name: 'workflow.md',    label: 'workflow.md',    desc: '10-step transcript process' },
-  { name: 'MEMORY.md',      label: 'MEMORY.md',      desc: 'Long-term memory' },
-  { name: 'USER.md',        label: 'USER.md',         desc: 'Crew info' },
-  { name: 'AGENTS.md',      label: 'AGENTS.md',       desc: 'Workspace rules' },
-  { name: 'APPS.md',        label: 'APPS.md',         desc: 'App registry' },
-  { name: 'HEARTBEAT.md',   label: 'HEARTBEAT.md',    desc: 'Periodic checks' },
-  { name: 'tests.md',       label: 'tests.md',         desc: 'System tests' },
+  { name: 'SOUL.md',      label: 'SOUL.md',      desc: 'Personality & values', scenario: 'pass' },
+  { name: 'IDENTITY.md',  label: 'IDENTITY.md',  desc: 'Name & role',           scenario: 'signature' },
+  { name: 'workflow.md',  label: 'workflow.md',  desc: 'Transcript workflow',   scenario: 'pass' },
+  { name: 'MEMORY.md',    label: 'MEMORY.md',    desc: 'Long-term memory',      scenario: 'hash' },
+  { name: 'USER.md',      label: 'USER.md',      desc: 'Crew info',             scenario: 'pass' },
+  { name: 'AGENTS.md',    label: 'AGENTS.md',    desc: 'Workspace rules',       scenario: 'pass' },
+  { name: 'APPS.md',      label: 'APPS.md',      desc: 'App registry',          scenario: 'pass' },
+  { name: 'HEARTBEAT.md', label: 'HEARTBEAT.md', desc: 'Periodic checks',       scenario: 'pass' },
+  { name: 'tests.md',     label: 'tests.md',     desc: 'System tests',          scenario: 'trust' },
 ];
+
+const SCENARIO_INFO = {
+  pass:      { label: 'PASS',         color: '#22c55e', note: 'All three checks pass — baseline reference.' },
+  hash:      { label: 'HASH FAIL',    color: '#fbbf24', note: 'Hash will fail because the .md was edited after signing.' },
+  signature: { label: 'SIG FAIL',     color: '#f87171', note: 'Signature has been tampered with inside the sidecar.' },
+  trust:     { label: 'TRUST FAIL',   color: '#f472b6', note: 'Signed by a cert outside the default trust store.' },
+};
 
 // ─── Crypto helpers ───────────────────────────────────────────────────────────
 
@@ -103,7 +110,7 @@ function canonicalJson(obj) {
     .join(',') + '}';
 }
 
-async function verifyFile(fileText, sidecarText) {
+async function verifyFile(fileText, sidecarText, trustedCerts = [TRUSTED_CERT_PEM]) {
   let sidecar;
   try { sidecar = JSON.parse(sidecarText); } catch {
     return { success: false, error: 'Sidecar is not valid JSON.' };
@@ -130,8 +137,23 @@ async function verifyFile(fileText, sidecarText) {
   } catch { /* signatureValid stays false */ }
 
   // 3. Trust — compare cert PEM to known trusted cert
-  const normalize = s => s.replace(/\s+/g, '');
-  const trusted = normalize(signature.cert_pem) === normalize(TRUSTED_CERT_PEM);
+  const normalize = s => (s || '').replace(/\s+/g, '');
+  const trustedList = (trustedCerts && trustedCerts.length ? trustedCerts : [TRUSTED_CERT_PEM])
+    .map(normalize)
+    .filter(Boolean);
+  const certNormalized = normalize(signature.cert_pem);
+  const matchIndex = trustedList.findIndex(entry => entry === certNormalized);
+  const trusted = matchIndex !== -1;
+  const trustLabel = matchIndex === 0
+    ? 'kilroy (KUAF trust store)'
+    : matchIndex > 0
+      ? 'Uploaded cert'
+      : 'Unknown signer';
+  const trustDetail = matchIndex === 0
+    ? 'Cert matches the kilroy certificate in the KUAF trust store.'
+    : matchIndex > 0
+      ? 'Matches a cert you manually trusted for this session.'
+      : 'This cert is not in the trusted certificate list.';
 
   return {
     success: true,
@@ -139,10 +161,8 @@ async function verifyFile(fileText, sidecarText) {
     signatureValid,
     trust: {
       trusted,
-      label: trusted ? 'kilroy (KUAF trust store)' : 'Unknown signer',
-      detail: trusted
-        ? 'Cert matches the kilroy certificate in the KUAF trust store.'
-        : 'This cert is not in the trusted certificate list.',
+      label: trustLabel,
+      detail: trustDetail,
     },
     claim,
   };
@@ -427,6 +447,17 @@ function renderMarkdown(markdown = '') {
   return html.join('');
 }
 
+function downloadTextFile(text, name, type = 'application/octet-stream') {
+  if (!text) return;
+  const blob = new Blob([text], { type });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 500);
+}
+
 function MarkdownPreview({ markdown }) {
   const rendered = useMemo(() => renderMarkdown(markdown || ''), [markdown]);
   return (
@@ -472,19 +503,24 @@ function SidecarPreview({ text }) {
 function Verifier() {
   const [mdFile, setMdFile]         = useState(null);
   const [sidecarFile, setSidecarFile] = useState(null);
+  const [trustedCert, setTrustedCert] = useState(null);
   const [result, setResult]         = useState(null);
   const [loading, setLoading]       = useState(false);
 
-  const reset = () => { setMdFile(null); setSidecarFile(null); setResult(null); };
+  const reset = () => { setMdFile(null); setSidecarFile(null); setTrustedCert(null); setResult(null); };
 
   const verify = async () => {
     if (!mdFile || !sidecarFile) return;
     setLoading(true); setResult(null);
     try {
-      const [fileText, sidecarText] = await Promise.all([
-        mdFile.text(), sidecarFile.text(),
+      const [fileText, sidecarText, customCert] = await Promise.all([
+        mdFile.text(),
+        sidecarFile.text(),
+        trustedCert ? trustedCert.text() : Promise.resolve(''),
       ]);
-      const r = await verifyFile(fileText, sidecarText);
+      const trustList = [TRUSTED_CERT_PEM];
+      if (customCert && customCert.trim()) trustList.push(customCert);
+      const r = await verifyFile(fileText, sidecarText, trustList);
       setResult(r);
     } catch (e) {
       setResult({ success: false, error: e.message });
@@ -508,6 +544,8 @@ function Verifier() {
           hint="e.g. SOUL.md" />
         <DropZone label="Drop .c2pa.json sidecar here" accept=".json" file={sidecarFile} onFile={setSidecarFile}
           hint="e.g. SOUL.md.c2pa.json" />
+        <DropZone label="Optional: Drop trusted cert (.pem)" accept=".pem,.crt,.cer,.txt" file={trustedCert} onFile={setTrustedCert}
+          hint="Use this with Step 5 certs or untrusted files." />
         <button
           disabled={!mdFile || !sidecarFile || loading}
           onClick={verify}
@@ -651,6 +689,8 @@ function RadioHeadFiles() {
   const [selected, setSelected] = useState(RADIOHEAD_FILES[0]);
   const [markdown, setMarkdown] = useState('');
   const [sidecar, setSidecar] = useState('');
+  const [sidecarMeta, setSidecarMeta] = useState(null);
+  const [previewResult, setPreviewResult] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -660,6 +700,7 @@ function RadioHeadFiles() {
       if (!selected) return;
       setLoading(true);
       setError(null);
+      setPreviewResult(null);
       try {
         const [mdResp, scResp] = await Promise.all([
           fetch(`/free2pa/${selected.name}`),
@@ -667,18 +708,25 @@ function RadioHeadFiles() {
         ]);
         if (!mdResp.ok || !scResp.ok) throw new Error('fetch failed');
         const [mdText, sidecarText] = await Promise.all([mdResp.text(), scResp.text()]);
-        if (cancelled) return;
         let formattedSidecar = sidecarText;
+        let parsedSidecar = null;
         try {
-          formattedSidecar = JSON.stringify(JSON.parse(sidecarText), null, 2);
+          parsedSidecar = JSON.parse(sidecarText);
+          formattedSidecar = JSON.stringify(parsedSidecar, null, 2);
         } catch { /* keep raw */ }
+        const verification = await verifyFile(mdText, sidecarText, [TRUSTED_CERT_PEM]);
+        if (cancelled) return;
         setMarkdown(mdText);
         setSidecar(formattedSidecar);
+        setSidecarMeta(parsedSidecar);
+        setPreviewResult(verification);
       } catch {
         if (cancelled) return;
         setError('Unable to load preview right now. Download the files manually.');
         setMarkdown('');
         setSidecar('');
+        setSidecarMeta(null);
+        setPreviewResult(null);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -694,11 +742,19 @@ function RadioHeadFiles() {
     }
   };
 
+  const scenarioMeta = selected ? SCENARIO_INFO[selected.scenario] || SCENARIO_INFO.pass : null;
+  const previewSuccess = previewResult?.success;
+  const hashOk = previewSuccess ? previewResult.hashMatch : false;
+  const sigOk  = previewSuccess ? previewResult.signatureValid : false;
+  const trustOk = previewSuccess ? previewResult.trust?.trusted : false;
+  const allPass = hashOk && sigOk && trustOk;
+  const signerCert = sidecarMeta?.signature?.cert_pem;
+
   return (
     <Card>
       <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
         These are the 9 real files that define RadioHead — the AI agent running at KUAF.
-        Each one has been cryptographically signed with Free2PA.
+        Each one was signed with Free2PA so you can practice all three verification outcomes.
         Download a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
         and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar — you'll use them in Activities 4 and 5.
       </p>
@@ -707,6 +763,7 @@ function RadioHeadFiles() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
             {RADIOHEAD_FILES.map(file => {
               const active = selected?.name === file.name;
+              const info = SCENARIO_INFO[file.scenario] || SCENARIO_INFO.pass;
               return (
                 <div
                   key={file.name}
@@ -729,7 +786,7 @@ function RadioHeadFiles() {
                       <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0' }}>{file.label}</div>
                       <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{file.desc}</div>
                     </div>
-                    {active && <span style={{ fontSize: '0.6rem', color: '#4f8ef7', letterSpacing: '0.2em', fontWeight: 700 }}>PREVIEW</span>}
+                    <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.15em', color: info.color }}>{info.label}</span>
                   </div>
                   <div style={{ display: 'flex', gap: 8 }}>
                     <a href={`/free2pa/${file.name}`} download
@@ -753,9 +810,15 @@ function RadioHeadFiles() {
             <div>
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0' }}>{selected?.label}</div>
               <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{selected?.desc}</div>
+              {scenarioMeta && <div style={{ fontSize: '0.7rem', color: scenarioMeta.color, letterSpacing: '0.2em', marginTop: 6, fontWeight: 700 }}>{scenarioMeta.label}</div>}
             </div>
             {loading && <span style={{ fontSize: '0.72rem', color: '#4f8ef7' }}>Loading…</span>}
           </div>
+          {scenarioMeta && (
+            <div style={{ background: '#0d111e', border: '1px dashed #2d3748', borderRadius: 10, padding: '10px 14px', fontSize: '0.78rem', color: '#94a3b8' }}>
+              {scenarioMeta.note}
+            </div>
+          )}
           {error ? (
             <div style={{ background: '#2b0d0d', border: '1px solid #742a2a', borderRadius: 10, padding: '12px 16px', color: '#fecaca', fontSize: '0.85rem' }}>
               {error}
@@ -766,6 +829,43 @@ function RadioHeadFiles() {
             </div>
           ) : (
             <>
+              {previewSuccess && (
+                <div style={{ background: '#050a16', border: '1px solid #1b2335', borderRadius: 12, padding: '14px 16px' }}>
+                  <div style={{ fontSize: '0.7rem', letterSpacing: '0.35em', fontWeight: 800, color: '#64748b', marginBottom: 6 }}>VERDICT</div>
+                  <div style={{ fontSize: '1.2rem', fontWeight: 900, letterSpacing: '0.2em', color: allPass ? '#68d391' : '#f87171', marginBottom: 10 }}>
+                    {allPass ? 'PASS' : 'FAIL'}
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {[
+                      ['Signature', sigOk],
+                      ['Hash', hashOk],
+                      ['Trust', trustOk],
+                    ].map(([label, ok]) => (
+                      <span key={label} style={{
+                        fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: 999,
+                        border: `1px solid ${ok ? '#22543d' : '#742a2a'}`,
+                        color: ok ? '#68d391' : '#f87171',
+                        background: ok ? '#0f1f1a' : '#1f0f13',
+                      }}>
+                        {ok ? '✓' : '✗'} {label}
+                      </span>
+                    ))}
+                  </div>
+                  {previewResult?.trust?.label && (
+                    <div style={{ marginTop: 8, fontSize: '0.72rem', color: '#94a3b8' }}>
+                      Trust detail: {previewResult.trust.label} — {previewResult.trust.detail}
+                    </div>
+                  )}
+                  {signerCert && (
+                    <button
+                      onClick={() => downloadTextFile(signerCert, `${selected.label}-signer.pem`, 'application/x-pem-file')}
+                      style={{ marginTop: 10, background: 'transparent', border: '1px solid #2d3748', color: '#e2e8f0', borderRadius: 999, padding: '6px 12px', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer' }}
+                    >
+                      <Download size={12} style={{ marginRight: 6 }} /> Download signer cert
+                    </button>
+                  )}
+                </div>
+              )}
               <MarkdownPreview markdown={markdown} />
               <SidecarPreview text={sidecar} />
             </>
@@ -1053,13 +1153,6 @@ function SignYourOwn() {
     }
   };
 
-  const download = (text, name) => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([text], { type: 'application/octet-stream' }));
-    a.download = name;
-    a.click();
-  };
-
   return (
     <div>
       <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
@@ -1097,24 +1190,24 @@ function SignYourOwn() {
         <div style={{ background: '#0d2b1e', border: '1px solid #22543d', borderRadius: 10, padding: 20 }}>
           <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 12 }}>✅ Signed! Download your files:</div>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <button onClick={() => download(content, filename)}
+            <button onClick={() => downloadTextFile(content, filename)}
               style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#1e2330', color: '#e2e8f0', border: '1px solid #2d3748', borderRadius: 8, padding: '8px 16px', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>
               <Download size={14} /> {filename}
             </button>
-            <button onClick={() => download(JSON.stringify(sidecar, null, 2), filename + '.c2pa.json')}
+            <button onClick={() => downloadTextFile(JSON.stringify(sidecar, null, 2), filename + '.c2pa.json')}
               style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#1e2330', color: '#94a3b8', border: '1px solid #2d3748', borderRadius: 8, padding: '8px 16px', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>
               <Download size={14} /> {filename}.c2pa.json
             </button>
             <button onClick={() => {
               const certPem = sidecar.signature.cert_pem;
-              download(certPem, 'my-browser-cert.pem');
+              downloadTextFile(certPem, 'my-browser-cert.pem', 'application/x-pem-file');
             }}
               style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#1e2330', color: '#4f8ef7', border: '1px solid #1e3a6e', borderRadius: 8, padding: '8px 16px', fontWeight: 600, fontSize: '0.82rem', cursor: 'pointer' }}>
               <Download size={14} /> my-browser-cert.pem
             </button>
           </div>
           <div style={{ marginTop: 12, fontSize: '0.78rem', color: '#68d391cc' }}>
-            Now go to Activity 3 above and verify this file — watch what happens to the Trust check.
+            Now go to Activity 4 above, upload the .md + sidecar, and drop <em>my-browser-cert.pem</em> into the trusted cert slot — all three checks should flip to PASS.
           </div>
         </div>
       )}

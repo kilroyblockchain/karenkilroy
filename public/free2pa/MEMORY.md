@@ -1,5 +1,7 @@
 # RadioHead's Long-Term Memory 🎸
 
+> ⚠️ This copy was edited after it was signed so you can witness a hash failure.
+
 ## Diary Location
 - **Path:** `/data/workspace/memory/YYYY-MM-DD.md`
 - **Format:** Daily entries with reflections, learnings, and goals
