@@ -150,32 +150,58 @@ async function verifyFile(fileText, sidecarText) {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function RobotFace({ state }) {
-  // state: 'idle' | 'pass' | 'fail'
-  const color = state === 'pass' ? '#68d391' : state === 'fail' ? '#fc8181' : '#94a3b8';
-  const face  = state === 'fail' ? 'x     x' : 'o     o';
-  const brow  = state === 'fail' ? '-   -' : '^   ^';
-  const mouth = state === 'fail' ? '/\\_/\\' : '\\___/';
-  const label = state === 'pass' ? 'VERIFIED' : state === 'fail' ? 'REJECTED' : '       ';
-
-  return (
-    <pre style={{
-      fontFamily: '"SF Mono","Fira Code","Courier New",monospace',
-      fontSize: '0.85rem', lineHeight: 1.5,
-      color, display: 'inline-block',
-      background: state === 'pass' ? '#0d2b1e' : state === 'fail' ? '#2b0d0d' : '#1e2330',
-      border: `1px solid ${state === 'pass' ? '#22543d' : state === 'fail' ? '#742a2a' : '#2d3748'}`,
-      borderRadius: 8, padding: '10px 20px',
-      transition: 'all 0.3s',
-    }}>
-{`  .-------.
- ( ${face} )
- |  ${brow}  |
- |  ${mouth}  |   ${label}
+const ROBOT_ART = {
+  idle: `  .-------.
+ ( o     o )
+ |  -   -  |
+ |  _____  |
  '---------'
    |     |
-  [=]   [=]`}
-    </pre>
+  [=]   [=]`,
+  fail: `  .-------.
+ ( x     x )
+ |  -   -  |
+ |  )___(  |
+ '---------'
+   |     |
+  [=]   [=]`,
+  pass: `  .-------.
+ ( o     o )
+ |  ^   ^  |
+ |  (___)  |
+ '---------'
+   |     |
+  [=]   [=]`,
+};
+
+function RobotFace({ state }) {
+  // state: 'idle' | 'pass' | 'fail'
+  const palette = state === 'pass'
+    ? { color: '#68d391', bg: '#0d2b1e', border: '#22543d' }
+    : state === 'fail'
+      ? { color: '#fc8181', bg: '#2b0d0d', border: '#742a2a' }
+      : { color: '#94a3b8', bg: '#1e2330', border: '#2d3748' };
+  const art = state === 'pass' ? ROBOT_ART.pass : state === 'fail' ? ROBOT_ART.fail : ROBOT_ART.idle;
+
+  const label = state === 'pass' ? 'VERIFIED' : state === 'fail' ? 'REJECTED' : 'READY';
+
+  return (
+    <div style={{ display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+      <pre style={{
+        fontFamily: '"SF Mono","Courier New",Consolas,monospace',
+        fontSize: '0.85rem', lineHeight: 1.25,
+        color: palette.color, display: 'inline-block',
+        background: palette.bg,
+        border: `1px solid ${palette.border}`,
+        borderRadius: 8, padding: '10px 20px',
+        transition: 'all 0.3s',
+      }}>
+{art}
+      </pre>
+      <div style={{ fontSize: '0.75rem', fontWeight: 800, letterSpacing: '0.4em', color: palette.color }}>
+        {label}
+      </div>
+    </div>
   );
 }
 
