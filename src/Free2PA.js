@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { Download, Upload, ExternalLink } from 'lucide-react';
 
 // ─── Trusted cert (kilroy — signs all RadioHead demo files) ───────────────────
@@ -17,9 +17,9 @@ i1Q=
 // ─── RadioHead files available for download ───────────────────────────────────
 const RADIOHEAD_FILES = [
   { name: 'SOUL.md',        label: 'SOUL.md',        desc: 'Personality & values' },
-  { name: 'IDENTITY-2.md',  label: 'IDENTITY-2.md',  desc: 'Name & role' },
-  { name: 'workflow-4.md',  label: 'workflow-4.md',  desc: '10-step transcript process' },
-  { name: 'MEMORY-2.md',    label: 'MEMORY-2.md',    desc: 'Long-term memory' },
+  { name: 'IDENTITY.md',    label: 'IDENTITY.md',    desc: 'Name & role' },
+  { name: 'workflow.md',    label: 'workflow.md',    desc: '10-step transcript process' },
+  { name: 'MEMORY.md',      label: 'MEMORY.md',      desc: 'Long-term memory' },
   { name: 'USER.md',        label: 'USER.md',         desc: 'Crew info' },
   { name: 'AGENTS.md',      label: 'AGENTS.md',       desc: 'Workspace rules' },
   { name: 'APPS.md',        label: 'APPS.md',         desc: 'App registry' },
@@ -257,6 +257,216 @@ function DropZone({ label, accept, file, onFile, hint }) {
   );
 }
 
+function renderMarkdown(markdown = '') {
+  const escapeHtml = str => str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+  const formatInline = text => {
+    let html = escapeHtml(text);
+    html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" />');
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+    html = html.replace(/(^|[^*])\*(?!\s)([^*]+?)\*(?!\*)/g, (_, lead, val) => `${lead}<em>${val}</em>`);
+    html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+    return html;
+  };
+
+  const lines = markdown.split(/\r?\n/);
+  const html = [];
+  let paragraph = [];
+  let inUl = false;
+  let inOl = false;
+  let inBlockquote = false;
+  let inCode = false;
+  let codeLines = [];
+  let tableLines = null;
+
+  const flushParagraph = () => {
+    if (paragraph.length) {
+      html.push(`<p>${formatInline(paragraph.join(' '))}</p>`);
+      paragraph = [];
+    }
+  };
+
+  const closeLists = () => {
+    if (inUl) { html.push('</ul>'); inUl = false; }
+    if (inOl) { html.push('</ol>'); inOl = false; }
+  };
+
+  const closeBlockquote = () => {
+    if (inBlockquote) {
+      html.push('</blockquote>');
+      inBlockquote = false;
+    }
+  };
+
+  const flushCode = () => {
+    if (inCode) {
+      html.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+      inCode = false;
+      codeLines = [];
+    }
+  };
+
+  const flushTable = () => {
+    if (tableLines && tableLines.length) {
+      html.push(`<pre class="md-table">${escapeHtml(tableLines.join('\n'))}</pre>`);
+      tableLines = null;
+    }
+  };
+
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('```')) {
+      flushParagraph();
+      flushTable();
+      closeLists();
+      closeBlockquote();
+      if (inCode) {
+        flushCode();
+      } else {
+        inCode = true;
+        codeLines = [];
+      }
+      return;
+    }
+    if (inCode) {
+      codeLines.push(line);
+      return;
+    }
+
+    if (!trimmed) {
+      flushParagraph();
+      flushTable();
+      closeBlockquote();
+      return;
+    }
+
+    if (/^---+$/.test(trimmed)) {
+      flushParagraph();
+      flushTable();
+      closeLists();
+      closeBlockquote();
+      html.push('<hr />');
+      return;
+    }
+
+    const tableMatch = /^\|.*\|$/.test(trimmed);
+    if (tableMatch) {
+      flushParagraph();
+      closeLists();
+      closeBlockquote();
+      if (!tableLines) tableLines = [];
+      tableLines.push(trimmed);
+      return;
+    } else if (tableLines) {
+      flushTable();
+    }
+
+    if (trimmed.startsWith('>')) {
+      flushParagraph();
+      flushTable();
+      closeLists();
+      if (!inBlockquote) {
+        html.push('<blockquote>');
+        inBlockquote = true;
+      }
+      html.push(`<p>${formatInline(trimmed.replace(/^>\s?/, ''))}</p>`);
+      return;
+    } else {
+      closeBlockquote();
+    }
+
+    const headingMatch = trimmed.match(/^(#{1,6})\s+(.*)$/);
+    if (headingMatch) {
+      flushParagraph();
+      flushTable();
+      closeLists();
+      closeBlockquote();
+      const level = headingMatch[1].length;
+      html.push(`<h${level}>${formatInline(headingMatch[2])}</h${level}>`);
+      return;
+    }
+
+    const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
+    if (ulMatch) {
+      flushParagraph();
+      flushTable();
+      closeBlockquote();
+      if (inOl) { html.push('</ol>'); inOl = false; }
+      if (!inUl) { html.push('<ul>'); inUl = true; }
+      html.push(`<li>${formatInline(ulMatch[1])}</li>`);
+      return;
+    }
+
+    const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
+    if (olMatch) {
+      flushParagraph();
+      flushTable();
+      closeBlockquote();
+      if (inUl) { html.push('</ul>'); inUl = false; }
+      if (!inOl) { html.push('<ol>'); inOl = true; }
+      html.push(`<li>${formatInline(olMatch[1])}</li>`);
+      return;
+    }
+
+    paragraph.push(trimmed);
+  });
+
+  flushParagraph();
+  flushCode();
+  flushTable();
+  closeLists();
+  closeBlockquote();
+  return html.join('');
+}
+
+function MarkdownPreview({ markdown }) {
+  const rendered = useMemo(() => renderMarkdown(markdown || ''), [markdown]);
+  return (
+    <div style={{
+      background: '#080c16',
+      border: '1px solid #1f2433',
+      borderRadius: 12,
+      padding: '16px 20px',
+      boxShadow: '0 25px 50px rgba(0,0,0,0.55)',
+      minHeight: 180,
+    }}>
+      <div style={{ fontSize: '0.7rem', color: '#64748b', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
+        Markdown Preview
+      </div>
+      {markdown
+        ? <div className="markdown-preview" dangerouslySetInnerHTML={{ __html: rendered }} />
+        : <div style={{ color: '#475569', fontSize: '0.82rem' }}>Select a file to preview the Markdown.</div>}
+    </div>
+  );
+}
+
+function SidecarPreview({ text }) {
+  return (
+    <div style={{
+      background: '#05070d',
+      border: '1px solid #1b2335',
+      borderRadius: 12,
+      padding: '16px 20px',
+      boxShadow: '0 20px 40px rgba(0,0,0,0.55)',
+    }}>
+      <div style={{ fontSize: '0.7rem', color: '#64748b', letterSpacing: '0.25em', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
+        Sidecar (.c2pa.json)
+      </div>
+      {text
+        ? <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontSize: '0.78rem', color: '#cbd5f5', background: '#090f1c', borderRadius: 8, padding: 12, border: '1px solid #1d2840', overflowX: 'auto' }}>{text}</pre>
+        : <div style={{ color: '#475569', fontSize: '0.82rem' }}>Sidecar preview not available.</div>}
+    </div>
+  );
+}
+
 // ─── Activity 3: Verifier ─────────────────────────────────────────────────────
 
 function Verifier() {
@@ -437,6 +647,135 @@ const Card = ({ children, style }) => (
   </div>
 );
 
+function RadioHeadFiles() {
+  const [selected, setSelected] = useState(RADIOHEAD_FILES[0]);
+  const [markdown, setMarkdown] = useState('');
+  const [sidecar, setSidecar] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      if (!selected) return;
+      setLoading(true);
+      setError(null);
+      try {
+        const [mdResp, scResp] = await Promise.all([
+          fetch(`/free2pa/${selected.name}`),
+          fetch(`/free2pa/${selected.name}.c2pa.json`),
+        ]);
+        if (!mdResp.ok || !scResp.ok) throw new Error('fetch failed');
+        const [mdText, sidecarText] = await Promise.all([mdResp.text(), scResp.text()]);
+        if (cancelled) return;
+        let formattedSidecar = sidecarText;
+        try {
+          formattedSidecar = JSON.stringify(JSON.parse(sidecarText), null, 2);
+        } catch { /* keep raw */ }
+        setMarkdown(mdText);
+        setSidecar(formattedSidecar);
+      } catch {
+        if (cancelled) return;
+        setError('Unable to load preview right now. Download the files manually.');
+        setMarkdown('');
+        setSidecar('');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    load();
+    return () => { cancelled = true; };
+  }, [selected]);
+
+  const onKeySelect = (file, event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      setSelected(file);
+    }
+  };
+
+  return (
+    <Card>
+      <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
+        These are the 9 real files that define RadioHead — the AI agent running at KUAF.
+        Each one has been cryptographically signed with Free2PA.
+        Download a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
+        and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar — you'll use them in Activities 4 and 5.
+      </p>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20 }}>
+        <div style={{ flex: '1 1 260px', minWidth: 240 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
+            {RADIOHEAD_FILES.map(file => {
+              const active = selected?.name === file.name;
+              return (
+                <div
+                  key={file.name}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setSelected(file)}
+                  onKeyDown={event => onKeySelect(file, event)}
+                  style={{
+                    background: active ? '#111629' : '#161b27',
+                    border: `1px solid ${active ? '#4f8ef7' : '#2d3748'}`,
+                    borderRadius: 10,
+                    padding: '12px 14px',
+                    boxShadow: active ? '0 12px 30px rgba(79,142,247,0.25)' : 'none',
+                    cursor: 'pointer',
+                    transition: 'border 0.2s, box-shadow 0.2s',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0' }}>{file.label}</div>
+                      <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{file.desc}</div>
+                    </div>
+                    {active && <span style={{ fontSize: '0.6rem', color: '#4f8ef7', letterSpacing: '0.2em', fontWeight: 700 }}>PREVIEW</span>}
+                  </div>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <a href={`/free2pa/${file.name}`} download
+                      onClick={e => e.stopPropagation()}
+                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                      .md
+                    </a>
+                    <a href={`/free2pa/${file.name}.c2pa.json`} download
+                      onClick={e => e.stopPropagation()}
+                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                      sidecar
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div style={{ flex: '1 1 320px', minWidth: 300, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ background: '#101425', border: '1px solid #1f2a3f', borderRadius: 12, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0' }}>{selected?.label}</div>
+              <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{selected?.desc}</div>
+            </div>
+            {loading && <span style={{ fontSize: '0.72rem', color: '#4f8ef7' }}>Loading…</span>}
+          </div>
+          {error ? (
+            <div style={{ background: '#2b0d0d', border: '1px solid #742a2a', borderRadius: 10, padding: '12px 16px', color: '#fecaca', fontSize: '0.85rem' }}>
+              {error}
+            </div>
+          ) : loading ? (
+            <div style={{ background: '#0b0f1c', border: '1px solid #1f2a3f', borderRadius: 12, padding: '20px 16px', color: '#64748b', fontSize: '0.85rem', textAlign: 'center' }}>
+              Fetching preview…
+            </div>
+          ) : (
+            <>
+              <MarkdownPreview markdown={markdown} />
+              <SidecarPreview text={sidecar} />
+            </>
+          )}
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 const STEPS = [
   {
     num: 1,
@@ -491,34 +830,7 @@ const STEPS = [
     num: 3,
     title: "Meet RadioHead's Files",
     tag: 'Download these for Activities 4 & 5',
-    content: (
-      <Card>
-        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-          These are the 9 real files that define RadioHead — the AI agent running at KUAF.
-          Each one has been cryptographically signed with Free2PA.
-          Download a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> file
-          and its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar — you'll use them in Activities 4 and 5.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
-          {RADIOHEAD_FILES.map(f => (
-            <div key={f.name} style={{ background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '12px 14px' }}>
-              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0', marginBottom: 4 }}>{f.label}</div>
-              <div style={{ fontSize: '0.75rem', color: '#64748b', marginBottom: 10 }}>{f.desc}</div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <a href={`/free2pa/${f.name}`} download
-                  style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                  .md
-                </a>
-                <a href={`/free2pa/${f.name}.c2pa.json`} download
-                  style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                  sidecar
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
-    ),
+    content: <RadioHeadFiles />,
   },
   {
     num: 4,
@@ -586,6 +898,20 @@ export default function Free2PA() {
         @keyframes rhNote { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
         a { color: #4f8ef7; }
         a:hover { text-decoration: underline; }
+        .markdown-preview { line-height: 1.7; color: #cbd5f5; font-size: 0.9rem; }
+        .markdown-preview h1 { font-size: 1.6rem; margin: 0 0 0.5em; color: #f8fafc; }
+        .markdown-preview h2 { font-size: 1.3rem; margin: 0 0 0.5em; color: #f1f5f9; }
+        .markdown-preview h3 { font-size: 1.1rem; margin: 0 0 0.4em; color: #e2e8f0; }
+        .markdown-preview p { margin: 0 0 0.8em; }
+        .markdown-preview ul,
+        .markdown-preview ol { margin: 0 0 0.8em 1.4em; padding: 0; }
+        .markdown-preview li { margin-bottom: 0.35em; }
+        .markdown-preview blockquote { border-left: 3px solid #4f8ef7; padding-left: 14px; margin: 0.8em 0; color: #9fb0d9; font-style: italic; }
+        .markdown-preview pre { background: #050d1c; border-radius: 8px; padding: 12px; margin: 0 0 1em; font-size: 0.82rem; color: #e2e8f0; overflow-x: auto; border: 1px solid #18233a; }
+        .markdown-preview code { background: #111c33; border-radius: 4px; padding: 2px 6px; color: #7dd3fc; }
+        .markdown-preview hr { border: none; border-top: 1px solid #2d3748; margin: 1.2em 0; }
+        .markdown-preview a { color: #60a5fa; }
+        .md-table { background: #050d1c; border: 1px dashed #2d3748; border-radius: 8px; padding: 10px 12px; margin: 0 0 1em; font-size: 0.82rem; color: #cbd5f5; overflow-x: auto; }
       `}</style>
 
       {/* ── Nav ── */}
