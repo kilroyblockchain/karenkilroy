@@ -21,7 +21,7 @@ const RADIOHEAD_FILES = [
   { name: 'workflow.md',  label: 'workflow.md',  desc: 'Transcript workflow',   scenario: 'pass' },
   { name: 'MEMORY.md',    label: 'MEMORY.md',    desc: 'Long-term memory',      scenario: 'hash' },
   { name: 'USER.md',      label: 'USER.md',      desc: 'Crew info',             scenario: 'pass' },
-  { name: 'AGENTS.md',    label: 'AGENTS.md',    desc: 'Workspace rules',       scenario: 'pass' },
+  { name: 'AGENTS.md',    label: 'AGENTS.md',    desc: 'Workspace rules',       scenario: 'signature' },
   { name: 'APPS.md',      label: 'APPS.md',      desc: 'App registry',          scenario: 'pass' },
   { name: 'HEARTBEAT.md', label: 'HEARTBEAT.md', desc: 'Periodic checks',       scenario: 'pass' },
   { name: 'tests.md',     label: 'tests.md',     desc: 'System tests',          scenario: 'trust' },
@@ -33,6 +33,8 @@ const SCENARIO_INFO = {
   signature: { label: 'SIG FAIL',     color: '#f87171', note: 'Signature has been tampered with inside the sidecar.' },
   trust:     { label: 'TRUST FAIL',   color: '#f472b6', note: 'Signed by a cert outside the default trust store.' },
 };
+
+const FREE2PA_LOGO = process.env.PUBLIC_URL + '/free2PA_logo.png';
 
 // ─── Crypto helpers ───────────────────────────────────────────────────────────
 
@@ -1040,6 +1042,7 @@ const STEPS = [
           Then open the <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> in a text editor,
           change one word, save it — and verify again. Watch it <span style={{ color: '#fc8181', fontWeight: 700 }}>FAIL</span>.
           Use the optional <strong>trusted cert</strong> drop zone when you want to prove trust for files you signed in Step&nbsp;5 or for signer certs you downloaded in Step&nbsp;3.
+          We intentionally shipped a mix of PASS / HASH FAIL / SIG FAIL / TRUST FAIL files so you can see each error state.
         </p>
         <Verifier />
         <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem', color: '#64748b' }}>
@@ -1057,11 +1060,17 @@ const STEPS = [
     tag: 'Activity 5 · Trust Networks',
     content: (
       <Card>
-        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-          Write anything — a haiku, a claw bot config, your own agent SOUL.md.
-          Sign it below. You'll get a <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code> sidecar to download.
-          Then verify it in Activity 4 above.
+        <p style={{ color: '#94a3b8', marginBottom: 16, lineHeight: 1.7 }}>
+          Put everything together by drafting your own bot playbook — signals, decisions, automation, and gaps.
+          Name it <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>playbook.md</code> (or anything you like), write the plan below, and sign it.
+          When you're done, head back to Activity 4 to prove every check passes.
         </p>
+        <div style={{ background: '#161b27', borderRadius: 10, border: '1px solid #2d3748', padding: '12px 14px', color: '#cbd5f5', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: 16 }}>
+          <strong>Signals:</strong> Hash, signature, trust, revocation inputs<br />
+          <strong>Decisions:</strong> What the bot does when a check fails (and who gets paged)<br />
+          <strong>Automation:</strong> When verification runs (upload, schedule, on-demand)<br />
+          <strong>Gaps:</strong> Anything missing — revocation, tamper proofs, manual overrides
+        </div>
         <SignYourOwn />
         <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem' }}>
           <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 8 }}>What you'll see:</div>
@@ -1074,28 +1083,6 @@ const STEPS = [
             That's the lesson. Anyone can sign anything. Trust is granted, not automatic.
             Download your cert and share it with Karen to join the network.
           </div>
-        </div>
-      </Card>
-    ),
-  },
-  {
-    num: 6,
-    title: 'Bonus: Design a Bot’s Playbook',
-    tag: 'Activity 6 · Systems Thinking',
-    content: (
-      <Card>
-        <p style={{ color: '#94a3b8', marginBottom: 16, lineHeight: 1.7 }}>
-          You’ve touched every step manually. Now imagine an AI agent guarding its skill library.
-          Sketch a quick playbook: how would it use these files, sidecars, and certs <em>before</em> loading any skill?
-        </p>
-        <div style={{ background: '#161b27', borderRadius: 10, border: '1px solid #2d3748', padding: '14px 16px', color: '#cbd5f5', fontSize: '0.82rem', lineHeight: 1.6 }}>
-          <strong>Signals:</strong> What inputs does it need (hash, signature, trust, revocation)?<br />
-          <strong>Decisions:</strong> What happens when a check fails? Who gets alerted?<br />
-          <strong>Automation:</strong> When does it run this (on upload, schedule, use)?<br />
-          <strong>Gaps:</strong> What’s missing (revocation, tamper proofing, overrides)?
-        </div>
-        <div style={{ marginTop: 12, color: '#64748b', fontSize: '0.82rem' }}>
-          ✏️ Take five minutes to jot down thoughts or share with the group. Turn your notes into a mini <code>playbook.md</code>, sign it via Activity 5, then verify it in Activity 4 to prove your design.
         </div>
       </Card>
     ),
@@ -1133,16 +1120,40 @@ export default function Free2PA() {
       `}</style>
 
       {/* ── Nav ── */}
-      <nav style={{ padding: '16px 32px', borderBottom: '1px solid #1e2330', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#0f1117cc', backdropFilter: 'blur(8px)', position: 'sticky', top: 0, zIndex: 50 }}>
-        <a href="/" style={{ fontWeight: 800, fontSize: '1rem', letterSpacing: '-0.02em', color: '#f8fafc', textDecoration: 'none' }}>KAREN KILROY</a>
-        <a href="/" style={{ fontSize: '0.85rem', color: '#64748b', textDecoration: 'none' }}>← Back to site</a>
+      <nav style={{ padding: '12px 24px', borderBottom: '1px solid #1e2330', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: '#0f1117cc', backdropFilter: 'blur(8px)', position: 'sticky', top: 0, zIndex: 50 }}>
+        <a href="https://karenkilroy.com" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, fontSize: '0.9rem', letterSpacing: '-0.01em', color: '#f8fafc', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          ← Return to KarenKilroy.com
+        </a>
+        <img
+          src={FREE2PA_LOGO}
+          alt="Free2PA logo"
+          style={{
+            height: 56,
+            width: 'auto',
+            display: 'block',
+            filter: 'drop-shadow(0 10px 25px rgba(79, 142, 247, 0.35))',
+          }}
+        />
       </nav>
 
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
 
         {/* ── Hero ── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 32, marginBottom: 48 }}>
-          <div style={{ flex: '1 1 360px', minWidth: 280 }}>
+          <div style={{ flex: '1 1 520px', minWidth: 320 }}>
+            <div style={{ marginBottom: 28 }}>
+              <img
+                src={FREE2PA_LOGO}
+                alt="Free2PA logo"
+                style={{
+                  width: '100%',
+                  maxWidth: 560,
+                  height: 'auto',
+                  display: 'block',
+                  filter: 'drop-shadow(0 24px 45px rgba(79, 142, 247, 0.45))',
+                }}
+              />
+            </div>
             <h1 style={{ fontSize: '2.6rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#f8fafc', marginBottom: 10 }}>
               C2PA / Free2PA <span style={{ color: '#4f8ef7' }}>Demo</span>
             </h1>
@@ -1150,10 +1161,6 @@ export default function Free2PA() {
               Hands-on activities for the University of Arkansas AI Club.<br />
               Follow along with the presentation — everything you need is right here.
             </p>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', border: '1px solid #2d3748', borderRadius: 8, padding: '8px 16px', fontSize: '0.82rem', color: '#94a3b8' }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#68d391', display: 'inline-block' }} />
-              RadioHead 🎸 · KUAF 91.3 FM · All 9 agent files pre-signed with real C2PA-style credentials
-            </div>
           </div>
           <div style={{ flex: '0 0 220px', margin: '0 auto' }}>
             {ROBOT_SVG}
@@ -1239,7 +1246,7 @@ export default function Free2PA() {
 
 function SignYourOwn() {
   const [content, setContent]   = useState('');
-  const [filename, setFilename] = useState('my-agent.md');
+  const [filename, setFilename] = useState('playbook.md');
   const [sidecar, setSidecar]   = useState(null);
   const [signing, setSigning]   = useState(false);
 
@@ -1289,15 +1296,15 @@ function SignYourOwn() {
         <input
           value={filename}
           onChange={e => setFilename(e.target.value)}
-          placeholder="filename.md"
+          placeholder="playbook.md"
           style={{ flex: '0 0 180px', background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '8px 12px', color: '#e2e8f0', fontSize: '0.85rem' }}
         />
-        <div style={{ flex: 1, fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>Give your file a name</div>
+        <div style={{ flex: 1, fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>Call it <strong>playbook.md</strong> or whatever your bot uses.</div>
       </div>
       <textarea
         value={content}
         onChange={e => setContent(e.target.value)}
-        placeholder={"# MY-AGENT.md\n\n## Who I Am\nWrite anything here — your own agent soul, a haiku,\na robot config. This is the file you'll sign."}
+        placeholder={"# playbook.md\n\n## Signals\n- hash, signature, trust profile\n\n## Decisions\n- alert humans when ___ fails\n\n## Automation\n- run verifier on upload + nightly\n\n## Gaps\n- need revocation list + manual override"}
         rows={7}
         style={{ width: '100%', background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '12px 14px', color: '#e2e8f0', fontSize: '0.85rem', fontFamily: '"SF Mono","Fira Code","Courier New",monospace', resize: 'vertical', marginBottom: 12 }}
       />
@@ -1338,6 +1345,13 @@ function SignYourOwn() {
           </div>
           <div style={{ marginTop: 12, fontSize: '0.78rem', color: '#68d391cc' }}>
             Next, jump up to Activity 4, upload <strong>{filename}</strong> plus its sidecar, and drop <em>my-browser-cert.pem</em> into the trusted-cert slot — you should see Signature, Hash, and Trust all go green.
+          </div>
+          <div style={{ marginTop: 12, background: '#050d1c', border: '1px solid #1d2840', borderRadius: 8, padding: '12px 14px', fontSize: '0.8rem', color: '#94a3b8' }}>
+            <strong>What you'll see when you verify:</strong><br />
+            ✅ Hash — matches what you just signed<br />
+            ✅ Signature — validated with your browser key<br />
+            ❌ Trust — <span style={{ color: '#fc8181' }}>fail until you share the cert</span><br />
+            That’s deliberate. Anyone can sign anything. Trust comes from exchanging certificates and adding them to a shared store.
           </div>
         </div>
       )}
