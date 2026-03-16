@@ -34,7 +34,6 @@ const SCENARIO_INFO = {
   trust:     { label: 'TRUST FAIL',   color: '#f472b6', note: 'Signed by a cert outside the default trust store.' },
 };
 
-const FREE2PA_LOGO = process.env.PUBLIC_URL + '/free2PA_logo.png';
 
 // ─── Crypto helpers ───────────────────────────────────────────────────────────
 
@@ -91,7 +90,6 @@ function derToP256Signature(derBytes) {
   return raw;
 }
 
-// Verify an ECDSA P-256 signature using a raw SPKI public key bytes
 async function verifyECDSA(pubKeyBytes, sigBytes, messageBytes) {
   try {
     const key = await crypto.subtle.importKey(
@@ -108,20 +106,13 @@ async function verifyECDSA(pubKeyBytes, sigBytes, messageBytes) {
   }
 }
 
-// Extract SPKI public key from a minimal X.509 DER cert (ECDSA P-256)
 function extractSpkiFromCert(certDer) {
-  // Walk the DER to find the subjectPublicKeyInfo sequence.
-  // For a simple P-256 self-signed cert, it starts after a fixed offset.
-  // We scan for the P-256 OID: 2a 86 48 ce 3d 03 01 07
   const p256oid = [0x2a, 0x86, 0x48, 0xce, 0x3d, 0x03, 0x01, 0x07];
   const bytes = new Uint8Array(certDer);
   for (let i = 0; i < bytes.length - p256oid.length - 10; i++) {
     if (p256oid.every((b, j) => bytes[i + j] === b)) {
-      // Found OID at i. The SPKI SEQUENCE starts a few bytes before.
-      // Walk back to find the 0x30 (SEQUENCE) that encloses AlgorithmIdentifier + BIT STRING
       for (let k = i - 4; k >= 0; k--) {
         if (bytes[k] === 0x30) {
-          // Read length
           let len;
           let offset = k + 1;
           if (bytes[offset] < 0x80) {
@@ -144,7 +135,6 @@ function extractSpkiFromCert(certDer) {
   return null;
 }
 
-// Canonical JSON (sorted keys, no extra whitespace) — matches Free2PA server
 function canonicalJson(obj) {
   if (Array.isArray(obj)) {
     return '[' + obj.map(canonicalJson).join(',') + ']';
@@ -173,15 +163,15 @@ async function verifyFile(fileText, sidecarText, trustedCerts = [TRUSTED_CERT_PE
   if (!claim)     return { success: false, error: 'Sidecar missing "claim".' };
   if (!signature) return { success: false, error: 'Sidecar missing "signature".' };
 
-  // 1. Hash
   const currentHash = await sha256Hex(fileText);
   const hashMatch = currentHash === claim.asset?.hash;
 
-  // 2. Signature
   let signatureValid = false;
   try {
     const certBytes  = pemToBytes(signature.cert_pem);
-    const spkiBytes  = extractSpkiFromCert(certBytes.buffer);
+    // -----BEGIN PUBLIC KEY----- is already SPKI; only full X.509 certs need extraction
+    const isBareKey  = (signature.cert_pem || '').includes('BEGIN PUBLIC KEY');
+    const spkiBytes  = isBareKey ? certBytes.buffer : extractSpkiFromCert(certBytes.buffer);
     if (spkiBytes) {
       const derBytes  = Uint8Array.from(atob(signature.value), c => c.charCodeAt(0));
       const sigBytes  = derToP256Signature(derBytes);
@@ -204,7 +194,6 @@ async function verifyFile(fileText, sidecarText, trustedCerts = [TRUSTED_CERT_PE
     }
   } catch { /* signatureValid stays false */ }
 
-  // 3. Trust — compare cert PEM to known trusted cert
   const normalize = s => (s || '').replace(/\s+/g, '');
   const trustedList = (trustedCerts && trustedCerts.length ? trustedCerts : [TRUSTED_CERT_PEM])
     .map(normalize)
@@ -227,11 +216,7 @@ async function verifyFile(fileText, sidecarText, trustedCerts = [TRUSTED_CERT_PE
     success: true,
     hashMatch,
     signatureValid,
-    trust: {
-      trusted,
-      label: trustLabel,
-      detail: trustDetail,
-    },
+    trust: { trusted, label: trustLabel, detail: trustDetail },
     claim,
   };
 }
@@ -263,14 +248,12 @@ const ROBOT_ART = {
 };
 
 function RobotFace({ state }) {
-  // state: 'idle' | 'pass' | 'fail'
   const palette = state === 'pass'
     ? { color: '#68d391', bg: '#0d2b1e', border: '#22543d' }
     : state === 'fail'
       ? { color: '#fc8181', bg: '#2b0d0d', border: '#742a2a' }
       : { color: '#94a3b8', bg: '#1e2330', border: '#2d3748' };
   const art = state === 'pass' ? ROBOT_ART.pass : state === 'fail' ? ROBOT_ART.fail : ROBOT_ART.idle;
-
   const label = state === 'pass' ? 'VERIFIED' : state === 'fail' ? 'REJECTED' : 'READY';
 
   return (
@@ -422,106 +405,59 @@ function renderMarkdown(markdown = '') {
   lines.forEach(line => {
     const trimmed = line.trim();
     if (trimmed.startsWith('```')) {
-      flushParagraph();
-      flushTable();
-      closeLists();
-      closeBlockquote();
-      if (inCode) {
-        flushCode();
-      } else {
-        inCode = true;
-        codeLines = [];
-      }
+      flushParagraph(); flushTable(); closeLists(); closeBlockquote();
+      if (inCode) { flushCode(); } else { inCode = true; codeLines = []; }
       return;
     }
-    if (inCode) {
-      codeLines.push(line);
-      return;
-    }
+    if (inCode) { codeLines.push(line); return; }
 
-    if (!trimmed) {
-      flushParagraph();
-      flushTable();
-      closeBlockquote();
-      return;
-    }
+    if (!trimmed) { flushParagraph(); flushTable(); closeBlockquote(); return; }
 
     if (/^---+$/.test(trimmed)) {
-      flushParagraph();
-      flushTable();
-      closeLists();
-      closeBlockquote();
-      html.push('<hr />');
-      return;
+      flushParagraph(); flushTable(); closeLists(); closeBlockquote();
+      html.push('<hr />'); return;
     }
 
     const tableMatch = /^\|.*\|$/.test(trimmed);
     if (tableMatch) {
-      flushParagraph();
-      closeLists();
-      closeBlockquote();
+      flushParagraph(); closeLists(); closeBlockquote();
       if (!tableLines) tableLines = [];
-      tableLines.push(trimmed);
-      return;
-    } else if (tableLines) {
-      flushTable();
-    }
+      tableLines.push(trimmed); return;
+    } else if (tableLines) { flushTable(); }
 
     if (trimmed.startsWith('>')) {
-      flushParagraph();
-      flushTable();
-      closeLists();
-      if (!inBlockquote) {
-        html.push('<blockquote>');
-        inBlockquote = true;
-      }
-      html.push(`<p>${formatInline(trimmed.replace(/^>\s?/, ''))}</p>`);
-      return;
-    } else {
-      closeBlockquote();
-    }
+      flushParagraph(); flushTable(); closeLists();
+      if (!inBlockquote) { html.push('<blockquote>'); inBlockquote = true; }
+      html.push(`<p>${formatInline(trimmed.replace(/^>\s?/, ''))}</p>`); return;
+    } else { closeBlockquote(); }
 
     const headingMatch = trimmed.match(/^(#{1,6})\s+(.*)$/);
     if (headingMatch) {
-      flushParagraph();
-      flushTable();
-      closeLists();
-      closeBlockquote();
+      flushParagraph(); flushTable(); closeLists(); closeBlockquote();
       const level = headingMatch[1].length;
-      html.push(`<h${level}>${formatInline(headingMatch[2])}</h${level}>`);
-      return;
+      html.push(`<h${level}>${formatInline(headingMatch[2])}</h${level}>`); return;
     }
 
     const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
     if (ulMatch) {
-      flushParagraph();
-      flushTable();
-      closeBlockquote();
+      flushParagraph(); flushTable(); closeBlockquote();
       if (inOl) { html.push('</ol>'); inOl = false; }
       if (!inUl) { html.push('<ul>'); inUl = true; }
-      html.push(`<li>${formatInline(ulMatch[1])}</li>`);
-      return;
+      html.push(`<li>${formatInline(ulMatch[1])}</li>`); return;
     }
 
     const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
     if (olMatch) {
-      flushParagraph();
-      flushTable();
-      closeBlockquote();
+      flushParagraph(); flushTable(); closeBlockquote();
       if (inUl) { html.push('</ul>'); inUl = false; }
       if (!inOl) { html.push('<ol>'); inOl = true; }
-      html.push(`<li>${formatInline(olMatch[1])}</li>`);
-      return;
+      html.push(`<li>${formatInline(olMatch[1])}</li>`); return;
     }
 
     paragraph.push(trimmed);
   });
 
-  flushParagraph();
-  flushCode();
-  flushTable();
-  closeLists();
-  closeBlockquote();
+  flushParagraph(); flushCode(); flushTable(); closeLists(); closeBlockquote();
   return html.join('');
 }
 
@@ -618,12 +554,9 @@ function Verifier() {
         <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 16 }}>
           Upload Files
         </div>
-        <DropZone label="Drop .md file here" accept=".md,.txt" file={mdFile} onFile={setMdFile}
-          hint="e.g. SOUL.md" />
-        <DropZone label="Drop .c2pa.json sidecar here" accept=".json" file={sidecarFile} onFile={setSidecarFile}
-          hint="e.g. SOUL.md.c2pa.json" />
-        <DropZone label="Optional: Drop trusted cert (.pem)" accept=".pem,.crt,.cer,.txt" file={trustedCert} onFile={setTrustedCert}
-          hint="Use this with Step 5 certs or untrusted files." />
+        <DropZone label="Drop .md file here" accept=".md,.txt" file={mdFile} onFile={setMdFile} hint="e.g. SOUL.md" />
+        <DropZone label="Drop .c2pa.json sidecar here" accept=".json" file={sidecarFile} onFile={setSidecarFile} hint="e.g. SOUL.md.c2pa.json" />
+        <DropZone label="Optional: Drop trusted cert (.pem)" accept=".pem,.crt,.cer,.txt" file={trustedCert} onFile={setTrustedCert} hint="Use this with Step 5 certs or untrusted files." />
         <button
           disabled={!mdFile || !sidecarFile || loading}
           onClick={verify}
@@ -702,7 +635,7 @@ function Verifier() {
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
+// ─── Animated RadioHead robot SVG ─────────────────────────────────────────────
 
 const ROBOT_SVG = (
   <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"
@@ -739,29 +672,13 @@ const ROBOT_SVG = (
   </svg>
 );
 
-const STEP = ({ num, title, tag, children }) => (
-  <section style={{ marginBottom: 48 }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-      <div style={{
-        width: 40, height: 40, borderRadius: '50%',
-        background: 'linear-gradient(135deg,#4f8ef7,#2563eb)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontWeight: 900, fontSize: '1rem', color: '#fff', flexShrink: 0,
-      }}>{num}</div>
-      <div>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#f8fafc', margin: 0 }}>{title}</h2>
-        {tag && <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4f8ef7', border: '1px solid #1e3a6e', borderRadius: 4, padding: '2px 8px', display: 'inline-block', marginTop: 4 }}>{tag}</span>}
-      </div>
-    </div>
-    <div style={{ marginLeft: 56 }}>{children}</div>
-  </section>
-);
-
 const Card = ({ children, style }) => (
   <div style={{ background: '#1e2330', border: '1px solid #2d3748', borderRadius: 12, padding: 24, ...style }}>
     {children}
   </div>
 );
+
+// ─── RadioHead file explorer (Step 3) ─────────────────────────────────────────
 
 function RadioHeadFiles() {
   const [selected, setSelected] = useState(RADIOHEAD_FILES[0]);
@@ -776,9 +693,7 @@ function RadioHeadFiles() {
     let cancelled = false;
     const load = async () => {
       if (!selected) return;
-      setLoading(true);
-      setError(null);
-      setPreviewResult(null);
+      setLoading(true); setError(null); setPreviewResult(null);
       try {
         const [mdResp, scResp] = await Promise.all([
           fetch(`/free2pa/${selected.name}`),
@@ -801,10 +716,7 @@ function RadioHeadFiles() {
       } catch {
         if (cancelled) return;
         setError('Unable to load preview right now. Download the files manually.');
-        setMarkdown('');
-        setSidecar('');
-        setSidecarMeta(null);
-        setPreviewResult(null);
+        setMarkdown(''); setSidecar(''); setSidecarMeta(null); setPreviewResult(null);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -814,16 +726,13 @@ function RadioHeadFiles() {
   }, [selected]);
 
   const onKeySelect = (file, event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      setSelected(file);
-    }
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelected(file); }
   };
 
   const scenarioMeta = selected ? SCENARIO_INFO[selected.scenario] || SCENARIO_INFO.pass : null;
   const previewSuccess = previewResult?.success;
-  const hashOk = previewSuccess ? previewResult.hashMatch : false;
-  const sigOk  = previewSuccess ? previewResult.signatureValid : false;
+  const hashOk  = previewSuccess ? previewResult.hashMatch : false;
+  const sigOk   = previewSuccess ? previewResult.signatureValid : false;
   const trustOk = previewSuccess ? previewResult.trust?.trusted : false;
   const allPass = hashOk && sigOk && trustOk;
   const signerCert = sidecarMeta?.signature?.cert_pem;
@@ -832,74 +741,74 @@ function RadioHeadFiles() {
     <Card>
       <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
         These are the 9 real files that define RadioHead — the AI agent running at KUAF.
-        Click any card on the left to load its Markdown + sidecar preview on the right.
-        The badge tells you what will happen when you verify it (PASS, HASH FAIL, SIG FAIL, TRUST FAIL).
+        Click any card to load its Markdown + sidecar preview.
+        The badge shows what will happen when you verify it (PASS, HASH FAIL, SIG FAIL, TRUST FAIL).
         Download each <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code>,
         its <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.c2pa.json</code>,
-        and — if needed — grab the signer cert from the preview so you're ready for Activity 4.
+        and grab the signer cert if needed for Activity 4.
       </p>
+
+      {/* Legend */}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: '0.72rem', color: '#cbd5f5', marginBottom: 14 }}>
-        {Object.entries({
-          'PASS': '#22c55e',
-          'HASH FAIL': '#fbbf24',
-          'SIG FAIL': '#f87171',
-          'TRUST FAIL': '#f472b6',
-        }).map(([label, color]) => (
+        {Object.entries({ 'PASS': '#22c55e', 'HASH FAIL': '#fbbf24', 'SIG FAIL': '#f87171', 'TRUST FAIL': '#f472b6' }).map(([label, color]) => (
           <span key={label} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ width: 12, height: 12, borderRadius: '50%', background: color, display: 'inline-block' }} />
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: color, display: 'inline-block' }} />
             {label}
           </span>
         ))}
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20 }}>
-        <div style={{ flex: '1 1 260px', minWidth: 240 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(220px,1fr))', gap: 10 }}>
-            {RADIOHEAD_FILES.map(file => {
-              const active = selected?.name === file.name;
-              const info = SCENARIO_INFO[file.scenario] || SCENARIO_INFO.pass;
-              return (
-                <div
-                  key={file.name}
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSelected(file)}
-                  onKeyDown={event => onKeySelect(file, event)}
-                  style={{
-                    background: active ? '#111629' : '#161b27',
-                    border: `2px solid ${active ? '#4f8ef7' : '#1c2335'}`,
-                    borderRadius: 12,
-                    padding: '12px 14px',
-                    boxShadow: active ? '0 0 0 2px rgba(79,142,247,0.35)' : 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    opacity: active ? 1 : 0.55,
-                  }}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#e2e8f0' }}>{file.label}</div>
-                      <div style={{ fontSize: '0.72rem', color: '#64748b' }}>{file.desc}</div>
-                    </div>
-                    <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.15em', color: info.color }}>{info.label}</span>
+
+      {/* Two-pane: file list left, preview right */}
+      <div className="f2pa-file-split" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 360px) 1fr', gap: 24, alignItems: 'stretch' }}>
+
+        {/* File stack */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {RADIOHEAD_FILES.map(file => {
+            const active = selected?.name === file.name;
+            const info = SCENARIO_INFO[file.scenario] || SCENARIO_INFO.pass;
+            return (
+              <div
+                key={file.name}
+                role="button" tabIndex={0}
+                onClick={() => setSelected(file)}
+                onKeyDown={event => onKeySelect(file, event)}
+                style={{
+                  background: active ? '#111629' : '#151b2c',
+                  border: `1px solid ${active ? '#4f8ef7' : '#1f2a3d'}`,
+                  borderRadius: 14,
+                  padding: '14px 16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 12,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  boxShadow: active ? '0 14px 32px rgba(17, 22, 41, 0.65)' : 'none',
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '0.92rem', color: '#f8fafc' }}>{file.label}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#7c8ab0' }}>{file.desc}</div>
                   </div>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <a href={`/free2pa/${file.name}`} download
-                      onClick={e => e.stopPropagation()}
-                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                      .md
-                    </a>
-                    <a href={`/free2pa/${file.name}.c2pa.json`} download
-                      onClick={e => e.stopPropagation()}
-                      style={{ flex: 1, textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '5px 0', fontSize: '0.72rem', fontWeight: 700 }}>
-                      sidecar
-                    </a>
-                  </div>
+                  <span style={{ fontSize: '0.62rem', fontWeight: 800, letterSpacing: '0.15em', color: info.color, whiteSpace: 'nowrap' }}>{info.label}</span>
                 </div>
-              );
-            })}
-          </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,minmax(0,1fr))', gap: 8 }}>
+                  <a href={`/free2pa/${file.name}`} download onClick={e => e.stopPropagation()}
+                    style={{ textAlign: 'center', background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '6px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                    .md
+                  </a>
+                  <a href={`/free2pa/${file.name}.c2pa.json`} download onClick={e => e.stopPropagation()}
+                    style={{ textAlign: 'center', background: '#1e2330', color: '#94a3b8', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 6, padding: '6px 0', fontSize: '0.72rem', fontWeight: 700 }}>
+                    sidecar
+                  </a>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div style={{ flex: '1 1 320px', minWidth: 300, display: 'flex', flexDirection: 'column', gap: 14 }}>
+
+        {/* Preview panel */}
+        <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div style={{ background: '#101425', border: '1px solid #1f2a3f', borderRadius: 12, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0' }}>{selected?.label}</div>
@@ -908,19 +817,17 @@ function RadioHeadFiles() {
             </div>
             {loading && <span style={{ fontSize: '0.72rem', color: '#4f8ef7' }}>Loading…</span>}
           </div>
+
           {scenarioMeta && (
             <div style={{ background: '#0d111e', border: '1px dashed #2d3748', borderRadius: 10, padding: '10px 14px', fontSize: '0.78rem', color: '#94a3b8' }}>
               {scenarioMeta.note}
             </div>
           )}
+
           {error ? (
-            <div style={{ background: '#2b0d0d', border: '1px solid #742a2a', borderRadius: 10, padding: '12px 16px', color: '#fecaca', fontSize: '0.85rem' }}>
-              {error}
-            </div>
+            <div style={{ background: '#2b0d0d', border: '1px solid #742a2a', borderRadius: 10, padding: '12px 16px', color: '#fecaca', fontSize: '0.85rem' }}>{error}</div>
           ) : loading ? (
-            <div style={{ background: '#0b0f1c', border: '1px solid #1f2a3f', borderRadius: 12, padding: '20px 16px', color: '#64748b', fontSize: '0.85rem', textAlign: 'center' }}>
-              Fetching preview…
-            </div>
+            <div style={{ background: '#0b0f1c', border: '1px solid #1f2a3f', borderRadius: 12, padding: '20px 16px', color: '#64748b', fontSize: '0.85rem', textAlign: 'center' }}>Fetching preview…</div>
           ) : (
             <>
               {previewSuccess && (
@@ -930,11 +837,7 @@ function RadioHeadFiles() {
                     {allPass ? 'PASS' : 'FAIL'}
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    {[
-                      ['Signature', sigOk],
-                      ['Hash', hashOk],
-                      ['Trust', trustOk],
-                    ].map(([label, ok]) => (
+                    {[['Signature', sigOk], ['Hash', hashOk], ['Trust', trustOk]].map(([label, ok]) => (
                       <span key={label} style={{
                         fontSize: '0.7rem', fontWeight: 700, padding: '4px 10px', borderRadius: 999,
                         border: `1px solid ${ok ? '#22543d' : '#742a2a'}`,
@@ -970,69 +873,154 @@ function RadioHeadFiles() {
   );
 }
 
+// ─── Step definitions ─────────────────────────────────────────────────────────
+
 const STEPS = [
+  {
+    num: 0,
+    title: 'Welcome',
+    tag: null,
+    content: (
+      <Card>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+
+          {/* Title block */}
+          <div>
+            <div style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#3a4a5f', marginBottom: 14 }}>
+              Presented by
+            </div>
+            <div style={{ fontSize: '2rem', fontWeight: 900, color: '#f0f4ff', letterSpacing: '-0.02em', marginBottom: 6 }}>
+              Karen Kilroy
+            </div>
+            <div style={{ fontSize: '1rem', color: '#7a8ea8', marginBottom: 4 }}>
+              March 17, 2026 · University of Arkansas AI Club
+            </div>
+            <a href="mailto:kilroy@uark.edu" style={{ fontSize: '0.9rem', color: '#4f8ef7', textDecoration: 'none', fontWeight: 600 }}>
+              kilroy@uark.edu
+            </a>
+          </div>
+
+          {/* Links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <a href="https://radiohead.bot/slides" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#111829', border: '1px solid #1e2a3f', borderRadius: 10, padding: '14px 18px', textDecoration: 'none', transition: 'border-color 0.2s' }}>
+              <ExternalLink size={18} style={{ color: '#4f8ef7', flexShrink: 0 }} />
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#e2e8f0' }}>Presentation Slides</div>
+                <div style={{ fontSize: '0.78rem', color: '#4a5a70' }}>radiohead.bot/slides</div>
+              </div>
+            </a>
+            <a href="https://radiohead.bot/free2pa" target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#111829', border: '1px solid #1e2a3f', borderRadius: 10, padding: '14px 18px', textDecoration: 'none', transition: 'border-color 0.2s' }}>
+              <ExternalLink size={18} style={{ color: '#4f8ef7', flexShrink: 0 }} />
+              <div>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#e2e8f0' }}>Free2PA Demo</div>
+                <div style={{ fontSize: '0.78rem', color: '#4a5a70' }}>radiohead.bot/free2pa</div>
+              </div>
+            </a>
+          </div>
+
+          {/* Nudge to start */}
+          <div style={{ color: '#3a4a5f', fontSize: '0.82rem' }}>
+            Use the sidebar to jump to any activity, or hit <strong style={{ color: '#4f8ef7' }}>Next →</strong> to begin.
+          </div>
+        </div>
+      </Card>
+    ),
+  },
   {
     num: 1,
     title: 'Real or Fake?',
-    tag: 'Activity 1 · contentauthenticity.org',
+    tag: 'Activity 1 · ⏱ 3 min',
     content: (
       <Card>
-        <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
-          Download the AI-generated image below — then drop it into the Adobe Content Credentials verifier.
-          <strong style={{ color: '#f8fafc' }}> Don't look up how it was made yet.</strong> See what the tool tells you first.
-        </p>
-        <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
-          <a href="/img/Firefly_battlefield.png" download
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#4f8ef7', color: '#fff', textDecoration: 'none', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
-            <Download size={15} /> Download the image
-          </a>
-          <a href="https://verify.contentauthenticity.org" target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem' }}>
-            <ExternalLink size={15} /> Open verifier <ExternalLink size={12} />
-          </a>
+        {/* Side-by-side layout: image left, steps right — mirrors the presentation slide */}
+        <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+
+          {/* Battlefield image */}
+          <div style={{ flex: '0 0 auto' }}>
+            <img
+              src="/img/Firefly_battlefield.png"
+              alt="Battlefield medical triage — is it real or AI-generated?"
+              style={{
+                maxHeight: 340, width: 'auto', borderRadius: 10,
+                border: '2px solid rgba(255,255,255,0.1)',
+                boxShadow: '6px 6px 28px rgba(0,0,0,0.55)',
+                display: 'block',
+              }}
+            />
+          </div>
+
+          {/* Steps + reveal */}
+          <div style={{ flex: '1 1 280px' }}>
+            <p style={{ color: '#94a3b8', marginBottom: 18, lineHeight: 1.6, fontSize: '0.95rem' }}>
+              Don't guess — go find out.
+            </p>
+
+            {/* Numbered steps matching the presentation exactly */}
+            {[
+              <>1. <a href="/img/Firefly_battlefield.png" download style={{ color: '#4f8ef7', fontWeight: 700 }}>Download this image</a></>,
+              <>2. Go to <a href="https://verify.contentauthenticity.org" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', fontWeight: 700 }}>verify.contentauthenticity.org</a></>,
+              <>3. Drop the image in. What does it tell you?</>,
+              <>4. <strong style={{ color: '#94a3b8' }}>Bonus:</strong> take it to <a href="https://melchersystem.com/c2pa-content-credentials-translator/" target="_blank" rel="noopener noreferrer" style={{ color: '#4f8ef7' }}>melchersystem.com/c2pa-content-credentials-translator</a> — read the full manifest in plain English</>,
+            ].map((step, i) => (
+              <div key={i} style={{
+                background: '#161b27', border: '1px solid #2d3748', borderRadius: 8,
+                padding: '11px 16px', marginBottom: 10,
+                fontSize: '0.88rem', color: '#cbd5f5', lineHeight: 1.5,
+              }}>
+                {step}
+              </div>
+            ))}
+
+            <div style={{ background: '#111520', border: '1px solid #1e2a3f', borderRadius: 8, padding: '12px 16px', fontSize: '0.85rem', color: '#64748b', marginTop: 4 }}>
+              💬 Turn to a neighbor — what did you find?<br />
+              <span style={{ color: '#3a4a5f' }}>The answer is in the reveal below.</span>
+            </div>
+          </div>
         </div>
-        <div style={{ background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.85rem', color: '#64748b' }}>
-          💬 <strong style={{ color: '#94a3b8' }}>What did you find?</strong> Who signed it? What tool created it? Is it real or AI-generated?
+
+        {/* Reveal section — always visible, matches the presentation's "The Answer" slide */}
+        <div style={{ marginTop: 24, borderTop: '1px solid #1e2a3f', paddingTop: 20 }}>
+          <div style={{ fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.25em', textTransform: 'uppercase', color: '#3a4a5f', marginBottom: 14 }}>
+            The Answer
+          </div>
+          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+
+            {/* AI-generated verdict badge */}
+            <div style={{ flex: '0 0 auto', background: '#1a0a10', border: '2px solid #7f1d1d', borderRadius: 10, padding: '12px 20px', textAlign: 'center' }}>
+              <div style={{ fontSize: '1.1rem', fontWeight: 900, letterSpacing: '0.12em', color: '#f87171' }}>AI-GENERATED</div>
+              <div style={{ fontSize: '0.75rem', color: '#9f1239', marginTop: 4 }}>Adobe Firefly · Gemini Flash</div>
+            </div>
+
+            {/* What the manifest revealed */}
+            <div style={{ flex: '1 1 240px' }}>
+              <div style={{ background: '#0d1222', border: '1px solid #1e2a3f', borderRadius: 8, padding: '12px 16px', marginBottom: 10, fontSize: '0.82rem', lineHeight: 1.7, color: '#94a3b8' }}>
+                <div style={{ fontWeight: 700, color: '#e2e8f0', marginBottom: 6 }}>What the manifest revealed:</div>
+                <div>✓ <strong>Signed by:</strong> Google LLC / Adobe Inc</div>
+                <div>✓ <strong>Tool:</strong> Google Media Processing Services (Gemini Flash)</div>
+                <div>✓ <strong>Action:</strong> <em>created</em> — not a modified real photo</div>
+                <div>✓ <strong>AI indicator:</strong> flagged as AI-generated content</div>
+              </div>
+              <div style={{ background: '#0a1a10', border: '1px solid #14532d', borderRadius: 8, padding: '11px 16px', fontSize: '0.82rem', color: '#86efac' }}>
+                <strong>You just used Content Credentials.</strong> By the end of this session you'll be able to sign and verify your own files the same way.
+              </div>
+            </div>
+          </div>
         </div>
       </Card>
     ),
   },
   {
     num: 2,
-    title: 'Read the Manifest in Plain English',
-    tag: "Activity 2 · Paul Melcher's C2PA Translator",
-    content: (
-      <Card>
-        <p style={{ color: '#94a3b8', marginBottom: 16, lineHeight: 1.7 }}>
-          The verifier tells you <em>pass or fail</em>. Paul Melcher's tool goes further —
-          it translates the raw C2PA manifest into plain English so you can read every assertion,
-          every action, and every claim generator yourself.
-          Drop the exact same image from Step 1 into the big <strong>Drop File Here</strong> box on his site and see what's actually inside.
-        </p>
-        <a href="https://melchersystem.com/c2pa-content-credentials-translator/" target="_blank" rel="noopener noreferrer"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#1e2330', color: '#4f8ef7', textDecoration: 'none', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 18px', fontWeight: 700, fontSize: '0.88rem', marginBottom: 16 }}>
-          <ExternalLink size={15} /> Open C2PA Translator <ExternalLink size={12} />
-        </a>
-        <div style={{ color: '#64748b', fontSize: '0.82rem', marginBottom: 12 }}>
-          ⚙️ After it renders, write down the <strong>signer</strong>, <strong>tool</strong>, and <strong>action timeline</strong> so you can compare it to the Step&nbsp;1 verdict.
-        </div>
-        <div style={{ background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem', color: '#64748b' }}>
-          💬 <strong style={{ color: '#94a3b8' }}>What does it say?</strong> Who created it? What tool? What digital source type?
-          This is the difference between trusting a label and reading the ingredients.
-        </div>
-      </Card>
-    ),
-  },
-  {
-    num: 3,
     title: "Meet RadioHead's Files",
-    tag: 'Download these for Activities 4 & 5',
+    tag: 'Download these for Activities 3 & 4',
     content: <RadioHeadFiles />,
   },
   {
-    num: 4,
+    num: 3,
     title: 'Tamper & Watch It Fail',
-    tag: 'Activity 4 · Live Verifier',
+    tag: 'Activity 3 · Live Verifier',
     content: (
       <Card>
         <p style={{ color: '#94a3b8', marginBottom: 20, lineHeight: 1.7 }}>
@@ -1041,7 +1029,7 @@ const STEPS = [
           All 3 checks should <span style={{ color: '#68d391', fontWeight: 700 }}>PASS</span>.<br />
           Then open the <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>.md</code> in a text editor,
           change one word, save it — and verify again. Watch it <span style={{ color: '#fc8181', fontWeight: 700 }}>FAIL</span>.
-          Use the optional <strong>trusted cert</strong> drop zone when you want to prove trust for files you signed in Step&nbsp;5 or for signer certs you downloaded in Step&nbsp;3.
+          Use the optional <strong>trusted cert</strong> drop zone for files you signed in Activity&nbsp;4 or signer certs from Activity&nbsp;2.
           We intentionally shipped a mix of PASS / HASH FAIL / SIG FAIL / TRUST FAIL files so you can see each error state.
         </p>
         <Verifier />
@@ -1055,33 +1043,61 @@ const STEPS = [
     ),
   },
   {
-    num: 5,
+    num: 4,
     title: 'Sign Your Own File',
-    tag: 'Activity 5 · Trust Networks',
+    tag: 'Activity 4 · Trust Networks',
     content: (
       <Card>
         <p style={{ color: '#94a3b8', marginBottom: 16, lineHeight: 1.7 }}>
-          Put everything together by drafting your own bot playbook — signals, decisions, automation, and gaps.
-          Name it <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>playbook.md</code> (or anything you like), write the plan below, and sign it.
-          When you're done, head back to Activity 4 to prove every check passes.
+          Let's do this exactly like KUAF will run it tomorrow morning.
+          You're going to update the <code style={{ background: '#161b27', padding: '1px 6px', borderRadius: 4, fontSize: '0.85em' }}>workflow.md</code> file for a specific show,
+          tweak two lines, sign it, and then prove it in Activity 3.
         </p>
-        <div style={{ background: '#161b27', borderRadius: 10, border: '1px solid #2d3748', padding: '12px 14px', color: '#cbd5f5', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: 16 }}>
-          <strong>Signals:</strong> Hash, signature, trust, revocation inputs<br />
-          <strong>Decisions:</strong> What the bot does when a check fails (and who gets paged)<br />
-          <strong>Automation:</strong> When verification runs (upload, schedule, on-demand)<br />
-          <strong>Gaps:</strong> Anything missing — revocation, tamper proofs, manual overrides
+        <div style={{ background: '#0d1222', borderRadius: 10, border: '1px solid #1f2a3f', padding: '14px 16px', color: '#cbd5f5', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: 18 }}>
+          <div style={{ fontWeight: 700, color: '#f8fafc', marginBottom: 6 }}>Exactly what to do:</div>
+          <ol style={{ margin: 0, paddingLeft: '1.2rem' }}>
+            <li style={{ marginBottom: 8 }}>Copy the text below into the editor.
+              Change <strong>Show Name</strong> to whatever you're working on (Ozarks at Large, Jazz Night, etc.).</li>
+            <li style={{ marginBottom: 8 }}>Change the <strong>Automation</strong> line to a different time (e.g., verify at 16:00 instead of 17:30).</li>
+            <li style={{ marginBottom: 8 }}>Update one item under <strong>Gaps</strong> so it's something you'd actually follow up on.</li>
+            <li>Now hit “Sign this file”, download the <code style={{ background: '#161b27', padding: '1px 4px', borderRadius: 4 }}>workflow.md</code>, the matching <code style={{ background: '#161b27', padding: '1px 4px', borderRadius: 4 }}>.c2pa.json</code>, and <em>my-browser-cert.pem</em>.
+              Take all three right back to Activity 3 and verify with the Optional cert slot filled.</li>
+          </ol>
+        </div>
+        <div style={{ background: '#111629', borderRadius: 10, border: '1px solid #1d2840', padding: '14px 16px', color: '#cbd5f5', fontSize: '0.82rem', lineHeight: 1.6, marginBottom: 16 }}>
+          <div style={{ fontWeight: 700, color: '#f8fafc', marginBottom: 6 }}>Drop-in text (edit two lines and sign):</div>
+          <pre style={{ margin: 0, background: '#050a16', borderRadius: 8, padding: '12px 14px', lineHeight: 1.5, fontSize: '0.78rem', border: '1px solid #1b2335', whiteSpace: 'pre-wrap', color: '#cbd5f5' }}>{`# workflow.md — Show Name Update
+
+## Signals
+- Automation export for today's rundown
+- Google Doc notes from host
+- Trusted cert list (RadioHead baseline + my cert)
+
+## Decisions
+- If host notes conflict with automation, block publish + DM producer
+- If signer cert missing, route file to /quarantine and alert engineering
+
+## Automation
+- Verify on upload using Activity 3 tool before the 17:30 segment
+
+## Gaps
+- Need a checklist for late-breaking script edits
+- Still missing revocation list for temp hosts`}</pre>
+          <div style={{ marginTop: 10, color: '#8da2ce' }}>
+            You can keep the rest exactly as-is — just update the lines above, sign, and prove it.
+          </div>
         </div>
         <SignYourOwn />
         <div style={{ marginTop: 16, background: '#161b27', borderRadius: 8, padding: '14px 18px', fontSize: '0.82rem' }}>
-          <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 8 }}>What you'll see:</div>
+          <div style={{ color: '#68d391', fontWeight: 700, marginBottom: 8 }}>What you'll see when you verify in Activity 3:</div>
           <div style={{ color: '#94a3b8', lineHeight: 1.7 }}>
             ✅ <strong>Hash</strong> — passes (you just signed it)<br />
             ✅ <strong>Signature</strong> — passes (your browser key verified it)<br />
-            ❌ <strong>Trust</strong> — <span style={{ color: '#fc8181' }}>FAILS</span> — your cert isn't in the trust store yet
+            ✅ <strong>Trust</strong> — <span style={{ color: '#68d391' }}>passes once you drop your cert in the Optional slot</span>
           </div>
           <div style={{ marginTop: 10, color: '#64748b' }}>
-            That's the lesson. Anyone can sign anything. Trust is granted, not automatic.
-            Download your cert and share it with Karen to join the network.
+            If you skip the cert upload you'll get a Trust FAIL — that's expected.
+            The whole point is to prove how a trust store grows: export the cert, share it with Karen, and now every agent in the room can verify your work.
           </div>
         </div>
       </Card>
@@ -1089,14 +1105,28 @@ const STEPS = [
   },
 ];
 
+// ─── Resources list (shown on final step) ─────────────────────────────────────
+
+const RESOURCES = [
+  ['C2PA Spec',             'c2pa.org',                             'https://c2pa.org'],
+  ['Free Verifier',         'verify.contentauthenticity.org',       'https://verify.contentauthenticity.org'],
+  ['C2PA Translator',       'melchersystem.com (Paul Melcher)',     'https://melchersystem.com/c2pa-content-credentials-translator/'],
+  ['CC Foundations Course', 'learn.contentauthenticity.org',        'https://learn.contentauthenticity.org'],
+  ['CAI Discord',           'discord.gg/CAI',                       'https://discord.gg/CAI'],
+  ['Open-source SDK',       'opensource.contentauthenticity.org',   'https://opensource.contentauthenticity.org/docs'],
+  ['Karen on LinkedIn',     'linkedin.com/in/karenkilroy',          'https://linkedin.com/in/karenkilroy'],
+];
+
+// ─── Main page ────────────────────────────────────────────────────────────────
+
 export default function Free2PA() {
   useEffect(() => { document.title = 'C2PA / Free2PA Demo — Karen Kilroy'; }, []);
   const [current, setCurrent] = useState(0);
   const total = STEPS.length;
-  const step = STEPS[current];
+  const step  = STEPS[current];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0f1117', color: '#e2e8f0', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: '#080c16', color: '#e2e8f0', fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif' }}>
       <style>{`
         @keyframes rhBob  { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
         @keyframes rhGlow { 0%,100%{opacity:1} 50%{opacity:0.45} }
@@ -1108,8 +1138,7 @@ export default function Free2PA() {
         .markdown-preview h2 { font-size: 1.3rem; margin: 0 0 0.5em; color: #f1f5f9; }
         .markdown-preview h3 { font-size: 1.1rem; margin: 0 0 0.4em; color: #e2e8f0; }
         .markdown-preview p { margin: 0 0 0.8em; }
-        .markdown-preview ul,
-        .markdown-preview ol { margin: 0 0 0.8em 1.4em; padding: 0; }
+        .markdown-preview ul, .markdown-preview ol { margin: 0 0 0.8em 1.4em; padding: 0; }
         .markdown-preview li { margin-bottom: 0.35em; }
         .markdown-preview blockquote { border-left: 3px solid #4f8ef7; padding-left: 14px; margin: 0.8em 0; color: #9fb0d9; font-style: italic; }
         .markdown-preview pre { background: #050d1c; border-radius: 8px; padding: 12px; margin: 0 0 1em; font-size: 0.82rem; color: #e2e8f0; overflow-x: auto; border: 1px solid #18233a; }
@@ -1117,136 +1146,172 @@ export default function Free2PA() {
         .markdown-preview hr { border: none; border-top: 1px solid #2d3748; margin: 1.2em 0; }
         .markdown-preview a { color: #60a5fa; }
         .md-table { background: #050d1c; border: 1px dashed #2d3748; border-radius: 8px; padding: 10px 12px; margin: 0 0 1em; font-size: 0.82rem; color: #cbd5f5; overflow-x: auto; }
+        /* Responsive: collapse sidebar below 900px */
+        @media (max-width: 900px) {
+          .f2pa-dashboard  { grid-template-columns: 1fr !important; }
+          .f2pa-sidebar    { position: static !important; }
+          .f2pa-file-split { grid-template-columns: 1fr !important; }
+        }
+
       `}</style>
 
-      {/* ── Nav ── */}
-      <nav style={{ padding: '12px 24px', borderBottom: '1px solid #1e2330', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, background: '#0f1117cc', backdropFilter: 'blur(8px)', position: 'sticky', top: 0, zIndex: 50 }}>
-        <a href="https://karenkilroy.com" target="_blank" rel="noopener noreferrer" style={{ fontWeight: 700, fontSize: '0.9rem', letterSpacing: '-0.01em', color: '#f8fafc', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          ← Return to KarenKilroy.com
-        </a>
-        <img
-          src={FREE2PA_LOGO}
-          alt="Free2PA logo"
-          style={{
-            height: 56,
-            width: 'auto',
-            display: 'block',
-            filter: 'drop-shadow(0 10px 25px rgba(79, 142, 247, 0.35))',
-          }}
-        />
-      </nav>
+      {/* ── Dashboard: sidebar + main content ── */}
+      {/*
+        Left sidebar: persistent step navigation + prev/next.
+        Right column: step header + activity content.
+        Collapses to single column below 900px via media query.
+      */}
+      <div className="f2pa-dashboard" style={{
+        display: 'grid',
+        gridTemplateColumns: 'minmax(260px, 300px) 1fr',
+        gap: 24,
+        maxWidth: 1440,
+        margin: '0 auto',
+        padding: '24px 24px 80px',
+        alignItems: 'start',
+      }}>
 
-      <div style={{ maxWidth: 860, margin: '0 auto', padding: '48px 24px 80px' }}>
+        {/* ── Left sidebar ── */}
+        <aside className="f2pa-sidebar" style={{ position: 'sticky', top: 64 }}>
 
-        {/* ── Hero ── */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 32, marginBottom: 48 }}>
-          <div style={{ flex: '1 1 520px', minWidth: 320 }}>
-            <div style={{ marginBottom: 28 }}>
-              <img
-                src={FREE2PA_LOGO}
-                alt="Free2PA logo"
-                style={{
-                  width: '100%',
-                  maxWidth: 560,
-                  height: 'auto',
-                  display: 'block',
-                  filter: 'drop-shadow(0 24px 45px rgba(79, 142, 247, 0.45))',
-                }}
-              />
-            </div>
-            <h1 style={{ fontSize: '2.6rem', fontWeight: 900, letterSpacing: '-0.03em', color: '#f8fafc', marginBottom: 10 }}>
-              C2PA / Free2PA <span style={{ color: '#4f8ef7' }}>Demo</span>
-            </h1>
-            <p style={{ fontSize: '1.1rem', color: '#94a3b8', maxWidth: 560, margin: '0 0 20px' }}>
-              Hands-on activities for the University of Arkansas AI Club.<br />
-              Follow along with the presentation — everything you need is right here.
-            </p>
+          <div style={{ fontSize: '0.65rem', fontWeight: 800, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#3a4a5f', marginBottom: 10 }}>
+            Activities
           </div>
-          <div style={{ flex: '0 0 220px', margin: '0 auto' }}>
+
+          {/* Step nav cards */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {STEPS.map((s, i) => {
+              const active = i === current;
+              const done   = i < current;
+              return (
+                <button key={i} onClick={() => setCurrent(i)} style={{
+                  display: 'flex', alignItems: 'flex-start', gap: 10,
+                  background: active ? '#0d1222' : '#0f1420',
+                  border: `1.5px solid ${active ? '#4f8ef7' : done ? '#1c3050' : '#161e2e'}`,
+                  borderRadius: 10, padding: '11px 13px', textAlign: 'left',
+                  cursor: 'pointer', transition: 'all 0.18s', width: '100%',
+                  boxShadow: active ? '0 0 0 1px rgba(79,142,247,0.2), 0 4px 20px rgba(79,142,247,0.08)' : 'none',
+                }}>
+                  {/* Step number / checkmark bubble */}
+                  <div style={{
+                    width: 26, height: 26, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                    background: active ? 'linear-gradient(135deg,#4f8ef7,#2563eb)' : done ? '#102040' : '#111928',
+                    border: `1px solid ${active ? '#4f8ef7' : done ? '#2a5090' : '#1e2840'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '0.7rem', fontWeight: 900,
+                    color: active ? '#fff' : done ? '#4f8ef7' : '#3a4a5f',
+                  }}>
+                    {done ? '✓' : s.num}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontWeight: 700, fontSize: '0.83rem', marginBottom: 2,
+                      color: active ? '#f0f4ff' : done ? '#6a80a0' : '#4a5a70',
+                    }}>
+                      {s.title}
+                    </div>
+                    {s.tag && (
+                      <div style={{
+                        fontSize: '0.66rem', color: active ? '#3a6ab0' : '#243040',
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {s.tag}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Prev / Next */}
+          <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
+            <button onClick={() => setCurrent(c => c - 1)} disabled={current === 0} style={{
+              flex: 1, background: current === 0 ? '#0c1018' : '#1a2235',
+              color: current === 0 ? '#2a3040' : '#8090a8',
+              border: '1px solid #161e2e', borderRadius: 8, padding: '8px 0',
+              fontWeight: 600, fontSize: '0.78rem', cursor: current === 0 ? 'not-allowed' : 'pointer',
+            }}>← Prev</button>
+            <button onClick={() => setCurrent(c => c + 1)} disabled={current >= total - 1} style={{
+              flex: 1, background: current >= total - 1 ? '#0c1018' : '#4f8ef7',
+              color: current >= total - 1 ? '#2a3040' : '#fff',
+              border: 'none', borderRadius: 8, padding: '8px 0',
+              fontWeight: 700, fontSize: '0.78rem', cursor: current >= total - 1 ? 'not-allowed' : 'pointer',
+            }}>Next →</button>
+          </div>
+
+          {current === total - 1 && (
+            <div style={{ marginTop: 12, textAlign: 'center', color: '#68d391', fontWeight: 700, fontSize: '0.85rem' }}>
+              🎉 All done!
+            </div>
+          )}
+
+          {/* Robot — ambient sidebar presence */}
+          <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 28 }}>
             {ROBOT_SVG}
           </div>
-        </div>
+        </aside>
 
-        {/* ── Progress controls ── */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 36, flexWrap: 'wrap' }}>
-          <button onClick={() => setCurrent(c => c - 1)} disabled={current === 0}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: current === 0 ? '#1e2330' : '#2d3748', color: current === 0 ? '#4a5568' : '#e2e8f0', border: '1px solid #2d3748', borderRadius: 999, padding: '6px 16px', fontWeight: 600, fontSize: '0.78rem', cursor: current === 0 ? 'not-allowed' : 'pointer' }}>
-            ← Prev
-          </button>
-          {STEPS.map((s, i) => (
-            <button key={i} onClick={() => setCurrent(i)} style={{
-              width: i === current ? 32 : 10,
-              height: 10,
-              borderRadius: 5,
-              border: 'none',
-              cursor: 'pointer',
-              background: i === current ? '#4f8ef7' : i < current ? '#2d5fa8' : '#2d3748',
-              transition: 'all 0.2s',
-              padding: 0,
-            }} aria-label={`Go to step ${s.num}`} />
-          ))}
-          <span style={{ fontSize: '0.78rem', color: '#64748b', marginLeft: 8 }}>
-            {current + 1} / {total}
-          </span>
-          <button onClick={() => setCurrent(c => c + 1)} disabled={current >= total - 1}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: current >= total - 1 ? '#1e2330' : '#4f8ef7', color: current >= total - 1 ? '#4a5568' : '#fff', border: 'none', borderRadius: 999, padding: '6px 16px', fontWeight: 600, fontSize: '0.78rem', cursor: current >= total - 1 ? 'not-allowed' : 'pointer' }}>
-            Next →
-          </button>
-        </div>
+        {/* ── Right: step content ── */}
+        <main>
+          {/* Step header */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 20 }}>
+            <div style={{
+              width: 42, height: 42, borderRadius: '50%', flexShrink: 0,
+              background: 'linear-gradient(135deg,#4f8ef7,#2563eb)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontWeight: 900, fontSize: '1.05rem', color: '#fff',
+              boxShadow: '0 4px 18px rgba(79,142,247,0.35)',
+            }}>{step.num}</div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#edf2ff', margin: 0, letterSpacing: '-0.02em' }}>
+              {step.title}
+            </h2>
+            {step.tag && (
+              <span style={{
+                fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase',
+                color: '#4f8ef7', border: '1px solid #1a3360', borderRadius: 4, padding: '3px 10px',
+              }}>
+                {step.tag}
+              </span>
+            )}
+          </div>
 
-        {/* ── Current step ── */}
-        <STEP num={step.num} title={step.title} tag={step.tag}>
+          {/* Activity content */}
           {step.content}
-        </STEP>
 
-        {/* ── Navigation ── */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8, marginBottom: 48 }}>
-          <button onClick={() => setCurrent(c => c - 1)} disabled={current === 0}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: current === 0 ? '#1e2330' : '#2d3748', color: current === 0 ? '#4a5568' : '#e2e8f0', border: '1px solid #2d3748', borderRadius: 8, padding: '10px 20px', fontWeight: 700, fontSize: '0.88rem', cursor: current === 0 ? 'not-allowed' : 'pointer' }}>
-            ← Previous
-          </button>
-          {current < total - 1
-            ? <button onClick={() => setCurrent(c => c + 1)}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#4f8ef7', color: '#fff', border: 'none', borderRadius: 8, padding: '10px 24px', fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer' }}>
-                Next Activity →
-              </button>
-            : <span style={{ fontSize: '0.88rem', color: '#68d391', fontWeight: 700 }}>🎉 All done!</span>
-          }
-        </div>
-
-        {/* ── Resources (only on final step) ── */}
-        {current === total - 1 && (
-          <Card>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 16 }}>Resources</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, fontSize: '0.85rem' }}>
-              {[
-                ['C2PA Spec', 'c2pa.org', 'https://c2pa.org'],
-                ['Free Verifier', 'verify.contentauthenticity.org', 'https://verify.contentauthenticity.org'],
-                ['C2PA Translator', 'melchersystem.com (Paul Melcher)', 'https://melchersystem.com/c2pa-content-credentials-translator/'],
-                ['CC Foundations Course', 'learn.contentauthenticity.org', 'https://learn.contentauthenticity.org'],
-                ['CAI Discord', 'discord.gg/CAI', 'https://discord.gg/CAI'],
-                ['Open-source SDK', 'opensource.contentauthenticity.org', 'https://opensource.contentauthenticity.org/docs'],
-                ['Karen on LinkedIn', 'linkedin.com/in/karenkilroy', 'https://linkedin.com/in/karenkilroy'],
-              ].map(([label, display, url]) => (
-                <a key={url} href={url} target="_blank" rel="noopener noreferrer"
-                  style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#94a3b8', textDecoration: 'none', padding: '8px 0', borderBottom: '1px solid #1e2330' }}>
-                  <ExternalLink size={13} style={{ flexShrink: 0, color: '#4f8ef7' }} />
-                  <span><strong style={{ color: '#e2e8f0' }}>{label}</strong><br /><span style={{ fontSize: '0.75rem', color: '#64748b' }}>{display}</span></span>
-                </a>
-              ))}
+          {/* Resources — only on the final step */}
+          {current === total - 1 && (
+            <div style={{ marginTop: 24 }}>
+              <Card>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 16 }}>
+                  Resources
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 4 }}>
+                  {RESOURCES.map(([label, display, url]) => (
+                    <a key={url} href={url} target="_blank" rel="noopener noreferrer"
+                      style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#94a3b8', textDecoration: 'none', padding: '10px 0', borderBottom: '1px solid #161e2e' }}>
+                      <ExternalLink size={13} style={{ flexShrink: 0, color: '#4f8ef7' }} />
+                      <span>
+                        <strong style={{ color: '#e2e8f0', fontSize: '0.85rem' }}>{label}</strong><br />
+                        <span style={{ fontSize: '0.74rem', color: '#4a5a70' }}>{display}</span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </Card>
             </div>
-          </Card>
-        )}
+          )}
+        </main>
       </div>
     </div>
   );
 }
 
-// ─── Activity 4: Sign your own file ──────────────────────────────────────────
+// ─── Activity 5: Sign your own file ──────────────────────────────────────────
 
 function SignYourOwn() {
   const [content, setContent]   = useState('');
-  const [filename, setFilename] = useState('playbook.md');
+  const [filename, setFilename] = useState('workflow.md');
   const [sidecar, setSidecar]   = useState(null);
   const [signing, setSigning]   = useState(false);
 
@@ -1254,28 +1319,23 @@ function SignYourOwn() {
     if (!content.trim()) return;
     setSigning(true); setSidecar(null);
     try {
-      // Generate ECDSA P-256 key pair in browser
       const keyPair = await crypto.subtle.generateKey(
         { name: 'ECDSA', namedCurve: 'P-256' },
         true, ['sign', 'verify']
       );
 
-      // Export public key as SPKI → fake PEM for display
       const spkiDer = await crypto.subtle.exportKey('spki', keyPair.publicKey);
       const spkiB64 = btoa(String.fromCharCode(...new Uint8Array(spkiDer)));
       const certPem = `-----BEGIN PUBLIC KEY-----\n${spkiB64.match(/.{1,64}/g).join('\n')}\n-----END PUBLIC KEY-----`;
 
-      // Hash the file
       const hash = await sha256Hex(content);
 
-      // Build canonical claim
       const claim = {
         asset:     { alg: 'SHA-256', hash },
         signer:    'browser-generated',
         timestamp: new Date().toISOString(),
       };
 
-      // Sign the canonical JSON of the claim
       const msgBytes = new TextEncoder().encode(canonicalJson(claim));
       const sigDer   = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, keyPair.privateKey, msgBytes);
       const sigB64   = btoa(String.fromCharCode(...new Uint8Array(sigDer)));
@@ -1296,15 +1356,15 @@ function SignYourOwn() {
         <input
           value={filename}
           onChange={e => setFilename(e.target.value)}
-          placeholder="playbook.md"
+          placeholder="workflow.md"
           style={{ flex: '0 0 180px', background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '8px 12px', color: '#e2e8f0', fontSize: '0.85rem' }}
         />
-        <div style={{ flex: 1, fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>Call it <strong>playbook.md</strong> or whatever your bot uses.</div>
+        <div style={{ flex: 1, fontSize: '0.8rem', color: '#64748b', alignSelf: 'center' }}>Call it <strong>workflow.md</strong> so it matches what you're editing.</div>
       </div>
       <textarea
         value={content}
         onChange={e => setContent(e.target.value)}
-        placeholder={"# playbook.md\n\n## Signals\n- hash, signature, trust profile\n\n## Decisions\n- alert humans when ___ fails\n\n## Automation\n- run verifier on upload + nightly\n\n## Gaps\n- need revocation list + manual override"}
+        placeholder={"# workflow.md — Show Name Update\n\n## Signals\n- automation export, host notes, trusted cert list\n\n## Decisions\n- block publish if notes conflict or signer missing\n\n## Automation\n- verify on upload before the 17:30 segment\n\n## Gaps\n- late-breaking script checklist, revocation list"}
         rows={7}
         style={{ width: '100%', background: '#161b27', border: '1px solid #2d3748', borderRadius: 8, padding: '12px 14px', color: '#e2e8f0', fontSize: '0.85rem', fontFamily: '"SF Mono","Fira Code","Courier New",monospace', resize: 'vertical', marginBottom: 12 }}
       />
@@ -1344,14 +1404,14 @@ function SignYourOwn() {
             </button>
           </div>
           <div style={{ marginTop: 12, fontSize: '0.78rem', color: '#68d391cc' }}>
-            Next, jump up to Activity 4, upload <strong>{filename}</strong> plus its sidecar, and drop <em>my-browser-cert.pem</em> into the trusted-cert slot — you should see Signature, Hash, and Trust all go green.
+            Next, head back to Activity 3, upload <strong>{filename}</strong> plus its sidecar, and drop <em>my-browser-cert.pem</em> into the trusted-cert slot — you should see Signature, Hash, and Trust all go green.
           </div>
           <div style={{ marginTop: 12, background: '#050d1c', border: '1px solid #1d2840', borderRadius: 8, padding: '12px 14px', fontSize: '0.8rem', color: '#94a3b8' }}>
             <strong>What you'll see when you verify:</strong><br />
             ✅ Hash — matches what you just signed<br />
             ✅ Signature — validated with your browser key<br />
-            ❌ Trust — <span style={{ color: '#fc8181' }}>fail until you share the cert</span><br />
-            That’s deliberate. Anyone can sign anything. Trust comes from exchanging certificates and adding them to a shared store.
+            ✅ Trust — <span style={{ color: '#68d391' }}>passes once you include your cert</span><br />
+            If you skip the cert upload you'll get a trust fail — share the cert and rerun the check to promote yourself into the network.
           </div>
         </div>
       )}
