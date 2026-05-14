@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2, Menu, X } from 'lucide-react';
+import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2, Menu, X, Radio } from 'lucide-react';
 
 const Portfolio = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,6 +18,13 @@ const Portfolio = () => {
   ];
 
   const speakingHighlights = [
+    {
+      org: "NPR KUAF · Ozarks at Large",
+      topic: "RadioHead: Student-Created AI Intern Wins Award",
+      description:
+        "Jack Travis interviews Karen Kilroy and Aiden Maroney about RadioHead, the broadcast transcription agent that won a student competition and expanded KUAF's capabilities.",
+      url: "https://www.kuaf.com/show/ozarks-at-large/2026-05-13/student-created-ai-intern-offers-kuaf-new-abilities-wins-award"
+    },
     {
       org: "International Red Cross",
       topic: "C2PA Content Credentials for AI/ML Provenance",
@@ -123,6 +130,15 @@ const Portfolio = () => {
               <Linkedin size={18} /> LinkedIn
             </a>
           </div>
+          <a
+            href="https://www.kuaf.com/show/ozarks-at-large/2026-05-13/student-created-ai-intern-offers-kuaf-new-abilities-wins-award"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex items-center gap-2 text-sm text-slate-400 hover:text-blue-400 transition-colors group"
+          >
+            <Radio size={14} className="text-blue-400 flex-shrink-0" />
+            <span>NPR KUAF · <em>RadioHead</em>: Student-Created AI Intern Wins Award</span>
+          </a>
         </div>
         <div className="space-y-6">
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden crt-container">
@@ -295,16 +311,25 @@ const Portfolio = () => {
           </div>
           <p className="text-slate-400 text-sm mb-8 md:mb-12 max-w-2xl">Recent speaking engagements on AI governance, content provenance, and trustworthy systems.</p>
           <div className="grid md:grid-cols-2 gap-4 md:gap-8">
-            {speakingHighlights.map((item, idx) => (
-              <div key={idx} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-6">
-                <div className="flex items-center gap-3 mb-3 md:mb-4">
-                  {idx === 0 ? <Mic size={18} className="text-blue-500" /> : <ShieldCheck size={18} className="text-blue-500" />}
-                  <p className="text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500">{item.org}</p>
-                </div>
-                <p className="text-lg md:text-xl font-semibold mb-2">{item.topic}</p>
-                <p className="text-slate-400 text-sm">{item.description}</p>
-              </div>
-            ))}
+            {speakingHighlights.map((item, idx) => {
+              const cardIcon = idx === 0 ? <Radio size={18} className="text-blue-500" /> : idx === 1 ? <Mic size={18} className="text-blue-500" /> : <ShieldCheck size={18} className="text-blue-500" />;
+              const cardClass = `bg-slate-900 border rounded-2xl p-4 md:p-6 transition ${item.url ? 'border-blue-500/40 hover:border-blue-500/70 hover:bg-slate-800/80 cursor-pointer' : 'border-slate-800'}`;
+              const inner = (
+                <>
+                  <div className="flex items-center gap-3 mb-3 md:mb-4">
+                    {cardIcon}
+                    <p className="text-xs md:text-sm uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500">{item.org}</p>
+                  </div>
+                  <p className="text-lg md:text-xl font-semibold mb-2">{item.topic}</p>
+                  <p className="text-slate-400 text-sm">{item.description}</p>
+                </>
+              );
+              return item.url ? (
+                <a key={idx} href={item.url} target="_blank" rel="noopener noreferrer" className={cardClass}>{inner}</a>
+              ) : (
+                <div key={idx} className={cardClass}>{inner}</div>
+              );
+            })}
           </div>
           <div className="mt-8 text-center">
             <a

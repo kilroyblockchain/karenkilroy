@@ -99,6 +99,14 @@ const LinkTree = () => {
     },
     // NPR KUAF Interviews
     {
+      title: "RadioHead: AI Intern Wins Award",
+      subtitle: "NPR KUAF · May 2026 · w/ Aiden Maroney",
+      url: "https://www.kuaf.com/show/ozarks-at-large/2026-05-13/student-created-ai-intern-offers-kuaf-new-abilities-wins-award",
+      icon: Radio,
+      highlight: true,
+      gradient: "from-blue-500 to-sky-400"
+    },
+    {
       title: "Paybots AI",
       subtitle: "NPR KUAF · June 2025",
       url: "https://www.kuaf.com/show/ozarks-at-large/2025-06-26/paying-people-for-their-contributions-to-machine-learning-with-paybots-ai",
