@@ -31,7 +31,7 @@ Core strengths:
 Known work:
 - NYX NoCode: AI-driven no-code platform for educators and students to create modern React apps using natural language, RAG memory, Azure OpenAI, and voice input.
 - Free2PA: Public provenance demo for verifying signed agent control files before they enter model context.
-- Hidalga Technologies: QA and observability systems for AI-driven patient prior authorization workflows in oncology specialty care.
+- Healthcare client work: QA and observability systems for AI-driven patient prior authorization workflows in oncology specialty care.
 - Kilroy Blockchain: Responsible AI systems including RILEY, FLO, and CASEY.
 - RadioHead: Award-winning broadcast transcription AI agent featured by NPR affiliate KUAF.
 - O'Reilly Media: Author of Natural Language and Search, Blockchain Tethered AI, AI and the Law, and Blockchain as a Service.

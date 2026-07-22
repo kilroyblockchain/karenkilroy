@@ -171,7 +171,7 @@ export default function Skills() {
           <p className="text-slate-300 leading-relaxed">
             I build AI systems where the output is not enough. The work has to be traceable, reviewable, clinically grounded,
             secure enough for PHI boundaries, and practical enough that product teams can ship it. Free2PA adds signed control-file
-            verification to that core skill set; my recent Hidalga work adds patient prior authorization QA, agent observability,
+            verification to that core skill set; my recent healthcare client work adds patient prior authorization QA, agent observability,
             capability conformance, and audit infrastructure.
           </p>
         </section>

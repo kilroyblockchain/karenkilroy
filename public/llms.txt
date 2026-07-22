@@ -19,7 +19,7 @@ Karen's work is strongest where AI systems must be auditable, explainable, human
 
 - **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI
 - **Free2PA**: Public provenance demo for verifying signed agent control files before they enter model context
-- **Hidalga Technologies**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
+- **Healthcare client work**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
 - **Kilroy Blockchain**: Responsible AI systems and governance
 - **C2PA AI/ML Task Force**: Co-chair helping implement content provenance standards
 - **O'Reilly Books**: Blockchain Tethered AI, Natural Language and Search, AI and the Law, Blockchain as a Service

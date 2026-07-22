@@ -141,9 +141,9 @@ export default function Resume() {
             </div>
           </article>
 
-          <article className="job" aria-label="AI QA and Agent Infrastructure work at Hidalga">
+          <article className="job" aria-label="AI QA and Agent Infrastructure work for a healthcare client">
             <p className="job-title">AI QA &amp; Agent Infrastructure Developer</p>
-            <p className="job-company">Hidalga Technologies</p>
+            <p className="job-company">Healthcare Client</p>
             <p className="job-dates">2026 – Present</p>
             <div className="job-desc">
               <ul>

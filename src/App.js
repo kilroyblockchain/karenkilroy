@@ -131,7 +131,7 @@ const Portfolio = () => {
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current healthcare AI</p>
-              <p className="text-slate-100 font-semibold">Hidalga QA + agent infrastructure</p>
+              <p className="text-slate-100 font-semibold">Healthcare client QA + agent infrastructure</p>
               <p>
                 Built QA, traceability, and audit surfaces for oncology prior authorization workflows where patient data, agent actions, and reviewer confidence have to stay accountable.
               </p>
@@ -349,7 +349,7 @@ const Portfolio = () => {
 
             <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
               <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
-              <h3 className="text-lg md:text-xl font-bold">Hidalga — Patient Prior Authorization QA System</h3>
+              <h3 className="text-lg md:text-xl font-bold">Healthcare Client — Patient Prior Authorization QA System</h3>
               <p className="text-blue-400 text-sm mb-4">2026 · Oncology workflow automation</p>
               <p className="text-slate-400 leading-relaxed">
                 Built QA and observability infrastructure for an AI-driven patient prior authorization system, including audit validation,
