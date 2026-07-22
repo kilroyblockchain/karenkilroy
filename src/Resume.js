@@ -66,9 +66,11 @@ export default function Resume() {
             AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical
             leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
             of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
-            and rapid prototyping. O'Reilly author of four books on AI and emerging technologies. Proven track record
-            in product innovation, technical communication, and industry standards leadership as Co-Chair of the C2PA
-            AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
+            and rapid prototyping. Creator of Free2PA, a public provenance demo for signed agent control files.
+            Recent work includes QA and observability systems for AI-driven patient prior
+            authorization workflows in oncology. O'Reilly author of four books on AI and emerging technologies. Proven
+            track record in product innovation, technical communication, and industry standards leadership as Co-Chair
+            of the C2PA AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
           </p>
         </section>
 
@@ -79,17 +81,33 @@ export default function Resume() {
             <h3 className="skills-group-title">AI &amp; ML</h3>
             <ul className="skills">
               <li>Generative AI, Retrieval-Augmented Generation (RAG)</li>
-              <li>Azure OpenAI (ChatGPT-5, Model Router), Claude Code</li>
+              <li>Azure AI Foundry, Azure OpenAI, ChatGPT 5.6, Codex 5.6</li>
+              <li>Claude Fable, Claude Code</li>
               <li>Deepgram Speech AI</li>
               <li>Model Context Protocol (MCP)</li>
+              <li>Signed Agent Control-File Verification</li>
+              <li>Agent Capability Routing &amp; Drift Audits</li>
+            </ul>
+          </div>
+
+          <div className="skills-group" aria-label="Healthcare AI and QA skills">
+            <h3 className="skills-group-title">Healthcare AI &amp; QA</h3>
+            <ul className="skills">
+              <li>Patient Prior Authorization QA</li>
+              <li>FHIR R4, SNOMED CT, ICD-10</li>
+              <li>NCCN / ASCO Guideline Provenance</li>
+              <li>Clinical NLP Extraction</li>
+              <li>PHI-Safe Review Workflows</li>
             </ul>
           </div>
 
           <div className="skills-group" aria-label="Cloud and Application Development skills">
             <h3 className="skills-group-title">Cloud &amp; Application Development</h3>
             <ul className="skills">
-              <li>ReactJS, Node.js</li>
-              <li>Azure API Integration</li>
+              <li>ReactJS, Next.js, Node.js, TypeScript</li>
+              <li>Prisma, PostgreSQL, Data Access Layers</li>
+              <li>Azure App Service, Key Vault, Service Bus</li>
+              <li>App Insights, OpenTelemetry, KEDA</li>
               <li>No-Code / Low-Code Platforms</li>
             </ul>
           </div>
@@ -98,6 +116,9 @@ export default function Resume() {
             <h3 className="skills-group-title">Standards, Governance &amp; Communication</h3>
             <ul className="skills">
               <li>Content Provenance (C2PA, SMPTE)</li>
+              <li>Free2PA Agent Provenance</li>
+              <li>Tamper-Evident Audit Hash Chains</li>
+              <li>RBAC / RLS / Managed Identity</li>
               <li>AI Supply Chain &amp; Governance</li>
               <li>Technical Writing &amp; Education</li>
             </ul>
@@ -107,6 +128,31 @@ export default function Resume() {
         {/* Force this section to page 2 in print */}
         <section className="section experience-section page-break-before" aria-labelledby="experience-heading">
           <h2 id="experience-heading">Professional Experience</h2>
+
+          <article className="job" aria-label="Creator of Free2PA">
+            <p className="job-title">Creator</p>
+            <p className="job-company">Free2PA</p>
+            <p className="job-dates">2026 – Present</p>
+            <div className="job-desc">
+              <ul>
+                <li>Built a public provenance demo that verifies signed agent control files before model context load.</li>
+                <li>Designed the workflow to demonstrate trust decisions, signed artifacts, rejection paths, and governed AI agent behavior.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="job" aria-label="AI QA and Agent Infrastructure work at Hidalga">
+            <p className="job-title">AI QA &amp; Agent Infrastructure Developer</p>
+            <p className="job-company">Hidalga Technologies</p>
+            <p className="job-dates">2026 – Present</p>
+            <div className="job-desc">
+              <ul>
+                <li>Built QA and observability systems for an AI-driven patient prior authorization platform in oncology specialty care.</li>
+                <li>Implemented audit validation, agent trace review, workflow visibility, capability conformance checks, and PHI-safe review paths.</li>
+                <li>Supported grant-funded technical scope with clinical NLP extraction, model-validation evidence, FHIR-backed pipelines, and coverage audits.</li>
+              </ul>
+            </div>
+          </article>
 
           <article className="job" aria-label="Founder and Engineer at NYX NoCode">
             <p className="job-title">Founder &amp; Engineer</p>

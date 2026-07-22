@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2, Menu, X, Radio } from 'lucide-react';
+import { Book, Award, Mail, Linkedin, Terminal, Mic, ShieldCheck, Link2, Menu, X, Radio, Trophy, ExternalLink, Wrench, BriefcaseBusiness, CheckCircle2 } from 'lucide-react';
 
 const Portfolio = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,9 +12,33 @@ const Portfolio = () => {
   ];
 
   const focusList = [
-    "Generative AI + RAG platforms routed through Azure OpenAI and Claude Code.",
+    "Generative AI + RAG platforms routed through Azure AI Foundry, ChatGPT, Codex, and Claude.",
+    "Auditable patient prior authorization QA systems for regulated oncology workflows.",
+    "Free2PA provenance checks that verify signed agent control files before model context load.",
     "Voice-forward classroom workflows that pair Deepgram with NYX NoCode.",
     "Translating provenance standards (C2PA, SMPTE/ETC) into real, shippable products."
+  ];
+
+  const marketabilityHighlights = [
+    {
+      title: "Regulated AI Systems",
+      text: "I design AI workflows that can be audited, explained, and reviewed by humans instead of treated as black boxes."
+    },
+    {
+      title: "Agent Provenance",
+      text: "I built Free2PA to verify signed agent control files before they enter model context."
+    },
+    {
+      title: "Healthcare QA Infrastructure",
+      text: "I build QA surfaces for patient prior authorization workflows, including trace review, PHI-safe paths, and clinical evidence checks."
+    }
+  ];
+
+  const roleTargets = [
+    "AI Infrastructure Engineer",
+    "Healthcare AI QA Lead",
+    "Agentic Systems Developer",
+    "AI Governance / Provenance Consultant"
   ];
 
   const speakingHighlights = [
@@ -56,6 +80,7 @@ const Portfolio = () => {
           <a href="#about" className="hover:text-blue-400 transition">About</a>
           <a href="#books" className="hover:text-blue-400 transition">Books</a>
           <a href="#projects" className="hover:text-blue-400 transition">Projects</a>
+          <a href="/skills" className="hover:text-blue-400 transition flex items-center gap-1"><Wrench size={14} /> Skills</a>
           <a href="#signal" className="hover:text-blue-400 transition">Signal</a>
           <a href="/links" className="hover:text-blue-400 transition flex items-center gap-1"><Link2 size={14} /> Links</a>
         </div>
@@ -77,6 +102,7 @@ const Portfolio = () => {
             <a href="#about" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>About</a>
             <a href="#books" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Books</a>
             <a href="#projects" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Projects</a>
+            <a href="/skills" className="hover:text-blue-400 transition flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}><Wrench size={18} /> Skills</a>
             <a href="#signal" className="hover:text-blue-400 transition" onClick={() => setMobileMenuOpen(false)}>Signal</a>
             <a href="/links" className="hover:text-blue-400 transition flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}><Link2 size={18} /> Links</a>
           </div>
@@ -87,15 +113,15 @@ const Portfolio = () => {
       <header className="px-4 md:px-6 py-12 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-sm mb-6">
-            <span className="text-blue-400 text-xs sm:text-sm">Developer · Author · Speaker</span>
+            <span className="text-blue-400 text-xs sm:text-sm">AI Infrastructure · Healthcare QA · Governance</span>
 
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-            Engineering the <span className="text-blue-500">Future of AI</span> Transparency.
+            Building <span className="text-blue-500">auditable AI systems</span> for real-world work.
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
-            I'm a developer and author focused on trustworthy AI deployment.
-            I build Azure AI Foundry-enhanced platforms, voice-forward workflows, and governance patterns that keep teams shipping quickly while staying auditable.
+            I'm a developer, author, and AI infrastructure engineer focused on trustworthy deployment.
+            I build healthcare QA systems, agentic AI platforms, voice-forward workflows, and governance patterns that help teams ship without losing accountability.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
@@ -104,11 +130,17 @@ const Portfolio = () => {
               <p>NYX NoCode is an educator-led platform that transforms classrooms into creative studios, giving students hands-on experience with generative AI and modern computing.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Content authenticity</p>
-              <p className="text-slate-100 font-semibold">C2PA AI/ML Task Force Co-chair</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current healthcare AI</p>
+              <p className="text-slate-100 font-semibold">Hidalga QA + agent infrastructure</p>
               <p>
-                From winning IBM Watson Build in 2017 to co-chairing the C2PA Coalition&apos;s AI/ML Task Force, I&apos;ve stayed focused on
-                trustworthy provenance for every asset.
+                Built QA, traceability, and audit surfaces for oncology prior authorization workflows where patient data, agent actions, and reviewer confidence have to stay accountable.
+              </p>
+            </div>
+            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:col-span-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Public proof point</p>
+              <p className="text-slate-100 font-semibold">Free2PA</p>
+              <p>
+                A working provenance demo for signed agent control files, built to keep unverified instructions out of model context.
               </p>
             </div>
           </div>
@@ -128,6 +160,12 @@ const Portfolio = () => {
               className="border border-slate-700 hover:bg-slate-800 px-4 sm:px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition text-sm sm:text-base"
             >
               <Linkedin size={18} /> LinkedIn
+            </a>
+            <a
+              href="/skills"
+              className="border border-slate-700 hover:bg-slate-800 px-4 sm:px-6 py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition text-sm sm:text-base"
+            >
+              <Wrench size={18} /> Skills
             </a>
           </div>
           <a
@@ -163,7 +201,7 @@ const Portfolio = () => {
               <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
               <p className="text-yellow-400">{`> Karen.winner("IBM Watson Build 2017", "North America");`}</p>
               <p className="text-slate-500">{`// Led the winning team`}</p>
-              <p className="text-cyan-400">{`> Karen.buildStack("React", "Azure OpenAI", "Deepgram");`}</p>
+              <p className="text-cyan-400">{`> Karen.buildStack("React", "Azure AI Foundry", "Codex 5.6", "ChatGPT 5.6", "Claude Fable");`}</p>
               <p className="text-pink-400">{`> Karen.alsoStudying("Voice", "Piano");`}</p>
             </div>
           </div>
@@ -198,7 +236,7 @@ const Portfolio = () => {
               <p className="text-xs uppercase tracking-[0.2em] md:tracking-[0.3em] text-slate-500 mb-2">Where I shine</p>
               <p className="text-base md:text-lg font-semibold mb-2">AI Supply Chain + Governance</p>
               <p className="text-slate-400 text-sm">
-                Model Context Protocol, provenance standards, and "explain it like we're in a boardroom" technical storytelling.
+                Model Context Protocol, Free2PA, provenance standards, patient PA quality systems, and "explain it like we're in a boardroom" technical storytelling.
               </p>
             </div>
             <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 md:p-6">
@@ -214,6 +252,35 @@ const Portfolio = () => {
               <p className="text-slate-400 text-sm">
                 Bridging technical leadership with hands-on builds, coaching teams to ship ethical AI, and keeping documentation beautiful.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Marketability Section */}
+      <section id="market" className="py-12 md:py-20 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center gap-3 md:gap-4 mb-8">
+            <BriefcaseBusiness className="text-blue-500" size={28} />
+            <h2 className="text-2xl md:text-3xl font-bold">What I Bring to a Team</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6 mb-8">
+            {marketabilityHighlights.map((item) => (
+              <div key={item.title} className="border border-slate-800 bg-slate-900/70 rounded-lg p-5">
+                <h3 className="text-lg font-bold mb-2">{item.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed">{item.text}</p>
+              </div>
+            ))}
+          </div>
+          <div className="border border-slate-800 bg-slate-900/70 rounded-lg p-5 md:p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-4">Strong fit for</p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {roleTargets.map((role) => (
+                <div key={role} className="flex items-center gap-3 text-slate-200">
+                  <CheckCircle2 size={18} className="text-blue-400 flex-shrink-0" />
+                  <span>{role}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -268,6 +335,56 @@ const Portfolio = () => {
           <div className="space-y-8 md:space-y-12">
             <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
               <div className="absolute -left-[9px] top-0 w-4 h-4 bg-blue-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+              <h3 className="text-lg md:text-xl font-bold">Free2PA — Agent Control File Provenance</h3>
+              <p className="text-blue-400 text-sm mb-4">2026 · Public AI governance demo</p>
+              <p className="text-slate-400 leading-relaxed mb-3">
+                Created a working verification system that checks signed agent control files before they enter model context,
+                demonstrating provenance, trust decisions, and rejection paths for governed AI agents.
+              </p>
+              <a href="https://free2pa.org" target="_blank" rel="noopener noreferrer"
+                 className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-blue-400 transition-colors">
+                <ExternalLink size={13} /> Visit Free2PA
+              </a>
+            </div>
+
+            <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
+              <h3 className="text-lg md:text-xl font-bold">Hidalga — Patient Prior Authorization QA System</h3>
+              <p className="text-blue-400 text-sm mb-4">2026 · Oncology workflow automation</p>
+              <p className="text-slate-400 leading-relaxed">
+                Built QA and observability infrastructure for an AI-driven patient prior authorization system, including audit validation,
+                agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
+              </p>
+            </div>
+
+            <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
+              <div className="flex items-center gap-3 flex-wrap mb-1">
+                <h3 className="text-lg md:text-xl font-bold">RadioHead — Innovation &amp; Integration Challenge Winner</h3>
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-yellow-500/15 border border-yellow-500/40 text-yellow-400">
+                  <Trophy size={11} /> 1st Place · Category Winner
+                </span>
+              </div>
+              <p className="text-blue-400 text-sm mb-4">April 2026 · University of Arkansas</p>
+              <p className="text-slate-400 leading-relaxed mb-3">
+                RadioHead is a broadcast transcription agent built with student Aiden Maroney that gives public radio stations like KUAF new AI-powered capabilities —
+                automated transcription, search, and accessibility for every broadcast. Won the Innovation &amp; Integration Challenge category at the UArk Demo Day &amp; Awards Ceremony.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <a href="https://youtu.be/W2NcJ2jA10I" target="_blank" rel="noopener noreferrer"
+                   className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-red-400 transition-colors">
+                  <ExternalLink size={13} /> Watch the Demo
+                </a>
+                <a href="https://www.kuaf.com/show/ozarks-at-large/2026-05-13/student-created-ai-intern-offers-kuaf-new-abilities-wins-award"
+                   target="_blank" rel="noopener noreferrer"
+                   className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-blue-400 transition-colors">
+                  <Radio size={13} /> NPR KUAF Feature
+                </a>
+              </div>
+            </div>
+
+            <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
               <h3 className="text-lg md:text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
               <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
               <p className="text-slate-400 leading-relaxed">
@@ -354,4 +471,3 @@ const Portfolio = () => {
 };
 
 export default Portfolio;
-
