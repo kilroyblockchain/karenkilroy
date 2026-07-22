@@ -24,6 +24,20 @@ const LinkTree = () => {
       gradient: "from-purple-500 to-pink-400"
     },
     {
+      title: "Idea Beast Preview",
+      subtitle: "NYX NoCode ideation prototype demo",
+      url: "https://www.youtube.com/watch?v=IHsWbpWbIds",
+      icon: Youtube,
+      gradient: "from-purple-500 to-red-400"
+    },
+    {
+      title: "Music Seer",
+      subtitle: "NYX NoCode guitar MIDI visualization demo",
+      url: "https://www.youtube.com/watch?v=dtuhCJRHUyk",
+      icon: Youtube,
+      gradient: "from-cyan-500 to-violet-400"
+    },
+    {
       title: "Free2PA",
       subtitle: "Signed Agent Control-File Provenance",
       url: "https://free2pa.org",

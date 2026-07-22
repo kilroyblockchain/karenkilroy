@@ -89,6 +89,7 @@ const skillGroups = [
       'React, Next.js, TypeScript, Node.js, Prisma, PostgreSQL, and data access layer design',
       'Server routes, API development, SSE streaming, and real-time dashboard surfaces',
       'Multi-tenant API design, OpenAPI documentation, and LLM-readable product docs',
+      'Creative AI prototypes including ideation tools and responsive MIDI visualization',
       'Radix/React component work, responsive UI polish, and accessibility fixes',
       'No-code/low-code platform architecture with NYX NoCode and Peopleoids',
       'Technical documentation, PRDs, grant reporting, and research-to-ticket backlog design'

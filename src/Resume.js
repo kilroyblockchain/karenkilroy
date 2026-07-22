@@ -178,6 +178,7 @@ export default function Resume() {
                 <li>Built an AI-driven no-code platform using ReactJS and Azure OpenAI, incorporating model routing and RAG-based memory.</li>
                 <li>Integrated Deepgram transcription and real-time voice input into classroom AI workflows.</li>
                 <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for finetuning and reuse.</li>
+                <li>Created public NYX prototypes including <em>Idea Beast</em> for AI-assisted ideation and <em>Music Seer</em> for responsive guitar MIDI visualization.</li>
                 <li>Delivered hackathons and educational programs demonstrating rapid deployment of AI applications.</li>
               </ul>
             </div>

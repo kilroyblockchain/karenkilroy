@@ -409,10 +409,21 @@ const Portfolio = () => {
               <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
               <h3 className="text-lg md:text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
               <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
-              <p className="text-slate-400 leading-relaxed">
+              <p className="text-slate-400 leading-relaxed mb-3">
                 Built an AI-driven no-code platform using ReactJS + Azure OpenAI with Deepgram voice input so educators can spin up classroom-ready
-                RAG apps in one conversation. Developed Peopleoids, a portable assistant with instant memory suitable for finetuning and reuse.
+                RAG apps in one conversation. Developed Peopleoids, a portable assistant with instant memory suitable for finetuning and reuse,
+                plus public prototypes including Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization.
               </p>
+              <div className="flex flex-wrap gap-3">
+                <a href="https://www.youtube.com/watch?v=IHsWbpWbIds" target="_blank" rel="noopener noreferrer"
+                   className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-red-400 transition-colors">
+                  <ExternalLink size={13} /> Idea Beast Preview
+                </a>
+                <a href="https://www.youtube.com/watch?v=dtuhCJRHUyk" target="_blank" rel="noopener noreferrer"
+                   className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-red-400 transition-colors">
+                  <ExternalLink size={13} /> Music Seer Demo
+                </a>
+              </div>
             </div>
 
             <div className="relative pl-8 border-l-2 border-slate-800">

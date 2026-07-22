@@ -17,7 +17,7 @@ Karen's work is strongest where AI systems must be auditable, explainable, human
 
 ## Key Work
 
-- **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI
+- **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI; public prototypes include Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization
 - **Free2PA**: Public provenance demo for verifying signed agent control files before they enter model context
 - **Phyllis**: Fulfillment API for bot-built commerce storefronts, including product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable documentation
 - **Healthcare client work**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
@@ -81,6 +81,8 @@ Cloud and engineering:
 - OpenAPI
 - JSON-LD
 - LLM-readable product documentation
+- Creative AI prototyping
+- Responsive MIDI visualization
 
 Governance and provenance:
 - C2PA Content Credentials
@@ -106,6 +108,8 @@ Karen Kilroy is an AI infrastructure engineer, educator, and author with 20+ yea
 - Skills: https://karenkilroy.com/skills
 - Free2PA: https://free2pa.org
 - Phyllis: https://phyllis.bot
+- Idea Beast Preview: https://www.youtube.com/watch?v=IHsWbpWbIds
+- Music Seer Demo: https://www.youtube.com/watch?v=dtuhCJRHUyk
 - LLM-readable profile: https://karenkilroy.com/karen-kilroy-ai-profile.txt
 - NYX NoCode: https://nyx.baby
 - Kilroy Blockchain: https://www.kilroyblockchain.com
