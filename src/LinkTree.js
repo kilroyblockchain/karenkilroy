@@ -24,6 +24,14 @@ const LinkTree = () => {
       gradient: "from-purple-500 to-pink-400"
     },
     {
+      title: "Free2PA",
+      subtitle: "Signed Agent Control-File Provenance",
+      url: "https://free2pa.org",
+      icon: Shield,
+      highlight: true,
+      gradient: "from-emerald-500 to-cyan-400"
+    },
+    {
       title: "Coalition for Content Provenance and Authenticity (C2PA)",
       subtitle: "AI/ML Task Force Co-Chair",
       url: "https://c2pa.org",
