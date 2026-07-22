@@ -15,6 +15,7 @@ const Portfolio = () => {
     "Generative AI + RAG platforms routed through Azure AI Foundry, ChatGPT, Codex, and Claude.",
     "Auditable patient prior authorization QA systems for regulated oncology workflows.",
     "Free2PA provenance checks that verify signed agent control files before model context load.",
+    "Phyllis fulfillment APIs for bot-built commerce, human approval, and order tracking.",
     "Voice-forward classroom workflows that pair Deepgram with NYX NoCode.",
     "Translating provenance standards (C2PA, SMPTE/ETC) into real, shippable products."
   ];
@@ -141,6 +142,13 @@ const Portfolio = () => {
               <p className="text-slate-100 font-semibold">Free2PA</p>
               <p>
                 A working provenance demo for signed agent control files, built to keep unverified instructions out of model context.
+              </p>
+            </div>
+            <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:col-span-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Public product API</p>
+              <p className="text-slate-100 font-semibold">Phyllis</p>
+              <p>
+                A fulfillment API for bot-built commerce storefronts, with product validation, Stripe checkout, human approvals, and order tracking.
               </p>
             </div>
           </div>
@@ -344,6 +352,20 @@ const Portfolio = () => {
               <a href="https://free2pa.org" target="_blank" rel="noopener noreferrer"
                  className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-blue-400 transition-colors">
                 <ExternalLink size={13} /> Visit Free2PA
+              </a>
+            </div>
+
+            <div className="relative pl-6 md:pl-8 border-l-2 border-slate-800">
+              <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
+              <h3 className="text-lg md:text-xl font-bold">Phyllis — Fulfillment API for Bot-Built Commerce</h3>
+              <p className="text-blue-400 text-sm mb-4">2026 · Public commerce API</p>
+              <p className="text-slate-400 leading-relaxed mb-3">
+                Built a multi-tenant fulfillment API for agent-created commerce storefronts, covering product validation,
+                Stripe checkout, fulfillment-provider integration, human-in-the-loop approvals, real-time order tracking, OpenAPI, and LLM-readable documentation.
+              </p>
+              <a href="https://phyllis.bot" target="_blank" rel="noopener noreferrer"
+                 className="inline-flex items-center gap-1.5 text-sm text-slate-300 hover:text-blue-400 transition-colors">
+                <ExternalLink size={13} /> Visit Phyllis
               </a>
             </div>
 

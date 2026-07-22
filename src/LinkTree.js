@@ -32,6 +32,14 @@ const LinkTree = () => {
       gradient: "from-emerald-500 to-cyan-400"
     },
     {
+      title: "Phyllis",
+      subtitle: "Fulfillment API for Bot-Built Commerce",
+      url: "https://phyllis.bot",
+      icon: Link2,
+      highlight: true,
+      gradient: "from-fuchsia-500 to-orange-400"
+    },
+    {
       title: "Coalition for Content Provenance and Authenticity (C2PA)",
       subtitle: "AI/ML Task Force Co-Chair",
       url: "https://c2pa.org",

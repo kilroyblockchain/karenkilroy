@@ -12,13 +12,14 @@ Best-fit roles:
 - Technical Author / Developer Advocate for AI infrastructure
 
 Short summary:
-Karen Kilroy builds trustworthy AI systems that are auditable, reviewable, clinically grounded, and practical enough for production teams. She created Free2PA, a public provenance demo that verifies signed agent control files before model context load. Her recent work also includes QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
+Karen Kilroy builds trustworthy AI systems that are auditable, reviewable, clinically grounded, and practical enough for production teams. She created Free2PA, a public provenance demo that verifies signed agent control files before model context load. She also created Phyllis, a fulfillment API for bot-built commerce storefronts. Her recent work also includes QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
 
 Core strengths:
 - AI infrastructure and agentic workflow development
 - Healthcare AI QA for patient prior authorization systems
 - Agent observability, trace review, and drift auditing
 - Free2PA signed agent control-file verification
+- Phyllis bot-built commerce fulfillment API
 - RAG systems and model routing
 - Azure AI Foundry, Azure OpenAI, ChatGPT 5.6, Codex 5.6, Claude Fable, Claude Code
 - FHIR R4, SNOMED CT, ICD-10, NCCN, ASCO, and clinical terminology workflows
@@ -26,11 +27,13 @@ Core strengths:
 - Tamper-evident audit chains and AI governance
 - C2PA Content Credentials and content provenance
 - React, Next.js, TypeScript, Node.js, Prisma, PostgreSQL, Azure App Service, Azure Key Vault, Azure Monitor, Application Insights, OpenTelemetry, KEDA
+- Multi-tenant API design, Stripe checkout, fulfillment-provider integrations, OpenAPI, JSON-LD, and LLM-readable product documentation
 - Technical documentation, PRDs, grant reporting, executive communication, and education
 
 Known work:
 - NYX NoCode: AI-driven no-code platform for educators and students to create modern React apps using natural language, RAG memory, Azure OpenAI, and voice input.
 - Free2PA: Public provenance demo for verifying signed agent control files before they enter model context.
+- Phyllis: Fulfillment API for bot-built commerce storefronts, including product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable documentation.
 - Healthcare client work: QA and observability systems for AI-driven patient prior authorization workflows in oncology specialty care.
 - Kilroy Blockchain: Responsible AI systems including RILEY, FLO, and CASEY.
 - RadioHead: Award-winning broadcast transcription AI agent featured by NPR affiliate KUAF.
@@ -42,5 +45,6 @@ Public links:
 - Resume: https://karenkilroy.com/resume
 - Skills: https://karenkilroy.com/skills
 - Free2PA: https://free2pa.org
+- Phyllis: https://phyllis.bot
 - Links: https://karenkilroy.com/links
 - LinkedIn: https://www.linkedin.com/in/karenkilroy/

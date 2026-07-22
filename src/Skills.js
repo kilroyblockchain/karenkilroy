@@ -23,6 +23,7 @@ const skillGroups = [
       'Retrieval-augmented generation, model routing, prompt guardrails, and abstention design',
       'Agent capability abstraction, capability routing, drift audits, and conformance checks',
       'Free2PA-style signed control-file verification before model context load',
+      'Phyllis-style fulfillment APIs for bot-built commerce and agent-operated storefronts',
       'Model Context Protocol and AI assistant tool orchestration'
     ]
   },
@@ -87,6 +88,7 @@ const skillGroups = [
     items: [
       'React, Next.js, TypeScript, Node.js, Prisma, PostgreSQL, and data access layer design',
       'Server routes, API development, SSE streaming, and real-time dashboard surfaces',
+      'Multi-tenant API design, OpenAPI documentation, and LLM-readable product docs',
       'Radix/React component work, responsive UI polish, and accessibility fixes',
       'No-code/low-code platform architecture with NYX NoCode and Peopleoids',
       'Technical documentation, PRDs, grant reporting, and research-to-ticket backlog design'

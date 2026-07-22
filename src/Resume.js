@@ -67,6 +67,7 @@ export default function Resume() {
             leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
             of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
             and rapid prototyping. Creator of Free2PA, a public provenance demo for signed agent control files.
+            Creator of Phyllis, a fulfillment API for bot-built commerce storefronts.
             Recent work includes QA and observability systems for AI-driven patient prior
             authorization workflows in oncology. O'Reilly author of four books on AI and emerging technologies. Proven
             track record in product innovation, technical communication, and industry standards leadership as Co-Chair
@@ -83,6 +84,7 @@ export default function Resume() {
               <li>Generative AI, Retrieval-Augmented Generation (RAG)</li>
               <li>Azure AI Foundry, Azure OpenAI, ChatGPT 5.6, Codex 5.6</li>
               <li>Claude Fable, Claude Code</li>
+              <li>Bot-Built Commerce APIs</li>
               <li>Deepgram Speech AI</li>
               <li>Model Context Protocol (MCP)</li>
               <li>Signed Agent Control-File Verification</li>
@@ -106,6 +108,7 @@ export default function Resume() {
             <ul className="skills">
               <li>ReactJS, Next.js, Node.js, TypeScript</li>
               <li>Prisma, PostgreSQL, Data Access Layers</li>
+              <li>Multi-Tenant APIs, Stripe, Fulfillment Integrations</li>
               <li>Azure App Service, Key Vault, Service Bus</li>
               <li>App Insights, OpenTelemetry, KEDA</li>
               <li>No-Code / Low-Code Platforms</li>
@@ -128,6 +131,18 @@ export default function Resume() {
         {/* Force this section to page 2 in print */}
         <section className="section experience-section page-break-before" aria-labelledby="experience-heading">
           <h2 id="experience-heading">Professional Experience</h2>
+
+          <article className="job" aria-label="Creator of Phyllis">
+            <p className="job-title">Creator</p>
+            <p className="job-company">Phyllis</p>
+            <p className="job-dates">2026 – Present</p>
+            <div className="job-desc">
+              <ul>
+                <li>Built a multi-tenant fulfillment API for bot-built commerce storefronts.</li>
+                <li>Designed product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable docs.</li>
+              </ul>
+            </div>
+          </article>
 
           <article className="job" aria-label="Creator of Free2PA">
             <p className="job-title">Creator</p>

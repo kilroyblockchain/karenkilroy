@@ -19,6 +19,7 @@ Karen's work is strongest where AI systems must be auditable, explainable, human
 
 - **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI
 - **Free2PA**: Public provenance demo for verifying signed agent control files before they enter model context
+- **Phyllis**: Fulfillment API for bot-built commerce storefronts, including product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable documentation
 - **Healthcare client work**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
 - **Kilroy Blockchain**: Responsible AI systems and governance
 - **C2PA AI/ML Task Force**: Co-chair helping implement content provenance standards
@@ -40,6 +41,10 @@ AI and agentic systems:
 - Agent trace review
 - Signed agent control-file verification
 - Free2PA
+- Phyllis
+- Bot-built commerce
+- Fulfillment API
+- Human-in-the-loop approval workflows
 - Agent capability routing
 - Agent drift audits
 - Model Context Protocol (MCP)
@@ -70,6 +75,12 @@ Cloud and engineering:
 - OpenTelemetry
 - KEDA
 - Message-driven worker systems
+- Multi-tenant API design
+- Stripe checkout
+- Fulfillment-provider integrations
+- OpenAPI
+- JSON-LD
+- LLM-readable product documentation
 
 Governance and provenance:
 - C2PA Content Credentials
@@ -85,7 +96,7 @@ Governance and provenance:
 
 ## Resume Summary
 
-Karen Kilroy is an AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical leadership experience. She has built AI-driven no-code platforms, healthcare AI QA systems, agentic workflow infrastructure, Free2PA signed control-file verification, content provenance systems, and audit/governance patterns for regulated AI deployment. She is a six-time IBM Champion, winner of the IBM Watson Build Challenge, O'Reilly author of four technical books, and Co-Chair of the C2PA AI/ML Task Force.
+Karen Kilroy is an AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical leadership experience. She has built AI-driven no-code platforms, healthcare AI QA systems, agentic workflow infrastructure, Free2PA signed control-file verification, Phyllis bot-built commerce fulfillment infrastructure, content provenance systems, and audit/governance patterns for regulated AI deployment. She is a six-time IBM Champion, winner of the IBM Watson Build Challenge, O'Reilly author of four technical books, and Co-Chair of the C2PA AI/ML Task Force.
 
 ## Links
 
@@ -94,6 +105,7 @@ Karen Kilroy is an AI infrastructure engineer, educator, and author with 20+ yea
 - Resume: https://karenkilroy.com/resume
 - Skills: https://karenkilroy.com/skills
 - Free2PA: https://free2pa.org
+- Phyllis: https://phyllis.bot
 - LLM-readable profile: https://karenkilroy.com/karen-kilroy-ai-profile.txt
 - NYX NoCode: https://nyx.baby
 - Kilroy Blockchain: https://www.kilroyblockchain.com
