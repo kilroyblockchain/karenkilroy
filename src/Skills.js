@@ -52,7 +52,7 @@ const skillGroups = [
     title: 'QA, Observability & Verification',
     icon: ClipboardCheck,
     items: [
-      'End-to-end patient PA QA harnesses and preview smoke tests',
+      'End-to-end QA harnesses and preview smoke tests',
       'Agent trace review, data-flow analysis, runtime metrics, and per-step attribution',
       'Asynchronous workflow monitoring, worker dispatch validation, and integration quality review',
       'Digital Twin assisted QA, before/after evidence capture, and demo-readiness verification',
@@ -95,7 +95,7 @@ const skillGroups = [
 ];
 
 const highlights = [
-  { label: 'Healthcare AI', value: 'Patient PA QA' },
+  { label: 'Healthcare AI', value: 'Prior Auth QA' },
   { label: 'Agent Platforms', value: 'Foundry + Codex + Claude' },
   { label: 'Governance', value: 'Free2PA + C2PA' },
   { label: 'Delivery', value: 'React + Azure' }
