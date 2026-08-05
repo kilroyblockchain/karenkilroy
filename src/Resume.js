@@ -6,8 +6,8 @@ export default function Resume() {
 
   const handleDownloadPdfClick = () => {
     const link = document.createElement('a');
-    link.href = '/Karen_Kilroy-Resume-August_2025.pdf';
-    link.download = 'Karen_Kilroy-Resume-August_2025.pdf';
+    link.href = '/Karen_Kilroy-Resume-August_2026.pdf';
+    link.download = 'Karen_Kilroy-Resume-August_2026.pdf';
     link.click();
   };
 
@@ -68,7 +68,7 @@ export default function Resume() {
             of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
             and rapid prototyping. Creator of Free2PA, a public provenance demo for signed agent control files.
             Creator of Phyllis, a fulfillment API for bot-built commerce storefronts.
-            Recent work includes QA and observability systems for AI-driven patient prior
+            Current Hidalga work focuses on agent infrastructure and audit trails for AI-driven patient prior
             authorization workflows in oncology. O'Reilly author of four books on AI and emerging technologies. Proven
             track record in product innovation, technical communication, and industry standards leadership as Co-Chair
             of the C2PA AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
@@ -156,15 +156,15 @@ export default function Resume() {
             </div>
           </article>
 
-          <article className="job" aria-label="AI QA and Agent Infrastructure work for a healthcare client">
-            <p className="job-title">AI QA &amp; Agent Infrastructure Developer</p>
-            <p className="job-company">Healthcare Client</p>
-            <p className="job-dates">2026 – Present</p>
+          <article className="job" aria-label="Agent Infrastructure and Audit Trails Developer at Hidalga">
+            <p className="job-title">Agent Infrastructure &amp; Audit Trails Developer</p>
+            <p className="job-company">Hidalga</p>
+            <p className="job-dates">Mar 4, 2026 – Present</p>
             <div className="job-desc">
               <ul>
-                <li>Built QA and observability systems for an AI-driven patient prior authorization platform in oncology specialty care.</li>
-                <li>Implemented audit validation, agent trace review, workflow visibility, capability conformance checks, and PHI-safe review paths.</li>
-                <li>Supported grant-funded technical scope with clinical NLP extraction, model-validation evidence, FHIR-backed pipelines, and coverage audits.</li>
+                <li>Built agent infrastructure and tamper-evident audit trails for an AI-driven patient prior authorization platform in oncology specialty care.</li>
+                <li>Implemented agent trace review, audit validation, workflow visibility, capability conformance checks, and PHI-safe review paths.</li>
+                <li>Supported grant-funded technical scope with model-validation evidence, coverage audits, FHIR-backed pipelines, and clinical NLP extraction.</li>
               </ul>
             </div>
           </article>
