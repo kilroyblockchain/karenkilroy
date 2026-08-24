@@ -94,7 +94,6 @@ export default function WalmartResumeBrief() {
             <li><strong>Retrieval and governed context.</strong> RAG and model routing in production, portable agent memory, and clinical NLP extraction from unstructured referral text over FHIR, SNOMED, and ICD-10, with guideline provenance and temporal validity treated as a product contract.</li>
             <li><strong>Owns the input and governance half of the model-improvement flywheel.</strong> Production interaction traces, tool-use trajectories from a capability dispatch ledger, and human reviewer decisions captured as governed data with provenance, PHI-safe redaction, and least-privilege access &mdash; the substrate post-training and evaluation datasets are built from.</li>
             <li><strong>Treats agent quality as an engineering discipline.</strong> Streaming end-to-end agent test runs, capability conformance checks, codebase-wide drift audits, adversarial handling of untrusted instructions, and a QA agent filing field-level evidence on real user journeys &mdash; external verification, not a model grading itself.</li>
-            <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models.</li>
           </ul>
           <ul className="skills" aria-label="AI and ML keywords">
             <li>Retrieval-Augmented Generation (RAG)</li>
@@ -117,7 +116,7 @@ export default function WalmartResumeBrief() {
         <section className="section relevance-section" aria-labelledby="impact-heading">
           <h2 id="impact-heading">3 &middot; Impact Beyond a Single Role</h2>
           <ul className="impact-list">
-            <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
+            <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force, volunteered since 2023 through Friends of Justin, a non-profit. These groups publish normative and non-normative standards and guidance documents.</li>
             <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article <a href="https://www.oreilly.com/radar/ais-opaque-box-is-actually-a-supply-chain/" target="_blank" rel="noopener noreferrer">"AI's Opaque Box Is Actually a Supply Chain"</a>, which framed AI as a traceable supply chain years before it was a category.</li>
             <li><strong>Raises the engineers nearby.</strong> Mentored the student team behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
             <li><strong>Supply chain grounding.</strong> Supply chain education through IBM Blockchain Supply Chain, IBM Food Trust, and Oracle's blockchain food traceability platform, plus supply chain blockchain systems built and shipped at Kilroy Blockchain &mdash; provenance, traceability, and chain of custody.</li>
@@ -175,7 +174,8 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2023 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>AI research for a non-profit dedicated to improving interactions between humans and AI models.</li>
+                <li>Volunteer through this non-profit for participation in the Coalition for Content Provenance and Authenticity (C2PA), the open standards body behind Content Credentials &mdash; cryptographically signed manifests recording the origin and edit history of content.</li>
+                <li>Co-Chair the AI/ML Task Force on how provenance applies to model-generated and model-modified content, and contribute to the Agentic Task Force extending it to autonomous systems: what an agent did, which model and tools were involved, and how that becomes signed, checkable evidence. Output is published as normative and non-normative standards and guidance documents.</li>
               </ul>
             </div>
           </article>
