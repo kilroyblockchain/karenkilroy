@@ -48,7 +48,7 @@ export default function WalmartResumeBrief() {
             layer that decides what an agent is allowed to do &mdash; capability contracts, policy gates, human approval,
             and audit trails that prove what happened &mdash; then build the runtime, the APIs, the data layer, and the
             operator interfaces around it. Currently doing that for a six-agent, HIPAA-regulated production pipeline.
-            Supply chain grounding through IBM programs and enterprise traceability work. Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and O'Reilly author of four books.
+            Supply chain grounding through IBM Blockchain Supply Chain and IBM Food Trust, and shipped traceability systems. Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and O'Reilly author of four books.
           </p>
         </section>
 
@@ -120,7 +120,7 @@ export default function WalmartResumeBrief() {
             <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
             <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article <a href="https://www.oreilly.com/radar/ais-opaque-box-is-actually-a-supply-chain/" target="_blank" rel="noopener noreferrer">"AI's Opaque Box Is Actually a Supply Chain"</a>, which framed AI as a traceable supply chain years before it was a category.</li>
             <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
-            <li><strong>Supply chain grounding.</strong> Supply chain education through IBM programs, and supply chain blockchain systems built and shipped at Kilroy Blockchain &mdash; provenance, traceability, and chain of custody.</li>
+            <li><strong>Supply chain grounding.</strong> Supply chain education through IBM Blockchain Supply Chain, IBM Food Trust, and Oracle's blockchain food traceability platform, plus supply chain blockchain systems built and shipped at Kilroy Blockchain &mdash; provenance, traceability, and chain of custody.</li>
             <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures.</li>
             <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017). Six-time IBM Champion.</li>
             <li><strong>Builds the full path alone.</strong> Agent runtime, APIs, PostgreSQL schema and migrations, telemetry, React/TypeScript operator interfaces, and CLI and headless surfaces &mdash; same systems, in production.</li>
@@ -134,6 +134,7 @@ export default function WalmartResumeBrief() {
             <li>OpenTelemetry, App Insights</li>
             <li>CI/CD, Layered Testing, Release Gates</li>
             <li>Least-Privilege Access, RBAC, Managed Identity</li>
+            <li>Supply Chain Traceability &amp; Chain of Custody</li>
             <li>Content Provenance (C2PA, SMPTE, ETC)</li>
             <li>Technical Writing &amp; Mentoring</li>
           </ul>
@@ -238,7 +239,7 @@ export default function WalmartResumeBrief() {
           <h2 id="certifications-heading">Recognition, Certifications &amp; Education</h2>
           <ul className="cert-list" aria-label="Recognition and education list">
             <li>Winner, University of Arkansas AI Innovation and Integration Challenge, team lead (2026), for RadioHead &middot; AWS Tech Star award (2025) &middot; IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
-            <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025) &middot; IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
+            <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025) &middot; IBM Blockchain Supply Chain &middot; IBM Food Trust &middot; Oracle blockchain food traceability &middot; IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
             <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Cloud Computing &amp; Infrastructure, agent-focused (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
             <li><strong>University of Arkansas</strong> &mdash; Studies in Music, 4.0 GPA (2023&ndash;Present) &middot; <strong>Hammel College</strong> &mdash; Office Automation &amp; Database Management (1981&ndash;1982), 4.0 GPA</li>
           </ul>
