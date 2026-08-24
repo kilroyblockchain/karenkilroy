@@ -66,6 +66,8 @@ export default function WalmartAgenticResume() {
             <li><strong>Architecture computed from reality.</strong> Built a per-run data-footprint map where the surfaces catalog carries only metadata and hit-detection rules, and the footprint is derived by observing what was actually persisted. Reroute a payload and the next run shows the new truth with nothing to redraw.</li>
             <li><strong>Agent provenance and injection defense.</strong> Created Free2PA, a public toolkit verifying signed agent control files before they enter model context &mdash; allow, deny, and quarantine primitives for untrusted instructions. Contribute regularly to C2PA's Agentic Task Force, working out how to apply C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems, with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group.</li>
             <li><strong>Consequential-action boundaries.</strong> Built Phyllis, a multi-tenant fulfillment API for autonomous commerce agents where agents propose and prepare orders and humans approve anything that spends money or ships goods, shipped as a typed, versioned, LLM-readable contract.</li>
+            <li><strong>Took an agent from an off-the-shelf harness to purpose-built infrastructure.</strong> Built RadioHead, an autonomous broadcast transcription agent, first on the OpenClaw agent harness and then re-architected onto AWS once the harness became the constraint &mdash; on the harness the agent had to be talked into things, on AWS it is programmed. Runs in production at an NPR member station with a voice interface and hard grounding rules: no claim without a credible source.</li>
+            <li><strong>Knowledge graph as durable agent memory.</strong> Seeded RadioHead with a knowledge graph of every past episode of the station's daily news program, so the agent reasons across the full archive and returns links rather than answering from a single transcript &mdash; multi-hop retrieval over a real corpus, with speaker diarization and entity resolution putting the right name on the right words.</li>
             <li><strong>Agent tooling other engineers build with.</strong> Authored 13 internal Claude Code skills, including capability-wiring and message-queue-wiring code generators used as the anti-drift mechanism, plus PAM, a credential-free browser-driving QA agent that acceptance-tests user journeys over CDP, records walkthroughs, and files field-level pass/fail evidence. PAM attaches to a human session and inherits that person's access and audit trail, so no secrets reach the model.</li>
           </ul>
           <ul className="skills" aria-label="Agentic keywords">
@@ -75,6 +77,9 @@ export default function WalmartAgenticResume() {
             <li>Typed Capability Contracts &amp; Registries</li>
             <li>Model Context Protocol (MCP) Clients &amp; Servers</li>
             <li>Tool Adapters, Function Calling, Structured Outputs</li>
+            <li>Knowledge &amp; Context Graphs</li>
+            <li>Multi-Hop Retrieval</li>
+            <li>Entity Resolution &amp; Diarization</li>
             <li>Durable Session &amp; Workflow State</li>
             <li>Context-Window Management</li>
             <li>Human-in-the-Loop Approval</li>
@@ -97,7 +102,7 @@ export default function WalmartAgenticResume() {
             <li><strong>Owns the input and governance half of the model-improvement flywheel.</strong> Production interaction traces, tool-use trajectories captured in a capability dispatch ledger, and human reviewer decisions, all recorded as governed data with provenance, temporal validity, PHI-safe redaction boundaries, and least-privilege access controls &mdash; the substrate post-training and evaluation datasets are built from, made safe enough to use in a regulated environment.</li>
             <li><strong>Treats agent quality as an engineering discipline.</strong> Streaming end-to-end agent test runs with live topology, capability conformance checks, drift audits across the codebase, adversarial handling of untrusted instructions, PHI-redaction tests, and PAM filing field-level pass/fail evidence on real user journeys &mdash; external verification rather than a model grading its own output.</li>
             <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models, covering responsible AI, natural language processing, and model behavior.</li>
-            <li><strong>Speech and multimodal.</strong> Integrated Deepgram speech AI for real-time voice input in production classroom workflows, and built RadioHead, an autonomous broadcast transcription agent running at an NPR member station.</li>
+            <li><strong>Speech and multimodal.</strong> Integrated Deepgram speech AI for real-time voice input in production classroom workflows; built speaker diarization and transcription pipelines running against live broadcast audio.</li>
           </ul>
           <ul className="skills" aria-label="AI and ML keywords">
             <li>Retrieval-Augmented Generation (RAG)</li>
@@ -187,7 +192,9 @@ export default function WalmartAgenticResume() {
               <div className="job-desc">
                 <ul>
                   <li>Built an autonomous broadcast transcription agent that turns live public radio programming into searchable, publishable text for an NPR member station.</li>
-                  <li>Started the agent on OpenClaw, then re-architected and migrated it onto AWS for production reliability.</li>
+                  <li>Started the agent on the OpenClaw harness, then re-architected and migrated it onto AWS for production reliability and programmability, funded by an AWS Tech Star award.</li>
+                  <li>Seeded the AWS version with a knowledge graph of every past episode of the station's daily news program, enabling multi-hop answers across the archive with source links.</li>
+                  <li>Built speaker diarization and entity resolution, plus grounding rules that forbid any claim without a credible source. Public at radiohead.bot.</li>
                   <li>Built with a student collaborator; the system won a student competition and is credited by the station with expanding what its small newsroom can produce.</li>
                   <li>Featured on the station's daily news program, <em>Ozarks at Large</em>.</li>
                 </ul>
@@ -377,7 +384,8 @@ export default function WalmartAgenticResume() {
         <section className="section certifications" aria-labelledby="certifications-heading">
           <h2 id="certifications-heading">Recognition &amp; Certifications</h2>
           <ul className="cert-list" aria-label="Certifications list">
-            <li>Winner, University of Arkansas AI Innovation and Integration Challenge &mdash; team lead (2026)</li>
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge &mdash; team lead (2026), for RadioHead</li>
+            <li>AWS Tech Star award (2025) &mdash; cloud credits used to re-architect RadioHead onto AWS</li>
             <li>IBM Watson Build Challenge Winner &mdash; North America (2017)</li>
             <li>IBM Champion &mdash; six-time honoree, 2020&ndash;2025</li>
             <li>AI Fluency for Students &mdash; Anthropic (Aug 2025)</li>

@@ -62,6 +62,7 @@ export default function WalmartResumeBrief() {
             <li><strong>Explicit, recoverable execution.</strong> Moved all agent dispatch onto queue-based execution end to end, with durable workflow state, retry and repair paths, and trace sealing across the web-request-to-worker boundary.</li>
             <li><strong>Forensic observability.</strong> Hash-chained tamper-evident execution traces with chain verification, liveness and stall detection, live SSE streaming, per-step token accounting, and audit entries recording which capability ran and which model answered.</li>
             <li><strong>Agent provenance and injection defense.</strong> Created Free2PA, a public toolkit that verifies signed agent control files before they reach model context &mdash; allow, deny, and quarantine primitives for untrusted instructions. Contribute to C2PA's Agentic Task Force, applying C2PA to agentic systems with colleagues from Adobe, Microsoft, Google, OpenAI, Meta, Amazon, Sony, and the BBC.</li>
+            <li><strong>Harness to purpose-built runtime, with a knowledge graph for memory.</strong> Built RadioHead, an autonomous broadcast transcription agent, first on the OpenClaw harness and then re-architected onto AWS once the harness became the constraint &mdash; on the harness it had to be talked into things, on AWS it is programmed. Seeded with a knowledge graph of the station's full program archive for multi-hop answers with source links, plus speaker diarization, entity resolution, a voice interface, and hard grounding rules: no claim without a credible source. In production at an NPR member station.</li>
             <li><strong>Agent tooling for other engineers.</strong> 13 internal Claude Code skills including wiring code generators used as the anti-drift mechanism, plus PAM, a credential-free browser-driving QA agent that acceptance-tests user journeys over CDP and files field-level evidence.</li>
           </ul>
           <ul className="skills" aria-label="Agentic keywords">
@@ -70,6 +71,9 @@ export default function WalmartResumeBrief() {
             <li>Model Context Protocol (MCP)</li>
             <li>Tool Adapters &amp; Function Calling</li>
             <li>Structured Outputs</li>
+            <li>Knowledge &amp; Context Graphs</li>
+            <li>Multi-Hop Retrieval</li>
+            <li>Entity Resolution &amp; Diarization</li>
             <li>Durable Session &amp; Workflow State</li>
             <li>Context-Window Management</li>
             <li>Human-in-the-Loop Approval</li>
@@ -145,7 +149,7 @@ export default function WalmartResumeBrief() {
             <div className="job-desc">
               <ul>
                 <li><strong>Hidalga</strong> (client engagement) &mdash; agent capability layer, policy-first control, forensic observability, and model trust contract for a six-agent HIPAA-regulated oncology prior authorization pipeline.</li>
-                <li><strong>RadioHead</strong> &mdash; autonomous broadcast transcription agent for an NPR member station; started on OpenClaw, migrated onto AWS. Built with a student collaborator; won a student competition.</li>
+                <li><strong>RadioHead</strong> (radiohead.bot) &mdash; autonomous broadcast transcription agent for an NPR member station; started on the OpenClaw harness, re-architected onto AWS, and seeded with a knowledge graph of the full program archive for multi-hop answers with source links. Built with a student collaborator; won the University of Arkansas AI Innovation and Integration Challenge.</li>
                 <li><strong>Free2PA</strong> (free2pa.org) &mdash; public provenance toolkit verifying signed agent control files before model context load.</li>
                 <li><strong>Phyllis</strong> (phyllis.bot) &mdash; multi-tenant fulfillment API for autonomous commerce agents; agents prepare orders, humans approve anything that spends money or ships goods.</li>
               </ul>
@@ -233,7 +237,7 @@ export default function WalmartResumeBrief() {
         <section className="section certifications" aria-labelledby="certifications-heading">
           <h2 id="certifications-heading">Recognition, Certifications &amp; Education</h2>
           <ul className="cert-list" aria-label="Recognition and education list">
-            <li>Winner, University of Arkansas AI Innovation and Integration Challenge, team lead (2026) &middot; IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge, team lead (2026), for RadioHead &middot; AWS Tech Star award (2025) &middot; IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
             <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025) &middot; IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
             <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Cloud Computing &amp; Infrastructure, agent-focused (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
             <li><strong>University of Arkansas</strong> &mdash; Studies in Music, 4.0 GPA (2023&ndash;Present) &middot; <strong>Hammel College</strong> &mdash; Office Automation &amp; Database Management (1981&ndash;1982), 4.0 GPA</li>
