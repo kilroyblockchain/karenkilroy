@@ -62,6 +62,16 @@ export default function WalmartResumeBrief() {
           </p>
         </section>
 
+        <section className="section relevance-section" aria-labelledby="impact-heading">
+          <h2 id="impact-heading">Impact Beyond My Own Scope</h2>
+          <ul className="impact-list">
+            <li><strong>Created capability that did not exist.</strong> Designed the capability abstraction layer now standing between six production agents and every backend they depend on, codified it as a project standard, and drift-audited the codebase against it &mdash; a foundation the team keeps building on.</li>
+            <li><strong>Built leverage for other engineers.</strong> 13 internal Claude Code skills, including wiring generators that keep a growing agent codebase on its own standards, and PAM, a QA agent that acceptance-tests real user journeys and files field-level evidence.</li>
+            <li><strong>Set direction beyond one company.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to SMPTE/ETC, turning provenance standards into implementations teams can actually adopt &mdash; then shipped Free2PA as the working reference.</li>
+            <li><strong>Taught the field.</strong> Four O'Reilly books and the Radar article "AI's Opaque Box Is Actually a Supply Chain," plus mentorship that produced RadioHead, an award-winning agent now running at an NPR member station.</li>
+          </ul>
+        </section>
+
         <section className="section skills-section" aria-labelledby="skills-heading">
           <h2 id="skills-heading">Core Skills</h2>
           <div className="skills-group" aria-label="Agentic AI skills">

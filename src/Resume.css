@@ -191,7 +191,11 @@
   .resume-page a[href^="http"]::after { content: none !important; }
 
   /* Brief application version: fit three pages */
-  .resume-page.walmart-brief-resume { font-size: 9.8pt; line-height: 1.32; }
+  .resume-page.walmart-brief-resume { font-size: 9.2pt; line-height: 1.28; }
+  .resume-page.walmart-brief-resume .container { padding: 0.42in !important; }
+  .resume-page.walmart-brief-resume .section h2 { font-size: 1.15rem; margin-bottom: 0.3rem; }
+  .resume-page.walmart-brief-resume .impact-list li { margin-bottom: 0.28rem; }
+  .resume-page.walmart-brief-resume .summary { font-size: 9.4pt; }
   .resume-page.walmart-brief-resume .section { margin-bottom: 0.8rem; }
   .resume-page.walmart-brief-resume .job { margin-bottom: 0.7rem; }
   .resume-page.walmart-brief-resume .header-image { width: 95px; height: 95px; }
