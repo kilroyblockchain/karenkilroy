@@ -65,8 +65,8 @@ export default function Resume() {
           <p className="summary">
             AI infrastructure engineer, educator, and author with 20+ years of full-stack development and technical
             leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
-            of NYX NoCode, an AI-driven web application builder enabling natural-language app creation for classrooms
-            and rapid prototyping. Creator of Free2PA, a public provenance demo for signed agent control files.
+            of NYX NoCode, an AI-driven web application builder serving public school customers with natural-language
+            app creation for classrooms and rapid prototyping. Creator of Free2PA, a public provenance toolkit for signed agent control files.
             Creator of Phyllis, a fulfillment API for bot-built commerce storefronts.
             Current Hidalga work focuses on agent infrastructure and audit trails for AI-driven patient prior
             authorization workflows in oncology. O'Reilly author of four books on AI and emerging technologies. Proven
@@ -132,40 +132,61 @@ export default function Resume() {
         <section className="section experience-section page-break-before" aria-labelledby="experience-heading">
           <h2 id="experience-heading">Professional Experience</h2>
 
-          <article className="job" aria-label="Creator of Phyllis">
-            <p className="job-title">Creator</p>
-            <p className="job-company">Phyllis</p>
+          <article className="job" aria-label="Founder and Principal Engineer at Kilroy AI LLC">
+            <p className="job-title">Founder &amp; Principal Engineer</p>
+            <p className="job-company">Kilroy AI LLC</p>
             <p className="job-dates">2026 – Present</p>
             <div className="job-desc">
-              <ul>
-                <li>Built a multi-tenant fulfillment API for bot-built commerce storefronts.</li>
-                <li>Designed product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable docs.</li>
-              </ul>
+              <p className="job-context">
+                Independent agentic AI engineering practice. Client and partner engagements plus publicly released products.
+              </p>
             </div>
-          </article>
 
-          <article className="job" aria-label="Creator of Free2PA">
-            <p className="job-title">Creator</p>
-            <p className="job-company">Free2PA</p>
-            <p className="job-dates">2026 – Present</p>
-            <div className="job-desc">
-              <ul>
-                <li>Built a public provenance demo that verifies signed agent control files before model context load.</li>
-                <li>Designed the workflow to demonstrate trust decisions, signed artifacts, rejection paths, and governed AI agent behavior.</li>
-              </ul>
+            <div className="job-sub">
+              <p className="job-sub-title">Hidalga – Agent Infrastructure &amp; Audit Trails</p>
+              <p className="job-sub-meta">Client engagement · Mar 2026 – Present</p>
+              <div className="job-desc">
+                <ul>
+                  <li>Built agent infrastructure and tamper-evident audit trails for an AI-driven patient prior authorization platform in oncology specialty care.</li>
+                  <li>Architected a capability abstraction layer separating agents from every backend they depend on, so backends change without touching agent code.</li>
+                  <li>Implemented agent trace review, audit validation, workflow visibility, capability conformance checks, and PHI-safe review paths.</li>
+                  <li>Supported grant-funded technical scope with model-validation evidence, coverage audits, FHIR-backed pipelines, and clinical NLP extraction.</li>
+                </ul>
+              </div>
             </div>
-          </article>
 
-          <article className="job" aria-label="Agent Infrastructure and Audit Trails Developer at Hidalga">
-            <p className="job-title">Agent Infrastructure &amp; Audit Trails Developer</p>
-            <p className="job-company">Hidalga</p>
-            <p className="job-dates">Mar 4, 2026 – Present</p>
-            <div className="job-desc">
-              <ul>
-                <li>Built agent infrastructure and tamper-evident audit trails for an AI-driven patient prior authorization platform in oncology specialty care.</li>
-                <li>Implemented agent trace review, audit validation, workflow visibility, capability conformance checks, and PHI-safe review paths.</li>
-                <li>Supported grant-funded technical scope with model-validation evidence, coverage audits, FHIR-backed pipelines, and clinical NLP extraction.</li>
-              </ul>
+            <div className="job-sub">
+              <p className="job-sub-title">RadioHead</p>
+              <p className="job-sub-meta">Broadcast transcription agent · NPR affiliate KUAF · 2026 – Present</p>
+              <div className="job-desc">
+                <ul>
+                  <li>Built an autonomous broadcast transcription agent that turns live public radio programming into searchable, publishable text.</li>
+                  <li>Started the agent on OpenClaw, then re-architected and migrated it onto AWS for production reliability.</li>
+                  <li>Built with a student collaborator; won a student competition and featured on <em>Ozarks at Large</em>.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="job-sub">
+              <p className="job-sub-title">Free2PA</p>
+              <p className="job-sub-meta">Product · free2pa.org · 2026 – Present</p>
+              <div className="job-desc">
+                <ul>
+                  <li>Built a public provenance toolkit that verifies signed agent control files before model context load.</li>
+                  <li>Designed the workflow to demonstrate trust decisions, signed artifacts, rejection paths, and governed AI agent behavior.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="job-sub">
+              <p className="job-sub-title">Phyllis</p>
+              <p className="job-sub-meta">Product · phyllis.bot · 2026 – Present</p>
+              <div className="job-desc">
+                <ul>
+                  <li>Built a multi-tenant fulfillment API for bot-built commerce storefronts.</li>
+                  <li>Designed product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable docs.</li>
+                </ul>
+              </div>
             </div>
           </article>
 
@@ -175,8 +196,8 @@ export default function Resume() {
             <p className="job-dates">2024 – Present</p>
             <div className="job-desc">
               <ul>
-                <li>Built an AI-driven no-code platform using ReactJS and Azure OpenAI, incorporating model routing and RAG-based memory.</li>
-                <li>Integrated Deepgram transcription and real-time voice input into classroom AI workflows.</li>
+                <li>Built an AI-driven no-code platform using ReactJS and Azure OpenAI, incorporating model routing and RAG-based memory for educators, students, and public school customers.</li>
+                <li>Integrated Deepgram transcription and real-time voice input into classroom AI workflows for public school use cases.</li>
                 <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for finetuning and reuse.</li>
                 <li>Created public NYX prototypes including <em>Idea Beast</em> for AI-assisted ideation and <em>Music Seer</em> for responsive guitar MIDI visualization.</li>
                 <li>Delivered hackathons and educational programs demonstrating rapid deployment of AI applications.</li>
@@ -200,7 +221,7 @@ export default function Resume() {
           <article className="job" aria-label="CEO at Kilroy Blockchain">
             <p className="job-title">CEO</p>
             <p className="job-company">Kilroy Blockchain</p>
-            <p className="job-dates">2016 – Present</p>
+            <p className="job-dates">2016 – 2025</p>
             <div className="job-desc">
               <ul>
                 <li>Led development of AI and workflow systems including <strong>RILEY</strong> (IBM Watson Build North America winner, 2017).</li>
@@ -268,7 +289,7 @@ export default function Resume() {
           <ul className="education-list" aria-label="Education list">
             <li><strong>Hammel College</strong> – Office Automation &amp; Database Management (1981–1982), 4.0 GPA</li>
             <li><strong>University of Arkansas</strong> – Studies in Music (Voice/Piano), 4.0 GPA (2023–Present)</li>
-            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> – Infrastructure &amp; Cloud Computing (2026)</li>
+            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> – Infrastructure &amp; Cloud Computing (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
           </ul>
         </section>
       </main>

@@ -48,6 +48,18 @@
   color: var(--brand);
   border-color: var(--brand);
 }
+.resume-page .print-link {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--brand);
+  background: #fff;
+  color: var(--brand);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.resume-page .print-link:hover { filter: brightness(0.97); }
 
 .resume-page .container {
   max-width: 900px;
@@ -63,6 +75,14 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+.resume-page .resume-version {
+  margin: 0 0 0.25rem;
+  color: var(--brand);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 .resume-page .site-title { font-weight: 700; font-size: 2.8rem; color: #111827; margin: 0; }
 .resume-page .header-image {
@@ -91,6 +111,15 @@
 .resume-page .skills-group-title {
   font-weight: 600; font-size: 1rem; color: var(--brand-deep);
   margin: 0 0 0.35rem;
+}
+
+.resume-page .impact-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: #374151;
+}
+.resume-page .impact-list li {
+  margin-bottom: 0.45rem;
 }
 
 .resume-page .speaking-list { list-style: none; padding-left: 0; margin: 0; }
@@ -130,13 +159,73 @@
     margin: 0 !important; padding: 0.5in !important;
   }
 
-  .resume-page .section h2, .resume-page .job, .resume-page .skills, .resume-page .contact {
+  .resume-page { font-size: 10.5pt; line-height: 1.38; }
+  .resume-page .site-title { font-size: 2rem; }
+  .resume-page .header-image { width: 110px; height: 110px; }
+
+  /* Only small units may avoid breaking. Large blocks must flow across pages,
+     otherwise an oversized job block pushes a mostly-blank page ahead of it. */
+  .resume-page .section h2, .resume-page .contact, .resume-page .skills-group {
     break-inside: avoid; page-break-inside: avoid;
   }
+  .resume-page .job, .resume-page .job-sub, .resume-page .job-desc,
+  .resume-page .job-desc ul, .resume-page .section {
+    break-inside: auto; page-break-inside: auto;
+  }
+  .resume-page .job-desc li, .resume-page .impact-list li, .resume-page .speaking-list li {
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .resume-page .job-title, .resume-page .job-company, .resume-page .job-dates,
+  .resume-page .job-sub-title, .resume-page .job-sub-meta, .resume-page .job-context {
+    break-after: avoid; page-break-after: avoid;
+  }
+  .resume-page .job { margin-bottom: 1rem; }
+
+  /* Compact skill pills so they flow many-per-row instead of two */
+  .resume-page .skills { gap: 0.25rem 0.45rem; }
+  .resume-page .skills li { padding: 0.12rem 0.45rem; font-size: 8.5pt; font-weight: 600; }
+  .resume-page .skills-group { margin-bottom: 0.45rem; }
+  .resume-page .skills-group-title { font-size: 10pt; margin-bottom: 0.2rem; }
+
+  /* Don't print the URL after every link - it bloats the page */
+  .resume-page a[href^="http"]::after { content: none !important; }
+
+  /* Brief application version: fit three pages */
+  .resume-page.walmart-brief-resume { font-size: 9.8pt; line-height: 1.32; }
+  .resume-page.walmart-brief-resume .section { margin-bottom: 0.8rem; }
+  .resume-page.walmart-brief-resume .job { margin-bottom: 0.7rem; }
+  .resume-page.walmart-brief-resume .header-image { width: 95px; height: 95px; }
 
   .resume-page * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   .resume-page a[href^="http"]::after {
     content: " (" attr(href) ")"; font-weight: 400; font-size: 10pt; color: #6b7280;
   }
+}
+
+.resume-page .job-context {
+  margin: 0 0 0.5rem;
+  color: #4b5563;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Nested engagements / products under a parent practice */
+.resume-page .job-sub {
+  margin: 0.9rem 0 0 0.9rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid #e5e7eb;
+}
+.resume-page .job-sub-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--brand-deep);
+  margin: 0;
+}
+.resume-page .job-sub-meta {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--muted-2);
+  margin: 0.1rem 0 0.4rem;
 }

@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App.js';
 import Resume from './Resume.js';
+import MobilityResume from './MobilityResume.js';
+import DeloitteTrustworthyAIResume from './DeloitteTrustworthyAIResume.js';
+import WalmartAgenticResume from './WalmartAgenticResume.js';
+import WalmartResumeBrief from './WalmartResumeBrief.js';
 import LinkTree from './LinkTree.js';
 import Free2PA from './Free2PA.js';
 import Skills from './Skills.js';
@@ -25,6 +29,10 @@ root.render(
                 <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/resume" element={<Resume />} />
+                    <Route path="/resume-mobility" element={<MobilityResume />} />
+                    <Route path="/resume-deloitte-ai" element={<DeloitteTrustworthyAIResume />} />
+                    <Route path="/resume-walmart" element={<WalmartAgenticResume />} />
+                    <Route path="/resume-walmart-brief" element={<WalmartResumeBrief />} />
                     <Route path="/skills" element={<Skills />} />
                     <Route path="/links" element={<LinkTree />} />
                     <Route path="/free2pa" element={<Free2PA />} />

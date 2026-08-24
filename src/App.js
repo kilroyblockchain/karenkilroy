@@ -12,11 +12,12 @@ const Portfolio = () => {
   ];
 
   const focusList = [
+    "Policy-first agent runtimes where tool access, context loading, and consequential actions are gated before execution.",
     "Generative AI + RAG platforms routed through Azure AI Foundry, ChatGPT, Codex, and Claude.",
     "Auditable patient prior authorization QA systems for regulated oncology workflows.",
     "Free2PA provenance checks that verify signed agent control files before model context load.",
     "Phyllis fulfillment APIs for bot-built commerce, human approval, and order tracking.",
-    "Voice-forward classroom workflows that pair Deepgram with NYX NoCode.",
+    "Voice-forward classroom workflows for public school customers that pair Deepgram with NYX NoCode.",
     "Translating provenance standards (C2PA, SMPTE/ETC) into real, shippable products."
   ];
 
@@ -24,6 +25,10 @@ const Portfolio = () => {
     {
       title: "Regulated AI Systems",
       text: "I design AI workflows that can be audited, explained, and reviewed by humans instead of treated as black boxes."
+    },
+    {
+      title: "Policy-First Agent Runtimes",
+      text: "I build long-horizon agent workflows with explicit allow/deny decisions, human approval gates, durable state, and recovery paths."
     },
     {
       title: "Agent Provenance",
@@ -38,7 +43,7 @@ const Portfolio = () => {
   const roleTargets = [
     "AI Infrastructure Engineer",
     "Healthcare AI QA Lead",
-    "Agentic Systems Developer",
+    "Agentic AI Platform Engineer",
     "AI Governance / Provenance Consultant"
   ];
 
@@ -128,7 +133,7 @@ const Portfolio = () => {
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current build</p>
               <p className="text-slate-100 font-semibold">NYX NoCode</p>
-              <p>NYX NoCode is an educator-led platform that transforms classrooms into creative studios, giving students hands-on experience with generative AI and modern computing.</p>
+              <p>NYX NoCode is an educator-led platform serving public school customers, transforming classrooms into creative studios where students get hands-on experience with generative AI and modern computing.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current healthcare AI</p>
@@ -141,7 +146,7 @@ const Portfolio = () => {
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Public proof point</p>
               <p className="text-slate-100 font-semibold">Free2PA</p>
               <p>
-                A working provenance demo for signed agent control files, built to keep unverified instructions out of model context.
+                A public provenance toolkit for signed agent control files, built to keep unverified instructions out of model context.
               </p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:col-span-2">
@@ -226,7 +231,7 @@ const Portfolio = () => {
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
               My path runs from leading the IBM Watson Build&ndash;winning RILEY team at Kilroy Blockchain to NYX NoCode&mdash;where
-              educators and students can create and deploy modern React apps with Azure OpenAI. I also wrote <em>Blockchain Tethered AI</em>,
+              educators, students, and public school customers can create and deploy modern React apps with Azure OpenAI. I also wrote <em>Blockchain Tethered AI</em>,
               exploring how systems can bind data, identity, and accountability in ways that hold up outside the lab. Alongside the builds,
               I co-chair the C2PA AI/ML Task Force, helping turn content provenance into something teams can actually implement in production.
             </p>
@@ -410,7 +415,7 @@ const Portfolio = () => {
               <h3 className="text-lg md:text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
               <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
               <p className="text-slate-400 leading-relaxed mb-3">
-                Built an AI-driven no-code platform using ReactJS + Azure OpenAI with Deepgram voice input so educators can spin up classroom-ready
+                Built an AI-driven no-code platform using ReactJS + Azure OpenAI with Deepgram voice input so educators and public school customers can spin up classroom-ready
                 RAG apps in one conversation. Developed Peopleoids, a portable assistant with instant memory suitable for finetuning and reuse,
                 plus public prototypes including Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization.
               </p>
@@ -429,10 +434,10 @@ const Portfolio = () => {
             <div className="relative pl-8 border-l-2 border-slate-800">
               <div className="absolute -left-[9px] top-0 w-4 h-4 bg-slate-700 rounded-full"></div>
               <h3 className="text-xl font-bold">CEO — Kilroy Blockchain</h3>
-              <p className="text-blue-400 text-sm mb-4">2016 – Present</p>
+              <p className="text-blue-400 text-sm mb-4">2016 – 2025</p>
               <p className="text-slate-400 leading-relaxed">
                 Lead architect for RILEY (IBM Watson Build Challenge winner), FLO (Forms Workflow), and CASEY (Case Management).
-                I direct engineering, business ops, and the ethics checkpoints that keep enterprise AI accountable.
+                I directed engineering, business ops, and the ethics checkpoints that kept enterprise AI accountable.
               </p>
             </div>
 

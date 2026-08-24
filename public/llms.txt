@@ -4,12 +4,12 @@
 
 ## About
 
-Karen Kilroy is a developer, author, and educator building trustworthy AI systems. She led the IBM Watson Build-winning RILEY team at Kilroy Blockchain and now develops NYX NoCode, an educator-led platform that transforms classrooms into creative studios for generative AI.
+Karen Kilroy is a developer, author, and educator building trustworthy AI systems. She led the IBM Watson Build-winning RILEY team at Kilroy Blockchain and now develops NYX NoCode, an educator-led platform serving public school customers and transforming classrooms into creative studios for generative AI.
 
 Karen's current market positioning:
+- Agentic AI Platform Engineer (multi-agent runtimes, policy-first control planes, MCP tool lifecycle)
 - AI Infrastructure Engineer
 - Healthcare AI QA Lead
-- Agentic Systems Developer
 - AI Governance and Provenance Consultant
 - Technical Author and Standards Contributor
 
@@ -17,14 +17,15 @@ Karen's work is strongest where AI systems must be auditable, explainable, human
 
 ## Key Work
 
-- **NYX NoCode**: AI-driven platform for educators and students to build modern React apps with Azure OpenAI; public prototypes include Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization
-- **Free2PA**: Public provenance demo for verifying signed agent control files before they enter model context
+- **NYX NoCode**: AI-driven platform for educators, students, and public school customers to build modern React apps with Azure OpenAI; public prototypes include Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization
+- **Free2PA**: Public provenance toolkit for verifying signed agent control files before they enter model context
 - **Phyllis**: Fulfillment API for bot-built commerce storefronts, including product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable documentation
 - **Healthcare client work**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
-- **Kilroy Blockchain**: Responsible AI systems and governance
+- **Kilroy AI LLC**: Independent agentic AI engineering practice (2026-present) delivering client engagements and shipping products, including the Hidalga agent platform engagement, RadioHead, Free2PA, and Phyllis
+- **Kilroy Blockchain**: Responsible AI systems and governance (2016-2025), including RILEY, winner of the IBM Watson Build Challenge North America
 - **C2PA AI/ML Task Force**: Co-chair helping implement content provenance standards
-- **O'Reilly Books**: Blockchain Tethered AI, Natural Language and Search, AI and the Law, Blockchain as a Service
-- **RadioHead**: Award-winning broadcast transcription agent built with student collaborator Aiden Maroney and featured by NPR affiliate KUAF
+- **O'Reilly Books and writing**: Blockchain Tethered AI, Natural Language and Search, AI and the Law, Blockchain as a Service, and the O'Reilly Radar article "AI's Opaque Box Is Actually a Supply Chain"
+- **RadioHead**: Award-winning autonomous broadcast transcription agent for NPR affiliate KUAF, started on OpenClaw and migrated onto AWS, built with student collaborator Aiden Maroney
 
 ## Skills and Keywords
 
@@ -48,6 +49,19 @@ AI and agentic systems:
 - Agent capability routing
 - Agent drift audits
 - Model Context Protocol (MCP)
+- MCP clients and servers
+- Multi-agent orchestration
+- Long-horizon autonomous workflows
+- Policy-first agent runtimes
+- Allow / deny / ask tool gating
+- Least-privilege tool and data access
+- Durable session and workflow state
+- Context-window management
+- Prompt-injection and untrusted-instruction defenses
+- Agent evaluation and failure analysis
+- Structured outputs and function calling
+- Typed API contracts and versioning
+- AI-native development with Claude Code and Codex
 
 Healthcare AI and QA:
 - Patient prior authorization QA
@@ -68,6 +82,8 @@ Cloud and engineering:
 - Node.js
 - Prisma
 - PostgreSQL
+- Python (intermediate)
+- AWS agent deployment and migration
 - Azure App Service
 - Azure Key Vault
 - Azure Monitor

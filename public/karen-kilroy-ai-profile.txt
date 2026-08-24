@@ -1,21 +1,25 @@
 Karen Kilroy - LLM-readable professional profile
 
 Primary positioning:
-Karen Kilroy is an AI infrastructure engineer, healthcare AI QA builder, developer, author, educator, and AI governance/provenance specialist.
+Karen Kilroy is an agentic AI platform engineer, AI infrastructure engineer, healthcare AI QA builder, developer, author, educator, and AI governance/provenance specialist.
 
 Best-fit roles:
+- Agentic AI Platform Engineer
 - AI Infrastructure Engineer
 - Healthcare AI QA Lead
-- Agentic Systems Developer
 - AI Governance Consultant
 - Content Provenance / C2PA Consultant
 - Technical Author / Developer Advocate for AI infrastructure
 
 Short summary:
-Karen Kilroy builds trustworthy AI systems that are auditable, reviewable, clinically grounded, and practical enough for production teams. She created Free2PA, a public provenance demo that verifies signed agent control files before model context load. She also created Phyllis, a fulfillment API for bot-built commerce storefronts. Her recent work also includes QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
+Karen Kilroy builds trustworthy AI systems that are auditable, reviewable, clinically grounded, and practical enough for production teams. She created Free2PA, a public provenance toolkit that verifies signed agent control files before model context load. She also created Phyllis, a fulfillment API for bot-built commerce storefronts. Her recent work also includes QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
 
 Core strengths:
 - AI infrastructure and agentic workflow development
+- Policy-first agent runtimes: allow/deny tool gating, human approval for consequential actions, durable workflow state, recovery paths
+- Multi-agent orchestration and long-horizon autonomous work
+- Model Context Protocol (MCP) clients, servers, and tool lifecycle management
+- Prompt-injection and untrusted-instruction defenses
 - Healthcare AI QA for patient prior authorization systems
 - Agent observability, trace review, and drift auditing
 - Free2PA signed agent control-file verification
@@ -26,18 +30,21 @@ Core strengths:
 - PHI-safe review patterns and HIPAA-oriented audit logging
 - Tamper-evident audit chains and AI governance
 - C2PA Content Credentials and content provenance
+- Python (intermediate)
+- AWS agent deployment and migration
 - React, Next.js, TypeScript, Node.js, Prisma, PostgreSQL, Azure App Service, Azure Key Vault, Azure Monitor, Application Insights, OpenTelemetry, KEDA
 - Multi-tenant API design, Stripe checkout, fulfillment-provider integrations, OpenAPI, JSON-LD, and LLM-readable product documentation
 - Technical documentation, PRDs, grant reporting, executive communication, and education
 
 Known work:
-- NYX NoCode: AI-driven no-code platform for educators and students to create modern React apps using natural language, RAG memory, Azure OpenAI, and voice input. Public NYX prototypes include Idea Beast for AI-assisted ideation and Music Seer for responsive guitar MIDI visualization.
-- Free2PA: Public provenance demo for verifying signed agent control files before they enter model context.
+- NYX NoCode: AI-driven no-code platform for educators, students, and public school customers to create modern React apps using natural language, RAG memory, Azure OpenAI, and voice input. Public NYX prototypes include Idea Beast for AI-assisted ideation and Music Seer for responsive guitar MIDI visualization.
+- Free2PA: Public provenance toolkit for verifying signed agent control files before they enter model context.
 - Phyllis: Fulfillment API for bot-built commerce storefronts, including product validation, Stripe checkout, fulfillment-provider integration, human approval workflows, order tracking, OpenAPI, and LLM-readable documentation.
 - Healthcare client work: QA and observability systems for AI-driven patient prior authorization workflows in oncology specialty care.
-- Kilroy Blockchain: Responsible AI systems including RILEY, FLO, and CASEY.
-- RadioHead: Award-winning broadcast transcription AI agent featured by NPR affiliate KUAF.
-- O'Reilly Media: Author of Natural Language and Search, Blockchain Tethered AI, AI and the Law, and Blockchain as a Service.
+- Kilroy AI LLC: Independent agentic AI engineering practice founded 2026, delivering client engagements and shipping products. Work includes the Hidalga agent infrastructure engagement, RadioHead, Free2PA, and Phyllis.
+- Kilroy Blockchain (2016-2025): Responsible AI systems including RILEY, FLO, and CASEY.
+- RadioHead: Award-winning autonomous broadcast transcription agent for NPR affiliate KUAF, started on OpenClaw and migrated onto AWS.
+- O'Reilly Media: Author of Natural Language and Search, Blockchain Tethered AI, AI and the Law, and Blockchain as a Service; wrote the O'Reilly Radar article "AI's Opaque Box Is Actually a Supply Chain."
 - C2PA AI/ML Task Force: Co-Chair contributing to AI/ML content provenance standards.
 
 Public links:
