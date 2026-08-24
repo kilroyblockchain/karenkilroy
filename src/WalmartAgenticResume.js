@@ -18,7 +18,7 @@ export default function WalmartAgenticResume() {
 
         <header className="header">
           <div>
-            <p className="resume-version">Agentic AI Platform Engineer · Multi-Agent Runtimes · Policy-First Control Planes</p>
+            <p className="resume-version">Agentic AI Systems Engineer · Multi-Agent Runtimes · Policy-First Control Planes</p>
             <h1 className="site-title">Karen Kilroy</h1>
           </div>
           <img
@@ -29,140 +29,116 @@ export default function WalmartAgenticResume() {
         </header>
 
         <p className="contact screen-only" aria-label="Contact (web)">
-          Contact:{' '}
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform?usp=header"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-strong"
-          >
-            Submit inquiry via Google Form
-          </a>{' '}
+          <a href="mailto:karen@kilroyai.com" className="link-strong">karen@kilroyai.com</a>{' '}
           | LinkedIn:{' '}
-          <a
-            href="https://linkedin.com/in/karenkilroy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-strong"
-          >
+          <a href="https://linkedin.com/in/karenkilroy" target="_blank" rel="noopener noreferrer" className="link-strong">
             linkedin.com/in/karenkilroy
-          </a>
+          </a>{' '}
+          | Farmington, AR
         </p>
 
         <p className="contact print-only" aria-label="Contact (print)">
-          Email: <a href="mailto:karen@kilroyai.com">karen@kilroyai.com</a> | Phone: 330-289-1351 | LinkedIn: linkedin.com/in/karenkilroy
+          karen@kilroyai.com | 330-289-1351 | linkedin.com/in/karenkilroy | Farmington, AR
         </p>
 
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            Software engineer and architect with 40+ years in IT, the last decade building AI systems and now focused
-            entirely on agentic AI. At Hidalga, designed the layer that governs which tools and data six AI agents are
-            allowed to use inside a HIPAA-regulated oncology prior authorization pipeline, together with the audit system
-            that proves what each agent did, why it was permitted, and which model answered. Builds the whole path
-            personally: agent orchestration, backend services and APIs, the database layer, and the React and
-            command-line interfaces operators work in. Creator of Free2PA, which verifies signed agent instruction files
-            before they reach a model, and of Phyllis, a fulfillment API for autonomous commerce agents. Six-time IBM
-            Champion, winner of the IBM Watson Build Challenge North America, O'Reilly author of four books, and Co-Chair
-            of the C2PA AI/ML Task Force.
+            Agentic AI systems engineer with 40+ years in IT and the last decade building AI. I architect and ship the
+            layer that decides what an agent is allowed to do &mdash; capability contracts, policy gates, human approval,
+            and audit trails that prove what happened &mdash; then build the runtime, the APIs, the data layer, and the
+            operator interfaces around it. Currently doing that for a six-agent, HIPAA-regulated production pipeline
+            where every decision is traceable and reversible. Creator of Free2PA, which verifies signed agent control
+            files before they reach model context, and of Phyllis, a fulfillment API for autonomous commerce agents.
+            Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, O'Reilly author of four books,
+            and winner of the IBM Watson Build Challenge North America.
           </p>
         </section>
 
-        <section className="section relevance-section" aria-labelledby="relevance-heading">
-          <h2 id="relevance-heading">Target Relevance</h2>
+        <section className="section relevance-section" aria-labelledby="agentic-heading">
+          <h2 id="agentic-heading">1 &middot; Agentic Systems</h2>
           <ul className="impact-list">
-            <li><strong>Builds agent platforms, not just agents.</strong> Designs the shared foundation other engineers build on: a capability layer where agents request what they need by name and never bind directly to a vendor, a model, or a database, so backends can change without touching agent code.</li>
-            <li><strong>Designs for the failure case first.</strong> Agents report honestly when a backend is missing instead of quietly degrading. Decisions that matter stay deterministic, unresolved cases route to a human rather than defaulting to a denial, and the model writes and reasons but never renders the verdict.</li>
-            <li><strong>Makes agent behavior provable after the fact.</strong> Builds tamper-evident execution traces that record what ran, what it cost, which model answered, and where it failed, so operators and engineers can reconstruct any outcome instead of guessing at it.</li>
-            <li><strong>Owns the full path from prototype to production.</strong> Agent runtime, APIs, schema design and migrations, queue-based execution, telemetry, and the operator-facing web and CLI interfaces, on the same systems, in production, for real users.</li>
-            <li><strong>Builds the tools other engineers develop with.</strong> Internal Claude Code skills, code generators that keep a growing agent codebase from drifting off its own standards, and a QA agent that acceptance-tests real user journeys in a real browser and files the evidence.</li>
-            <li><strong>Has been making the case for governable AI since before it was a category.</strong> Four O'Reilly books, the Radar article "AI's Opaque Box Is Actually a Supply Chain," and Co-Chair of the C2PA AI/ML Task Force &mdash; then built Free2PA to show the standard working in code.</li>
-            <li><strong>Raises the level of the people nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR affiliate, and has spent a decade teaching engineers through books, standards work, and hands-on training.</li>
+            <li><strong>Agent capability abstraction layer.</strong> Architected the ports-and-adapters boundary between six production agents and every backend they depend on: 16 domain-named capabilities over 24 swappable implementations. Agents request "Clinical Treatment Guidelines" or "Patient Clinical Record Retrieval," never a vendor or a model. Which backend answers &mdash; LLM, deterministic, static data, or vendor API &mdash; is a registry and config concern, so swapping one costs zero agent code changes.</li>
+            <li><strong>Typed contracts over silent failure.</strong> Designed a capability outcome envelope where execute returns an available value or a typed unavailable status and never throws. A mis-provisioned backend became a loud configuration error instead of a quiet fallback nobody saw, an unimplemented capability returns a typed NOT_IMPLEMENTED, and agents can be fully wired and tested against capabilities that do not exist yet &mdash; never a fabricated pass.</li>
+            <li><strong>Policy-first control plane.</strong> Least-privilege tool and data access, human approval gates on consequential actions, and unresolvable cases routed to a human rather than defaulting to a denial. Codified "no agent contains capability logic" as a project standard, then ran a drift audit and rerouted every agent that had escaped the boundary.</li>
+            <li><strong>Explicit, recoverable execution.</strong> Moved all agent dispatch onto queue-based execution end to end with no in-process exceptions, with durable workflow state, retry and repair paths, and trace sealing for runs that begin in a web request and finish in a queue worker.</li>
+            <li><strong>Forensic observability.</strong> Per-run and per-step execution traces with hash-chained tamper-evident step events and chain verification, liveness detection, live SSE streaming, real token accounting per step, and audit entries recording which capability ran and which model answered.</li>
+            <li><strong>Architecture computed from reality.</strong> Built a per-run data-footprint map where the surfaces catalog carries only metadata and hit-detection rules, and the footprint is derived by observing what was actually persisted. Reroute a payload and the next run shows the new truth with nothing to redraw.</li>
+            <li><strong>Agent provenance and injection defense.</strong> Created Free2PA, a public toolkit verifying signed agent control files before they enter model context &mdash; allow, deny, and quarantine primitives for untrusted instructions. Contribute regularly to C2PA's Agentic Task Force, working out how to apply C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems, with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group.</li>
+            <li><strong>Consequential-action boundaries.</strong> Built Phyllis, a multi-tenant fulfillment API for autonomous commerce agents where agents propose and prepare orders and humans approve anything that spends money or ships goods, shipped as a typed, versioned, LLM-readable contract.</li>
+            <li><strong>Agent tooling other engineers build with.</strong> Authored 13 internal Claude Code skills, including capability-wiring and message-queue-wiring code generators used as the anti-drift mechanism, plus PAM, a credential-free browser-driving QA agent that acceptance-tests user journeys over CDP, records walkthroughs, and files field-level pass/fail evidence. PAM attaches to a human session and inherits that person's access and audit trail, so no secrets reach the model.</li>
+          </ul>
+          <ul className="skills" aria-label="Agentic keywords">
+            <li>Multi-Agent Orchestration</li>
+            <li>Custom Agent Harnesses &amp; Runtimes</li>
+            <li>Ports-and-Adapters Capability Layers</li>
+            <li>Typed Capability Contracts &amp; Registries</li>
+            <li>Model Context Protocol (MCP) Clients &amp; Servers</li>
+            <li>Tool Adapters, Function Calling, Structured Outputs</li>
+            <li>Durable Session &amp; Workflow State</li>
+            <li>Context-Window Management</li>
+            <li>Human-in-the-Loop Approval</li>
+            <li>Interruption Handling &amp; Recovery</li>
+            <li>Event-Driven Queue Dispatch</li>
+            <li>Prompt-Injection &amp; Untrusted-Instruction Defense</li>
+            <li>AgentOps / LLMOps</li>
+            <li>Hash-Chained Forensic Traces</li>
+            <li>Token &amp; Cost Accounting per Step</li>
           </ul>
         </section>
 
-        <section className="section skills-section" aria-labelledby="skills-heading">
-          <h2 id="skills-heading">Agentic Platform Skills</h2>
+        <section className="section relevance-section" aria-labelledby="aiml-heading">
+          <h2 id="aiml-heading">2 &middot; AI &amp; Machine Learning</h2>
+          <ul className="impact-list">
+            <li><strong>Model trust as a contract.</strong> Integrated an Azure ML prediction model into the agent loop behind a capability, with a four-state canonical trust enum &mdash; validated, unvalidated, simulated, unavailable &mdash; read by the tool, the QC and clinical prompts, the operator panel, and the validation report. The reason: a model with an AUC of 0.897 behind it and a model with no validation evidence at all were producing identical-looking results.</li>
+            <li><strong>Model provenance and drift.</strong> Built a model-provenance ledger with drift detection that catches a model changing underneath a running agent, and extended the tamper-evident audit chain to record which model answered, so a prediction is attributable to the exact version that produced it. Caught a silent regression where a refactor left chain entries with no model recorded despite a clean type check, and extracted the function so it could be unit-tested.</li>
+            <li><strong>Judgment about when not to use an LLM.</strong> Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for clinical extraction from unstructured referral text, document summarization over OCR, and payer-facing narrative &mdash; while every approval decision stayed deterministic. Guideline answers may not be surfaced under a standards body's name without corroborating citations. The model reasons and writes; it never renders the verdict.</li>
+            <li><strong>Retrieval and governed context.</strong> RAG and model routing in production, portable agent memory, and clinical NLP extraction over FHIR, SNOMED, and ICD-10 with guideline provenance and temporal validity treated as a product contract &mdash; in a domain where last year's guideline is the wrong answer this year.</li>
+            <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models, covering responsible AI, natural language processing, and model behavior.</li>
+            <li><strong>Speech and multimodal.</strong> Integrated Deepgram speech AI for real-time voice input in production classroom workflows, and built RadioHead, an autonomous broadcast transcription agent running at an NPR member station.</li>
+          </ul>
+          <ul className="skills" aria-label="AI and ML keywords">
+            <li>Retrieval-Augmented Generation (RAG)</li>
+            <li>Model Routing &amp; Provider-Aware Execution</li>
+            <li>Model Evaluation &amp; Validation Evidence</li>
+            <li>Model Provenance Ledgers &amp; Drift Detection</li>
+            <li>Model Trust States</li>
+            <li>MLOps / Production ML Lifecycle</li>
+            <li>Clinical NLP &amp; Entity Resolution</li>
+            <li>Ontology &amp; Schema Design</li>
+            <li>Structured Ontologies: FHIR R4, SNOMED CT, ICD-10</li>
+            <li>Azure AI Foundry, Azure OpenAI, Azure ML</li>
+            <li>Deepgram Speech AI</li>
+            <li>Python (intermediate)</li>
+          </ul>
+        </section>
 
-          <div className="skills-group" aria-label="Agent runtime and orchestration skills">
-            <h3 className="skills-group-title">Agent Runtime &amp; Orchestration</h3>
-            <ul className="skills">
-              <li>Multi-Agent Pipelines &amp; Orchestration</li>
-              <li>Custom Agent Harnesses &amp; Runtimes</li>
-              <li>Ports-and-Adapters Capability Layers</li>
-              <li>Typed Capability Contracts &amp; Registries</li>
-              <li>Event-Driven Queue-Based Agent Dispatch</li>
-              <li>Model Context Protocol (MCP) Clients &amp; Servers</li>
-              <li>Tool Adapters, Function Calling, Structured Outputs</li>
-              <li>Human-Approval Gates &amp; Interruption Handling</li>
-              <li>Durable Session &amp; Workflow State</li>
-              <li>Context-Window Management</li>
-              <li>Model Routing &amp; Provider-Aware Execution</li>
-              <li>Agent Capability Routing &amp; Drift Audits</li>
-            </ul>
-          </div>
-
-          <div className="skills-group" aria-label="Knowledge, context, and evaluation skills">
-            <h3 className="skills-group-title">Knowledge, Context &amp; Evaluation</h3>
-            <ul className="skills">
-              <li>Retrieval-Augmented Generation (RAG)</li>
-              <li>Portable Agent Memory (Peopleoids)</li>
-              <li>Clinical NLP Extraction &amp; Entity Resolution</li>
-              <li>Structured Ontologies: FHIR R4, SNOMED CT, ICD-10</li>
-              <li>Guideline Provenance &amp; Temporal Validity (NCCN / ASCO)</li>
-              <li>Agent Trace Review &amp; Failure Analysis</li>
-              <li>Capability Conformance &amp; Drift Audits</li>
-              <li>Model Provenance Ledgers &amp; Drift Detection</li>
-              <li>Model Trust States &amp; Validation Evidence</li>
-              <li>End-to-End Agent Acceptance Testing</li>
-            </ul>
-          </div>
-
-          <div className="skills-group" aria-label="Platform and full stack engineering skills">
-            <h3 className="skills-group-title">Platform &amp; Full-Stack Engineering</h3>
-            <ul className="skills">
-              <li>TypeScript, Node.js, React, Next.js</li>
-              <li>Python (intermediate)</li>
-              <li>PostgreSQL, Prisma, Schema Design &amp; Migrations</li>
-              <li>Multi-Tenant API Design, OpenAPI, Stripe</li>
-              <li>Azure Service Bus, Queue Workers, KEDA</li>
-              <li>SSE Streaming &amp; Live Operator Consoles</li>
-              <li>OpenTelemetry, Application Insights, Azure Monitor</li>
-              <li>Azure AI Foundry, Azure OpenAI, Azure ML, Azure FHIR</li>
-              <li>AWS Agent Deployment &amp; Migration</li>
-              <li>CI/CD, Layered Testing, Release Gates</li>
-              <li>WCAG-Aware Accessible Interfaces</li>
-            </ul>
-          </div>
-
-          <div className="skills-group" aria-label="Governance, safety, and standards skills">
-            <h3 className="skills-group-title">Governance, Safety &amp; Standards</h3>
-            <ul className="skills">
-              <li>Signed Agent Control-File Verification (Free2PA)</li>
-              <li>Prompt-Injection &amp; Untrusted-Instruction Defenses</li>
-              <li>Least-Privilege Tool &amp; Data Access</li>
-              <li>Tamper-Evident Audit Hash Chains</li>
-              <li>RBAC / RLS / Managed Identity / Secrets</li>
-              <li>PHI-Safe Review Paths &amp; Data Protection</li>
-              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
-              <li>AI Supply Chain Governance &amp; Kill Switches</li>
-              <li>Technical Writing, Mentoring &amp; Education</li>
-            </ul>
-          </div>
-
-          <div className="skills-group" aria-label="AgentOps and developer tooling skills">
-            <h3 className="skills-group-title">AgentOps &amp; Developer Tooling</h3>
-            <ul className="skills">
-              <li>Claude Code Skill Authoring (13 internal skills)</li>
-              <li>Code Generators as Anti-Drift Mechanism</li>
-              <li>Browser-Driving QA Agents (CDP, credential-free)</li>
-              <li>Hash-Chained Forensic Execution Traces</li>
-              <li>Token &amp; Cost Accounting per Agent Step</li>
-              <li>Liveness &amp; Stall Detection</li>
-              <li>Living Diagrams Derived from Source of Truth</li>
-              <li>Architecture Specs &amp; Runbooks</li>
-            </ul>
-          </div>
+        <section className="section relevance-section" aria-labelledby="impact-heading">
+          <h2 id="impact-heading">3 &middot; Impact Beyond a Single Role</h2>
+          <ul className="impact-list">
+            <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and contributor to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents. Shipped Free2PA as the working reference implementation.</li>
+            <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em> (2024), <em>Blockchain Tethered AI</em> (2023), <em>AI and the Law</em> (2021), <em>Blockchain as a Service</em> (2019) &mdash; plus the Radar article "AI's Opaque Box Is Actually a Supply Chain," which framed AI systems as traceable supply chains with provenance, versioning, and kill switches years before it was a category. Technical reviewer for <em>Mastering Blockchain</em> and <em>Mastering Corda</em>.</li>
+            <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders, and delivered hands-on agent trust training to 175+ students, faculty, and community members.</li>
+            <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures; administered a 200-user enterprise network.</li>
+            <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017) with RILEY, an AI accessibility system for people who are blind or visually impaired. Six-time IBM Champion.</li>
+            <li><strong>Builds the full path alone when needed.</strong> Agent runtime, backend services and APIs, PostgreSQL schema design and migrations, telemetry, React/TypeScript operator interfaces, and CLI and headless structured-output surfaces &mdash; on the same systems, in production, for real users.</li>
+            <li><strong>Works AI-native.</strong> Daily production use of Claude Code, Codex, and Claude Fable as engineering tools, with review, testing, and evaluation discipline applied to what they produce.</li>
+          </ul>
+          <ul className="skills" aria-label="Engineering and leadership keywords">
+            <li>TypeScript, Node.js, React, Next.js</li>
+            <li>PostgreSQL, Prisma, Schema Design &amp; Migrations</li>
+            <li>Multi-Tenant APIs, OpenAPI</li>
+            <li>Azure Service Bus, Queue Workers, KEDA</li>
+            <li>SSE Streaming &amp; Live Operator Consoles</li>
+            <li>AWS Agent Deployment &amp; Migration</li>
+            <li>OpenTelemetry, Application Insights</li>
+            <li>CI/CD, Layered Testing, Release Gates</li>
+            <li>Least-Privilege Access, RBAC, Managed Identity</li>
+            <li>PHI-Safe Review Paths &amp; Data Protection</li>
+            <li>Content Provenance (C2PA, SMPTE, ETC)</li>
+            <li>WCAG-Aware Accessible Interfaces</li>
+            <li>Technical Writing, Mentoring &amp; Education</li>
+          </ul>
         </section>
 
         <section className="section experience-section page-break-before" aria-labelledby="experience-heading">
@@ -184,23 +160,17 @@ export default function WalmartAgenticResume() {
               <div className="job-desc">
                 <p className="job-context">
                   HIPAA-regulated six-agent pipeline taking an oncology prior authorization from intake through payer
-                  submission on Azure AI Foundry, Azure Service Bus, and Azure FHIR.
+                  submission on Azure AI Foundry, Azure Service Bus, and Azure FHIR. Architecture detail in sections 1 and 2 above.
                 </p>
                 <ul>
-                  <li>Architected and shipped the agent capability abstraction layer: 16 domain-named capabilities over 24 swappable backends spanning LLM, deterministic, static-data, and vendor-API implementations, making backend changes zero-touch for agent code.</li>
-                  <li>Designed a typed capability outcome contract that returns explicit unavailability rather than throwing, converting silent agent degradation into loud configuration errors and allowing agents to be fully wired and tested against unimplemented capabilities.</li>
-                  <li>Codified "no agent contains capability logic" as a project standard, then ran a drift audit and rerouted every non-conforming agent.</li>
-                  <li>Composed multiple clinical guideline vendors behind a single capability with per-tenant selection and consolidated verdicts, keeping vendor identity out of agent code and stored prompts.</li>
-                  <li>Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for clinical extraction from unstructured referral text, document summarization over OCR, and payer-facing medical-necessity narrative, while keeping every approval decision deterministic.</li>
-                  <li>Enforced clinical-safety invariants in the agent layer: guideline answers require corroborating citations, "unable to assess" routes to human review rather than denial, and divergence between peer guideline sources routes to review.</li>
-                  <li>Built forensic agent observability with hash-chained tamper-evident execution traces and chain verification, liveness and stall detection, live SSE streaming, per-step token accounting, and trace sealing across web-request-to-queue-worker boundaries.</li>
-                  <li>Built a per-run data-footprint map computed from actually persisted data instead of a maintained diagram, so architecture views cannot go stale.</li>
-                  <li>Routed all agent dispatch through Azure Service Bus queue-based execution end to end, and corrected shared-tool capability attribution across agents.</li>
-                  <li>Integrated an Azure ML prediction model behind a capability with a four-state trust contract (validated, unvalidated, simulated, unavailable), a model-provenance ledger, drift detection, and model-attributed audit chain entries.</li>
-                  <li>Maintained PHI discipline under agentic execution: agents hold patient context in execution memory and persist decisions and scores, never input PHI. Designed and tested the redaction boundary for persisted data.</li>
-                  <li>Authored 13 internal Claude Code skills, including capability-wiring and message-queue-wiring code generators used as the anti-drift mechanism, and deterministic living architecture diagrams generated from source-of-truth maps.</li>
-                  <li>Created PAM, a credential-free browser-driving QA agent that acceptance-tests user stories end to end over CDP, records video walkthroughs, and files field-level pass/fail evidence to work-tracking tickets.</li>
+                  <li>Own the agent capability abstraction layer, the policy boundary between agents and backends, and the drift audit that keeps it enforced.</li>
+                  <li>Own agent trace review, audit validation, workflow visibility, and the tamper-evident evidence chain behind every autonomous decision.</li>
+                  <li>Converted four deterministic agents to LLM-backed agents while keeping all approval decisions deterministic, and enforced the clinical-safety invariants governing when an agent may and may not answer.</li>
+                  <li>Integrated an Azure ML model into the agent loop with a four-state trust contract, provenance ledger, and drift detection.</li>
+                  <li>Maintain PHI discipline under agentic execution: agents hold patient context in execution memory and persist decisions and scores, never input PHI.</li>
+                  <li>Built the team's agent development tooling &mdash; 13 Claude Code skills, wiring generators, living architecture diagrams, and the PAM QA agent.</li>
                   <li>Wrote and maintained the architecture specification for the capability layer through seven revisions, along with the runbook governing agent permissions and isolation.</li>
+                  <li>Work directly with clinical and operations experts to discover the real workflow, prototype against it, and harden what works without losing delivery speed.</li>
                 </ul>
               </div>
             </div>
@@ -349,8 +319,8 @@ export default function WalmartAgenticResume() {
           </section>
         </section>
 
-        <section className="section speaking-section" aria-labelledby="impact-heading">
-          <h2 id="impact-heading">Organization-Level Impact</h2>
+        <section className="section speaking-section" aria-labelledby="talks-heading">
+          <h2 id="talks-heading">Talks &amp; Public Work</h2>
           <ul className="speaking-list">
             <li>
               <strong>RadioHead</strong> &mdash; <em>Award-winning broadcast transcription agent, built with a student collaborator</em>
