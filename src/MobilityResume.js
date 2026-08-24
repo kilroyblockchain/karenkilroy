@@ -56,7 +56,7 @@ export default function MobilityResume() {
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            Mobility-focused AI infrastructure engineer, founder, and technical author with 40 years in IT spanning software
+            Mobility-focused AI infrastructure engineer, founder, and technical author with 40+ years in IT spanning software
             development, applied research, and product leadership. Creator of <strong>Street Cred</strong> (formerly
             Carnak), an authoritative work-zone and roadway asset data product selected for the Builders + Backers /
             Capital One Mobility Program. Street Cred turns approved Modification of Traffic workflows into

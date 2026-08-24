@@ -114,7 +114,7 @@ Governance and provenance:
 
 ## Resume Summary
 
-Karen Kilroy is an AI infrastructure engineer, educator, and author with 40 years in IT, the last decade focused on AI systems, and deep full-stack development and technical leadership experience. She has built AI-driven no-code platforms, healthcare AI QA systems, agentic workflow infrastructure, Free2PA signed control-file verification, Phyllis bot-built commerce fulfillment infrastructure, content provenance systems, and audit/governance patterns for regulated AI deployment. She is a six-time IBM Champion, winner of the IBM Watson Build Challenge, O'Reilly author of four technical books, and Co-Chair of the C2PA AI/ML Task Force.
+Karen Kilroy is an AI infrastructure engineer, educator, and author with 40+ years in IT, the last decade focused on AI systems, and deep full-stack development and technical leadership experience. She has built AI-driven no-code platforms, healthcare AI QA systems, agentic workflow infrastructure, Free2PA signed control-file verification, Phyllis bot-built commerce fulfillment infrastructure, content provenance systems, and audit/governance patterns for regulated AI deployment. She is a six-time IBM Champion, winner of the IBM Watson Build Challenge, O'Reilly author of four technical books, and Co-Chair of the C2PA AI/ML Task Force.
 
 ## Links
 

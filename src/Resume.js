@@ -63,7 +63,7 @@ export default function Resume() {
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            AI infrastructure engineer, educator, and author with 40 years in IT and deep full-stack development and
+            AI infrastructure engineer, educator, and author with 40+ years in IT and deep full-stack development and
             technical leadership experience. Six-time IBM Champion and winner of the IBM Watson Build Challenge (2017). Founder
             of NYX NoCode, an AI-driven web application builder serving public school customers with natural-language
             app creation for classrooms and rapid prototyping. Creator of Free2PA, a public provenance toolkit for signed agent control files.

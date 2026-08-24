@@ -51,7 +51,7 @@ export default function WalmartResumeBrief() {
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            Software engineer and architect with 40 years in IT, the last decade building AI systems and now focused
+            Software engineer and architect with 40+ years in IT, the last decade building AI systems and now focused
             entirely on agentic AI. Designed the layer that governs which tools and data six AI agents are allowed to use
             inside a HIPAA-regulated oncology prior authorization pipeline, together with the audit system that proves
             what each agent did, why it was permitted, and which model answered. Builds the whole path personally: agent
