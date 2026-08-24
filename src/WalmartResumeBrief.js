@@ -170,7 +170,7 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2024 &ndash; 2025</p>
             <div className="job-desc">
               <ul>
-                <li>Founded and led a venture applying content provenance and authenticity standards to digital files.</li>
+                <li>Founded and led an early C2PA Content Credentials application, turning an emerging content provenance standard into a shipping product.</li>
               </ul>
             </div>
           </article>
