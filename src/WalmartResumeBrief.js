@@ -153,6 +153,28 @@ export default function WalmartResumeBrief() {
             </div>
           </article>
 
+          <article className="job" aria-label="AI Researcher and ML Engineer at Friends of Justin">
+            <p className="job-title">AI Researcher &amp; ML Engineer</p>
+            <p className="job-company">Friends of Justin</p>
+            <p className="job-dates">2023 &ndash; Present</p>
+            <div className="job-desc">
+              <ul>
+                <li>AI research for a non-profit dedicated to improving interactions between humans and AI models &mdash; responsible AI, natural language processing, and model behavior.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="job" aria-label="CEO at File Baby">
+            <p className="job-title">CEO</p>
+            <p className="job-company">File Baby</p>
+            <p className="job-dates">2024 &ndash; 2025</p>
+            <div className="job-desc">
+              <ul>
+                <li>Founded and led a venture applying content provenance and authenticity standards to digital files.</li>
+              </ul>
+            </div>
+          </article>
+
           <article className="job" aria-label="Co-Chair of the C2PA AI/ML Task Force">
             <p className="job-title">Co-Chair, AI/ML Task Force</p>
             <p className="job-company">C2PA &middot; contributor, SMPTE/ETC AI/ML Task Force</p>
@@ -191,7 +213,9 @@ export default function WalmartResumeBrief() {
             <strong>Earlier Roles (Condensed)</strong>
             <div className="experience-details" style={{ marginTop: '0.4rem' }}>
               <ul>
-                <li><span className="experience-role">CTO &ndash; Jamersan LLC</span> (2016) &middot; <span className="experience-role">Principal Application Developer &ndash; CA Technologies</span> (2014&ndash;2015) &middot; <span className="experience-role">Training Consultant &ndash; Magento Inc.</span> (2010&ndash;2014), founding member of Magento U &middot; <span className="experience-role">Director of Online Marketing &ndash; Suarez Corp.</span> (2010&ndash;2012)</li>
+                <li><span className="experience-role">CTO &ndash; Jamersan LLC</span> (2016) &middot; <span className="experience-role">Magento Technical Lead &ndash; Amplifi Commerce</span> (2015&ndash;2016) &middot; <span className="experience-role">Principal Applications Developer &ndash; CA Technologies</span> (2014&ndash;2015) &middot; <span className="experience-role">Training &amp; Documentation Consultant &ndash; Magento Inc.</span> (2010&ndash;2014), Magento U instructor and course author</li>
+                <li><span className="experience-role">Executive Director &ndash; United Cloud</span> (2010&ndash;2012) &middot; <span className="experience-role">Web Programmer &ndash; Suarez Corporation Industries</span> (2009&ndash;2010) &middot; <span className="experience-role">Webmaster &ndash; Kucinich for President</span> (2003&ndash;2004), the first US presidential election where the web was a factor</li>
+                <li><span className="experience-role">President &ndash; Data Now</span> (1991&ndash;1999), ran a 20-person Lotus Notes and Java consulting firm &middot; <span className="experience-role">LAN Administrator &ndash; Bayer</span> (1990&ndash;1998), 200-user network &middot; <span className="experience-role">Technology Coordinator &ndash; CIGNA</span> (1983&ndash;1991). IT career began in 1980 as a telex operator.</li>
               </ul>
             </div>
           </section>

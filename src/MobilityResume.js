@@ -221,7 +221,9 @@ export default function MobilityResume() {
                 <li><span className="experience-role">CTO – Jamersan LLC</span> (2016)</li>
                 <li><span className="experience-role">Principal App Developer – CA Technologies</span> (2014–2015)</li>
                 <li><span className="experience-role">Training Consultant – Magento Inc.</span> (2010–2014), Founding member of Magento U</li>
-                <li><span className="experience-role">Director of Online Marketing – Suarez Corp.</span> (2010–2012)</li>
+                <li><span className="experience-role">Executive Director – United Cloud</span> (2010–2012), XMPP-based communications platform</li>
+                <li><span className="experience-role">Web Programmer – Suarez Corporation Industries</span> (2009–2010)</li>
+                <li><span className="experience-role">President – Data Now</span> (1991–1999), 20-person Lotus Notes and Java consulting firm &middot; <span className="experience-role">LAN Administrator – Bayer</span> (1990–1998) &middot; <span className="experience-role">Technology Coordinator – CIGNA</span> (1983–1991). IT career began in 1980 as a telex operator.</li>
               </ul>
             </div>
           </section>
