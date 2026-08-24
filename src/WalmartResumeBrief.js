@@ -48,7 +48,7 @@ export default function WalmartResumeBrief() {
             layer that decides what an agent is allowed to do &mdash; capability contracts, policy gates, human approval,
             and audit trails that prove what happened &mdash; then build the runtime, the APIs, the data layer, and the
             operator interfaces around it. Currently doing that for a six-agent, HIPAA-regulated production pipeline.
-            Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and O'Reilly author of four books.
+            Supply chain grounding through IBM programs and enterprise traceability work. Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and O'Reilly author of four books.
           </p>
         </section>
 
@@ -116,6 +116,7 @@ export default function WalmartResumeBrief() {
             <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
             <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article "AI's Opaque Box Is Actually a Supply Chain," which framed AI as a traceable supply chain years before it was a category.</li>
             <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
+            <li><strong>Supply chain grounding.</strong> Supply chain education through IBM programs, and enterprise blockchain provenance, traceability, and chain-of-custody work at Kilroy Blockchain &mdash; proving where something came from and what happened to it along the way.</li>
             <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures.</li>
             <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017). Six-time IBM Champion.</li>
             <li><strong>Builds the full path alone.</strong> Agent runtime, APIs, PostgreSQL schema and migrations, telemetry, React/TypeScript operator interfaces, and CLI and headless surfaces &mdash; same systems, in production.</li>
