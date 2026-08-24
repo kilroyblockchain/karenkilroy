@@ -1,6 +1,6 @@
 # Karen Kilroy - AI Infrastructure Engineer, Author, and AI Governance Builder
 
-> Karen Kilroy is a developer, O'Reilly author, IBM Champion, and AI infrastructure engineer focused on trustworthy, auditable AI systems. She builds healthcare AI QA systems, agentic AI platforms, content provenance workflows, signed agent control-file verification systems, and education-focused AI tools.
+> Karen Kilroy is an agentic AI systems engineer, O'Reilly author, and IBM Champion who architects the layer that decides what an AI agent is allowed to do: capability contracts, policy gates, human approval, and audit trails that prove what happened. She builds healthcare AI QA systems, agentic AI platforms, content provenance workflows, signed agent control-file verification systems, and education-focused AI tools.
 
 ## About
 

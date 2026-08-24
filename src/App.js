@@ -13,12 +13,13 @@ const Portfolio = () => {
 
   const focusList = [
     "Policy-first agent runtimes where tool access, context loading, and consequential actions are gated before execution.",
-    "Generative AI + RAG platforms routed through Azure AI Foundry, ChatGPT, Codex, and Claude.",
-    "Auditable patient prior authorization QA systems for regulated oncology workflows.",
+    "Capability abstraction layers that keep agents from binding directly to a vendor, a model, or a database.",
+    "Hash-chained forensic execution traces, so any agent run can be reconstructed and attributed to the model that answered.",
+    "Knowledge graphs as durable agent memory, with multi-hop retrieval and entity resolution.",
+    "Supply chain traceability and chain of custody, from IBM Food Trust to agent audit chains.",
     "Free2PA provenance checks that verify signed agent control files before model context load.",
-    "Phyllis fulfillment APIs for bot-built commerce, human approval, and order tracking.",
-    "Voice-forward classroom workflows for public school customers that pair Deepgram with NYX NoCode.",
-    "Translating provenance standards (C2PA, SMPTE, ETC) into real, shippable products."
+    "Applying C2PA to agentic systems through its Agentic Task Force, alongside Adobe, Microsoft, Google, OpenAI, and Meta.",
+    "Auditable patient prior authorization QA systems for regulated oncology workflows."
   ];
 
   const marketabilityHighlights = [
@@ -37,13 +38,21 @@ const Portfolio = () => {
     {
       title: "Healthcare QA Infrastructure",
       text: "I build QA surfaces for patient prior authorization workflows, including trace review, PHI-safe paths, and clinical evidence checks."
+    },
+    {
+      title: "Supply Chain Traceability",
+      text: "IBM Blockchain Supply Chain, IBM Food Trust, and Oracle Intelligent Track and Trace, plus supply chain blockchain systems I shipped. Provenance is the same problem whether it is a pallet or a model output."
+    },
+    {
+      title: "Standards for Agentic AI",
+      text: "Co-Chair of the C2PA AI/ML Task Force and a contributor to its Agentic Task Force, working out how provenance applies to what an agent did and which model answered."
     }
   ];
 
   const roleTargets = [
+    "Agentic AI Systems Engineer",
     "AI Infrastructure Engineer",
-    "Healthcare AI QA Lead",
-    "Agentic AI Platform Engineer",
+    "Distinguished / Principal Engineer, Agentic Platforms",
     "AI Governance / Provenance Consultant"
   ];
 
@@ -119,15 +128,15 @@ const Portfolio = () => {
       <header className="px-4 md:px-6 py-12 md:py-24 max-w-6xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-sm mb-6">
-            <span className="text-blue-400 text-xs sm:text-sm">AI Infrastructure · Healthcare QA · Governance</span>
+            <span className="text-blue-400 text-xs sm:text-sm">Agentic Systems · Agent Runtimes · Provenance &amp; Traceability</span>
 
           </div>
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-            Building <span className="text-blue-500">auditable AI systems</span> for real-world work.
+Building <span className="text-blue-500">agents you can hold accountable</span>.
           </h1>
           <p className="text-lg text-slate-300 mb-6 max-w-2xl">
-            I'm a developer, author, and AI infrastructure engineer focused on trustworthy deployment.
-            I build healthcare QA systems, agentic AI platforms, voice-forward workflows, and governance patterns that help teams ship without losing accountability.
+            I architect the layer that decides what an agent is allowed to do &mdash; capability contracts, policy gates, human approval, and audit trails that
+            prove what happened &mdash; then build the runtime, the APIs, the data layer, and the operator interfaces around it. 40+ years in IT, the last decade on AI.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-8 text-sm text-slate-400">
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
@@ -136,10 +145,10 @@ const Portfolio = () => {
               <p>NYX NoCode is an educator-led platform serving public school customers, transforming classrooms into creative studios where students get hands-on experience with generative AI and modern computing.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current healthcare AI</p>
-              <p className="text-slate-100 font-semibold">Healthcare client QA + agent infrastructure</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current agent platform</p>
+              <p className="text-slate-100 font-semibold">Six-agent regulated pipeline</p>
               <p>
-                Built QA, traceability, and audit surfaces for oncology prior authorization workflows where patient data, agent actions, and reviewer confidence have to stay accountable.
+                Architected the capability abstraction layer, policy-first control plane, and hash-chained forensic execution traces behind a HIPAA-regulated multi-agent system.
               </p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 sm:col-span-2">
@@ -210,7 +219,7 @@ const Portfolio = () => {
           <div className="bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
             <Terminal className="text-blue-500 mb-4" />
             <div className="space-y-3 font-mono text-sm">
-              <p className="text-green-400">{`> Karen.currentLocation = "Fayetteville, AR";`}</p>
+              <p className="text-green-400">{`> Karen.currentLocation = "Farmington, AR";`}</p>
               <p className="text-blue-300">{`> Karen.roles = ["Founder", "Educator", "Author"];`}</p>
               <p className="text-yellow-400">{`> Karen.winner("IBM Watson Build 2017", "North America");`}</p>
               <p className="text-slate-500">{`// Led the winning team`}</p>
@@ -227,13 +236,14 @@ const Portfolio = () => {
           <div>
             <p className="text-blue-400 uppercase text-xs tracking-[0.3em] md:tracking-[0.4em] mb-3 md:mb-4">About Karen</p>
             <h2 className="text-2xl md:text-4xl font-bold mb-4 md:mb-6 leading-snug">
-              Developer and author focused on trustworthy AI deployment.
+Prove where it came from. Prove what happened to it.
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
-              My path runs from leading the IBM Watson Build&ndash;winning RILEY team at Kilroy Blockchain to NYX NoCode&mdash;where
-              educators, students, and public school customers can create and deploy modern React apps with Azure OpenAI. I also wrote <em>Blockchain Tethered AI</em>,
-              exploring how systems can bind data, identity, and accountability in ways that hold up outside the lab. Alongside the builds,
-              I co-chair the C2PA AI/ML Task Force, helping turn content provenance into something teams can actually implement in production.
+              One question runs through all of it: how do you prove where something came from and what happened to it? I came at that from supply chain first &mdash;
+              IBM Blockchain Supply Chain, IBM Food Trust, Oracle Intelligent Track and Trace, and the supply chain blockchain systems I shipped at Kilroy Blockchain,
+              where I also led the IBM Watson Build&ndash;winning RILEY team. It is why I wrote <em>Blockchain Tethered AI</em>, why I co-chair the C2PA AI/ML Task Force,
+              and why agent audit trails were the first thing I built when I moved into agentic systems. Today I contribute to C2PA&apos;s Agentic Task Force, working out
+              how provenance applies to what an agent did and which model answered &mdash; alongside colleagues from Adobe, Microsoft, Google, OpenAI, and Meta.
             </p>
             <div className="space-y-4">
               {focusList.map((item, index) => (
@@ -379,8 +389,10 @@ const Portfolio = () => {
               <h3 className="text-lg md:text-xl font-bold">Healthcare Client — Patient Prior Authorization QA System</h3>
               <p className="text-blue-400 text-sm mb-4">2026 · Oncology workflow automation</p>
               <p className="text-slate-400 leading-relaxed">
-                Built QA and observability infrastructure for an AI-driven patient prior authorization system, including audit validation,
-                agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels.
+                Architected the agent capability abstraction layer behind a six-agent, HIPAA-regulated pipeline &mdash; 16 domain-named capabilities over
+                24 swappable backends, so agents never bind directly to a vendor or a model. Built the policy-first control plane, queue-based dispatch
+                with recovery, hash-chained tamper-evident execution traces with per-step token accounting, and an ML model trust contract with a
+                provenance ledger and drift detection. Every approval decision stayed deterministic: the model reasons and writes, it never renders the verdict.
               </p>
             </div>
 
@@ -394,8 +406,12 @@ const Portfolio = () => {
               </div>
               <p className="text-blue-400 text-sm mb-4">April 2026 · University of Arkansas</p>
               <p className="text-slate-400 leading-relaxed mb-3">
-                RadioHead is a broadcast transcription agent built with student Aiden Maroney that gives public radio stations like KUAF new AI-powered capabilities —
-                automated transcription, search, and accessibility for every broadcast. Won the Innovation &amp; Integration Challenge category at the UArk Demo Day &amp; Awards Ceremony.
+                RadioHead is an autonomous broadcast transcription agent built with student Aiden Maroney that gives public radio stations like KUAF new
+                AI-powered capabilities — transcription, search, and accessibility for every broadcast. Built first on the OpenClaw agent harness, then
+                re-architected onto AWS once the harness became the constraint: on the harness it had to be talked into things, on AWS it is programmed.
+                Seeded with a knowledge graph of the full program archive, so it answers across every past episode with source links, and built with speaker
+                diarization, entity resolution, and hard grounding rules — no claim without a credible source. Won the Innovation &amp; Integration Challenge
+                category at the UArk Demo Day &amp; Awards Ceremony.
               </p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://youtu.be/W2NcJ2jA10I" target="_blank" rel="noopener noreferrer"
@@ -415,9 +431,10 @@ const Portfolio = () => {
               <h3 className="text-lg md:text-xl font-bold">Founder &amp; AI Engineer — NYX NoCode</h3>
               <p className="text-blue-400 text-sm mb-4">2024 – Present</p>
               <p className="text-slate-400 leading-relaxed mb-3">
-                Built an AI-driven no-code platform using ReactJS + Azure OpenAI with Deepgram voice input so educators and public school customers can spin up classroom-ready
-                RAG apps in one conversation. Developed Peopleoids, a portable assistant with instant memory suitable for finetuning and reuse,
-                plus public prototypes including Idea Beast for AI-assisted ideation and Music Seer for responsive MIDI visualization.
+                A platform that takes a student from a prompt or a doodle to a working application, used in teacher-led hackathons and serving public school
+                customers in production. Agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end. Developed Peopleoids,
+                a portable assistant with instant memory suitable for finetuning and reuse, plus public prototypes including Idea Beast for AI-assisted ideation
+                and Music Seer for responsive MIDI visualization. Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.
               </p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://www.youtube.com/watch?v=IHsWbpWbIds" target="_blank" rel="noopener noreferrer"
@@ -436,8 +453,9 @@ const Portfolio = () => {
               <h3 className="text-xl font-bold">CEO — Kilroy Blockchain</h3>
               <p className="text-blue-400 text-sm mb-4">2016 – 2025</p>
               <p className="text-slate-400 leading-relaxed">
-                Lead architect for RILEY (IBM Watson Build Challenge winner), FLO (Forms Workflow), and CASEY (Case Management).
-                I directed engineering, business ops, and the ethics checkpoints that kept enterprise AI accountable.
+                Lead architect for RILEY (IBM Watson Build Challenge North America winner), CARNAK (roadway asset geolocation), FLO (Forms Workflow), and
+                CASEY (Case Management). I directed engineering for blockchain-backed supply chain, workflow, and case management systems where provenance,
+                traceability, and chain of custody were the core requirements &mdash; plus business ops and the ethics checkpoints that kept enterprise AI accountable.
               </p>
             </div>
 
