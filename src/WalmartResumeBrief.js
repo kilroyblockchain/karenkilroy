@@ -118,9 +118,9 @@ export default function WalmartResumeBrief() {
           <h2 id="impact-heading">3 &middot; Impact Beyond a Single Role</h2>
           <ul className="impact-list">
             <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
-            <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article "AI's Opaque Box Is Actually a Supply Chain," which framed AI as a traceable supply chain years before it was a category.</li>
+            <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article <a href="https://www.oreilly.com/radar/ais-opaque-box-is-actually-a-supply-chain/" target="_blank" rel="noopener noreferrer">"AI's Opaque Box Is Actually a Supply Chain"</a>, which framed AI as a traceable supply chain years before it was a category.</li>
             <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
-            <li><strong>Supply chain grounding.</strong> Supply chain education through IBM programs, and enterprise blockchain systems at Kilroy Blockchain built on provenance, traceability, and chain of custody &mdash; proving where something came from and what happened to it in transit.</li>
+            <li><strong>Supply chain grounding.</strong> Supply chain education through IBM programs, and supply chain blockchain systems built and shipped at Kilroy Blockchain &mdash; provenance, traceability, and chain of custody.</li>
             <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures.</li>
             <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017). Six-time IBM Champion.</li>
             <li><strong>Builds the full path alone.</strong> Agent runtime, APIs, PostgreSQL schema and migrations, telemetry, React/TypeScript operator interfaces, and CLI and headless surfaces &mdash; same systems, in production.</li>
@@ -217,7 +217,7 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2016 &ndash; 2025</p>
             <div className="job-desc">
               <ul>
-                <li>Led the team that built <strong>RILEY</strong>, winner of the IBM Watson Build Challenge North America (2017). Directed engineering for blockchain-backed workflow and case management systems where auditability was a core requirement.</li>
+                <li>Led the team that built <strong>RILEY</strong>, winner of the IBM Watson Build Challenge North America (2017). Directed engineering for blockchain-backed supply chain, workflow, and case management systems where provenance, traceability, and chain of custody were the core requirements.</li>
               </ul>
             </div>
           </article>
