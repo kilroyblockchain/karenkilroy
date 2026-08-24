@@ -119,7 +119,7 @@ export default function WalmartResumeBrief() {
           <ul className="impact-list">
             <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
             <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article <a href="https://www.oreilly.com/radar/ais-opaque-box-is-actually-a-supply-chain/" target="_blank" rel="noopener noreferrer">"AI's Opaque Box Is Actually a Supply Chain"</a>, which framed AI as a traceable supply chain years before it was a category.</li>
-            <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
+            <li><strong>Raises the engineers nearby.</strong> Mentored the student team behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
             <li><strong>Supply chain grounding.</strong> Supply chain education through IBM Blockchain Supply Chain, IBM Food Trust, and Oracle's blockchain food traceability platform, plus supply chain blockchain systems built and shipped at Kilroy Blockchain &mdash; provenance, traceability, and chain of custody.</li>
             <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures.</li>
             <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017). Six-time IBM Champion.</li>
@@ -150,7 +150,7 @@ export default function WalmartResumeBrief() {
             <div className="job-desc">
               <ul>
                 <li><strong>Hidalga</strong> (client engagement) &mdash; agent capability layer, policy-first control, forensic observability, and model trust contract for a six-agent HIPAA-regulated oncology prior authorization pipeline.</li>
-                <li><strong>RadioHead</strong> (radiohead.bot) &mdash; autonomous broadcast transcription agent for an NPR member station; started on the OpenClaw harness, re-architected onto AWS, and seeded with a knowledge graph of the full program archive for multi-hop answers with source links. Built with a student collaborator; won the University of Arkansas AI Innovation and Integration Challenge.</li>
+                <li><strong>RadioHead</strong> (radiohead.bot) &mdash; autonomous broadcast transcription agent for an NPR member station; started on the OpenClaw harness, re-architected onto AWS, and seeded with a knowledge graph of the full program archive for multi-hop answers with source links. Built with a student team; won the University of Arkansas AI Innovation and Integration Challenge.</li>
                 <li><strong>Free2PA</strong> (free2pa.org) &mdash; public provenance toolkit verifying signed agent control files before model context load.</li>
                 <li><strong>Phyllis</strong> (phyllis.bot) &mdash; multi-tenant fulfillment API for autonomous commerce agents; agents prepare orders, humans approve anything that spends money or ships goods.</li>
               </ul>
@@ -163,7 +163,7 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2024 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>Platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end for public school customers in production.</li>
+                <li>Platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end for public school customers in production. Teacher-first by design: students build with generative AI without prior coding skills. Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
               </ul>
             </div>
           </article>

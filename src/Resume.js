@@ -163,7 +163,7 @@ export default function Resume() {
                 <ul>
                   <li>Built an autonomous broadcast transcription agent that turns live public radio programming into searchable, publishable text.</li>
                   <li>Started the agent on OpenClaw, then re-architected and migrated it onto AWS for production reliability.</li>
-                  <li>Built with a student collaborator; won a student competition and featured on <em>Ozarks at Large</em>.</li>
+                  <li>Built with a student team; won a student competition and featured on <em>Ozarks at Large</em>.</li>
                 </ul>
               </div>
             </div>

@@ -128,7 +128,7 @@ export default function WalmartAgenticResume() {
           <ul className="impact-list">
             <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and contributor to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents. Shipped Free2PA as the working reference implementation.</li>
             <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em> (2024), <em>Blockchain Tethered AI</em> (2023), <em>AI and the Law</em> (2021), <em>Blockchain as a Service</em> (2019) &mdash; plus the Radar article <a href="https://www.oreilly.com/radar/ais-opaque-box-is-actually-a-supply-chain/" target="_blank" rel="noopener noreferrer">"AI's Opaque Box Is Actually a Supply Chain"</a>, which framed AI systems as traceable supply chains with provenance, versioning, and kill switches years before it was a category. Technical reviewer for <em>Mastering Blockchain</em> and <em>Mastering Corda</em>.</li>
-            <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders, and delivered hands-on agent trust training to 175+ students, faculty, and community members.</li>
+            <li><strong>Raises the engineers nearby.</strong> Mentored the student team behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders, and delivered hands-on agent trust training to 175+ students, faculty, and community members.</li>
             <li><strong>Supply chain grounding.</strong> Supply chain education through IBM Blockchain Supply Chain and IBM Food Trust, plus Oracle's blockchain food traceability platform &mdash; and supply chain blockchain systems built and shipped at Kilroy Blockchain. Provenance, traceability, and chain of custody: proving where something came from and what happened to it in transit.</li>
             <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures; administered a 200-user enterprise network.</li>
             <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017) with RILEY, an AI accessibility system for people who are blind or visually impaired. Six-time IBM Champion.</li>
@@ -196,7 +196,7 @@ export default function WalmartAgenticResume() {
                   <li>Started the agent on the OpenClaw harness, then re-architected and migrated it onto AWS for production reliability and programmability, funded by an AWS Tech Star award.</li>
                   <li>Seeded the AWS version with a knowledge graph of every past episode of the station's daily news program, enabling multi-hop answers across the archive with source links.</li>
                   <li>Built speaker diarization and entity resolution, plus grounding rules that forbid any claim without a credible source. Public at radiohead.bot.</li>
-                  <li>Built with a student collaborator; the system won a student competition and is credited by the station with expanding what its small newsroom can produce.</li>
+                  <li>Built with a student team; the system won a student competition and is credited by the station with expanding what its small newsroom can produce.</li>
                   <li>Featured on the station's daily news program, <em>Ozarks at Large</em>.</li>
                 </ul>
               </div>
@@ -235,6 +235,8 @@ export default function WalmartAgenticResume() {
             <div className="job-desc">
               <ul>
                 <li>Built and operate an AI-driven platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end.</li>
+                <li>Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
+                <li>Teacher-first by design: students build with generative AI without prior coding skills, in schools where resources are limited.</li>
                 <li>Serve public school customers in production, which means real reliability, cost control, accessibility, and safety obligations rather than demo-grade output.</li>
                 <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for fine-tuning and reuse across agents.</li>
                 <li>Integrated Deepgram speech AI for real-time voice input, and shipped public prototypes including <em>Idea Beast</em> (AI-assisted ideation) and <em>Music Seer</em> (responsive guitar MIDI visualization).</li>
@@ -337,7 +339,7 @@ export default function WalmartAgenticResume() {
           <h2 id="talks-heading">Talks &amp; Public Work</h2>
           <ul className="speaking-list">
             <li>
-              <strong>RadioHead</strong> &mdash; <em>Award-winning broadcast transcription agent, built with a student collaborator</em>
+              <strong>RadioHead</strong> &mdash; <em>Award-winning broadcast transcription agent, built with a student team</em>
               <p className="speaking-desc">
                 Mentored student engineer Aiden Maroney through building a production transcription agent that won a
                 student competition and expanded the capabilities of NPR affiliate KUAF. Featured on <em>Ozarks at

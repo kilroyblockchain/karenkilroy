@@ -197,7 +197,7 @@ export default function DeloitteTrustworthyAIResume() {
               <div className="job-desc">
                 <ul>
                   <li>Built an autonomous broadcast transcription agent for an NPR member station, started on OpenClaw and migrated onto AWS for production reliability.</li>
-                  <li>Built with a student collaborator; won a student competition and featured on <em>Ozarks at Large</em>.</li>
+                  <li>Built with a student team; won a student competition and featured on <em>Ozarks at Large</em>.</li>
                 </ul>
               </div>
             </div>
