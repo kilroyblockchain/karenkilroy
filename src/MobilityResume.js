@@ -113,7 +113,7 @@ export default function MobilityResume() {
           <div className="skills-group" aria-label="Governance and communication skills">
             <h3 className="skills-group-title">Technical Leadership &amp; Governance</h3>
             <ul className="skills">
-              <li>Content Provenance (C2PA, SMPTE)</li>
+              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
               <li>Blockchain-Tethered AI Systems</li>
               <li>Applied Research in the Wild</li>
               <li>Cross-Functional Stakeholder Alignment</li>

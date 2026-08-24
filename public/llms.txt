@@ -23,7 +23,8 @@ Karen's work is strongest where AI systems must be auditable, explainable, human
 - **Healthcare client work**: QA and observability systems for AI-driven oncology prior authorization workflows, including audit validation, agent trace review, workflow visibility, capability conformance checks, PHI-safe review paths, and clinical/financial evidence panels
 - **Kilroy AI LLC**: Independent agentic AI engineering practice (2026-present) delivering client engagements and shipping products, including the Hidalga agent platform engagement, RadioHead, Free2PA, and Phyllis
 - **Kilroy Blockchain**: Responsible AI systems and governance (2016-2025), including RILEY, winner of the IBM Watson Build Challenge North America
-- **C2PA AI/ML Task Force**: Co-chair helping implement content provenance standards
+- **C2PA**: Co-Chair of the AI/ML Task Force and regular contributor to the Agentic Task Force, working out how to apply C2PA to agentic systems alongside Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group
+- **SMPTE / ETC**: Contributor to the Society of Motion Picture and Television Engineers and Entertainment Technology Center AI/ML Task Force
 - **O'Reilly Books and writing**: Blockchain Tethered AI, Natural Language and Search, AI and the Law, Blockchain as a Service, and the O'Reilly Radar article "AI's Opaque Box Is Actually a Supply Chain"
 - **RadioHead**: Award-winning autonomous broadcast transcription agent for NPR affiliate KUAF, started on OpenClaw and migrated onto AWS, built with student collaborator Aiden Maroney
 

@@ -45,7 +45,8 @@ Known work:
 - Kilroy Blockchain (2016-2025): Responsible AI systems including RILEY, FLO, and CASEY.
 - RadioHead: Award-winning autonomous broadcast transcription agent for NPR affiliate KUAF, started on OpenClaw and migrated onto AWS.
 - O'Reilly Media: Author of Natural Language and Search, Blockchain Tethered AI, AI and the Law, and Blockchain as a Service; wrote the O'Reilly Radar article "AI's Opaque Box Is Actually a Supply Chain."
-- C2PA AI/ML Task Force: Co-Chair contributing to AI/ML content provenance standards.
+- C2PA: Co-Chair of the AI/ML Task Force and regular contributor to the Agentic Task Force, working out how to apply C2PA to agentic systems alongside Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group.
+- SMPTE / ETC: Contributor to the Society of Motion Picture and Television Engineers and Entertainment Technology Center AI/ML Task Force.
 
 Public links:
 - Homepage: https://karenkilroy.com

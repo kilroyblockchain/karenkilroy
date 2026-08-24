@@ -71,7 +71,8 @@ export default function Resume() {
             Current Hidalga work focuses on agent infrastructure and audit trails for AI-driven patient prior
             authorization workflows in oncology. O'Reilly author of four books on AI and emerging technologies. Proven
             track record in product innovation, technical communication, and industry standards leadership as Co-Chair
-            of the C2PA AI/ML Task Force and contributor to the SMPTE/ETC AI/ML Task Force.
+            of the C2PA AI/ML Task Force, regular contributor to the C2PA Agentic Task Force working out how to apply C2PA to agentic systems, and contributor to the Society of Motion Picture and Television Engineers (SMPTE) /
+            Entertainment Technology Center (ETC) AI/ML Task Force.
           </p>
         </section>
 
@@ -118,7 +119,7 @@ export default function Resume() {
           <div className="skills-group" aria-label="Standards, Governance and Communication skills">
             <h3 className="skills-group-title">Standards, Governance &amp; Communication</h3>
             <ul className="skills">
-              <li>Content Provenance (C2PA, SMPTE)</li>
+              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
               <li>Free2PA Agent Provenance</li>
               <li>Tamper-Evident Audit Hash Chains</li>
               <li>RBAC / RLS / Managed Identity</li>
@@ -277,6 +278,7 @@ export default function Resume() {
             <li>AI Fluency for Students – Anthropic (Aug 2025)</li>
             <li>Teaching the AI Fluency Framework – Anthropic (Aug 2025)</li>
             <li>Venture Building Certification – Builders + Backers (Jul 2025)</li>
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge – team lead (2026)</li>
             <li>IBM Champion – 2020–2025</li>
             <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials</li>
             <li>Coursera (Johns Hopkins): COVID-19 Contact Tracing &amp; Impact (2020)</li>

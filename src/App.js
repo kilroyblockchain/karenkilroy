@@ -18,7 +18,7 @@ const Portfolio = () => {
     "Free2PA provenance checks that verify signed agent control files before model context load.",
     "Phyllis fulfillment APIs for bot-built commerce, human approval, and order tracking.",
     "Voice-forward classroom workflows for public school customers that pair Deepgram with NYX NoCode.",
-    "Translating provenance standards (C2PA, SMPTE/ETC) into real, shippable products."
+    "Translating provenance standards (C2PA, SMPTE, ETC) into real, shippable products."
   ];
 
   const marketabilityHighlights = [

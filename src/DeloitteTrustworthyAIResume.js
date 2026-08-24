@@ -59,8 +59,9 @@ export default function DeloitteTrustworthyAIResume() {
             Trustworthy AI engineer, C2PA standards leader, O'Reilly author, and hands-on builder of provenance-first
             AI systems. Her research into trackable, traceable AI began while building RILEY, the 2017 IBM Watson Build
             Challenge North America winner: an AI accessibility system for people who are blind, where she needed to
-            know the AI could be trusted. Co-Chair of the C2PA AI/ML Task Force and contributor to the SMPTE/ETC AI/ML
-            Task Force, with rare overlap across media authenticity, signed agent harnesses, blockchain-tethered AI
+            know the AI could be trusted. Co-Chair of the C2PA AI/ML Task Force and contributor to the Society of Motion
+            Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML
+            Task Force, and a regular contributor to the C2PA Agentic Task Force working out how to apply C2PA to agentic systems, with rare overlap across media authenticity, signed agent harnesses, blockchain-tethered AI
             governance, regulated workflow audit trails, and practical product engineering. Author of O'Reilly's
             <em> Blockchain Tethered AI</em> and creator of Free2PA, a public provenance toolkit that verifies signed
             agent control files before model context load. Directly relevant to Deloitte teams working on C2PA compliance,
@@ -90,7 +91,8 @@ export default function DeloitteTrustworthyAIResume() {
               <li>C2PA Compliance Strategy</li>
               <li>Content Credentials</li>
               <li>C2PA AI/ML Task Force Leadership</li>
-              <li>SMPTE/ETC AI/ML Task Force Contributor</li>
+              <li>SMPTE / ETC AI/ML Task Force Contributor</li>
+              <li>C2PA Agentic Task Force Contributor</li>
               <li>Synthetic Media Disclosure</li>
               <li>Deepfake Mitigation Workflows</li>
               <li>Media Chain of Custody</li>
@@ -143,12 +145,13 @@ export default function DeloitteTrustworthyAIResume() {
 
           <article className="job" aria-label="Standards leadership in C2PA and SMPTE">
             <p className="job-title">Standards Contributor</p>
-            <p className="job-company">C2PA AI/ML Task Force and SMPTE/ETC AI/ML Task Force</p>
+            <p className="job-company">Coalition for Content Provenance and Authenticity (C2PA) &middot; Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC)</p>
             <p className="job-dates">Current</p>
             <div className="job-desc">
               <ul>
                 <li>Serve as Co-Chair of the C2PA AI/ML Task Force, focusing on AI provenance, content authenticity, disclosure, and standards adoption.</li>
-                <li>Contribute to SMPTE/ETC AI/ML Task Force discussions connecting media workflows, AI generation, governance, and provenance infrastructure.</li>
+                <li>Contribute regularly to the C2PA Agentic Task Force, working out how to apply C2PA to agentic systems with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group. The task forces publish normative and non-normative standards as well as guidance documents.</li>
+                <li>Contribute to SMPTE and ETC AI/ML Task Force discussions connecting media workflows, AI generation, governance, and provenance infrastructure.</li>
                 <li>Translate standards concepts into practical demos, talks, documentation, and engineering patterns for builders and decision-makers.</li>
               </ul>
             </div>
@@ -293,6 +296,7 @@ export default function DeloitteTrustworthyAIResume() {
           <h2 id="certifications-heading">Certifications &amp; Recognition</h2>
           <ul className="cert-list" aria-label="Certifications list">
             <li>IBM Champion - 2020-2025</li>
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge - team lead (2026)</li>
             <li>IBM Watson Build Challenge Winner - North America (2017)</li>
             <li>AI Fluency for Students - Anthropic (Aug 2025)</li>
             <li>Teaching the AI Fluency Framework - Anthropic (Aug 2025)</li>

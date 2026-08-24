@@ -144,7 +144,7 @@ export default function WalmartAgenticResume() {
               <li>Tamper-Evident Audit Hash Chains</li>
               <li>RBAC / RLS / Managed Identity / Secrets</li>
               <li>PHI-Safe Review Paths &amp; Data Protection</li>
-              <li>Content Provenance (C2PA, SMPTE/ETC)</li>
+              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
               <li>AI Supply Chain Governance &amp; Kill Switches</li>
               <li>Technical Writing, Mentoring &amp; Education</li>
             </ul>
@@ -282,13 +282,26 @@ export default function WalmartAgenticResume() {
           </article>
 
           <article className="job" aria-label="Standards leadership in C2PA and SMPTE">
-            <p className="job-title">Co-Chair, AI/ML Task Force</p>
-            <p className="job-company">C2PA &middot; contributor, SMPTE/ETC AI/ML Task Force</p>
+            <p className="job-title">Co-Chair, AI/ML Task Force &middot; Contributor, Agentic Task Force</p>
+            <p className="job-company">Coalition for Content Provenance and Authenticity (C2PA)</p>
             <p className="job-dates">Current</p>
             <div className="job-desc">
               <ul>
                 <li>Co-chair cross-industry work on AI provenance, content authenticity, disclosure, and standards adoption alongside engineers from major technology and media companies.</li>
+                <li>Regular contributor to the C2PA Agentic Task Force, working out how to apply C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems, with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group.</li>
+                <li>The task forces publish normative and non-normative standards as well as guidance documents.</li>
                 <li>Translate standards into implementable engineering patterns, demos, and documentation &mdash; the same skill as turning an ambiguous enterprise mandate into a contract engineers can build against.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="job" aria-label="Contributor to the SMPTE and ETC AI/ML Task Force">
+            <p className="job-title">Contributor, AI/ML Task Force</p>
+            <p className="job-company">Society of Motion Picture and Television Engineers (SMPTE) &middot; Entertainment Technology Center (ETC)</p>
+            <p className="job-dates">Current</p>
+            <div className="job-desc">
+              <ul>
+                <li>Contribute to joint SMPTE and ETC work connecting media production workflows, AI generation, governance, and provenance infrastructure.</li>
               </ul>
             </div>
           </article>
@@ -388,6 +401,7 @@ export default function WalmartAgenticResume() {
         <section className="section certifications" aria-labelledby="certifications-heading">
           <h2 id="certifications-heading">Recognition &amp; Certifications</h2>
           <ul className="cert-list" aria-label="Certifications list">
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge &mdash; team lead (2026)</li>
             <li>IBM Watson Build Challenge Winner &mdash; North America (2017)</li>
             <li>IBM Champion &mdash; six-time honoree, 2020&ndash;2025</li>
             <li>AI Fluency for Students &mdash; Anthropic (Aug 2025)</li>
@@ -402,7 +416,7 @@ export default function WalmartAgenticResume() {
         <section className="section education" aria-labelledby="education-heading">
           <h2 id="education-heading">Education</h2>
           <ul className="education-list" aria-label="Education list">
-            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Infrastructure &amp; Cloud Computing (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
+            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Cloud Computing &amp; Infrastructure, agent-focused (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
             <li><strong>University of Arkansas</strong> &mdash; Studies in Music (Voice/Piano), 4.0 GPA (2023&ndash;Present)</li>
             <li><strong>Hammel College</strong> &mdash; Office Automation &amp; Database Management (1981&ndash;1982), 4.0 GPA</li>
           </ul>

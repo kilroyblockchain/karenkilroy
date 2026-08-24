@@ -67,7 +67,7 @@ export default function WalmartResumeBrief() {
           <ul className="impact-list">
             <li><strong>Created capability that did not exist.</strong> Designed the capability abstraction layer now standing between six production agents and every backend they depend on, codified it as a project standard, and drift-audited the codebase against it &mdash; a foundation the team keeps building on.</li>
             <li><strong>Built leverage for other engineers.</strong> 13 internal Claude Code skills, including wiring generators that keep a growing agent codebase on its own standards, and PAM, a QA agent that acceptance-tests real user journeys and files field-level evidence.</li>
-            <li><strong>Set direction beyond one company.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to SMPTE/ETC, turning provenance standards into implementations teams can actually adopt &mdash; then shipped Free2PA as the working reference.</li>
+            <li><strong>Set direction beyond one company.</strong> Co-Chair of the C2PA AI/ML Task Force and a regular contributor to its Agentic Task Force, working out how to apply C2PA to agentic systems alongside Adobe, Microsoft, Google, OpenAI, and Meta &mdash; then shipped Free2PA as the working reference.</li>
             <li><strong>Taught the field.</strong> Four O'Reilly books and the Radar article "AI's Opaque Box Is Actually a Supply Chain," plus mentorship that produced RadioHead, an award-winning agent now running at an NPR member station.</li>
           </ul>
         </section>
@@ -112,7 +112,7 @@ export default function WalmartResumeBrief() {
               <li>Least-Privilege Tool &amp; Data Access</li>
               <li>Prompt-Injection &amp; Untrusted-Instruction Defenses</li>
               <li>Claude Code Skill Authoring &amp; Code Generators</li>
-              <li>Content Provenance (C2PA, SMPTE/ETC)</li>
+              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
               <li>PHI-Safe Review Paths, RBAC / Managed Identity</li>
             </ul>
           </div>
@@ -176,12 +176,13 @@ export default function WalmartResumeBrief() {
           </article>
 
           <article className="job" aria-label="Co-Chair of the C2PA AI/ML Task Force">
-            <p className="job-title">Co-Chair, AI/ML Task Force</p>
-            <p className="job-company">C2PA &middot; contributor, SMPTE/ETC AI/ML Task Force</p>
+            <p className="job-title">Co-Chair, AI/ML Task Force &middot; Contributor, Agentic Task Force</p>
+            <p className="job-company">Coalition for Content Provenance and Authenticity (C2PA) &middot; Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force</p>
             <p className="job-dates">Current</p>
             <div className="job-desc">
               <ul>
                 <li>Co-chair cross-industry work on AI provenance, content authenticity, and standards adoption, then ship reference implementations so the standard becomes something teams can adopt.</li>
+                <li>Regular contributor to the C2PA Agentic Task Force, working out how to apply C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group. The task forces publish normative and non-normative standards as well as guidance documents.</li>
               </ul>
             </div>
           </article>
@@ -224,10 +225,10 @@ export default function WalmartResumeBrief() {
         <section className="section certifications" aria-labelledby="certifications-heading">
           <h2 id="certifications-heading">Recognition, Certifications &amp; Education</h2>
           <ul className="cert-list" aria-label="Recognition and education list">
-            <li>IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
+            <li>Winner, University of Arkansas AI Innovation and Integration Challenge, team lead (2026) &middot; IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
             <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025)</li>
             <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
-            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Infrastructure &amp; Cloud Computing (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
+            <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Cloud Computing &amp; Infrastructure, agent-focused (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
             <li><strong>University of Arkansas</strong> &mdash; Studies in Music, 4.0 GPA (2023&ndash;Present) &middot; <strong>Hammel College</strong> &mdash; Office Automation &amp; Database Management (1981&ndash;1982), 4.0 GPA</li>
           </ul>
         </section>

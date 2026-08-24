@@ -178,7 +178,10 @@
   .resume-page .job-title, .resume-page .job-company, .resume-page .job-dates,
   .resume-page .job-sub-title, .resume-page .job-sub-meta, .resume-page .job-context {
     break-after: avoid; page-break-after: avoid;
+    /* a heading must not split across pages and strand half its own text */
+    break-inside: avoid; page-break-inside: avoid;
   }
+  .resume-page p, .resume-page li { orphans: 2; widows: 2; }
   .resume-page .job { margin-bottom: 1rem; }
 
   /* Compact skill pills so they flow many-per-row instead of two */
@@ -191,8 +194,8 @@
   .resume-page a[href^="http"]::after { content: none !important; }
 
   /* Brief application version: fit three pages */
-  .resume-page.walmart-brief-resume { font-size: 9.2pt; line-height: 1.28; }
-  .resume-page.walmart-brief-resume .container { padding: 0.42in !important; }
+  .resume-page.walmart-brief-resume { font-size: 8.9pt; line-height: 1.25; }
+  .resume-page.walmart-brief-resume .container { padding: 0.38in !important; }
   .resume-page.walmart-brief-resume .section h2 { font-size: 1.15rem; margin-bottom: 0.3rem; }
   .resume-page.walmart-brief-resume .impact-list li { margin-bottom: 0.28rem; }
   .resume-page.walmart-brief-resume .summary { font-size: 9.4pt; }
