@@ -94,6 +94,8 @@ export default function WalmartAgenticResume() {
             <li><strong>Model provenance and drift.</strong> Built a model-provenance ledger with drift detection that catches a model changing underneath a running agent, and extended the tamper-evident audit chain to record which model answered, so a prediction is attributable to the exact version that produced it. Caught a silent regression where a refactor left chain entries with no model recorded despite a clean type check, and extracted the function so it could be unit-tested.</li>
             <li><strong>Judgment about when not to use an LLM.</strong> Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for clinical extraction from unstructured referral text, document summarization over OCR, and payer-facing narrative &mdash; while every approval decision stayed deterministic. Guideline answers may not be surfaced under a standards body's name without corroborating citations. The model reasons and writes; it never renders the verdict.</li>
             <li><strong>Retrieval and governed context.</strong> RAG and model routing in production, portable agent memory, and clinical NLP extraction over FHIR, SNOMED, and ICD-10 with guideline provenance and temporal validity treated as a product contract &mdash; in a domain where last year's guideline is the wrong answer this year.</li>
+            <li><strong>Owns the input and governance half of the model-improvement flywheel.</strong> Production interaction traces, tool-use trajectories captured in a capability dispatch ledger, and human reviewer decisions, all recorded as governed data with provenance, temporal validity, PHI-safe redaction boundaries, and least-privilege access controls &mdash; the substrate post-training and evaluation datasets are built from, made safe enough to use in a regulated environment.</li>
+            <li><strong>Treats agent quality as an engineering discipline.</strong> Streaming end-to-end agent test runs with live topology, capability conformance checks, drift audits across the codebase, adversarial handling of untrusted instructions, PHI-redaction tests, and PAM filing field-level pass/fail evidence on real user journeys &mdash; external verification rather than a model grading its own output.</li>
             <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models, covering responsible AI, natural language processing, and model behavior.</li>
             <li><strong>Speech and multimodal.</strong> Integrated Deepgram speech AI for real-time voice input in production classroom workflows, and built RadioHead, an autonomous broadcast transcription agent running at an NPR member station.</li>
           </ul>
@@ -104,6 +106,9 @@ export default function WalmartAgenticResume() {
             <li>Model Provenance Ledgers &amp; Drift Detection</li>
             <li>Model Trust States</li>
             <li>MLOps / Production ML Lifecycle</li>
+            <li>Governed Training &amp; Evaluation Datasets</li>
+            <li>Golden-Path E2E Agent Testing</li>
+            <li>Adversarial &amp; Regression Testing</li>
             <li>Clinical NLP &amp; Entity Resolution</li>
             <li>Ontology &amp; Schema Design</li>
             <li>Structured Ontologies: FHIR R4, SNOMED CT, ICD-10</li>

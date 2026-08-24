@@ -88,6 +88,8 @@ export default function WalmartResumeBrief() {
             <li><strong>Model provenance and drift.</strong> Built a model-provenance ledger with drift detection that catches a model changing underneath a running agent, and extended the audit chain so a prediction is attributable to the exact version that produced it.</li>
             <li><strong>Judgment about when not to use an LLM.</strong> Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for extraction, summarization, and narrative &mdash; while every approval decision stayed deterministic. Guideline answers require corroborating citations; the model never renders the verdict.</li>
             <li><strong>Retrieval and governed context.</strong> RAG and model routing in production, portable agent memory, and clinical NLP extraction from unstructured referral text over FHIR, SNOMED, and ICD-10, with guideline provenance and temporal validity treated as a product contract.</li>
+            <li><strong>Owns the input and governance half of the model-improvement flywheel.</strong> Production interaction traces, tool-use trajectories from a capability dispatch ledger, and human reviewer decisions captured as governed data with provenance, PHI-safe redaction, and least-privilege access &mdash; the substrate post-training and evaluation datasets are built from.</li>
+            <li><strong>Treats agent quality as an engineering discipline.</strong> Streaming end-to-end agent test runs, capability conformance checks, codebase-wide drift audits, adversarial handling of untrusted instructions, and a QA agent filing field-level evidence on real user journeys &mdash; external verification, not a model grading itself.</li>
             <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models.</li>
           </ul>
           <ul className="skills" aria-label="AI and ML keywords">
@@ -96,6 +98,9 @@ export default function WalmartResumeBrief() {
             <li>Model Evaluation &amp; Validation Evidence</li>
             <li>Model Provenance &amp; Drift Detection</li>
             <li>MLOps / Production ML Lifecycle</li>
+            <li>Governed Training &amp; Evaluation Datasets</li>
+            <li>Golden-Path E2E Agent Testing</li>
+            <li>Adversarial &amp; Regression Testing</li>
             <li>Clinical NLP &amp; Entity Resolution</li>
             <li>Ontology &amp; Schema Design</li>
             <li>Azure AI Foundry, Azure OpenAI, Azure ML</li>
