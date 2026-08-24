@@ -163,7 +163,8 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2024 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>Platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end for public school customers in production. Teacher-first by design: students build with generative AI without prior coding skills. Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
+                <li>Serve public school customers in production, with the reliability, cost control, accessibility, and safety obligations that implies rather than demo-grade output.</li>
+                <li>Built a platform that takes a student from a prompt or a doodle to a working application, used in teacher-led hackathons &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end. Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
               </ul>
             </div>
           </article>

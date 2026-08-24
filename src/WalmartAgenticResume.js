@@ -234,13 +234,12 @@ export default function WalmartAgenticResume() {
             <p className="job-dates">2024 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>Built and operate an AI-driven platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end.</li>
-                <li>Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
-                <li>Teacher-first by design: students build with generative AI without prior coding skills, in schools where resources are limited.</li>
                 <li>Serve public school customers in production, which means real reliability, cost control, accessibility, and safety obligations rather than demo-grade output.</li>
+                <li>Built a platform that takes a student from a prompt or a doodle to a working application, used in teacher-led hackathons &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end.</li>
+                <li>Backed by Microsoft for Startups, Techstars, Builders + Backers, and AWS.</li>
                 <li>Developed <em>Peopleoids</em>, a portable RAG assistant with instant memory suitable for fine-tuning and reuse across agents.</li>
                 <li>Integrated Deepgram speech AI for real-time voice input, and shipped public prototypes including <em>Idea Beast</em> (AI-assisted ideation) and <em>Music Seer</em> (responsive guitar MIDI visualization).</li>
-                <li>Ran hackathons and training programs that turned non-engineers into shipping builders &mdash; capability creation, measured by what other people went on to build.</li>
+                <li>Ran teacher-led hackathons and training programs that turned non-engineers into shipping builders &mdash; capability creation, measured by what other people went on to build.</li>
               </ul>
             </div>
           </article>
