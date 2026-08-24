@@ -236,3 +236,17 @@
   color: var(--muted-2);
   margin: 0.1rem 0 0.4rem;
 }
+
+/* Brief version: the themed sections carry the evidence, so the chronological
+   Experience block only needs to establish dates. Collapse each job header to one line. */
+.resume-page.walmart-brief-resume .experience-section .job-title,
+.resume-page.walmart-brief-resume .experience-section .job-company,
+.resume-page.walmart-brief-resume .experience-section .job-dates {
+  display: inline;
+  margin: 0;
+  font-size: 0.95rem;
+}
+.resume-page.walmart-brief-resume .experience-section .job-title::after { content: " \2014 "; color: var(--muted-2); font-weight: 400; }
+.resume-page.walmart-brief-resume .experience-section .job-company::after { content: " \00B7 "; color: var(--muted-2); font-weight: 400; }
+.resume-page.walmart-brief-resume .experience-section .job { margin-bottom: 0.5rem; }
+.resume-page.walmart-brief-resume .experience-section .job-desc { margin-top: 0.1rem; }

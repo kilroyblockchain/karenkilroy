@@ -6,7 +6,7 @@ export default function WalmartResumeBrief() {
 
   return (
     <div className="resume-page walmart-brief-resume">
-      <main className="container" role="main" aria-label="Agentic AI platform resume of Karen Kilroy, brief version">
+      <main className="container" role="main" aria-label="Agentic AI systems resume of Karen Kilroy">
         <div className="topbar print-hide" role="region" aria-label="Actions">
           <a className="print-link" href="/resume-walmart" aria-label="Open the full agentic AI resume">
             Full Version
@@ -18,7 +18,7 @@ export default function WalmartResumeBrief() {
 
         <header className="header">
           <div>
-            <p className="resume-version">Agentic AI Platform Engineer · Multi-Agent Runtimes · Policy-First Control Planes</p>
+            <p className="resume-version">Agentic AI Systems Engineer · Multi-Agent Runtimes · Policy-First Control Planes</p>
             <h1 className="site-title">Karen Kilroy</h1>
           </div>
           <img
@@ -29,93 +29,104 @@ export default function WalmartResumeBrief() {
         </header>
 
         <p className="contact screen-only" aria-label="Contact (web)">
-          Contact:{' '}
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSejoNvJ1vH4mnTaESayh6HO8LglyAmvYpErYyIGT8of2Wp_eg/viewform?usp=header"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-strong"
-          >
-            Submit inquiry via Google Form
-          </a>{' '}
+          <a href="mailto:karen@kilroyai.com" className="link-strong">karen@kilroyai.com</a>{' '}
           | LinkedIn:{' '}
           <a href="https://linkedin.com/in/karenkilroy" target="_blank" rel="noopener noreferrer" className="link-strong">
             linkedin.com/in/karenkilroy
-          </a>
+          </a>{' '}
+          | Farmington, AR
         </p>
 
         <p className="contact print-only" aria-label="Contact (print)">
-          Email: <a href="mailto:karen@nyx.baby">karen@nyx.baby</a> | Phone: 330-289-1351 | LinkedIn: linkedin.com/in/karenkilroy | Full detail: karenkilroy.com/resume-walmart
+          karen@kilroyai.com | 330-289-1351 | linkedin.com/in/karenkilroy | Farmington, AR | Full detail: karenkilroy.com/resume-walmart
         </p>
 
         <section className="section summary-section" aria-labelledby="summary-heading">
           <h2 id="summary-heading">Summary</h2>
           <p className="summary">
-            Software engineer and architect with 40+ years in IT, the last decade building AI systems and now focused
-            entirely on agentic AI. Designed the layer that governs which tools and data six AI agents are allowed to use
-            inside a HIPAA-regulated oncology prior authorization pipeline, together with the audit system that proves
-            what each agent did, why it was permitted, and which model answered. Builds the whole path personally: agent
-            orchestration, backend services and APIs, the database layer, and the React and command-line interfaces
-            operators work in. Creator of Free2PA, which verifies signed agent instruction files before they reach a
-            model. Six-time IBM Champion, winner of the IBM Watson Build Challenge North America, O'Reilly author of four
-            books, and Co-Chair of the C2PA AI/ML Task Force.
+            Agentic AI systems engineer with 40+ years in IT and the last decade building AI. I architect and ship the
+            layer that decides what an agent is allowed to do &mdash; capability contracts, policy gates, human approval,
+            and audit trails that prove what happened &mdash; then build the runtime, the APIs, the data layer, and the
+            operator interfaces around it. Currently doing that for a six-agent, HIPAA-regulated production pipeline.
+            Co-Chair of the C2PA AI/ML Task Force, contributor to its Agentic Task Force, and O'Reilly author of four books.
           </p>
         </section>
 
-        <section className="section relevance-section" aria-labelledby="impact-heading">
-          <h2 id="impact-heading">Impact Beyond My Own Scope</h2>
+        {/* ---------- 1. AGENTIC ---------- */}
+        <section className="section relevance-section" aria-labelledby="agentic-heading">
+          <h2 id="agentic-heading">1 &middot; Agentic Systems</h2>
           <ul className="impact-list">
-            <li><strong>Created capability that did not exist.</strong> Designed the capability abstraction layer now standing between six production agents and every backend they depend on, codified it as a project standard, and drift-audited the codebase against it &mdash; a foundation the team keeps building on.</li>
-            <li><strong>Built leverage for other engineers.</strong> 13 internal Claude Code skills, including wiring generators that keep a growing agent codebase on its own standards, and PAM, a QA agent that acceptance-tests real user journeys and files field-level evidence.</li>
-            <li><strong>Set direction beyond one company.</strong> Co-Chair of the C2PA AI/ML Task Force and a regular contributor to its Agentic Task Force, working out how to apply C2PA to agentic systems alongside Adobe, Microsoft, Google, OpenAI, and Meta &mdash; then shipped Free2PA as the working reference.</li>
-            <li><strong>Taught the field.</strong> Four O'Reilly books and the Radar article "AI's Opaque Box Is Actually a Supply Chain," plus mentorship that produced RadioHead, an award-winning agent now running at an NPR member station.</li>
+            <li><strong>Agent capability abstraction layer.</strong> Architected the ports-and-adapters boundary between six production agents and every backend they depend on: 16 domain-named capabilities over 24 swappable implementations. Agents request "Clinical Treatment Guidelines," never a vendor or a model, so a backend swap costs zero agent code changes.</li>
+            <li><strong>Typed contracts over silent failure.</strong> Designed a capability outcome envelope that returns explicit unavailability instead of throwing. A mis-provisioned backend became a loud configuration error instead of a quiet fallback, and agents can be fully wired and tested against capabilities that have no implementation yet.</li>
+            <li><strong>Policy-first control plane.</strong> Least-privilege tool and data access, human approval gates on consequential actions, and "unable to assess" routed to a human rather than defaulting to a denial. Codified "no agent contains capability logic" as a project standard, then drift-audited every agent against it.</li>
+            <li><strong>Explicit, recoverable execution.</strong> Moved all agent dispatch onto queue-based execution end to end, with durable workflow state, retry and repair paths, and trace sealing across the web-request-to-worker boundary.</li>
+            <li><strong>Forensic observability.</strong> Hash-chained tamper-evident execution traces with chain verification, liveness and stall detection, live SSE streaming, per-step token accounting, and audit entries recording which capability ran and which model answered.</li>
+            <li><strong>Agent provenance and injection defense.</strong> Created Free2PA, a public toolkit that verifies signed agent control files before they reach model context &mdash; allow, deny, and quarantine primitives for untrusted instructions. Contribute to C2PA's Agentic Task Force, applying C2PA to agentic systems with colleagues from Adobe, Microsoft, Google, OpenAI, Meta, Amazon, Sony, and the BBC.</li>
+            <li><strong>Agent tooling for other engineers.</strong> 13 internal Claude Code skills including wiring code generators used as the anti-drift mechanism, plus PAM, a credential-free browser-driving QA agent that acceptance-tests user journeys over CDP and files field-level evidence.</li>
+          </ul>
+          <ul className="skills" aria-label="Agentic keywords">
+            <li>Multi-Agent Orchestration</li>
+            <li>Custom Agent Harnesses &amp; Runtimes</li>
+            <li>Model Context Protocol (MCP)</li>
+            <li>Tool Adapters &amp; Function Calling</li>
+            <li>Structured Outputs</li>
+            <li>Durable Session &amp; Workflow State</li>
+            <li>Context-Window Management</li>
+            <li>Human-in-the-Loop Approval</li>
+            <li>Interruption Handling &amp; Recovery</li>
+            <li>Event-Driven Queue Dispatch</li>
+            <li>Prompt-Injection Defense</li>
+            <li>AgentOps / LLMOps</li>
           </ul>
         </section>
 
-        <section className="section skills-section" aria-labelledby="skills-heading">
-          <h2 id="skills-heading">Core Skills</h2>
-          <div className="skills-group" aria-label="Agentic AI skills">
-            <h3 className="skills-group-title">Agentic AI</h3>
-            <ul className="skills">
-              <li>Multi-Agent Orchestration</li>
-              <li>Custom Agent Harnesses &amp; Runtimes</li>
-              <li>Ports-and-Adapters Capability Layers</li>
-              <li>Typed Capability Contracts &amp; Registries</li>
-              <li>Model Context Protocol (MCP)</li>
-              <li>Function Calling &amp; Structured Outputs</li>
-              <li>Human-Approval Gates &amp; Recovery</li>
-              <li>Durable Session &amp; Workflow State</li>
-              <li>RAG &amp; Model Routing</li>
-              <li>Event-Driven Queue-Based Dispatch</li>
-            </ul>
-          </div>
-          <div className="skills-group" aria-label="Engineering skills">
-            <h3 className="skills-group-title">Engineering</h3>
-            <ul className="skills">
-              <li>TypeScript, Node.js, React, Next.js</li>
-              <li>Python (intermediate)</li>
-              <li>PostgreSQL, Prisma, Schema Design &amp; Migrations</li>
-              <li>Multi-Tenant APIs, OpenAPI</li>
-              <li>Azure AI Foundry, Azure OpenAI, Azure ML, FHIR</li>
-              <li>AWS Agent Deployment &amp; Migration</li>
-              <li>Service Bus, Queue Workers, KEDA, SSE</li>
-              <li>OpenTelemetry, App Insights</li>
-              <li>CI/CD, Layered Testing, Release Gates</li>
-            </ul>
-          </div>
-          <div className="skills-group" aria-label="AgentOps and governance skills">
-            <h3 className="skills-group-title">AgentOps &amp; Governance</h3>
-            <ul className="skills">
-              <li>Hash-Chained Forensic Execution Traces</li>
-              <li>Token &amp; Cost Accounting per Agent Step</li>
-              <li>Model Provenance Ledgers &amp; Drift Detection</li>
-              <li>Least-Privilege Tool &amp; Data Access</li>
-              <li>Prompt-Injection &amp; Untrusted-Instruction Defenses</li>
-              <li>Claude Code Skill Authoring &amp; Code Generators</li>
-              <li>Content Provenance (C2PA, SMPTE, ETC)</li>
-              <li>PHI-Safe Review Paths, RBAC / Managed Identity</li>
-            </ul>
-          </div>
+        {/* ---------- 2. AI / ML ---------- */}
+        <section className="section relevance-section" aria-labelledby="aiml-heading">
+          <h2 id="aiml-heading">2 &middot; AI &amp; Machine Learning</h2>
+          <ul className="impact-list">
+            <li><strong>Model trust as a contract.</strong> Integrated an Azure ML prediction model into the agent loop behind a capability, with a four-state canonical trust enum &mdash; validated, unvalidated, simulated, unavailable &mdash; read by the tool, the agent prompts, the operator panel, and the validation report, because a model with an AUC of 0.897 behind it and one with no validation evidence were producing identical-looking results.</li>
+            <li><strong>Model provenance and drift.</strong> Built a model-provenance ledger with drift detection that catches a model changing underneath a running agent, and extended the audit chain so a prediction is attributable to the exact version that produced it.</li>
+            <li><strong>Judgment about when not to use an LLM.</strong> Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for extraction, summarization, and narrative &mdash; while every approval decision stayed deterministic. Guideline answers require corroborating citations; the model never renders the verdict.</li>
+            <li><strong>Retrieval and governed context.</strong> RAG and model routing in production, portable agent memory, and clinical NLP extraction from unstructured referral text over FHIR, SNOMED, and ICD-10, with guideline provenance and temporal validity treated as a product contract.</li>
+            <li><strong>Applied AI research.</strong> AI Researcher and ML Engineer for Friends of Justin since 2023, a non-profit focused on improving interactions between humans and AI models.</li>
+          </ul>
+          <ul className="skills" aria-label="AI and ML keywords">
+            <li>Retrieval-Augmented Generation (RAG)</li>
+            <li>Model Routing &amp; Provider-Aware Execution</li>
+            <li>Model Evaluation &amp; Validation Evidence</li>
+            <li>Model Provenance &amp; Drift Detection</li>
+            <li>MLOps / Production ML Lifecycle</li>
+            <li>Clinical NLP &amp; Entity Resolution</li>
+            <li>Ontology &amp; Schema Design</li>
+            <li>Azure AI Foundry, Azure OpenAI, Azure ML</li>
+            <li>Deepgram Speech AI</li>
+            <li>Python (intermediate)</li>
+          </ul>
+        </section>
+
+        {/* ---------- 3. DISTINGUISHED-LEVEL IMPACT ---------- */}
+        <section className="section relevance-section" aria-labelledby="impact-heading">
+          <h2 id="impact-heading">3 &middot; Impact Beyond a Single Role</h2>
+          <ul className="impact-list">
+            <li><strong>Sets standards other organizations adopt.</strong> Co-Chair of the C2PA AI/ML Task Force and contributor to its Agentic Task Force and to the Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force. These groups publish normative and non-normative standards and guidance documents.</li>
+            <li><strong>Teaches the field.</strong> Four O'Reilly books &mdash; <em>Natural Language and Search</em>, <em>Blockchain Tethered AI</em>, <em>AI and the Law</em>, <em>Blockchain as a Service</em> &mdash; plus the Radar article "AI's Opaque Box Is Actually a Supply Chain," which framed AI as a traceable supply chain years before it was a category.</li>
+            <li><strong>Raises the engineers nearby.</strong> Mentored the student engineer behind RadioHead, an award-winning transcription agent now running at an NPR member station. Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
+            <li><strong>Has led organizations, not just projects.</strong> Ran a 20-person Lotus Notes and Java consulting firm; CTO of a web development company; principal developer inside enterprise product teams; founder of three ventures.</li>
+            <li><strong>Wins in the open.</strong> Team lead for the winner of the University of Arkansas AI Innovation and Integration Challenge (2026). Led the team that won the IBM Watson Build Challenge North America (2017). Six-time IBM Champion.</li>
+            <li><strong>Builds the full path alone.</strong> Agent runtime, APIs, PostgreSQL schema and migrations, telemetry, React/TypeScript operator interfaces, and CLI and headless surfaces &mdash; same systems, in production.</li>
+          </ul>
+          <ul className="skills" aria-label="Engineering and leadership keywords">
+            <li>TypeScript, Node.js, React, Next.js</li>
+            <li>PostgreSQL, Prisma, Migrations</li>
+            <li>Multi-Tenant APIs, OpenAPI</li>
+            <li>Azure Service Bus, KEDA, SSE</li>
+            <li>AWS Agent Deployment &amp; Migration</li>
+            <li>OpenTelemetry, App Insights</li>
+            <li>CI/CD, Layered Testing, Release Gates</li>
+            <li>Least-Privilege Access, RBAC, Managed Identity</li>
+            <li>Content Provenance (C2PA, SMPTE, ETC)</li>
+            <li>Technical Writing &amp; Mentoring</li>
+          </ul>
         </section>
 
         <section className="section experience-section" aria-labelledby="experience-heading">
@@ -127,15 +138,10 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2026 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li><strong>Hidalga (client engagement)</strong> &mdash; Architected the agent capability abstraction layer for a HIPAA-regulated six-agent oncology prior authorization pipeline: 16 domain-named capabilities over 24 swappable backends, so agents never bind to a vendor or model and backends change with zero agent code changes.</li>
-                <li>Designed a typed capability outcome contract returning explicit unavailability rather than throwing, converting silent agent degradation into loud configuration errors, then codified the boundary as a project standard and drift-audited every agent against it.</li>
-                <li>Converted four deterministic agents to LLM-backed agents on Azure AI Foundry for clinical extraction, document summarization, and payer narrative, while keeping every approval decision deterministic &mdash; the model reasons and writes, never renders the verdict.</li>
-                <li>Built forensic agent observability: hash-chained tamper-evident execution traces with chain verification, liveness and stall detection, live SSE streaming, per-step token accounting, and model-attributed audit entries.</li>
-                <li>Integrated an Azure ML prediction model behind a capability with a four-state trust contract, model-provenance ledger, and drift detection, so an unvalidated model declares itself rather than looking identical to a validated one.</li>
-                <li>Authored 13 internal Claude Code skills including wiring code generators used as the anti-drift mechanism, and created PAM, a credential-free browser-driving QA agent that acceptance-tests user journeys and files field-level evidence.</li>
-                <li><strong>RadioHead</strong> &mdash; Built an autonomous broadcast transcription agent for an NPR member station, started on OpenClaw and migrated onto AWS for production reliability. Built with a student collaborator; won a student competition.</li>
-                <li><strong>Free2PA</strong> (free2pa.org) &mdash; Public provenance toolkit verifying signed agent control files before model context load: allow, deny, and quarantine primitives for a policy-first control plane, published as an open reference implementation.</li>
-                <li><strong>Phyllis</strong> (phyllis.bot) &mdash; Multi-tenant fulfillment API for autonomous commerce agents, with the consequential-action boundary designed in: agents prepare orders, humans approve anything that spends money or ships goods.</li>
+                <li><strong>Hidalga</strong> (client engagement) &mdash; agent capability layer, policy-first control, forensic observability, and model trust contract for a six-agent HIPAA-regulated oncology prior authorization pipeline.</li>
+                <li><strong>RadioHead</strong> &mdash; autonomous broadcast transcription agent for an NPR member station; started on OpenClaw, migrated onto AWS. Built with a student collaborator; won a student competition.</li>
+                <li><strong>Free2PA</strong> (free2pa.org) &mdash; public provenance toolkit verifying signed agent control files before model context load.</li>
+                <li><strong>Phyllis</strong> (phyllis.bot) &mdash; multi-tenant fulfillment API for autonomous commerce agents; agents prepare orders, humans approve anything that spends money or ships goods.</li>
               </ul>
             </div>
           </article>
@@ -146,9 +152,7 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2024 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>Built and operate a platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end.</li>
-                <li>Serve public school customers in production, with the reliability, cost, accessibility, and safety obligations that implies.</li>
-                <li>Ran hackathons and training programs that turned non-engineers into shipping builders.</li>
+                <li>Platform where non-specialists describe an application in natural language and get a deployed React app &mdash; agent orchestration, model routing, RAG memory, code generation, and hosting, owned end to end for public school customers in production.</li>
               </ul>
             </div>
           </article>
@@ -159,7 +163,18 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2023 &ndash; Present</p>
             <div className="job-desc">
               <ul>
-                <li>AI research for a non-profit dedicated to improving interactions between humans and AI models &mdash; responsible AI, natural language processing, and model behavior.</li>
+                <li>AI research for a non-profit dedicated to improving interactions between humans and AI models.</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="job" aria-label="Standards leadership">
+            <p className="job-title">Co-Chair, AI/ML Task Force &middot; Contributor, Agentic Task Force</p>
+            <p className="job-company">Coalition for Content Provenance and Authenticity (C2PA) &middot; SMPTE / ETC AI/ML Task Force</p>
+            <p className="job-dates">Current</p>
+            <div className="job-desc">
+              <ul>
+                <li>Cross-industry standards work on AI provenance and content authenticity, applying C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems.</li>
               </ul>
             </div>
           </article>
@@ -171,18 +186,6 @@ export default function WalmartResumeBrief() {
             <div className="job-desc">
               <ul>
                 <li>Founded and led an early C2PA Content Credentials application, turning an emerging content provenance standard into a shipping product.</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="job" aria-label="Co-Chair of the C2PA AI/ML Task Force">
-            <p className="job-title">Co-Chair, AI/ML Task Force &middot; Contributor, Agentic Task Force</p>
-            <p className="job-company">Coalition for Content Provenance and Authenticity (C2PA) &middot; Society of Motion Picture and Television Engineers (SMPTE) / Entertainment Technology Center (ETC) AI/ML Task Force</p>
-            <p className="job-dates">Current</p>
-            <div className="job-desc">
-              <ul>
-                <li>Co-chair cross-industry work on AI provenance, content authenticity, and standards adoption, then ship reference implementations so the standard becomes something teams can adopt.</li>
-                <li>Regular contributor to the C2PA Agentic Task Force, working out how to apply C2PA &mdash; a standard for determining the edits and origin of content &mdash; to agentic systems with colleagues from Adobe, Microsoft, Google, Sony, Amazon, BBC, OpenAI, Meta, TikTok, ElevenLabs, and Universal Music Group. The task forces publish normative and non-normative standards as well as guidance documents.</li>
               </ul>
             </div>
           </article>
@@ -204,8 +207,7 @@ export default function WalmartResumeBrief() {
             <p className="job-dates">2016 &ndash; 2025</p>
             <div className="job-desc">
               <ul>
-                <li>Led the team that built <strong>RILEY</strong>, winner of the IBM Watson Build Challenge North America (2017), an AI accessibility system for people who are blind or visually impaired.</li>
-                <li>Directed engineering for blockchain-backed workflow and case management systems where auditability and operational control were core requirements.</li>
+                <li>Led the team that built <strong>RILEY</strong>, winner of the IBM Watson Build Challenge North America (2017). Directed engineering for blockchain-backed workflow and case management systems where auditability was a core requirement.</li>
               </ul>
             </div>
           </article>
@@ -226,8 +228,7 @@ export default function WalmartResumeBrief() {
           <h2 id="certifications-heading">Recognition, Certifications &amp; Education</h2>
           <ul className="cert-list" aria-label="Recognition and education list">
             <li>Winner, University of Arkansas AI Innovation and Integration Challenge, team lead (2026) &middot; IBM Watson Build Challenge Winner, North America (2017) &middot; IBM Champion, six-time honoree (2020&ndash;2025)</li>
-            <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025)</li>
-            <li>IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
+            <li>AI Fluency for Students and Teaching the AI Fluency Framework &mdash; Anthropic (2025) &middot; Venture Building &mdash; Builders + Backers (2025) &middot; IBM Certifications: Watson Chatbot, RPA, Bluemix Essentials, Blockchain Essentials &middot; FAA Private Pilot License</li>
             <li><strong>University of Arkansas, Sam M. Walton College of Business</strong> &mdash; Cloud Computing &amp; Infrastructure, agent-focused (Spring 2026), 4.0 GPA; Quantum Computing (Fall 2026)</li>
             <li><strong>University of Arkansas</strong> &mdash; Studies in Music, 4.0 GPA (2023&ndash;Present) &middot; <strong>Hammel College</strong> &mdash; Office Automation &amp; Database Management (1981&ndash;1982), 4.0 GPA</li>
           </ul>

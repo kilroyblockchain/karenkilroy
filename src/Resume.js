@@ -57,7 +57,7 @@ export default function Resume() {
 
         {/* PRINT CONTACT (print only) — shows email + phone */}
         <p className="contact print-only" aria-label="Contact (print)">
-          Email: <a href="mailto:karen@nyx.baby">karen@nyx.baby</a> | Phone: 330-289-1351 | LinkedIn: linkedin.com/in/karenkilroy
+          Email: <a href="mailto:karen@kilroyai.com">karen@kilroyai.com</a> | Phone: 330-289-1351 | LinkedIn: linkedin.com/in/karenkilroy
         </p>
 
         <section className="section summary-section" aria-labelledby="summary-heading">
