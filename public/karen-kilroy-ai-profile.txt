@@ -30,7 +30,7 @@ Core strengths:
 - PHI-safe review patterns and HIPAA-oriented audit logging
 - Tamper-evident audit chains and AI governance
 - C2PA Content Credentials and content provenance
-- Python (intermediate)
+- Python
 - AWS agent deployment and migration
 - React, Next.js, TypeScript, Node.js, Prisma, PostgreSQL, Azure App Service, Azure Key Vault, Azure Monitor, Application Insights, OpenTelemetry, KEDA
 - Multi-tenant API design, Stripe checkout, fulfillment-provider integrations, OpenAPI, JSON-LD, and LLM-readable product documentation

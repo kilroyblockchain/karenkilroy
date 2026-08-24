@@ -109,7 +109,7 @@ export default function WalmartResumeBrief() {
             <li>Ontology &amp; Schema Design</li>
             <li>Azure AI Foundry, Azure OpenAI, Azure ML</li>
             <li>Deepgram Speech AI</li>
-            <li>Python (intermediate)</li>
+            <li>Python</li>
           </ul>
         </section>
 

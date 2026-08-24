@@ -119,7 +119,7 @@ export default function WalmartAgenticResume() {
             <li>Structured Ontologies: FHIR R4, SNOMED CT, ICD-10</li>
             <li>Azure AI Foundry, Azure OpenAI, Azure ML</li>
             <li>Deepgram Speech AI</li>
-            <li>Python (intermediate)</li>
+            <li>Python</li>
           </ul>
         </section>
 

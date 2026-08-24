@@ -83,7 +83,7 @@ Cloud and engineering:
 - Node.js
 - Prisma
 - PostgreSQL
-- Python (intermediate)
+- Python
 - AWS agent deployment and migration
 - Azure App Service
 - Azure Key Vault
