@@ -1,0 +1,9 @@
+{
+  "name": "quantum-api",
+  "version": "1.0.0",
+  "description": "Managed API for the secured /quantum section. Dispatches experiments to GitHub Actions and reads the provenance ledger back.",
+  "main": "src/functions/*.js",
+  "dependencies": {
+    "@azure/functions": "^4.5.1"
+  }
+}

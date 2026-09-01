@@ -48,6 +48,48 @@
          margin-right: .45rem; vertical-align: baseline; }
   .dot.ok { background: var(--ok); } .dot.pending { background: var(--warn); }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; }
+  .runner, .recent { margin-top: 2.5rem; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem 1.5rem; }
+  .runner h2 { margin: 0 0 .35rem; font-size: 1.05rem; letter-spacing: -.01em; }
+  .recent h3 { margin: 0 0 .8rem; font-size: .78rem; text-transform: uppercase;
+               letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+  .sub { margin: 0 0 1.2rem; font-size: .875rem; color: var(--muted); max-width: 40rem; }
+  .modes { display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+  .mode { display: flex; gap: .6rem; align-items: flex-start; padding: .8rem .9rem;
+          border: 1px solid var(--line); border-radius: 9px; cursor: pointer;
+          transition: border-color .15s, background .15s; }
+  .mode:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+  .mode input { margin-top: .28rem; accent-color: var(--accent); flex: none; }
+  .mode span { display: block; }
+  .mode strong { display: block; font-size: .9rem; font-weight: 600; }
+  .mode em { display: block; font-style: normal; font-size: .78rem; color: var(--muted);
+             line-height: 1.45; margin-top: .2rem; }
+  .opts { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: flex-end; margin: 1.3rem 0 .3rem; }
+  .opts > label, .note { display: flex; flex-direction: column; gap: .3rem;
+                         font-size: .8rem; color: var(--muted); }
+  .note { margin-top: 1.1rem; }
+  input[type=number], input[type=text] { font: inherit; font-size: .9rem; padding: .45rem .6rem;
+    border: 1px solid var(--line); border-radius: 7px; background: var(--bg); color: var(--ink); }
+  input[type=number] { width: 7.5rem; } #backend { width: 11rem; } #note { width: 100%; }
+  .opts .check { flex-direction: row; align-items: center; gap: .45rem; cursor: pointer; }
+  .opts .check input { accent-color: var(--accent); }
+  .hint { color: var(--muted); opacity: .8; font-size: .75rem; }
+  .go { display: flex; align-items: center; gap: .9rem; margin-top: 1.3rem; flex-wrap: wrap; }
+  button { font: inherit; font-weight: 600; font-size: .9rem; padding: .55rem 1.4rem;
+    border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  button.danger { background: var(--warn); }
+  #msg { font-size: .84rem; color: var(--muted); }
+  .runs { display: grid; gap: .5rem; }
+  .run { display: flex; align-items: center; gap: .7rem; font-size: .85rem;
+         padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 8px; }
+  .run a { margin-left: auto; font-size: .78rem; }
+  .muted { color: var(--muted); font-size: .85rem; margin: 0; }
+  .badge { font-size: .72rem; font-weight: 600; padding: .12rem .5rem; border-radius: 20px;
+           border: 1px solid var(--line); white-space: nowrap; }
+  .badge.success { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, transparent); }
+  .badge.failure { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); }
+  .badge.running { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
   footer { margin-top: 3rem; font-size: .8rem; color: var(--muted); }
 </style>
 </head>
@@ -83,17 +125,48 @@
     </a>
   </div>
 
-  <div class="status">
-    <h3>Running experiments from here</h3>
-    <p><span class="dot pending"></span><strong>Not yet wired up.</strong>
-       Submitting circuits from this page spends real IBM Quantum quota, so the
-       runner is being built behind a proper identity check rather than a
-       forgeable header — a public endpoint that can spend your quota needs to
-       verify who is calling it, not just trust what the caller claims.</p>
-    <p>Until it lands, runs go through <code>claude.ai/code</code> against the
-       <code>kilroyblockchain/quantum</code> repository, or from your own
-       machine with <code>qiskit/bell-hardware.py --real</code>.</p>
-  </div>
+  <section class="runner">
+    <h2>Run an experiment</h2>
+    <p class="sub">A Bell state — <code>H(0)</code> then <code>CX(0,1)</code> — measured six
+       ways. Each qubit alone should average 0; the two together should average 1.
+       How far short the pairs fall is the machine's noise.</p>
+
+    <div class="modes" id="modes">
+      <label class="mode"><input type="radio" name="mode" value="sim-ideal" checked>
+        <span><strong>Ideal simulator</strong><em>Exact arithmetic. Free, instant, and always right — this is the answer the hardware is trying to reproduce.</em></span></label>
+      <label class="mode"><input type="radio" name="mode" value="sim-noisy">
+        <span><strong>Noisy simulator</strong><em>A recorded noise model of a real chip. Free, and wrong in roughly the ways hardware is wrong.</em></span></label>
+      <label class="mode"><input type="radio" name="mode" value="hardware">
+        <span><strong>Real hardware</strong><em>An actual IBM quantum computer. Spends Open Plan quota and waits in a queue.</em></span></label>
+    </div>
+
+    <div class="opts">
+      <label>Shots
+        <input type="number" id="shots" value="5000" min="1" max="100000" step="1000">
+      </label>
+      <label id="backend-wrap" hidden>Machine
+        <input type="text" id="backend" placeholder="shortest queue" spellcheck="false">
+      </label>
+      <label class="check"><input type="checkbox" id="raw">
+        Error mitigation off <span class="hint">raw values — a raw result can never exceed 1</span></label>
+      <label class="check" id="record-wrap"><input type="checkbox" id="record">
+        Record to the ledger <span class="hint">simulator runs are left out by default</span></label>
+    </div>
+
+    <label class="note">What do you expect?
+      <input type="text" id="note" maxlength="500" placeholder="optional — stored as the interpretation, dated and attributed">
+    </label>
+
+    <div class="go">
+      <button id="run">Run</button>
+      <span id="msg"></span>
+    </div>
+  </section>
+
+  <section class="recent">
+    <h3>Recent runs</h3>
+    <div id="runs" class="runs"><p class="muted">loading…</p></div>
+  </section>
 
   <footer>
     Ledger integrity is checked two ways, on purpose. Chain linkage is verified
@@ -104,12 +177,114 @@
 </div>
 
 <script>
-  fetch('/.auth/me').then(r => r.json()).then(d => {
-    const p = d && d.clientPrincipal;
-    document.getElementById('who').innerHTML = p
-      ? `signed in as ${p.userDetails} · <a href="/.auth/logout">sign out</a>`
-      : `<a href="/.auth/login/aad">sign in</a>`;
-  }).catch(() => {});
+const $ = (id) => document.getElementById(id);
+const mode = () => document.querySelector('input[name=mode]:checked').value;
+
+fetch('/.auth/me').then(r => r.json()).then(d => {
+  const p = d && d.clientPrincipal;
+  $('who').innerHTML = p
+    ? `signed in as ${p.userDetails} · <a href="/.auth/logout">sign out</a>`
+    : `<a href="/.auth/login/aad">sign in</a>`;
+}).catch(() => {});
+
+// Hardware needs a machine name and always goes in the ledger; a simulator
+// has no device state worth recording, so that choice is only offered there.
+function syncMode() {
+  const hw = mode() === 'hardware';
+  $('backend-wrap').hidden = !hw;
+  $('record-wrap').hidden = hw;
+  armed = false;
+  $('run').classList.remove('danger');
+  $('run').textContent = hw ? 'Run on hardware' : 'Run';
+  $('msg').textContent = hw
+    ? 'This spends real IBM quota and can sit in a queue for a while.'
+    : '';
+}
+$('modes').addEventListener('change', syncMode);
+
+let armed = false;
+$('run').addEventListener('click', async () => {
+  const hw = mode() === 'hardware';
+
+  // One click arms a hardware run, a second starts it. Quota is not something
+  // to spend by brushing against a button.
+  if (hw && !armed) {
+    armed = true;
+    $('run').classList.add('danger');
+    $('run').textContent = 'Confirm — spend quota';
+    $('msg').textContent = 'Click again to submit to a real quantum computer.';
+    return;
+  }
+
+  const body = {
+    mode: mode(),
+    shots: Number($('shots').value),
+    raw: $('raw').checked,
+    record: $('record').checked,
+    note: $('note').value.trim(),
+  };
+  if (hw) { body.confirm = true; if ($('backend').value.trim()) body.backend = $('backend').value.trim(); }
+
+  $('run').disabled = true;
+  $('msg').textContent = 'starting…';
+  try {
+    const res = await fetch('/api/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || `HTTP ${res.status}`);
+    $('msg').textContent = out.message || 'Started.';
+    loadRuns();
+  } catch (e) {
+    $('msg').textContent = e.message;
+  } finally {
+    $('run').disabled = false;
+    armed = false;
+    $('run').classList.remove('danger');
+    $('run').textContent = hw ? 'Run on hardware' : 'Run';
+  }
+});
+
+const RELATIVE = (iso) => {
+  const s = (Date.now() - new Date(iso)) / 1000;
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+  return `${Math.floor(s / 86400)}d ago`;
+};
+
+function badge(r) {
+  if (r.status !== 'completed') return ['running', r.status.replace('_', ' ')];
+  if (r.conclusion === 'success') return ['success', 'success'];
+  return ['failure', r.conclusion || 'failed'];
+}
+
+async function loadRuns() {
+  try {
+    const res = await fetch('/api/runs?limit=8', { cache: 'no-store' });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || `HTTP ${res.status}`);
+    if (!out.runs.length) {
+      $('runs').innerHTML = '<p class="muted">No runs yet.</p>';
+      return;
+    }
+    $('runs').innerHTML = out.runs.map(r => {
+      const [cls, text] = badge(r);
+      return `<div class="run"><span class="badge ${cls}">${text}</span>` +
+             `<span>${r.inputs || 'experiment'}</span>` +
+             `<span class="muted">${RELATIVE(r.created_at)}</span>` +
+             `<a href="${r.url}" target="_blank" rel="noopener">log &rarr;</a></div>`;
+    }).join('');
+  } catch (e) {
+    $('runs').innerHTML = `<p class="muted">${e.message}</p>`;
+  }
+}
+
+syncMode();
+loadRuns();
+setInterval(loadRuns, 10000);
 </script>
 </body>
 </html>
