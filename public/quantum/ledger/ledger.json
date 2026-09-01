@@ -1,0 +1,312 @@
+{
+ "entries": [
+  {
+   "entry_hash": "201142add673afc5039f1300f864c41971e9a3aa461f6c9c4a0558946ea1df98",
+   "payload": {
+    "circuit": {
+     "logical_depth": 2,
+     "note": "depth confirmed from run output; layout from job inspection",
+     "physical_depth": 7,
+     "physical_qubits": [
+      0,
+      1
+     ],
+     "qubits": 2
+    },
+    "code": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "device": {
+     "backend": "ibm_fez",
+     "calibration_captured": false,
+     "job_created": "2026-08-29 05:00:34.593432-05:00",
+     "note": "Device state at run time was NOT recorded. Calibration read afterwards describes a possibly different machine and is deliberately omitted. This run cannot support a drift claim."
+    },
+    "environment": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "interpretation": {
+     "at_the_time": "Clean run. Correlations +0.968, singles ~0. Read at the time as a valid baseline: entanglement confirmed, 3.2% shortfall attributed to hardware noise. Nothing has since contradicted this.",
+     "by": "claude+karen, 29 Aug 2026"
+    },
+    "job_id": "da9argmrbfbs73cheqrg",
+    "options": {
+     "mitigation": "default",
+     "shots": 5000
+    },
+    "results": [
+     {
+      "error": 0.018,
+      "kind": "single",
+      "label": "IZ",
+      "value": 0.002
+     },
+     {
+      "error": 0.016,
+      "kind": "single",
+      "label": "IX",
+      "value": 0.011
+     },
+     {
+      "error": 0.019,
+      "kind": "single",
+      "label": "ZI",
+      "value": -0.009
+     },
+     {
+      "error": 0.015,
+      "kind": "single",
+      "label": "XI",
+      "value": 0.012
+     },
+     {
+      "error": 0.007,
+      "kind": "pair",
+      "label": "ZZ",
+      "value": 0.955
+     },
+     {
+      "error": 0.006,
+      "kind": "pair",
+      "label": "XX",
+      "value": 0.981
+     }
+    ],
+    "validity": {
+     "checks": [
+      {
+       "check": "expectation_values_within_physical_bounds",
+       "detail": "all |value| <= 1",
+       "passed": true
+      },
+      {
+       "check": "single_qubit_values_near_zero",
+       "detail": "largest |single| is XI=+0.012",
+       "passed": true
+      },
+      {
+       "check": "uncertainties_consistent_with_shot_count",
+       "detail": "largest uncertainty 0.019",
+       "passed": true
+      }
+     ],
+     "failures": [],
+     "passed": true
+    }
+   },
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "recorded_at": "2026-08-29T11:24:44+00:00",
+   "seq": 1,
+   "source": "reconstructed"
+  },
+  {
+   "entry_hash": "fe7eb2d51f811d2fce36966062620ace4902624d06ab1a15bfae558ec284c406",
+   "payload": {
+    "circuit": {
+     "logical_depth": 2,
+     "note": "depth confirmed from run output; layout from job inspection",
+     "physical_depth": 7,
+     "physical_qubits": [
+      0,
+      1
+     ],
+     "qubits": 2
+    },
+    "code": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "device": {
+     "backend": "ibm_kingston",
+     "calibration_captured": false,
+     "job_created": "2026-08-29 05:16:45.695530-05:00",
+     "note": "Device state at run time was NOT recorded. Calibration read afterwards describes a possibly different machine and is deliberately omitted. This run cannot support a drift claim."
+    },
+    "environment": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "interpretation": {
+     "at_the_time": "INVALID. ZZ=1.429, XX=1.149 exceed the physical bound of 1. Initially eye-catching as 'better than fez' before the bound was checked. Working theory at the time: readout-error mitigation applied an overshooting correction factor. Unproven pending a raw run.",
+     "by": "claude+karen, 29 Aug 2026"
+    },
+    "job_id": "da9b339qtnsc73d1d42g",
+    "options": {
+     "mitigation": "default",
+     "shots": 5000
+    },
+    "results": [
+     {
+      "error": 0.1164,
+      "kind": "single",
+      "label": "IZ",
+      "value": -0.0
+     },
+     {
+      "error": 0.1098,
+      "kind": "single",
+      "label": "IX",
+      "value": -0.0045
+     },
+     {
+      "error": 0.0376,
+      "kind": "single",
+      "label": "ZI",
+      "value": 0.0261
+     },
+     {
+      "error": 0.0364,
+      "kind": "single",
+      "label": "XI",
+      "value": -0.0101
+     },
+     {
+      "error": 0.0482,
+      "kind": "pair",
+      "label": "ZZ",
+      "value": 1.4286
+     },
+     {
+      "error": 0.0441,
+      "kind": "pair",
+      "label": "XX",
+      "value": 1.1489
+     }
+    ],
+    "validity": {
+     "checks": [
+      {
+       "check": "expectation_values_within_physical_bounds",
+       "detail": "outside [-1,1]: [('ZZ', 1.4286), ('XX', 1.1489)]",
+       "passed": false
+      },
+      {
+       "check": "single_qubit_values_near_zero",
+       "detail": "largest |single| is ZI=+0.026",
+       "passed": true
+      },
+      {
+       "check": "uncertainties_consistent_with_shot_count",
+       "detail": "largest uncertainty 0.116 \u2014 inflated, suggests a large correction factor",
+       "passed": false
+      }
+     ],
+     "failures": [
+      "unphysical expectation value \u2014 post-processing is wrong",
+      "inflated uncertainties"
+     ],
+     "passed": false
+    }
+   },
+   "prev_hash": "201142add673afc5039f1300f864c41971e9a3aa461f6c9c4a0558946ea1df98",
+   "recorded_at": "2026-08-29T11:24:45+00:00",
+   "seq": 2,
+   "source": "reconstructed"
+  },
+  {
+   "entry_hash": "04cb2c9e3db723e7198f7d44043998f22888b50ae4086a2d8382e1b67ecfffd9",
+   "payload": {
+    "circuit": {
+     "logical_depth": 2,
+     "note": "depth confirmed from run output; layout from job inspection",
+     "physical_depth": 7,
+     "physical_qubits": [
+      0,
+      1
+     ],
+     "qubits": 2
+    },
+    "code": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "device": {
+     "backend": "ibm_kingston",
+     "calibration_captured": false,
+     "job_created": "2026-08-29 06:19:30.125577-05:00",
+     "note": "Device state at run time was NOT recorded. Calibration read afterwards describes a possibly different machine and is deliberately omitted. This run cannot support a drift claim."
+    },
+    "environment": {
+     "note": "not captured \u2014 run predates the ledger"
+    },
+    "interpretation": {
+     "at_the_time": "Raw control for the run above. Correlations +0.497 unmitigated, and singles at -0.255/-0.230 showing systematic readout bias. This confirms the overshoot theory: kingston was ~2x noisier than fez, and mitigation scaled a badly degraded signal past the bound.",
+     "by": "claude+karen, 29 Aug 2026"
+    },
+    "job_id": "da9c0gke74ec73ajjm50",
+    "options": {
+     "mitigation": "off",
+     "shots": 5000
+    },
+    "results": [
+     {
+      "error": 0.0137,
+      "kind": "single",
+      "label": "IZ",
+      "value": -0.2552
+     },
+     {
+      "error": 0.0138,
+      "kind": "single",
+      "label": "IX",
+      "value": -0.2304
+     },
+     {
+      "error": 0.014,
+      "kind": "single",
+      "label": "ZI",
+      "value": -0.12
+     },
+     {
+      "error": 0.0141,
+      "kind": "single",
+      "label": "XI",
+      "value": -0.1108
+     },
+     {
+      "error": 0.0119,
+      "kind": "pair",
+      "label": "ZZ",
+      "value": 0.5368
+     },
+     {
+      "error": 0.0126,
+      "kind": "pair",
+      "label": "XX",
+      "value": 0.458
+     }
+    ],
+    "validity": {
+     "checks": [
+      {
+       "check": "expectation_values_within_physical_bounds",
+       "detail": "all |value| <= 1",
+       "passed": true
+      },
+      {
+       "check": "single_qubit_values_near_zero",
+       "detail": "largest |single| is IZ=-0.255 \u2014 systematic readout bias",
+       "passed": false
+      },
+      {
+       "check": "uncertainties_consistent_with_shot_count",
+       "detail": "largest uncertainty 0.014",
+       "passed": true
+      }
+     ],
+     "failures": [
+      "single-qubit values far from zero \u2014 readout bias"
+     ],
+     "passed": false
+    }
+   },
+   "prev_hash": "fe7eb2d51f811d2fce36966062620ace4902624d06ab1a15bfae558ec284c406",
+   "recorded_at": "2026-08-29T11:24:45+00:00",
+   "seq": 3,
+   "source": "reconstructed"
+  }
+ ],
+ "content": {
+  "ok": true,
+  "problems": []
+ },
+ "verified_at": "2026-09-01T18:39:30+00:00",
+ "mtime": 1788017553509.149
+}

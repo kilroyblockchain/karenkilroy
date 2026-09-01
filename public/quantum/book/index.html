@@ -1,0 +1,1461 @@
+<title>Amplitudes and Audit Trails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* ── Palette: drawn from the course lecture decks (navy #0B0F2E, gold #E8B84B,
+      cyan #5EE1E6, violet #C58CF2), re-pitched as ink on paper for print. ── */
+:root{
+  --paper:#FCFCFD; --panel:#F4F5F9; --ink:#12162F; --ink-soft:#333A5C;
+  --muted:#5C6382; --rule:#DCDEE8; --rule-strong:#B9BDD0;
+  --gold:#8A6D0F; --violet:#63479F; --teal:#14646B;
+  --gold-wash:#FBF6E6; --violet-wash:#F5F1FB; --teal-wash:#ECF6F6;
+  --measure:34rem;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B0F2E; --panel:#141A45; --ink:#EEF0FA; --ink-soft:#C9CEE6;
+    --muted:#98A0C8; --rule:#252C5C; --rule-strong:#3A4278;
+    --gold:#E8B84B; --violet:#C58CF2; --teal:#5EE1E6;
+    --gold-wash:#1D2049; --violet-wash:#1E1B45; --teal-wash:#102647;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B0F2E; --panel:#141A45; --ink:#EEF0FA; --ink-soft:#C9CEE6;
+  --muted:#98A0C8; --rule:#252C5C; --rule-strong:#3A4278;
+  --gold:#E8B84B; --violet:#C58CF2; --teal:#5EE1E6;
+  --gold-wash:#1D2049; --violet-wash:#1E1B45; --teal-wash:#102647;
+}
+
+*{box-sizing:border-box;}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Source Serif 4",Charter,Georgia,serif;
+  font-size:17px; line-height:1.62;
+  margin:0; padding:0 1.5rem 6rem;
+  font-variant-numeric:oldstyle-nums proportional-nums;
+}
+.wrap{max-width:var(--measure); margin:0 auto;}
+
+/* ── Type scale ── */
+h1,h2,h3,h4{font-family:Spectral,Georgia,serif; text-wrap:balance; line-height:1.2;}
+h1{font-size:2.1rem; font-weight:700; letter-spacing:-.015em; margin:0;}
+h2{font-size:1.32rem; font-weight:600; margin:2.6rem 0 .7rem; color:var(--ink);}
+h3{font-size:1.06rem; font-weight:600; margin:1.9rem 0 .5rem;}
+p{margin:0 0 .95rem;}
+strong{font-weight:600;}
+a{color:var(--violet);}
+:focus-visible{outline:2px solid var(--violet); outline-offset:3px; border-radius:2px;}
+
+/* ── Chapter openers ── */
+.chapter{padding-top:1rem;}
+.chapter-open{margin:0 0 2rem; padding-bottom:1.1rem; border-bottom:2px solid var(--ink);}
+.eyebrow{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.7rem; font-weight:700; letter-spacing:.19em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:.7rem;
+}
+.title-open{border-bottom:none; text-align:center; padding-top:3rem;}
+.title-open h1{font-size:2.9rem; letter-spacing:-.02em;}
+.chapter > p:first-of-type strong{color:var(--muted); font-weight:600;}
+
+/* ── Callouts ── */
+.callout{
+  border-left:3px solid; padding:.85rem 1.1rem; margin:1.4rem 0;
+  font-size:.95rem; line-height:1.55; border-radius:0 4px 4px 0;
+}
+.callout-boundary{border-color:var(--violet); background:var(--violet-wash);}
+.callout-try{border-color:var(--teal); background:var(--teal-wash);}
+.callout strong:first-child{color:var(--violet);}
+.callout-try strong:first-child{color:var(--teal);}
+
+/* ── Section markers ── */
+.h-takeaway,.h-check,.h-answers{
+  padding-top:.55rem; border-top:1px solid var(--rule-strong);
+}
+.h-takeaway{color:var(--gold);}
+.h-answers{color:var(--muted);}
+.h-takeaway + ul{background:var(--gold-wash); padding:1rem 1rem 1rem 2.2rem; border-radius:5px;}
+
+/* ── Code & ASCII diagrams ── */
+.codewrap{overflow-x:auto; margin:1.15rem 0; background:var(--panel);
+  border:1px solid var(--rule); border-radius:5px;}
+pre{margin:0; padding:.9rem 1.05rem;}
+pre code{
+  font-family:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  font-size:.795rem; line-height:1.5; white-space:pre; color:var(--ink-soft);
+  font-variant-ligatures:none;
+}
+code{
+  font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  font-size:.85em; background:var(--panel); padding:.08em .34em;
+  border-radius:3px; color:var(--ink-soft);
+}
+
+/* ── Tables ── */
+.tablewrap{overflow-x:auto; margin:1.25rem 0;}
+table{border-collapse:collapse; width:100%; font-size:.88rem;
+  font-variant-numeric:tabular-nums lining-nums;}
+th{
+  font-family:"JetBrains Mono",monospace; font-size:.66rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  text-align:left; padding:.4rem .7rem .4rem 0; border-bottom:1.5px solid var(--rule-strong);
+}
+td{padding:.46rem .7rem .46rem 0; border-bottom:1px solid var(--rule);
+  vertical-align:top; line-height:1.45;}
+td code{background:none; padding:0;}
+
+ul,ol{margin:0 0 1rem; padding-left:1.35rem;}
+li{margin-bottom:.36rem;}
+hr{border:none; border-top:1px solid var(--rule); margin:2rem 0;}
+.note{color:var(--muted); font-style:italic; font-size:.94rem;}
+
+/* ── Contents ── */
+.toc{padding:2.5rem 0 1rem;}
+.toc h2{
+  font-family:"JetBrains Mono",monospace; font-size:.72rem; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--muted);
+  margin:0 0 1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--rule-strong);
+}
+.toc-list{list-style:none; padding:0; margin:0;}
+.toc-list li{margin:0; border-bottom:1px solid var(--rule);}
+.toc-list a{
+  display:flex; gap:1rem; align-items:baseline; padding:.5rem 0;
+  text-decoration:none; color:var(--ink);
+}
+.toc-list a:hover .toc-title{color:var(--violet);}
+.toc-wk{
+  font-family:"JetBrains Mono",monospace; font-size:.68rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--gold);
+  flex:0 0 4.4rem; white-space:nowrap;
+}
+.toc-title{font-family:Spectral,Georgia,serif; font-size:1rem;}
+
+/* ── Print controls ── */
+.bar{
+  position:sticky; top:0; z-index:10; background:var(--paper);
+  border-bottom:1px solid var(--rule); padding:.6rem 0; margin-bottom:1rem;
+  display:flex; gap:.6rem; justify-content:flex-end; align-items:center;
+}
+.bar button{
+  font-family:"JetBrains Mono",monospace; font-size:.7rem; font-weight:500;
+  letter-spacing:.09em; text-transform:uppercase; cursor:pointer;
+  background:var(--panel); color:var(--ink-soft);
+  border:1px solid var(--rule-strong); border-radius:4px; padding:.4rem .8rem;
+}
+.bar button:hover{border-color:var(--violet); color:var(--violet);}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important;}}
+
+/* ══ PRINT ══ */
+@media print{
+  @page{ size:letter; margin:20mm 18mm 18mm; }
+  :root{
+    --paper:#fff; --panel:#F4F5F9; --ink:#111; --ink-soft:#2A2F48;
+    --muted:#4A5068; --rule:#D4D7E2; --rule-strong:#9AA0B4;
+    --gold:#6E5608; --violet:#4E3585; --teal:#0E5158;
+    --gold-wash:#FAF6E8; --violet-wash:#F5F2FA; --teal-wash:#EDF5F5;
+  }
+  body{font-size:10.5pt; line-height:1.5; padding:0; background:#fff;}
+  .wrap{max-width:none;}
+  .bar,.toc-list a:hover{display:none;}
+  .chapter{break-before:page; padding-top:0;}
+  #front,#toc{break-before:auto;}
+  .toc{break-after:page;}
+  h1,h2,h3{break-after:avoid;}
+  .callout,.codewrap,.tablewrap,pre,table{break-inside:avoid;}
+  li,p{orphans:3; widows:3;}
+  .title-open{padding-top:4rem;}
+  pre code{font-size:8.2pt; line-height:1.42;}
+  table{font-size:9pt;}
+  a{color:#111; text-decoration:none;}
+}
+</style>
+
+<div class="wrap">
+<div class="bar">
+  <button onclick="window.print()">Print / Save PDF</button>
+  <button onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">Theme</button>
+</div>
+<nav class="toc" id="toc"><h2>Contents</h2><ol class="toc-list"><li><a href="#ch01"><span class="toc-wk">Week 1</span><span class="toc-title">The Deterministic Worldview and Why It Failed</span></a></li>
+<li><a href="#ch02"><span class="toc-wk">Week 2</span><span class="toc-title">Cracks in Classical Physics</span></a></li>
+<li><a href="#ch03"><span class="toc-wk">Week 3</span><span class="toc-title">The Birth of Quantum Mechanics</span></a></li>
+<li><a href="#ch04"><span class="toc-wk">Week 4</span><span class="toc-title">Superposition, Entanglement, and Bell's Theorem</span></a></li>
+<li><a href="#ch05"><span class="toc-wk">Week 5</span><span class="toc-title">Tunneling, and What Makes Quantum Information Different</span></a></li>
+<li><a href="#ch06"><span class="toc-wk">Week 6</span><span class="toc-title">Dirac Notation and State Vectors</span></a></li>
+<li><a href="#ch07"><span class="toc-wk">Week 7</span><span class="toc-title">The Bloch Sphere and Single-Qubit Gates</span></a></li>
+<li><a href="#ch08"><span class="toc-wk">Week 8</span><span class="toc-title">Multi-Qubit Systems, CNOT, and Qiskit</span></a></li>
+<li><a href="#ch09"><span class="toc-wk">Week 9</span><span class="toc-title">Building and Simulating Circuits</span></a></li>
+<li><a href="#ch10"><span class="toc-wk">Week 10</span><span class="toc-title">Measurement, Collapse, and Reading Output</span></a></li>
+<li><a href="#ch11"><span class="toc-wk">Week 11</span><span class="toc-title">Feynman's Vision and Deutsch's Algorithm</span></a></li>
+<li><a href="#ch12"><span class="toc-wk">Week 12</span><span class="toc-title">Deutsch in Qiskit, and Real Hardware</span></a></li>
+<li><a href="#ch13"><span class="toc-wk">Week 13</span><span class="toc-title">Noise, Decoherence, and Grover's Algorithm</span></a></li>
+<li><a href="#ch14"><span class="toc-wk">Week 14</span><span class="toc-title">Grover in Practice, and Shor's Algorithm</span></a></li>
+<li><a href="#ch15"><span class="toc-wk">Week 15</span><span class="toc-title">Implementing Shor: Quantum Period Finding</span></a></li>
+<li><a href="#ch16"><span class="toc-wk">Week 16</span><span class="toc-title">Error Correction, Limits, and Honest Assessment</span></a></li></ol></nav>
+<section class="chapter" id="front"><header class="chapter-open title-open"><h1>Quantum Information Systems</h1></header>
+<h3 id="a-personalized-reading-for-karen-kilroy">A Personalized Reading for Karen Kilroy</h3>
+<p><strong>ISYS — Quantum Information Systems · Fall 2026</strong> University of Arkansas · Sam M. Walton College of Business Instructor: Dr. Daniel Conway Course dates: 17 August – 4 December 2026</p>
+<hr>
+<h2 id="how-this-book-was-made">How this book was made</h2>
+<p>The course syllabus specifies: <em>"There will be a weekly prompt to run so that AI will generate your reading."</em> This book is that prompt, run across all sixteen weeks of the schedule at once, and set in print.</p>
+<p>Four inputs shape every chapter:</p>
+<div class="tablewrap"><table><thead><tr><th>Input</th><th>Source</th></tr></thead><tbody><tr><td>Course learning objectives</td><td>Syllabus, objectives 1–8</td></tr><tr><td>Student profile</td><td>Advanced; systems-architecture-first; agent &amp; provenance analogies</td></tr><tr><td>Weekly content brief</td><td><code>QIS_Schedule_Fall2026.docx</code>, weeks 1–16</td></tr><tr><td>Assessment bank</td><td>Self-check questions, two per chapter</td></tr></tbody></table></div>
+<h2 id="your-profile-as-applied">Your profile, as applied</h2>
+<p>Every chapter assumes you are an agentic-AI systems engineer with forty years in IT — that you build HIPAA-regulated multi-agent pipelines, policy-first control planes, and hash-chained forensic audit trails, and that you co-chair the C2PA AI/ML Task Force. The consequences of that assumption:</p>
+<ul><li><strong>Boundaries before internals.</strong> Each chapter draws the interface first, then opens the box.</li><li><strong>No scaffolding.</strong> No "simply," no "just," no apologizing for mathematics.</li><li><strong>Analogies as engineering claims.</strong> Superposition as an agent holding multiple execution paths before dispatch. Measurement as an audit-trail write that makes state irreversible and observable. No-cloning as hash-chain integrity. These are load-bearing, not decorative — and every one of them is marked with the point where it breaks.</li></ul>
+<p>That last point matters most. An analogy that is never falsified is a liability: you will carry it into a problem it cannot survive. Each is stamped with a <strong>⚠️ Analogy boundary</strong> naming exactly where it fails.</p>
+<h2 id="objectives">Objectives</h2>
+<ol><li>Trace the historical evolution of physics from Newtonian mechanics through early quantum theory.</li><li>Explain the physical foundations of quantum information: superposition, entanglement, tunneling, measurement, decoherence.</li><li>Represent quantum states using Dirac notation and the Bloch sphere.</li><li>Design and simulate quantum circuits using Qiskit.</li><li>Execute circuits on IBM Quantum hardware; evaluate decoherence and noise.</li><li>Implement and analyze Deutsch's Algorithm.</li><li>Implement and evaluate Grover's and Shor's Algorithms.</li><li>Assess current capabilities and limitations of quantum information systems.</li></ol>
+<h2 id="notation">Notation</h2>
+<div class="tablewrap"><table><thead><tr><th>Symbol</th><th>Reading</th></tr></thead><tbody><tr><td><code>|ψ⟩</code></td><td>"ket psi" — a state vector, a column</td></tr><tr><td><code>⟨φ|</code></td><td>"bra phi" — a dual vector, a row; the measurement-side interface</td></tr><tr><td><code>⟨φ|ψ⟩</code></td><td>inner product — a complex number, the overlap of two states</td></tr><tr><td><code>ħ</code></td><td>reduced Planck constant, 1.055 × 10⁻³⁴ J·s</td></tr><tr><td><code>⊗</code></td><td>tensor product — how independent registers compose</td></tr><tr><td><code>†</code></td><td>dagger — conjugate transpose; for gates, the inverse</td></tr></tbody></table></div>
+<p>Symbols are explained once, then used. A <strong>🔬 Try it yourself</strong> callout marks work with <code>bloch_sphere.html</code> or <code>double_slit.html</code>.</p>
+<hr>
+<p class="note">A generated reading is a first draft with footnotes you cannot see. Where this book simplifies, it says so. Where the physics is genuinely unsettled — the measurement problem, above all — it marks the disagreement rather than papering over it.</p></section>
+<section class="chapter" id="ch01"><header class="chapter-open"><div class="eyebrow">Week 1</div><h1>The Deterministic Worldview and Why It Failed</h1></header>
+<p><strong>18, 20 August · Objective 1</strong></p>
+<p>Classical physics is a total function: state in, future out, no exceptions. This week establishes that contract precisely enough that you can see what quantum mechanics breaks — because the break is narrower and stranger than the popular account suggests.</p>
+<h2 id="the-classical-contract">The classical contract</h2>
+<p>Newton's 1687 formulation makes a specific, testable promise. Given a system's complete state at time <em>t</em> — every position <strong>q</strong> and momentum <strong>p</strong> — the equations of motion return the state at any other time, past or future:</p>
+<div class="codewrap"><pre><code>    F = ma          →     d²q/dt² = F(q)/m</code></pre></div>
+<p>Hamilton's 1833 reformulation makes the structure explicit. Define a scalar <em>H</em>(q, p) — the total energy — and the entire dynamics falls out of two symmetric equations:</p>
+<div class="codewrap"><pre><code>    dq/dt =  ∂H/∂p
+    dp/dt = -∂H/∂q</code></pre></div>
+<p>This is worth dwelling on as an architectural move. Hamilton replaced <em>n</em> coupled second-order equations with 2<em>n</em> first-order ones, and in doing so identified the true state space: <strong>phase space</strong>, where a point (q, p) is a complete system description. Every mechanical system, from a pendulum to the solar system, became a trajectory through phase space governed by one scalar function.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — Hamiltonian as a reducer.</strong> <em>H</em> looks like a reducer: current state in, next state out, deterministic. The analogy holds for the type signature and fails on volume. Liouville's theorem says phase-space volume is <em>conserved</em> — classical evolution is measure-preserving and reversible. A software reducer freely collapses distinct inputs to one output. That distinction is not incidental; it is precisely what makes quantum gates unitary, and it is the reason you cannot build a quantum <code>if</code> that discards a branch.</p>
+<h2 id="what-determinism-actually-claims">What determinism actually claims</h2>
+<p>Laplace stated the strong form in 1814: an intellect knowing all positions and forces would find "nothing uncertain, and the future, as the past, would be present to its eyes."</p>
+<p>Read as a systems claim, this asserts three separable properties, and it is worth keeping them apart because quantum mechanics does not treat them alike:</p>
+<ol><li><strong>Deterministic evolution.</strong> The state at <em>t</em>₁ fixes the state at <em>t</em>₂.</li><li><strong>Definite values.</strong> Every observable has a value at all times, measured or not.</li><li><strong>Non-disturbance.</strong> Observation reads state without altering it.</li></ol>
+<p>Quantum mechanics keeps (1) — the Schrödinger equation is as deterministic as Hamilton's. It abandons (2) and (3). This is the single most misreported fact about the theory. The wavefunction evolves with perfect predictability; what fails is the assumption that measurement is a passive read.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — the read/write distinction.</strong> Classical (3) is the claim that observation is a pure read. Quantum measurement is closer to a compare-and-swap that always writes. But do not push this to "the observer's mind matters." Nothing in the formalism mentions consciousness. What matters is <em>irreversible correlation with an environment of many degrees of freedom</em> — which a photodiode accomplishes and a sleeping physicist does not.</p>
+<h2 id="why-it-worked-for-three-centuries">Why it worked for three centuries</h2>
+<p>Classical mechanics was not a bad theory awaiting replacement. Le Verrier predicted Neptune's position from Uranus's orbital anomalies in 1846; Galle found it within one degree the same night. Boltzmann reduced thermodynamics to statistics with <em>S</em> = <em>k</em> ln <em>W</em>. Maxwell unified electricity, magnetism, and light into four equations by 1865.</p>
+<p>The framing that serves you best: classical physics is a <strong>limit</strong>, not an error. It is the ħ → 0 boundary of a deeper theory, the way a synchronous single-threaded model is the zero-latency limit of a distributed system. Correct inside its regime, and silently wrong outside it — which is the more dangerous failure mode, because nothing signals the crossing.</p>
+<h2 id="the-three-cracks">The three cracks</h2>
+<p>By 1900 three experiments resisted the framework. Each gets a chapter, but note the shared shape now:</p>
+<div class="codewrap"><pre><code>  CRACK                CLASSICAL PREDICTION        OBSERVED
+  ───────────────────────────────────────────────────────────────────
+  Blackbody            Energy → ∞ at short λ       Finite, peaked curve
+    radiation          (ultraviolet catastrophe)
+  Photoelectric        Brighter light → faster     Frequency sets energy;
+    effect             electrons                   intensity sets count
+  Atomic stability     Electron spirals into       Discrete spectral lines
+                       nucleus in ~10⁻¹¹ s         Atoms are stable</code></pre></div>
+<p>All three fail the same way: a continuum theory meets a system that is stubbornly <strong>discrete</strong>. Energy comes in lumps. That is the whole of the quantum hypothesis, and every subsequent strangeness follows from taking it seriously.</p>
+<h2 id="why-i-1-becomes-unavoidable">Why i = √−1 becomes unavoidable</h2>
+<p>Classical physics uses complex numbers as bookkeeping — a convenience for oscillations, with <code>Re(·)</code> taken at the end. Quantum mechanics cannot do this. The state itself is complex-valued, and the phase is physical.</p>
+<p>Here is the reason, and it is an information-theoretic one. A quantum state must carry two independent quantities per branch: a magnitude that governs probability, and a phase that governs <em>interference between branches</em>. Probabilities are non-negative reals; they cannot cancel. But quantum branches must be able to cancel — that is what the double-slit dark fringes are. So amplitudes must live in a field with negative and complex values, combining linearly, with magnitudes squared to yield probabilities:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ = α|0⟩ + β|1⟩       α, β ∈ ℂ      |α|² + |β|² = 1</code></pre></div>
+<p>Two complex numbers, four real parameters, minus normalization, minus an unobservable global phase — leaves <strong>two</strong>. That is the surface of a sphere, and it is why the Bloch sphere in Week 7 is a sphere and not something worse.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — amplitude as a signed weight.</strong> Treating α as a signed weight captures cancellation and fails on rotation. A complex phase e^{iθ} is a continuous rotation in a two-dimensional plane, not a sign flip. Signs are the θ ∈ {0, π} special case; the gates in Week 7 use every angle between.</p>
+<p class="callout callout-try"><strong>Try it yourself.</strong> Open <code>bloch_sphere.html</code>. Set the state to |0⟩ and apply H, then H again. You return to |0⟩. Now apply H, then Z, then H — you land on |1⟩. The Z did nothing observable on its own (it only changed a phase), yet it changed the final outcome completely. That is phase becoming physical through interference, and it is the mechanism every quantum algorithm exploits.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Classical mechanics promises deterministic evolution, definite values, and non-disturbing observation. Quantum mechanics keeps the first and discards the other two.</li><li>Hamiltonian phase space identified state as (q, p) and made evolution volume-preserving — the classical ancestor of gate reversibility.</li><li>Classical physics is the ħ → 0 limit of quantum mechanics, not a refuted theory. It fails silently at the boundary.</li><li>All three cracks of 1900 are the same crack: continuum predictions against discrete reality.</li><li>Complex amplitudes are forced, not chosen. Interference requires cancellation; probabilities cannot cancel; amplitudes must.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 1)</em> — Your audit pipeline is deterministic: same inputs, same hash chain. Someone claims this makes it "classical, not quantum." Using the three-part decomposition of determinism above, identify precisely which property your pipeline shares with classical mechanics and which property quantum mechanics also satisfies.</p>
+<p><strong>Q2</strong> <em>(Objective 1)</em> — A colleague argues complex numbers in quantum mechanics are "just a math convenience, like phasors in AC circuit analysis." Give the specific physical observation that refutes this, and state what would have to be true of probability for the convenience view to hold.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Your pipeline shares <strong>deterministic evolution</strong> (property 1). Given identical inputs and identical prior chain state, it produces identical output — that is Hamiltonian evolution's defining feature, and quantum mechanics satisfies it too: the Schrödinger equation is fully deterministic in |ψ⟩.</p>
+<p>The interesting half is where your pipeline resembles the <em>quantum</em> side. A hash-chained audit trail deliberately violates <strong>non-disturbance</strong> (property 3): writing an entry changes system state irreversibly, and there is no way to record an observation without advancing the chain. You have engineered, at the application layer, precisely the property quantum measurement has at the physical layer — observation that necessarily writes. The analogy is not that your pipeline is quantum; it is that you already have working intuition for a system where "read" is not free, which most people must acquire painfully.</p>
+<p>Property 2, definite values, is where the pipeline stays classical: your records have determinate values before you read them.</p>
+<p><strong>A2</strong> — The refutation is <strong>destructive interference</strong>: the dark fringes of the double-slit pattern. Regions that receive particles when either slit alone is open receive <em>none</em> when both are open. Two open paths yield less than one. Since probabilities are non-negative, P(both) ≥ P(one) always — no combination of non-negative numbers reproduces the observation. The quantities that combine must therefore support cancellation, which means they are not probabilities.</p>
+<p>In phasor analysis the complex number is genuinely eliminable: take <code>Re(·)</code> at the end and nothing is lost, because the physical current is the real part. In quantum mechanics the elimination fails — you must square the magnitude <em>after</em> summing amplitudes, and |α + β|² ≠ |α|² + |β|². The cross term 2·Re(α*β) is the interference, and it carries the relative phase.</p>
+<p>For the convenience view to hold, probability would have to admit negative values — which is to say it would not be probability. Attempts in this direction exist (Wigner quasi-probability distributions do go negative) and are informative precisely because that negativity is the signature of non-classicality.</p></section>
+<section class="chapter" id="ch02"><header class="chapter-open"><div class="eyebrow">Week 2</div><h1>Cracks in Classical Physics</h1></header>
+<p><strong>25, 27 August · Objectives 1, 2</strong></p>
+<p>Three experiments broke the continuum: blackbody radiation, the photoelectric effect, and double-slit interference with single particles. The first two force energy quantization. The third forces something harder — that a single indivisible object carries a distribution over paths, and that <em>learning which path</em> destroys it.</p>
+<h2 id="blackbody-radiation-and-the-ultraviolet-catastrophe">Blackbody radiation and the ultraviolet catastrophe</h2>
+<p>A blackbody absorbs all incident radiation and re-emits based only on temperature. Classical statistical mechanics assigns each electromagnetic mode in a cavity an average energy of <em>k</em>T (equipartition). The mode count grows as ν², so the predicted spectral density is:</p>
+<div class="codewrap"><pre><code>    Rayleigh–Jeans:   ρ(ν) = (8πν²/c³) · kT        →  ∫ρ dν = ∞</code></pre></div>
+<p>The integral diverges. A warm cavity would radiate infinite energy, concentrated at short wavelengths. Ehrenfest named it the ultraviolet catastrophe in 1911. It is not a small discrepancy — it is a theory returning infinity where an oven returns a dull red glow.</p>
+<p>Planck's 1900 fix: permit mode energies only in integer multiples of hν.</p>
+<div class="codewrap"><pre><code>    Planck:   ρ(ν) = (8πν²/c³) · hν/(e^{hν/kT} − 1)</code></pre></div>
+<p>The exponential suppresses high-frequency modes. When hν ≫ kT, thermal energy cannot pay the entry cost of even one quantum, and the mode stays silent. This is a <strong>minimum transaction size</strong>, and it is the entire quantum hypothesis.</p>
+<p>Planck regarded it as a mathematical trick for six years and disliked it. The constant that fell out — <em>h</em> = 6.626 × 10⁻³⁴ J·s — is now the definition of the kilogram.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — quantization as discretization.</strong> Energy quantization resembles fixed-point arithmetic: values on a lattice, not a continuum. It fails on two counts. First, the spacing hν is not universal — it scales with frequency, so different modes have different grid sizes. Second, and more importantly, a quantum system can occupy a <strong>superposition</strong> of lattice points, which no fixed-point register can. Quantization constrains measurement <em>outcomes</em>, not the state.</p>
+<h2 id="the-photoelectric-effect">The photoelectric effect</h2>
+<p>Light on metal ejects electrons. Classically, energy arrives continuously, so brighter light should eject faster electrons, and dim light should work after a delay while energy accumulates.</p>
+<p>Observed instead:</p>
+<div class="codewrap"><pre><code>  OBSERVATION                          CLASSICAL EXPECTATION
+  ─────────────────────────────────────────────────────────────────
+  Below threshold ν₀: nothing,         Any frequency works given
+    at any intensity                     enough intensity
+  Above ν₀: KE depends on ν only       KE rises with intensity
+  Intensity sets electron COUNT        Intensity sets electron ENERGY
+  Emission is immediate (&lt; 10⁻⁹ s)     Dim light needs seconds to build</code></pre></div>
+<p>Einstein's 1905 account — the work that earned his Nobel, not relativity — treats light as quanta of energy hν:</p>
+<div class="codewrap"><pre><code>    KE_max = hν − φ          φ = work function of the metal</code></pre></div>
+<p>The logic is per-photon. One photon either clears the work function or does not. A brighter beam of insufficient photons is more failed attempts, not one success.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — photons as packets.</strong> The packet framing gets threshold behavior exactly right: a message under the minimum size is rejected regardless of send rate. It fails on identity and locality. Photons are excitations of a field mode, not localized objects in flight — they have no trajectory between emission and absorption, and they are strictly indistinguishable in a way no packet with a sequence number is. Push the packet analogy into the double-slit and it produces the wrong answer, as the next section shows.</p>
+<h2 id="the-double-slit-experiment">The double-slit experiment</h2>
+<p>Young established the wave nature of light in 1801 by passing it through two slits and observing fringes. Davisson and Germer accidentally did the same for electrons in 1927, confirming de Broglie's 1924 hypothesis that matter has wavelength λ = h/p.</p>
+<p>The version that matters fires particles <strong>one at a time</strong>:</p>
+<div class="codewrap"><pre><code>        SOURCE        BARRIER          SCREEN
+                      ┌──────┐         ░░▓▓░░▓▓░░
+          ·   ──────► │  ══  │  ─────► ░▓▓██▓▓██▓░
+       (one           │      │         ░░▓▓░░▓▓░░
+        electron)     │  ══  │         ▒▒░░▒▒░░▒▒
+                      └──────┘
+                                       fringes emerge over
+                                       thousands of single hits</code></pre></div>
+<p>Each electron makes one localized dot. The dots accumulate into interference fringes. The electron is indivisible — it never splits — yet the pattern requires contributions from both slits. A single electron's amplitude passes through both.</p>
+<p>Now the part that makes this a quantum-<em>information</em> result. Place a detector at one slit to record the path. The fringes vanish, replaced by two classical bands. And this holds <strong>regardless of detector mechanism</strong> — the disturbance can be made arbitrarily gentle. What destroys interference is not momentum kick but the <em>existence of which-path information</em> anywhere in the universe.</p>
+<p>Formally: interference requires the two paths to be <strong>indistinguishable</strong>. If path information is imprinted on any system, the branches no longer share a final state and cannot interfere:</p>
+<div class="codewrap"><pre><code>    Interference:      (|L⟩ + |R⟩)/√2                    → fringes
+    Path recorded:     (|L⟩|d_L⟩ + |R⟩|d_R⟩)/√2          → no fringes,
+                                                            because ⟨d_L|d_R⟩ = 0</code></pre></div>
+<p>The fringes return if you erase the detector record before it becomes permanent — the quantum eraser. Interference tracks <em>information availability</em>, not physical roughness.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — which-path as an audit record.</strong> This is the strongest analogy in the course and worth stating precisely. Writing a which-path record is exactly like appending to an audit trail: it makes one branch of a formerly-open computation permanently distinguishable and forecloses the alternative. The boundary: your audit entry records a fact that was already true. The which-path detector does not record a pre-existing path — before entanglement with the detector, the electron had no path. The record <strong>creates</strong> the fact it appears to log. That has no classical counterpart, and it is why "hidden variables" is a substantive claim rather than a truism.</p>
+<p class="callout callout-try"><strong>Try it yourself.</strong> Open <code>double_slit.html</code>. Run in particle mode and watch the fringes build from individual hits — note that the first hundred look random. Then enable the which-path detector and watch the pattern collapse to two bands. The transition is not gradual in detector strength; it tracks how much information the detector actually acquires.</p>
+<h2 id="bohr-s-atom">Bohr's atom</h2>
+<p>Rutherford's 1911 nuclear atom is classically unstable: an orbiting electron accelerates, radiates, and spirals in within ~10⁻¹¹ seconds. Matter should not exist.</p>
+<p>Bohr's 1913 postulate: angular momentum is quantized, L = nħ. Electrons occupy stationary states and radiate only when transitioning between them.</p>
+<div class="codewrap"><pre><code>    E_n = −13.6 eV / n²          ΔE = E_final − E_initial = hν</code></pre></div>
+<p>This predicts hydrogen's spectral lines to four significant figures — the Balmer series falls out exactly. It is also, as Bohr knew, internally incoherent: it grafts a quantization rule onto classical orbits without justifying either. It fails for helium.</p>
+<p>De Broglie supplied the missing why in 1924. If electrons have wavelength λ = h/p, a stationary orbit is one holding a standing wave — an integer number of wavelengths around the circumference:</p>
+<div class="codewrap"><pre><code>    nλ = 2πr    with λ = h/p    ⟹    L = pr = nħ</code></pre></div>
+<p>Bohr's postulate is a boundary condition on a wave. This is the last step before Schrödinger replaces orbits with orbitals in Week 3.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Blackbody radiation forces a minimum energy transaction of hν per mode; the exponential suppression of costly modes resolves the divergence.</li><li>The photoelectric effect is per-photon logic: threshold frequency, intensity setting count rather than energy, and instant emission.</li><li>Single-particle double-slit interference shows one indivisible object carrying amplitude over multiple paths.</li><li>Which-path information destroys interference independent of mechanism. Availability of information, not disturbance, is the operative variable.</li><li>Bohr's quantized orbits reproduce hydrogen's spectrum; de Broglie explains them as standing waves, converting an ad hoc rule into a boundary condition.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 2)</em> — A quantum eraser recovers interference by destroying which-path information <em>after</em> the particle has already hit the screen. Your instinct as an audit-systems engineer is that this is retrocausal — the past being rewritten. Explain why it is not, in terms of what is and is not recoverable from the raw hit data.</p>
+<p><strong>Q2</strong> <em>(Objectives 1, 2)</em> — Bohr's model predicts hydrogen's spectrum to four significant figures and fails for helium. In your own architectural vocabulary, characterize what kind of model this is, and say why its numerical success made it more dangerous than an obviously wrong model.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Nothing about the past changes, and the resolution lies in <strong>what the screen data alone contains</strong>.</p>
+<p>The full set of hits shows no interference — it is a smooth blob, both when path information is kept and when it is later erased. Fringes appear only in <strong>subsets</strong> of the data, selected by the detector's outcome. Erasing which-path information does not restore fringes to the existing pattern; it makes available a <em>sorting key</em> that partitions the hits into two subensembles, each of which shows fringes, with the two sets phase-shifted so their sum is the featureless blob you already had.</p>
+<p>The audit framing that makes this click: you are not rewriting log entries. You are gaining the ability to <code>GROUP BY</code> a column that was always in the data. The correlations existed at hit time; what the erasure changes is your access to the key. This is exactly why no signal can be sent — the marginal distribution at the screen is fixed the instant the particle lands, and a distant experimenter's choice cannot alter it. Retrocausality would require the marginal to change; it does not.</p>
+<p><strong>A2</strong> — It is a <strong>model fit to one instance rather than derived from an interface</strong> — a lookup table with a plausible-looking closed form. Bohr had a correct constraint (quantization) attached to an incorrect mechanism (classical orbits), tuned against the one system whose spectrum he had: hydrogen, the single-electron case where electron–electron interaction is absent and the error is invisible.</p>
+<p>The four-significant-figure agreement is the danger. A model that is obviously wrong is discarded cheaply. A model that is precisely right in the tested regime and structurally wrong outside it acquires institutional weight — it gets taught, extended, and defended. The failure at helium was the load test that revealed the fit had no mechanism behind it.</p>
+<p>The recognizable pattern: a component passing every integration test because the suite covers one code path. Bohr, to his credit, said so himself — he called the model provisional from the start and spent a decade seeking the theory beneath it. The proper fix was not patching the orbits but replacing the abstraction, which is what Schrödinger and Heisenberg did in 1925–26.</p></section>
+<section class="chapter" id="ch03"><header class="chapter-open"><div class="eyebrow">Week 3</div><h1>The Birth of Quantum Mechanics</h1></header>
+<p><strong>1, 3 September · Objectives 1, 2</strong></p>
+<p>In eighteen months, 1925–1926, two incompatible-looking formalisms appeared and were proven equivalent. What emerged was a theory with a deterministic evolution law, a probabilistic measurement rule, and no agreed account of how the second relates to the first. That gap is the measurement problem, and it is still open.</p>
+<h2 id="two-formalisms">Two formalisms</h2>
+<p><strong>Heisenberg, 1925.</strong> Working from the position that a theory should reference only observable quantities — spectral frequencies and intensities, not unobservable orbits — Heisenberg built an algebra of transition amplitudes. Born recognized the arrays as matrices. The defining result is that they do not commute:</p>
+<div class="codewrap"><pre><code>    [x̂, p̂] = x̂p̂ − p̂x̂ = iħ</code></pre></div>
+<p><strong>Schrödinger, 1926.</strong> Following de Broglie's standing waves, Schrödinger wrote an equation for a continuous wavefunction ψ(x, t):</p>
+<div class="codewrap"><pre><code>    iħ ∂ψ/∂t = Ĥψ           Ĥ = −(ħ²/2m)∇² + V(x)</code></pre></div>
+<p>Schrödinger proved the two equivalent in 1926: same predictions, different bases. Dirac and von Neumann then showed both are representations of vectors and operators on Hilbert space.</p>
+<p>The systems reading: Heisenberg wrote the <strong>operator interface</strong> — what you can do to a state. Schrödinger wrote the <strong>state representation</strong> — what a state is. Neither is more fundamental; they are the same abstraction viewed from opposite sides, which is why Dirac notation, designed to be basis-agnostic, superseded both.</p>
+<h2 id="non-commutation-and-uncertainty">Non-commutation and uncertainty</h2>
+<p>[x̂, p̂] = iħ is the theory's structural core. Two observables whose operators fail to commute have <strong>no shared eigenbasis</strong> — no state assigns both a definite value.</p>
+<div class="codewrap"><pre><code>    σ_x σ_p ≥ ħ/2</code></pre></div>
+<p>This is not measurement clumsiness. It is a statement about the state itself: a state sharply peaked in position is necessarily a broad superposition in momentum, because position and momentum bases are Fourier transforms of one another. The bound is a property of Fourier pairs, and it holds before anyone measures anything.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — non-commuting operations.</strong> Order-dependence is familiar: rotations in 3-D don't commute, and neither do two writes to shared state. The analogy captures order-dependence and misses the deeper claim. Non-commuting matrix operations still act on a state with definite entries. Quantum non-commutation says <strong>there is no assignment of simultaneous values at all</strong>. Bell's theorem in Week 4 makes this precise and testable — which is what elevates it above interpretive preference.</p>
+<h2 id="the-born-rule">The Born rule</h2>
+<p>Schrödinger initially read |ψ|² as physical charge density — the electron literally smeared out. This fails: wavepackets spread, and detectors always fire at points.</p>
+<p>Born's 1926 correction, delivered in a footnote:</p>
+<div class="codewrap"><pre><code>    P(outcome m) = |⟨m|ψ⟩|²</code></pre></div>
+<p>|ψ|² is a <strong>probability density</strong>. The state does not tell you what will happen; it gives you a distribution over what can.</p>
+<p>This creates the theory's central asymmetry — two evolution rules that do not resemble each other:</p>
+<div class="codewrap"><pre><code>  ┌──────────────────────────────────────────────────────────────────┐
+  │ UNITARY EVOLUTION (Schrödinger)                                  │
+  │   Deterministic · Linear · Reversible · Continuous               │
+  │   |ψ(t)⟩ = U(t)|ψ(0)⟩,  U†U = I                                  │
+  ├──────────────────────────────────────────────────────────────────┤
+  │ MEASUREMENT (Born + projection)                                  │
+  │   Probabilistic · Non-linear · Irreversible · Discontinuous      │
+  │   |ψ⟩ → |m⟩ with probability |⟨m|ψ⟩|²                            │
+  └──────────────────────────────────────────────────────────────────┘</code></pre></div>
+<p>Every interpretive dispute in quantum mechanics is an argument about the relationship between those two boxes.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — Born rule as a typed outcome envelope.</strong> Reading |ψ⟩ as <code>Distribution&lt;Outcome&gt;</code> with weights is a good working model: the type carries possible results and their probabilities. The boundary is that a probability distribution is <strong>basis-independent</strong> — a die's outcome distribution does not change because you ask about it differently. |ψ⟩ yields a different distribution in every measurement basis, and those distributions are not marginals of any joint distribution. That is exactly what Bell's theorem rules out.</p>
+<h2 id="the-measurement-problem">The measurement problem</h2>
+<p>State it as a contradiction between three individually plausible claims:</p>
+<ol><li>The wavefunction is a complete description of a physical system.</li><li>The wavefunction always evolves unitarily (linearly, deterministically).</li><li>Measurements have single definite outcomes.</li></ol>
+<p>Take a qubit in (|0⟩ + |1⟩)/√2 and a measuring device <em>D</em>. Linearity gives:</p>
+<div class="codewrap"><pre><code>    (|0⟩ + |1⟩)/√2 ⊗ |D_ready⟩  →  (|0⟩|D_0⟩ + |1⟩|D_1⟩)/√2</code></pre></div>
+<p>The device ends in superposition. Nothing in unitary evolution selects a branch. Yet the pointer reads one value. The three claims cannot all be true, and each major interpretation denies a different one:</p>
+<div class="tablewrap"><table><thead><tr><th>Interpretation</th><th>Denies</th><th>Cost</th></tr></thead><tbody><tr><td>Copenhagen</td><td>(1) — ψ is knowledge, not a full description</td><td>Where is the classical/quantum cut?</td></tr><tr><td>Many-worlds</td><td>(3) — all outcomes occur, in branches</td><td>Why does the Born rule hold?</td></tr><tr><td>Bohmian mechanics</td><td>(1) — particles have definite positions too</td><td>Explicit non-locality</td></tr><tr><td>Objective collapse (GRW)</td><td>(2) — collapse is a real physical process</td><td>New physics; testable, untested</td></tr></tbody></table></div>
+<p><strong>Decoherence</strong> — Zurek and Zeh, 1970s onward — explains why we never <em>see</em> superposed pointers. A macroscopic device entangles with ~10²³ environmental degrees of freedom in femtoseconds, and interference between branches becomes unobservable in practice. This is solid, calculable physics and it dissolves the <em>appearance</em> problem. It does not solve the measurement problem: it explains why branches stop interfering, not why one is selected. Conflating the two is the most common error in the literature you will encounter.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — decoherence as information leakage.</strong> Decoherence is genuinely information leakage: which-path data escapes into the environment, which is why it is irreversible in the same statistical sense as your audit chain — reversal is not forbidden, only overwhelmingly improbable. The boundary: leakage explains <em>loss of interference</em>, never <em>outcome selection</em>. In your pipeline, a state machine that stops being able to backtrack still ends in one state because it was always in one state. A decohered quantum system has no such prior fact — that is precisely what remains unexplained.</p>
+<h2 id="the-copenhagen-interpretation">The Copenhagen interpretation</h2>
+<p>Bohr and Heisenberg's position, roughly: the formalism predicts measurement outcomes, and asking what happens between measurements is not a well-posed question. Bohr's <strong>complementarity</strong> holds that wave and particle descriptions are both necessary and mutually exclusive; which applies depends on the experimental arrangement, and no single picture covers both.</p>
+<p>Einstein objected for two decades — not to the predictions, which he never disputed, but to the claim of completeness. "God does not play dice" is remembered; the substantive objection came in 1935 with EPR, and is Week 4's material.</p>
+<p>The engineering assessment: Copenhagen is an interface specification with the implementation deliberately unspecified. That is defensible for a working programmer and unsatisfying for an architect, which is roughly how the field has been divided ever since.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Matrix mechanics and wave mechanics are the same theory in different bases; Dirac notation is the basis-agnostic form.</li><li>[x̂, p̂] = iħ implies no shared eigenbasis for position and momentum. Uncertainty is a property of states, not of instruments.</li><li>The Born rule makes |ψ|² a probability density, splitting the theory into deterministic unitary evolution and probabilistic measurement.</li><li>The measurement problem is the inconsistency of completeness, universal unitarity, and definite outcomes. Interpretations differ in which they abandon.</li><li>Decoherence explains the absence of visible macroscopic superposition. It does not explain outcome selection, and the distinction is load-bearing.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 2)</em> — Someone tells you decoherence solved the measurement problem in the 1980s. Identify the specific step their account is missing, and give the analogous gap in a distributed-systems consensus protocol that reaches agreement but cannot say which value was proposed first.</p>
+<p><strong>Q2</strong> <em>(Objective 3)</em> — Explain why non-commutation is a stronger claim than "measuring one property disturbs the other," and name the experiment that distinguishes the two readings.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — The missing step is <strong>outcome selection</strong>. Decoherence shows the reduced density matrix of the system becomes diagonal in the pointer basis — interference terms are suppressed below any observable threshold. This is a rigorous result and explains why you never see a superposed pointer.</p>
+<p>But a diagonal density matrix describes an <em>ensemble</em> of possible outcomes with classical probabilities. It does not describe one outcome occurring. Formally, decoherence takes you from a coherent superposition to an improper mixture; the transition from improper mixture to a single actualized result is not derived — it is assumed. Everett's response is to deny that any selection happens; Copenhagen's is to say the question is malformed. Neither is <em>decoherence</em>, which is a mechanism, not an interpretation, and is common to all of them.</p>
+<p>The consensus analogy: a protocol that guarantees all nodes converge on one value has solved <em>agreement</em>, not <em>ordering</em>. Every node reports the same answer, and no node can reconstruct which proposal arrived first — the information is genuinely destroyed. Decoherence guarantees the branches stop talking to each other. It says nothing about which branch you find yourself in, and there is no fact in the formalism to appeal to.</p>
+<p><strong>A2</strong> — The disturbance reading says each observable has a definite value, and the apparatus perturbs it — an epistemic limit on a system with well-defined properties. Non-commutation says something ontologically stronger: <strong>no state assigns definite values to both simultaneously</strong>, no matter how gently you probe. There is nothing to disturb.</p>
+<p>The distinguishing experiments are <strong>Bell tests</strong> (Week 4). If particles carried definite pre-existing values for all measurable quantities, correlations across separated measurements would satisfy Bell's inequality regardless of disturbance — the bound follows from the mere existence of a joint distribution over outcomes, not from any assumption about apparatus. Experiments violate the inequality, and the loophole-free tests of 2015 (Delft, NIST, Vienna) closed the locality and detection gaps simultaneously. The 2022 Nobel to Aspect, Clauser, and Zeilinger recognized this line of work.</p>
+<p>The refined statement: quantum mechanics does not merely limit what you can <em>learn</em> about simultaneous values. It denies that the values exist to be learned.</p></section>
+<section class="chapter" id="ch04"><header class="chapter-open"><div class="eyebrow">Week 4</div><h1>Superposition, Entanglement, and Bell's Theorem</h1></header>
+<p><strong>8, 10 September · Objective 2</strong></p>
+<p>Superposition is the resource; entanglement is the correlation that has no classical explanation. Bell's theorem converts a philosophical dispute into an experimental one, and the experiment has been run. This is the week where "quantum is weird" becomes a measured number.</p>
+<h2 id="superposition-precisely">Superposition, precisely</h2>
+<p>A qubit state is a normalized complex combination of basis states:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ = α|0⟩ + β|1⟩          |α|² + |β|² = 1</code></pre></div>
+<p>Three clarifications that prevent most downstream errors:</p>
+<p><strong>It is not "both 0 and 1."</strong> It is a definite vector in a two-dimensional complex space that happens not to be an eigenvector of the measurement operator you chose. In the basis {|+⟩, |−⟩} where |±⟩ = (|0⟩ ± |1⟩)/√2, the state |+⟩ is <em>not</em> superposed — it is a basis state with a certain outcome. <strong>Superposition is basis-relative.</strong> Entanglement is not.</p>
+<p><strong>It is not ignorance.</strong> A coin under a cup is 50/50 because you lack information; the coin has a value. Measuring |+⟩ in the {|0⟩, |1⟩} basis gives 50/50, but measuring in {|+⟩, |−⟩} gives |+⟩ with certainty. No probability distribution over hidden values reproduces both.</p>
+<p><strong>Global phase is unobservable; relative phase is everything.</strong> e^{iγ}|ψ⟩ is physically identical to |ψ⟩. But (|0⟩ + |1⟩)/√2 and (|0⟩ − |1⟩)/√2 are perfectly distinguishable — apply H to each and measure.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — superposition as pending dispatch.</strong> An agent holding several candidate execution paths before commit is a good first model: multiple outcomes live, weights attached, one selected at dispatch. Two failures. First, your candidate set is basis-independent — the paths are the paths regardless of how you enumerate them; quantum "paths" are an artifact of basis choice. Second, and fatally, your weights are probabilities that only ever add. Amplitudes cancel. An agent whose two live paths can annihilate on merge has no software analogue, and that cancellation is where every quantum speedup comes from.</p>
+<h2 id="entanglement">Entanglement</h2>
+<p>For two qubits, the state space is the tensor product — four dimensions, spanned by |00⟩, |01⟩, |10⟩, |11⟩. A state is <strong>separable</strong> if it factors:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ = |a⟩ ⊗ |b⟩</code></pre></div>
+<p>and <strong>entangled</strong> otherwise. The canonical example is a Bell state:</p>
+<div class="codewrap"><pre><code>    |Φ⁺⟩ = (|00⟩ + |11⟩)/√2</code></pre></div>
+<p>No |a⟩, |b⟩ produce this. Try it: expanding (a₀|0⟩ + a₁|1⟩)(b₀|0⟩ + b₁|1⟩) requires a₀b₁ = 0 and a₁b₀ = 0 while a₀b₀ and a₁b₁ are both nonzero — inconsistent.</p>
+<p>The consequence: each qubit individually is in a maximally mixed state, carrying no information. All the information lives in the correlation. Measure the first in any basis and the second is instantly determined in that same basis, at any separation.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — entanglement as shared state.</strong> Reading a Bell pair as two references to one object captures the correlation and gets the mechanism backwards in a way that matters. Shared mutable state implies a channel — writes propagate, and you could signal. Entanglement <strong>cannot</strong> transmit information: the marginal distribution at each end is uniform regardless of what the other party does, which is the no-signaling theorem. The correlation is only visible when the two records are brought together and compared — which requires a classical channel at light speed. Closer to your domain: two nodes deterministically deriving the same value from a shared seed. That analogy is <em>too</em> good, and Bell's theorem is precisely the proof that no shared seed exists.</p>
+<h2 id="epr-and-the-completeness-argument">EPR and the completeness argument</h2>
+<p>Einstein, Podolsky, and Rosen, 1935. Take |Φ⁺⟩ with the halves separated. Measure qubit A in the Z basis and you know B's Z value with certainty, without touching B. Measure A in X instead and you know B's X value with certainty.</p>
+<p>Their reasoning: if you can predict a quantity with certainty without disturbing the system, that quantity corresponds to an "element of reality." Since you could have chosen either basis, and the choice at A cannot affect B (locality), B must possess definite values for <em>both</em> Z and X. But quantum mechanics assigns no such state. Therefore the description is <strong>incomplete</strong> — there are hidden variables.</p>
+<p>This is a rigorous argument. Its premises are locality and realism, and its conclusion follows. Bohr's reply was, by wide agreement, obscure. For thirty years the dispute was considered untestable metaphysics.</p>
+<h2 id="bell-s-theorem">Bell's theorem</h2>
+<p>Bell's 1964 insight: the hidden-variable hypothesis has <strong>testable consequences</strong>, and they differ from quantum mechanics.</p>
+<p>Assume each particle carries variables λ fixing outcomes for every measurement setting, and that A's setting cannot influence B's outcome. Measure spin along directions a, a′ (at A) and b, b′ (at B), outcomes ±1. Define the correlation E(a, b) = ⟨A·B⟩. Then the CHSH combination obeys:</p>
+<div class="codewrap"><pre><code>    S = |E(a,b) − E(a,b′) + E(a′,b) + E(a′,b′)|  ≤  2</code></pre></div>
+<p>The derivation needs nothing about quantum mechanics — only that a joint distribution over all four outcomes exists. It is essentially a counting argument.</p>
+<p>Quantum mechanics predicts, for |Φ⁺⟩ at optimal angles (45° apart):</p>
+<div class="codewrap"><pre><code>    S = 2√2 ≈ 2.828        (Tsirelson's bound)</code></pre></div>
+<p>Experiment agrees with quantum mechanics. Aspect closed the timing loophole in 1982; the 2015 loophole-free tests at Delft, NIST, and Vienna closed locality and detection together. Nobel Prize, 2022.</p>
+<p><strong>What this rules out:</strong> any theory that is both local and realist. Something has to go. Most physicists drop realism (no pre-existing values); Bohmians drop locality. Nothing forces the choice, but the conjunction is dead.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — the shared-seed model.</strong> Two nodes with a common seed produce identical outputs with no communication and perfectly mimic entanglement for <em>one</em> fixed measurement setting. Bell's theorem is exactly the statement that no seed reproduces the correlations across <em>all</em> setting pairs. If you could write a deterministic function f(λ, setting) → ±1 matching quantum predictions, you would violate a counting bound. This is the single sharpest place where a systems intuition must be surrendered rather than refined.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Superposition is basis-relative: every state is a basis state in some basis. Entanglement is basis-independent and cannot be transformed away.</li><li>Amplitudes cancel; probabilities do not. That difference is the source of quantum advantage.</li><li>Entangled subsystems carry no individual information; the information is in the correlation. No-signaling holds — a classical channel is still required.</li><li>EPR is a valid argument from locality plus realism to incompleteness. Bell showed those premises are experimentally refutable.</li><li>CHSH: local realism gives S ≤ 2; quantum mechanics gives 2√2. Experiment confirms 2√2, loophole-free since 2015.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 2)</em> — A colleague proposes entanglement-based faster-than-light messaging: Alice's basis choice instantly affects Bob's state. Identify the precise step that fails, and state what Bob would have to observe for the scheme to work.</p>
+<p><strong>Q2</strong> <em>(Objective 2)</em> — Bell's inequality derivation makes no reference to quantum mechanics. Explain why that is the source of its force, and name the analogous property of a proof about a distributed protocol that makes it worth more than a benchmark.</p>
+<hr>
+<h2 id="a1-a2-check-your-answers" class="h-answers">A1 · A2 — Check your answers</h2>
+<p><strong>A1</strong> — The failure is at "affects Bob's state," where "state" equivocates between the joint description and Bob's <strong>reduced density matrix</strong> — the only thing Bob can access.</p>
+<p>Before Alice acts, Bob's marginal is ρ_B = I/2: maximally mixed, 50/50 in every basis. After Alice measures in <em>any</em> basis, Bob's marginal is still exactly I/2. Alice's choice changes the joint description and changes what Alice can <em>predict</em> about Bob's outcomes, but it does not change any distribution Bob can sample. Bob sees uniform noise either way, and no measurement or statistical test on his qubits alone distinguishes the cases.</p>
+<p>For the scheme to work, Bob would have to observe a <strong>change in his marginal distribution</strong> conditioned on Alice's choice. The no-signaling theorem proves that cannot happen for any entangled state under any local operation — it follows from the partial trace commuting with operations on the other subsystem. The correlation is real, but it is only visible in the <em>joint</em> record, and assembling that record requires Alice to send her results over a classical channel at ≤ <em>c</em>.</p>
+<p>The compact version: entanglement is correlation without communication. Correlation you cannot see until you compare notes carries no signal.</p>
+<p><strong>A2</strong> — Its force comes from being an <strong>impossibility result about a class of models</strong>, not a comparison between two specific theories. Bell assumes only that outcomes are determined by some variables λ carried by the particles, and that a distant setting choice does not affect local outcomes. He derives S ≤ 2 from those assumptions alone. Any theory in that class — existing, proposed, or never conceived — is bound by it.</p>
+<p>This is why the experimental violation is decisive rather than merely favorable to quantum mechanics. It does not show quantum mechanics beat a competitor; it shows an entire <em>category</em> of explanation is unavailable. Even if quantum mechanics is superseded, the successor cannot be local-realist.</p>
+<p>The distributed-systems parallel is a proof like FLP or the CAP theorem: a bound derived from the model's assumptions rather than measured from an implementation. A benchmark tells you what one system did on one workload, and a faster machine invalidates it. FLP tells you no deterministic protocol achieves consensus with one faulty process in an asynchronous system — and no amount of engineering repeals it. Bell is that kind of result, which is why it settled a thirty-year argument that no experiment comparing predictions could have settled.</p></section>
+<section class="chapter" id="ch05"><header class="chapter-open"><div class="eyebrow">Week 5</div><h1>Tunneling, and What Makes Quantum Information Different</h1></header>
+<p><strong>15, 17 September · Objective 2</strong></p>
+<p>Tunneling is the clearest case of a quantum effect with unambiguous engineering consequences — it powers flash memory, scanning tunneling microscopes, and stellar fusion, and it sets a hard floor on transistor scaling. Then the shift from physics to information: what a qubit is as a <em>resource</em>, and why no-cloning is the theorem your entire professional intuition should recognize.</p>
+<h2 id="tunneling">Tunneling</h2>
+<p>A particle with energy <em>E</em> meets a barrier of height <em>V</em> &gt; <em>E</em>. Classically the region is forbidden — kinetic energy would be negative. Quantum mechanically, ψ does not stop at the wall; it decays exponentially inside it, and if the barrier is thin, a nonzero amplitude emerges:</p>
+<div class="codewrap"><pre><code>    E ──────┐  ┌─── E                Inside barrier:
+            │  │                       ψ(x) ∝ e^{−κx}
+      ψ ~~~~│▓▓│~~~~ ψ (attenuated)
+            │▓▓│                     κ = √(2m(V−E))/ħ
+            └──┘
+             ← d →                   T ≈ e^{−2κd}</code></pre></div>
+<p>The transmission probability is exponential in barrier width and in √m. Two consequences worth internalizing:</p>
+<ul><li><strong>Exponential sensitivity.</strong> An STM exploits this: tunneling current changes by ~an order of magnitude per ångström of tip height, which is why it resolves individual atoms.</li><li><strong>Mass dependence.</strong> Electrons tunnel readily; protons rarely; anything macroscopic never. The √m in κ is why this is a microscopic phenomenon.</li></ul>
+<p>Applications: flash memory writes by forcing electrons through an oxide barrier into a floating gate. Alpha decay is tunneling out of a nuclear potential — Gamow's 1928 model explained the Geiger–Nuttall relation, spanning 20 orders of magnitude in half-life. Stellar fusion requires tunneling through Coulomb repulsion; without it, the Sun does not burn.</p>
+<p>And the constraint: below roughly 5 nm of gate oxide, leakage current from tunneling becomes unmanageable. This is a principal reason Dennard scaling ended — a quantum effect setting the economics of the semiconductor industry.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — tunneling as a rare event.</strong> Treating it as a low-probability path through a rejected branch gets the statistics right and the mechanism wrong. Your rare event is a real trajectory taken infrequently. There is no trajectory through the barrier — the particle is never <em>in</em> the forbidden region with negative kinetic energy. Asking "how long did it take to cross" has no settled answer (the tunneling-time problem is still live). The transmitted amplitude is a boundary-matching result, not a path.</p>
+<h2 id="bits-and-qubits">Bits and qubits</h2>
+<p>The comparison, stated as an interface:</p>
+<div class="codewrap"><pre><code>  CLASSICAL BIT                      QUBIT
+  ─────────────────────────────────────────────────────────────────────
+  State: b ∈ {0, 1}                  State: α|0⟩ + β|1⟩, α,β ∈ ℂ
+  2 states                           Continuum (surface of a sphere)
+  Read: returns b, non-destructive    Read: returns 0 or 1 probabilistically,
+                                        destroys the superposition
+  Copy: trivial (fan-out)            Copy: impossible (no-cloning)
+  n bits: n values                   n qubits: 2ⁿ amplitudes
+  Operations: any function           Operations: unitary only (reversible)</code></pre></div>
+<p>The row that misleads: <em>n</em> qubits require 2ⁿ complex amplitudes to describe, and this is routinely reported as "exponential parallel computation." It is not. You can only <strong>read out n bits</strong>. Measurement collapses the 2ⁿ amplitudes to one <em>n</em>-bit string. The exponential description is real; exponential <em>access</em> is not.</p>
+<p>Quantum advantage therefore never comes from parallelism alone. It comes from arranging interference so that wrong answers cancel and right answers reinforce before measurement. Every algorithm in Weeks 11–15 is an instance of that pattern, and it is why quantum computers are not general-purpose accelerators.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — the qubit as a probabilistic bit.</strong> A qubit is not a biased coin. A biased coin is described by one real number p ∈ [0,1]; a qubit needs two real parameters, and the extra one — relative phase — is invisible to any single measurement yet determines the result of measurements in other bases. Model a qubit as a random bit and every interference effect disappears from your predictions, which means every quantum algorithm becomes inexplicable.</p>
+<h2 id="reversibility">Reversibility</h2>
+<p>Unitary operators satisfy U†U = I, so every quantum gate is invertible. This is not a design choice; it follows from the Schrödinger equation, and it has a physical basis.</p>
+<p>Landauer's principle, 1961: erasing one bit dissipates at least <em>kT</em> ln 2 of energy. Erasure is the only fundamentally irreversible operation, and it costs. Bennett showed in 1973 that any computation can be made reversible by keeping enough intermediate state.</p>
+<p>Practical consequence: classical AND is irreversible — output 0 does not determine the inputs. So there is no two-qubit "AND gate." The quantum version is <strong>Toffoli</strong> (CCNOT), which is three-qubit and reversible: it flips the target if both controls are 1, keeping the controls. Reversible computation must carry its garbage, and managing that is a real cost in circuit design.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — reversibility as an append-only log.</strong> Your hash chain is append-only, and reconstructing prior state from the log is a genuine analogue of unitary invertibility. The boundary is <em>where the information sits</em>. Your log grows — reversibility is purchased with storage. A unitary keeps the state space fixed and rearranges it; no records accumulate. Quantum computation is reversible without a log, which is why uncomputation (running a subroutine backwards to clear ancillas) is mandatory rather than optional.</p>
+<h2 id="the-no-cloning-theorem">The no-cloning theorem</h2>
+<p><strong>Claim.</strong> No unitary <em>U</em> satisfies U|ψ⟩|0⟩ = |ψ⟩|ψ⟩ for all |ψ⟩.</p>
+<p><strong>Proof.</strong> Suppose it did, for |ψ⟩ and |φ⟩. Unitaries preserve inner products:</p>
+<div class="codewrap"><pre><code>    ⟨ψ|φ⟩ = ⟨ψ|φ⟩ · ⟨ψ|φ⟩   ⟹   z = z²   ⟹   z ∈ {0, 1}</code></pre></div>
+<p>So cloning works only for states that are identical or orthogonal — that is, for a pre-agreed basis, which is classical copying. Arbitrary unknown states cannot be duplicated. The proof is four lines and follows from linearity alone. ∎</p>
+<p>Consequences:</p>
+<ul><li><strong>No quantum backups.</strong> You cannot snapshot a register mid-computation.</li><li><strong>No copy-based error correction.</strong> Classical repetition codes are unavailable; quantum error correction (Week 16) spreads one logical qubit across many physical ones <em>without</em> ever copying the state.</li><li><strong>Quantum key distribution is secure by physics.</strong> An eavesdropper cannot copy the transmitted qubits and must measure, which disturbs them detectably. BB84 rests entirely on this.</li></ul>
+<p class="callout callout-boundary"><strong>Analogy boundary — no-cloning as tamper evidence.</strong> This is the strongest analogy available to you, and it is nearly exact in its consequences: an unknown quantum state cannot be duplicated without detection, exactly as a hash-chained record cannot be altered without breaking the chain. Both make interception evident rather than impossible. The boundary is the source of the guarantee. Your chain is secure because inverting SHA-256 is <em>computationally</em> infeasible — a sufficiently powerful adversary, or a broken hash, defeats it. No-cloning is <strong>information-theoretic</strong>: it holds against unlimited computation, forever, because it follows from linearity. That distinction is the entire argument for QKD over classical key exchange, and it is worth being precise about in any threat model you write.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Tunneling probability falls exponentially with barrier width and √m — enabling STM and flash memory, and setting the leakage floor that ended Dennard scaling.</li><li><em>n</em> qubits carry 2ⁿ amplitudes but yield only <em>n</em> bits on measurement. Exponential description, linear readout.</li><li>Quantum advantage comes from engineered interference, not parallelism.</li><li>All quantum gates are unitary and reversible; irreversible classical gates like AND require reversible embeddings such as Toffoli.</li><li>No-cloning follows from linearity in four lines. It forbids quantum backups and repetition codes, and it makes QKD information-theoretically secure.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 2)</em> — You are asked to design a provenance system where quantum states are signed and forwarded across custody boundaries. Explain why a straightforward port of your hash-chain design fails, and identify which property you must give up.</p>
+<p><strong>Q2</strong> <em>(Objective 2)</em> — A vendor claims their 60-qubit machine "evaluates 2⁶⁰ possibilities simultaneously" and therefore breaks AES-128. Give the two independent reasons this is wrong.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — The port fails at the first step: <strong>hashing requires reading the input</strong>, and reading a quantum state destroys it. Your design assumes you can compute a digest over a record while leaving the record intact — a non-destructive read. For an unknown quantum state, no such operation exists. Measuring to compute a hash collapses the state, so what you forward is a classical outcome, not the state you meant to sign.</p>
+<p>Nor can you clone first and hash the copy: no-cloning forbids it, and it forbids it for exactly the states you care about (unknown, arbitrary ones).</p>
+<p>What you must give up is <strong>the digest-of-content model</strong>. Viable alternatives shift the guarantee elsewhere:</p>
+<ul><li>Sign <em>classical metadata</em> — preparation procedure, timestamps, device identity — and accept that the quantum payload is authenticated by provenance of process, not of content.</li><li>Use <strong>quantum authentication</strong> schemes, which encode the state so tampering is detectable with high probability, at the cost of ancillary qubits and a pre-shared key.</li><li>Perform <strong>destructive verification</strong> on a random subsample, accepting statistical rather than per-record assurance — the same structure as BB84's parameter estimation.</li></ul>
+<p>The general lesson: your chain's integrity guarantee rests on cheap, repeatable, non-destructive reads. Remove that primitive and the architecture must change, not merely be tuned.</p>
+<p><strong>A2</strong> — <strong>First: readout.</strong> The 2⁶⁰ amplitudes exist in the description, but measurement returns one 60-bit string sampled from |amplitude|². Without an interference pattern that concentrates amplitude on the answer, you get a uniformly random string — precisely as useful as guessing. "Evaluates simultaneously" conflates the state's dimension with accessible output.</p>
+<p><strong>Second: the actual quantum bound on AES.</strong> Grover's algorithm (Week 13) gives a <em>quadratic</em> speedup for unstructured search, reducing 2¹²⁸ operations to ~2⁶⁴ — not to 1. That remains computationally infeasible, and it is why the standard guidance is to double symmetric key lengths (AES-256 → ~2¹²⁸ effective) rather than abandon symmetric cryptography. AES has no structure Shor's algorithm can exploit; only the asymmetric primitives (RSA, ECC) face exponential attack.</p>
+<p>A third point worth adding: a 60-qubit NISQ device without error correction cannot sustain coherence through the ~2⁶⁴ sequential Grover iterations anyway. The gap between qubit count and useful logical operations is the subject of Week 16, and it is the number that actually matters in a threat model.</p></section>
+<section class="chapter" id="ch06"><header class="chapter-open"><div class="eyebrow">Week 6</div><h1>Dirac Notation and State Vectors</h1></header>
+<p><strong>22, 24 September · Objective 3 · Quiz 1 this week</strong></p>
+<p>Dirac notation is an interface specification. It separates <em>what a state is</em> from <em>how it is represented</em>, so that operations can be written once and evaluated in whatever basis is convenient. Treat it as typed notation and the algebra becomes mechanical.</p>
+<h2 id="kets-bras-and-types">Kets, bras, and types</h2>
+<p>A <strong>ket</strong> |ψ⟩ is a vector in a complex Hilbert space — for one qubit, a column in ℂ²:</p>
+<div class="codewrap"><pre><code>    |0⟩ = [1]      |1⟩ = [0]      |ψ⟩ = α|0⟩ + β|1⟩ = [α]
+          [0]            [1]                          [β]</code></pre></div>
+<p>A <strong>bra</strong> ⟨φ| is the dual — the conjugate transpose, a row vector:</p>
+<div class="codewrap"><pre><code>    ⟨φ| = |φ⟩† = [φ₀*  φ₁*]</code></pre></div>
+<p>The value of the notation is that the type of every expression is readable from its shape:</p>
+<div class="tablewrap"><table><thead><tr><th>Expression</th><th>Shape</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code>⟨φ|ψ⟩</code></td><td>row × column</td><td>scalar (ℂ)</td><td>overlap / amplitude</td></tr><tr><td><code>|ψ⟩⟨φ|</code></td><td>column × row</td><td>operator (2×2)</td><td>outer product</td></tr><tr><td><code>Û|ψ⟩</code></td><td>matrix × column</td><td>ket</td><td>evolved state</td></tr><tr><td><code>⟨ψ|Â|ψ⟩</code></td><td>row × matrix × column</td><td>scalar (ℝ if Â Hermitian)</td><td>expectation value</td></tr></tbody></table></div>
+<p class="callout callout-boundary"><strong>Analogy boundary — bra/ket as a typed contract.</strong> Kets are the state type, bras the measurement-side consumer, and ⟨φ|ψ⟩ the only well-typed pairing that returns a scalar. The analogy is genuinely load-bearing: it prevents the most common algebra errors, because ill-typed expressions are visibly ill-shaped. Where it breaks: your interfaces are usually covariant in one direction, while the bra–ket relationship is <strong>antilinear</strong> — ⟨φ| for the ket c|φ⟩ is c*⟨φ|, with the conjugate. Lose the conjugate and probabilities stop being real.</p>
+<h2 id="the-inner-product-and-the-born-rule">The inner product and the Born rule</h2>
+<div class="codewrap"><pre><code>    ⟨φ|ψ⟩ = φ₀*ψ₀ + φ₁*ψ₁       ∈ ℂ</code></pre></div>
+<p>Properties: ⟨φ|ψ⟩ = ⟨ψ|φ⟩*, linear in the ket, antilinear in the bra, and ⟨ψ|ψ⟩ = 1 for normalized states.</p>
+<p>The Born rule in this notation is a single line:</p>
+<div class="codewrap"><pre><code>    P(outcome φ) = |⟨φ|ψ⟩|²</code></pre></div>
+<p>Orthogonal states (⟨φ|ψ⟩ = 0) are perfectly distinguishable; identical states have overlap 1. Everything between is the degree to which one measurement can confuse two states — which is exactly what no-cloning turned on last week.</p>
+<h2 id="operators-hermiticity-and-unitarity">Operators, Hermiticity, and unitarity</h2>
+<p>Two operator classes do all the work:</p>
+<p><strong>Hermitian</strong> (Â† = Â) represent <strong>observables</strong>. Real eigenvalues (measurement outcomes) and orthogonal eigenvectors (distinguishable results). The Pauli operators:</p>
+<div class="codewrap"><pre><code>    X = [0 1]    Y = [0 −i]    Z = [1  0]    I = [1 0]
+        [1 0]        [i  0]        [0 −1]        [0 1]</code></pre></div>
+<p>All Hermitian, all with eigenvalues ±1. Z's eigenvectors are |0⟩, |1⟩; X's are |±⟩.</p>
+<p><strong>Unitary</strong> (Û†Û = I) represent <strong>evolution</strong>. Norm-preserving, invertible, and — as established in Week 5 — the only operations quantum mechanics permits between measurements.</p>
+<p>The Paulis are both Hermitian <em>and</em> unitary (since X² = Y² = Z² = I), which is why they serve as observables and as gates. That coincidence is specific to involutory operators; the Hadamard shares it, most gates do not.</p>
+<p>The <strong>spectral decomposition</strong> connects the two roles:</p>
+<div class="codewrap"><pre><code>    Â = Σₘ aₘ |m⟩⟨m|</code></pre></div>
+<p>An observable is its eigenvalues weighted by projectors onto its eigenstates. Measurement is the application of one such projector, selected stochastically by the Born rule. Z = |0⟩⟨0| − |1⟩⟨1| is worth verifying by hand.</p>
+<h2 id="expectation-values">Expectation values</h2>
+<div class="codewrap"><pre><code>    ⟨Â⟩ = ⟨ψ|Â|ψ⟩ = Σₘ aₘ P(m)</code></pre></div>
+<p>The mean outcome over many measurements on identically prepared states. Note that this is never what a single run gives you — quantum hardware returns samples, and every observable in Weeks 9–15 is estimated from repeated <strong>shots</strong>. Budgeting shots is a real experimental cost: statistical error falls as 1/√N.</p>
+<p>For |+⟩ = (|0⟩+|1⟩)/√2: ⟨Z⟩ = 0 (equal 0s and 1s), ⟨X⟩ = 1 (certain outcome in the X basis). Those two numbers together locate the state, which is the Bloch-sphere construction of Week 7.</p>
+<h2 id="composite-systems">Composite systems</h2>
+<p>Two qubits combine by tensor product:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ ⊗ |φ⟩ = |ψφ⟩,   written |00⟩, |01⟩, |10⟩, |11⟩</code></pre></div>
+<p>Dimension multiplies: <em>n</em> qubits span 2ⁿ dimensions. Operators compose the same way — X ⊗ I applies X to qubit 0 and leaves qubit 1 alone.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — tensor product as a struct.</strong> Combining subsystems into a composite resembles a product type, and for <em>separable</em> states the analogy holds exactly. It fails for entangled states, which is the whole point: a struct is always the pair of its fields, and you can project out either one losslessly. An entangled state has <strong>no</strong> well-defined field values — the partial trace yields a mixed state, not a pure component. Product types describe only the separable corner of the space, which is a vanishing fraction of it.</p>
+<h2 id="quiz-1-review">Quiz 1 review</h2>
+<p>Covering history of physics and the physical foundations. The reliable failure points:</p>
+<ul><li><strong>Superposition is basis-relative; entanglement is not.</strong> Expect a question that hinges on this.</li><li><strong>Uncertainty is a property of states, not instruments.</strong> Non-commutation, not clumsiness.</li><li><strong>Which-path information destroys interference regardless of mechanism.</strong></li><li><strong>Decoherence explains loss of interference, not outcome selection.</strong></li><li><strong>Bell violation refutes local realism jointly</strong> — you may keep either alone.</li><li><strong>Photoelectric effect: frequency sets energy, intensity sets count.</strong></li></ul>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Dirac notation types every expression by shape: ⟨φ|ψ⟩ is a scalar, |ψ⟩⟨φ| an operator.</li><li>The inner product is antilinear in the bra; the conjugate is what keeps probabilities real.</li><li>Hermitian operators are observables (real eigenvalues, orthogonal eigenvectors); unitary operators are evolution (norm-preserving, invertible).</li><li>Spectral decomposition Â = Σ aₘ|m⟩⟨m| unifies both roles; measurement applies one projector.</li><li>Composite systems combine by tensor product with dimension 2ⁿ; entangled states have no well-defined component states.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 3)</em> — Show that Z = |0⟩⟨0| − |1⟩⟨1| by computing the outer products, then explain what goes wrong physically if you write Z = |0⟩⟨0| + |1⟩⟨1| instead.</p>
+<p><strong>Q2</strong> <em>(Objective 3)</em> — Explain why ⟨φ|ψ⟩ must be antilinear in the bra rather than linear in both arguments, using the requirement that probabilities be real and non-negative.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Compute the outer products directly:</p>
+<div class="codewrap"><pre><code>    |0⟩⟨0| = [1][1 0] = [1 0]        |1⟩⟨1| = [0][0 1] = [0 0]
+             [0]        [0 0]                 [1]        [0 1]
+
+    |0⟩⟨0| − |1⟩⟨1| = [1  0] = Z  ✓
+                      [0 −1]</code></pre></div>
+<p>Writing <code>+</code> instead gives |0⟩⟨0| + |1⟩⟨1| = I, the identity — the <strong>completeness relation</strong>, not Z.</p>
+<p>Physically, the two differ in their eigenvalues, which are the measurement outcomes. Z has eigenvalues +1 and −1, assigning distinct labels to |0⟩ and |1⟩ so the operator distinguishes them; ⟨Z⟩ then carries information about the state. The identity has eigenvalue +1 for every state — it is the observable that always returns 1 and therefore tells you nothing. ⟨ψ|I|ψ⟩ = 1 for all normalized ψ.</p>
+<p>The structural point: in Â = Σ aₘ|m⟩⟨m|, the projectors specify <em>which outcomes are distinguishable</em> and the coefficients specify <em>what value each outcome is labeled with</em>. Set all coefficients equal and you have destroyed the observable's ability to discriminate, while keeping a perfectly valid — and useless — Hermitian operator.</p>
+<p><strong>A2</strong> — The requirement is that P = |⟨φ|ψ⟩|² be real, non-negative, and <strong>invariant under rephasing</strong>, since global phase is unphysical.</p>
+<p>Suppose the inner product were linear in both arguments. Take the ket c|ψ⟩ with c = e^{iθ}. Linearity in the bra would give ⟨cφ|ψ⟩ = c⟨φ|ψ⟩, and the norm ⟨ψ|ψ⟩ for the state c|ψ⟩ would become c²⟨ψ|ψ⟩ = e^{2iθ} — a complex number. A state's norm would depend on an unobservable phase, and |⟨φ|ψ⟩|² would no longer be phase-invariant.</p>
+<p>Antilinearity fixes this exactly. With ⟨cφ| = c*⟨φ|:</p>
+<div class="codewrap"><pre><code>    ⟨cψ|cψ⟩ = c*c⟨ψ|ψ⟩ = |c|²⟨ψ|ψ⟩ = ⟨ψ|ψ⟩     ✓ real, positive, phase-independent</code></pre></div>
+<p>The general statement: an inner product on a complex vector space must be <strong>conjugate-symmetric</strong> (⟨φ|ψ⟩ = ⟨ψ|φ⟩*) for ⟨ψ|ψ⟩ to be real, and positive-definite for it to be a probability. Conjugate symmetry plus linearity in one argument forces antilinearity in the other. There is no choice available — it is the only structure on ℂⁿ supporting a probabilistic reading, which is why the same conjugation appears in the dagger of every operator.</p></section>
+<section class="chapter" id="ch07"><header class="chapter-open"><div class="eyebrow">Week 7</div><h1>The Bloch Sphere and Single-Qubit Gates</h1></header>
+<p><strong>29 September, 1 October · Objective 3</strong></p>
+<p>Two complex amplitudes, four real parameters, minus normalization, minus global phase, leaves two — and two parameters is a sphere. The Bloch sphere is not a visualization aid bolted on afterward; it is the exact state space of one qubit, and every single-qubit gate is a rotation of it.</p>
+<h2 id="constructing-the-sphere">Constructing the sphere</h2>
+<p>Start from |ψ⟩ = α|0⟩ + β|1⟩ and remove what is not physical. Write α = r₀e^{iγ₀}, β = r₁e^{iγ₁}. Global phase is unobservable, so factor out e^{iγ₀}:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ ≃ r₀|0⟩ + r₁e^{i(γ₁−γ₀)}|1⟩</code></pre></div>
+<p>Only the <strong>relative</strong> phase φ = γ₁ − γ₀ survives. Normalization r₀² + r₁² = 1 lets you write r₀ = cos(θ/2), r₁ = sin(θ/2). The general state is:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ = cos(θ/2)|0⟩ + e^{iφ} sin(θ/2)|1⟩
+          θ ∈ [0, π]     φ ∈ [0, 2π)</code></pre></div>
+<div class="codewrap"><pre><code>                    z  |0⟩
+                    │
+                    │   ● |ψ⟩
+                    │  ╱│
+                    │ ╱ │  θ
+                    │╱  │
+        ────────────┼───────────  y
+                   ╱│
+                  ╱ │ φ
+                 ╱  │
+                x   │
+                    │
+                   |1⟩</code></pre></div>
+<p>The <strong>half-angle</strong> is the point people trip over: θ = π maps |0⟩ to |1⟩, so states orthogonal in Hilbert space are <strong>antipodal</strong> on the sphere, not perpendicular. |0⟩ and |1⟩ are opposite poles despite ⟨0|1⟩ = 0.</p>
+<p>The six cardinal points:</p>
+<div class="tablewrap"><table><thead><tr><th>Axis</th><th>State</th><th>θ, φ</th></tr></thead><tbody><tr><td>+z</td><td><code>|0⟩</code></td><td>0, —</td></tr><tr><td>−z</td><td><code>|1⟩</code></td><td>π, —</td></tr><tr><td>+x</td><td><code>|+⟩ = (|0⟩+|1⟩)/√2</code></td><td>π/2, 0</td></tr><tr><td>−x</td><td><code>|−⟩ = (|0⟩−|1⟩)/√2</code></td><td>π/2, π</td></tr><tr><td>+y</td><td><code>|+i⟩ = (|0⟩+i|1⟩)/√2</code></td><td>π/2, π/2</td></tr><tr><td>−y</td><td><code>|−i⟩ = (|0⟩−i|1⟩)/√2</code></td><td>π/2, 3π/2</td></tr></tbody></table></div>
+<p>The Bloch vector components are the Pauli expectation values — a fact that makes the picture operationally concrete:</p>
+<div class="codewrap"><pre><code>    r = (⟨X⟩, ⟨Y⟩, ⟨Z⟩)          |r| = 1 for pure states</code></pre></div>
+<p class="callout callout-boundary"><strong>Analogy boundary — the sphere as a state-space diagram.</strong> Reading it as a phase-space or state-machine diagram works well: points are states, gates are transitions. Two boundaries. First, only <strong>one qubit</strong> gets a sphere; two qubits need 6 real parameters and no three-dimensional picture exists — entanglement is invisible here, which is why the Bloch sphere quietly stops helping in Week 8. Second, points <em>inside</em> the ball are <strong>mixed states</strong>, with |r| &lt; 1 measuring purity. The center is the maximally mixed state I/2, and decoherence (Week 13) is the state vector shrinking toward it.</p>
+<h2 id="pauli-gates">Pauli gates</h2>
+<div class="codewrap"><pre><code>    X = [0 1]     Y = [0 −i]     Z = [1  0]
+        [1 0]         [i  0]         [0 −1]</code></pre></div>
+<p>Each is a <strong>π rotation</strong> about its axis.</p>
+<p><strong>X</strong> — bit flip, the quantum NOT. X|0⟩ = |1⟩, X|1⟩ = |0⟩. Rotation by π about x̂. Note it leaves |+⟩ and |−⟩ fixed (they lie on the rotation axis).</p>
+<p><strong>Z</strong> — phase flip. Z|0⟩ = |0⟩, Z|1⟩ = −|1⟩. Rotation by π about ẑ. It leaves |0⟩ and |1⟩ alone up to phase, and swaps |+⟩ ↔ |−⟩. <strong>Z has no classical analogue</strong> — it does nothing observable in the computational basis, yet it is essential, because interference converts phase into amplitude.</p>
+<p><strong>Y</strong> — both, with a phase: Y = iXZ.</p>
+<p>All satisfy P² = I: applying twice returns the identity, as a π rotation twice is a 2π rotation.</p>
+<h2 id="hadamard">Hadamard</h2>
+<div class="codewrap"><pre><code>    H = (1/√2) [1  1]        H|0⟩ = |+⟩       H|+⟩ = |0⟩
+               [1 −1]        H|1⟩ = |−⟩       H|−⟩ = |1⟩</code></pre></div>
+<p>H is a π rotation about the diagonal axis (x̂+ẑ)/√2, which exchanges the x and z axes. It maps the computational basis to the superposition basis and back, and H² = I.</p>
+<p>This is the most-used gate in the course: it is how you <em>create</em> superposition from a classical input, and — applied again at the end — how you convert phase differences back into measurable amplitude differences. That sandwich, H → phase manipulation → H, is the skeleton of Deutsch's algorithm (Week 11) and of Grover's diffusion operator (Week 13).</p>
+<h2 id="phase-gates">Phase gates</h2>
+<div class="codewrap"><pre><code>    S = [1 0]  = √Z          T = [1 0     ]  = √S
+        [0 i]                    [0 e^{iπ/4}]</code></pre></div>
+<p>S rotates π/2 about ẑ; T rotates π/4. Both act only on the |1⟩ component's phase.</p>
+<p>T matters disproportionately. The Clifford group — generated by H, S, and CNOT — is <strong>efficiently simulable classically</strong> (Gottesman–Knill theorem). Adding T makes the set universal. So T gates are the source of quantum advantage, and in fault-tolerant architectures they are also by far the most expensive to implement, requiring magic-state distillation. "T-count" is a primary cost metric in quantum compilation — the number to watch when you read resource estimates in Week 16.</p>
+<h2 id="rotation-gates">Rotation gates</h2>
+<p>For continuous control, the parameterized rotations:</p>
+<div class="codewrap"><pre><code>    Rx(θ) = e^{−iθX/2} = [ cos(θ/2)    −i sin(θ/2)]
+                         [−i sin(θ/2)   cos(θ/2) ]
+
+    Ry(θ) = [cos(θ/2)  −sin(θ/2)]      Rz(θ) = [e^{−iθ/2}      0    ]
+            [sin(θ/2)   cos(θ/2)]              [    0      e^{iθ/2} ]</code></pre></div>
+<p>The half-angles again: Rx(2π) = −I, not I. A qubit requires a <strong>4π</strong> rotation to return exactly — spinor behavior, and a real physical effect confirmed by neutron interferometry.</p>
+<p>Any single-qubit unitary decomposes as three rotations (up to global phase):</p>
+<div class="codewrap"><pre><code>    U = Rz(γ) Ry(β) Rz(α)</code></pre></div>
+<p>This is what a transpiler does when it maps your circuit onto a device's native gate set.</p>
+<p class="callout callout-try"><strong>Try it yourself.</strong> In <code>bloch_sphere.html</code>, verify these by hand:</p>
+<ol><li><code>H</code> then <code>Z</code> then <code>H</code> — equals X. Watch the axis exchange do the work.</li><li><code>T</code> eight times — returns to start (T⁸ = I), since 8 × π/4 = 2π.</li><li><code>X</code> on |+⟩ — nothing moves. The state is on the rotation axis.</li><li><code>S</code> then <code>S</code> — equals Z. Confirms S = √Z.</li></ol>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>One qubit's state space is exactly the Bloch sphere surface: |ψ⟩ = cos(θ/2)|0⟩ + e^{iφ}sin(θ/2)|1⟩, after removing normalization and global phase.</li><li>Half-angles mean orthogonal states are antipodal; the Bloch vector is (⟨X⟩, ⟨Y⟩, ⟨Z⟩).</li><li>Pauli gates are π rotations about their axes; Z changes only phase and has no classical counterpart.</li><li>H exchanges the x and z axes, creating superposition and converting phase back to amplitude — the core of every algorithm in this course.</li><li>Clifford gates (H, S, CNOT) are classically simulable; T supplies universality and dominates fault-tolerant cost.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 3)</em> — Z applied to |0⟩ or |1⟩ produces no measurable change in the computational basis. Explain why Z is nonetheless indispensable, and give the minimal circuit that makes its effect observable.</p>
+<p><strong>Q2</strong> <em>(Objective 3)</em> — The Gottesman–Knill theorem says circuits of H, S, and CNOT are classically simulable in polynomial time, despite producing entanglement and superposition. State what this implies about which resource is actually responsible for quantum advantage.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Z is a <strong>relative-phase</strong> operation, and relative phase is invisible to measurement in the basis it acts on but fully visible after a basis change. Measuring Z|ψ⟩ in the computational basis gives outcome probabilities |α|² and |β|², identical to |ψ⟩ — the sign on β vanishes under the modulus.</p>
+<p>The minimal circuit that exposes it is <strong>H–Z–H</strong>, which equals X:</p>
+<div class="codewrap"><pre><code>    |0⟩ ──[H]──[Z]──[H]── = |1⟩          measured: 1 with certainty
+    |0⟩ ──[H]───────[H]── = |0⟩          measured: 0 with certainty</code></pre></div>
+<p>Tracing it: H sends |0⟩ → (|0⟩+|1⟩)/√2. Z flips the sign of the |1⟩ component, giving (|0⟩−|1⟩)/√2 = |−⟩. The final H maps |−⟩ → |1⟩. A phase that was unmeasurable in the middle of the circuit becomes a deterministic bit flip at the end.</p>
+<p>This is the mechanism behind every algorithm in the course. Computation happens in phases; Hadamards convert phase into amplitude so it can be read. Deutsch's algorithm is exactly this pattern with an oracle in place of Z, and <strong>phase kickback</strong> is the name for the trick.</p>
+<p><strong>A2</strong> — It implies that <strong>entanglement and superposition are not sufficient</strong> for quantum advantage. Clifford circuits generate both — CNOT on |+⟩|0⟩ produces a maximally entangled Bell state — yet the stabilizer formalism tracks the whole evolution with polynomial classical resources. A machine running only Clifford gates, however many qubits, offers no speedup.</p>
+<p>What supplies the advantage is <strong>non-stabilizer resource</strong>, usually called <em>magic</em>, contributed by gates like T that rotate outside the Clifford group. The practical consequence is that T-count, not qubit count, is the meaningful measure of a fault-tolerant algorithm's cost — and in surface-code architectures T gates require magic-state distillation, consuming many physical qubits and cycles per logical T.</p>
+<p>The point to carry into Week 16: "how many qubits" is close to the wrong question. A thousand-qubit Clifford-only device is classically simulable. The figures that matter are logical qubit count, gate fidelity, and T-count — which is why current NISQ hardware, measured in physical qubits, sits much further from useful cryptanalysis than headline numbers suggest.</p></section>
+<section class="chapter" id="ch08"><header class="chapter-open"><div class="eyebrow">Week 8</div><h1>Multi-Qubit Systems, CNOT, and Qiskit</h1></header>
+<p><strong>6, 8 October · Objectives 3, 4</strong></p>
+<p>One qubit has a sphere. Two qubits have a 6-parameter space with no three-dimensional picture, and the extra structure is entanglement. This week adds the two-qubit gate that creates it, and puts the toolchain in your hands.</p>
+<h2 id="composite-state-spaces">Composite state spaces</h2>
+<p>Two qubits span a four-dimensional space:</p>
+<div class="codewrap"><pre><code>    |ψ⟩ = a|00⟩ + b|01⟩ + c|10⟩ + d|11⟩       |a|²+|b|²+|c|²+|d|² = 1</code></pre></div>
+<p>Convention: |q₁q₀⟩ with <strong>qubit 0 rightmost</strong> — Qiskit's little-endian ordering, and a reliable source of off-by-one confusion when reading bitstrings off hardware.</p>
+<p>The separability test from Week 4, made computational: the state factors if and only if <strong>ad − bc = 0</strong>. That determinant is the two-qubit entanglement witness, and it is worth committing to memory:</p>
+<div class="codewrap"><pre><code>    |Φ⁺⟩ = (|00⟩ + |11⟩)/√2  →  a=d=1/√2, b=c=0  →  ad−bc = 1/2 ≠ 0   entangled
+    |+⟩|0⟩ = (|00⟩ + |10⟩)/√2 →  a=c=1/√2, b=d=0  →  ad−bc = 0        separable</code></pre></div>
+<h2 id="cnot-and-the-entangling-gates">CNOT and the entangling gates</h2>
+<p><strong>CNOT</strong> flips the target if the control is |1⟩:</p>
+<div class="codewrap"><pre><code>              [1 0 0 0]
+    CNOT =    [0 1 0 0]        |00⟩→|00⟩    |10⟩→|11⟩
+              [0 0 0 1]        |01⟩→|01⟩    |11⟩→|10⟩
+              [0 0 1 0]</code></pre></div>
+<p>On basis states it is classical XOR. On superpositions it is the entangling engine:</p>
+<div class="codewrap"><pre><code>    |+⟩|0⟩ = (|00⟩+|10⟩)/√2  --CNOT--&gt;  (|00⟩+|11⟩)/√2 = |Φ⁺⟩</code></pre></div>
+<p>One Hadamard and one CNOT produce a Bell state. That two-gate circuit is the "hello world" of quantum computing and the basis of teleportation, superdense coding, and every entanglement benchmark you will run on hardware.</p>
+<p><strong>Phase kickback</strong>, which will matter enormously in Week 11: apply CNOT with the <em>target</em> in |−⟩:</p>
+<div class="codewrap"><pre><code>    |ψ⟩|−⟩  --CNOT--&gt;  (−1)^{ψ} |ψ⟩|−⟩</code></pre></div>
+<p>The target is unchanged. The <strong>control</strong> picks up a phase. Information flows backwards relative to the gate's apparent direction — the control/target labels describe the computational basis, not a causal channel.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — CNOT as a conditional.</strong> It reads like <code>if control: flip(target)</code>, and on basis states that is exactly right. Two failures. First, on superpositions there is no branch taken — both branches evolve, and their relative phase persists and can later interfere. Second, phase kickback means your <code>if</code> modifies its own condition variable, which no conditional in any language does. Treat CNOT as a <em>linear operator on a 4-D space</em>, and it behaves; treat it as control flow, and phase kickback will look like magic.</p>
+<p><strong>Universality.</strong> CNOT plus arbitrary single-qubit rotations is universal — any <em>n</em>-qubit unitary decomposes into them. This is the quantum counterpart of NAND completeness, with the caveat that decompositions can be exponentially long. Efficiency is the whole game.</p>
+<h2 id="qiskit">Qiskit</h2>
+<p>Qiskit builds circuits as objects, transpiles them for a target backend, and runs them through <strong>primitives</strong> — <code>Sampler</code> for measurement distributions, <code>Estimator</code> for expectation values.</p>
+<div class="codewrap"><pre><code>from qiskit import QuantumCircuit
+
+# Two qubits, two classical bits for the measurement record.
+qc = QuantumCircuit(2, 2)
+
+qc.h(0)          # qubit 0 -&gt; |+⟩ : superposition, the entangling precondition
+qc.cx(0, 1)      # control 0, target 1 -&gt; (|00⟩ + |11⟩)/√2, a Bell state
+qc.measure([0, 1], [0, 1])
+
+print(qc.draw())</code></pre></div>
+<div class="codewrap"><pre><code>     ┌───┐     ┌─┐
+q_0: ┤ H ├──■──┤M├───
+     └───┘┌─┴─┐└╥┘┌─┐
+q_1: ─────┤ X ├─╫─┤M├
+          └───┘ ║ └╥┘
+c: 2/═══════════╩══╩═
+                0  1</code></pre></div>
+<p>Run it on the local simulator:</p>
+<div class="codewrap"><pre><code>from qiskit_aer import AerSimulator
+from qiskit import transpile
+
+sim = AerSimulator()
+result = sim.run(transpile(qc, sim), shots=4096).result()
+print(result.get_counts())
+# {'00': 2043, '11': 2053}   — never '01' or '10'</code></pre></div>
+<p>The absence of <code>01</code> and <code>11</code>... rather, of <code>01</code> and <code>10</code>, is the entanglement. The two qubits always agree, and neither individually is predictable.</p>
+<p><strong>Inspect the state before measurement</strong> — the diagnostic you will use constantly:</p>
+<div class="codewrap"><pre><code>from qiskit.quantum_info import Statevector, partial_trace, entropy
+
+psi = Statevector(QuantumCircuit(2).compose(qc.remove_final_measurements(inplace=False)))
+# Equivalent and cleaner:
+bell = QuantumCircuit(2); bell.h(0); bell.cx(0, 1)
+psi = Statevector(bell)
+print(psi)                       # [0.707+0j, 0, 0, 0.707+0j]
+
+rho0 = partial_trace(psi, [1])   # trace out qubit 1
+print(entropy(rho0))             # 1.0 — maximally mixed, i.e. maximally entangled</code></pre></div>
+<p>That entropy value is the point. Qubit 0 alone carries <strong>one full bit of entropy</strong> — no information at all — while the pair is in a perfectly known pure state. All the information lives in the correlation.</p>
+<h2 id="connecting-to-ibm-quantum">Connecting to IBM Quantum</h2>
+<div class="codewrap"><pre><code>from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2
+
+service = QiskitRuntimeService()               # reads saved credentials
+backend = service.least_busy(operational=True, simulator=False)
+
+# Transpilation is mandatory, not cosmetic: it maps your abstract circuit
+# onto the device's native gate set and physical qubit connectivity.
+qc_hw = transpile(qc, backend, optimization_level=3)
+
+job = SamplerV2(mode=backend).run([qc_hw], shots=4096)
+counts = job.result()[0].data.c.get_counts()
+print(counts)
+# {'00': 1902, '11': 1887, '01': 154, '10': 153}  — the off-diagonal terms are noise</code></pre></div>
+<p>Those ~4% wrong outcomes are the subject of Week 13. On an ideal device they are zero; on real hardware they measure your gate and readout fidelity.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — transpilation as compilation.</strong> The parallel is close: lower an abstract program onto a target ISA, optimize, allocate registers. Where it diverges is <strong>connectivity</strong>. Two qubits can only interact if physically coupled, so the transpiler inserts SWAP networks to move states adjacent — and each SWAP is three CNOTs, each with error. A compiler's register allocation costs you spills; a transpiler's routing costs you <em>fidelity</em>, and on NISQ hardware routing overhead often dominates the algorithm itself.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li><em>n</em> qubits span 2ⁿ dimensions; Qiskit orders bitstrings little-endian, qubit 0 rightmost.</li><li>Two-qubit separability test: ad − bc = 0. Nonzero means entangled.</li><li>H followed by CNOT produces a Bell state — the canonical entangling circuit.</li><li>Phase kickback puts the phase on the <em>control</em>; CNOT is a linear operator, not control flow.</li><li>CNOT plus single-qubit rotations is universal. Transpilation costs fidelity through SWAP routing, not just time.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 4)</em> — Your Bell circuit returns <code>{'00': 512, '11': 512}</code> on the simulator and <code>{'00': 470, '11': 468, '01': 45, '10': 41}</code> on hardware. A colleague says the hardware "produced a different state." Give the more accurate description, and name the two distinct error sources that produce off-diagonal counts.</p>
+<p><strong>Q2</strong> <em>(Objectives 3, 4)</em> — Explain why the reduced state of one half of a Bell pair has entropy 1 while the pair has entropy 0, and why this is not a violation of information conservation.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — The hardware did not produce a different pure state; it produced a <strong>mixed state</strong> — a statistical ensemble. The ideal output is the pure |Φ⁺⟩; the device output is approximately ρ = (1−p)|Φ⁺⟩⟨Φ⁺| + p·(noise), with p ≈ 0.09 here. That is a different <em>kind</em> of object, not merely a different vector, and no state preparation error alone accounts for it.</p>
+<p>The two independent sources:</p>
+<p><strong>Gate error</strong> — imperfect H and CNOT operations. The two-qubit gate dominates: CNOT error rates run ~10⁻³–10⁻² on current hardware, roughly an order of magnitude worse than single-qubit gates. Coherent errors (systematic over- or under-rotation) and incoherent errors (decoherence during the gate) both contribute.</p>
+<p><strong>Readout error</strong> — misclassification at measurement. The discriminator assigns |0⟩ or |1⟩ from a noisy analog signal, and confuses them at ~1–3%. Critically, this error occurs <em>after</em> the state is correct, so it is separable from gate error and correctable by different means.</p>
+<p>Distinguishing them experimentally: run a circuit with <strong>no gates</strong>, preparing |00⟩ and measuring immediately. Any counts other than <code>00</code> are pure readout error. Subtract that baseline and the remainder is gate error. This is the basis of measurement-error mitigation, and it is the first diagnostic to run when hardware results look wrong.</p>
+<p><strong>A2</strong> — Both statements are true and describe different systems. The <strong>pair</strong> is in a pure state |Φ⁺⟩ — complete knowledge, von Neumann entropy S(ρ_AB) = 0. The <strong>single qubit</strong> has ρ_A = tr_B(|Φ⁺⟩⟨Φ⁺|) = I/2, which is maximally mixed, S(ρ_A) = 1 bit.</p>
+<p>There is no conservation violation because von Neumann entropy is <strong>not additive across subsystems</strong> for entangled states. Classically, S(AB) ≥ max(S(A), S(B)) — a whole is at least as uncertain as its parts. Quantum mechanically that inequality can be violated, and here it is maximally violated: 0 ≥ 1 is false. This is exactly the signature of entanglement, quantified as the <em>entanglement entropy</em>.</p>
+<p>The resolution is that the information is neither in A nor in B. It is in the <strong>correlation</strong>, which the partial trace discards by construction. Tracing out B is the formal statement "I have no access to B," and under that restriction A genuinely is random — not as a description of your ignorance about a hidden value, but as a complete description of the accessible system.</p>
+<p>The provenance framing: it is a record whose every field reads as noise, yet which is bit-exact against a counterpart record held elsewhere. The integrity lives in the joint object, and querying either half alone destroys the ability to see it.</p></section>
+<section class="chapter" id="ch09"><header class="chapter-open"><div class="eyebrow">Week 9</div><h1>Building and Simulating Circuits</h1></header>
+<p><strong>13, 15 October · Objective 4 · Quiz 2 this week</strong></p>
+<p>This week is craft: constructing circuits that do something, verifying them against theory, and learning which simulator to reach for. The habit to build is verifying on a statevector simulator <em>before</em> spending shots — on hardware or in a sampler — because a circuit that is wrong in theory will not become right with more samples.</p>
+<h2 id="choosing-a-simulator">Choosing a simulator</h2>
+<div class="tablewrap"><table><thead><tr><th>Backend</th><th>Returns</th><th>Use for</th><th>Limit</th></tr></thead><tbody><tr><td><code>Statevector</code></td><td>exact amplitudes</td><td>verifying logic, debugging</td><td>~30 qubits (2ⁿ memory)</td></tr><tr><td><code>AerSimulator</code></td><td>sampled counts</td><td>realistic shot statistics</td><td>~30 qubits</td></tr><tr><td><code>AerSimulator(method='matrix_product_state')</code></td><td>counts</td><td>low-entanglement circuits</td><td>100s of qubits</td></tr><tr><td><code>AerSimulator(noise_model=…)</code></td><td>counts</td><td>pre-hardware validation</td><td>~25 qubits</td></tr><tr><td>Real backend</td><td>counts</td><td>the actual answer</td><td>queue time, noise</td></tr></tbody></table></div>
+<p>The workflow that saves the most time: <strong>Statevector first</strong>. It gives you the exact state, so a logic error is immediately visible rather than hidden under sampling noise.</p>
+<h2 id="a-worked-circuit-ghz-state">A worked circuit: GHZ state</h2>
+<p>The three-qubit generalization of a Bell state, (|000⟩ + |111⟩)/√2:</p>
+<div class="codewrap"><pre><code>from qiskit import QuantumCircuit, transpile
+from qiskit.quantum_info import Statevector
+from qiskit_aer import AerSimulator
+
+def ghz(n):
+    qc = QuantumCircuit(n)
+    qc.h(0)                      # seed the superposition on one qubit
+    for q in range(n - 1):
+        qc.cx(q, q + 1)          # propagate correlation down the chain
+    return qc
+
+qc = ghz(3)
+print(Statevector(qc))
+# [0.707+0j, 0, 0, 0, 0, 0, 0, 0.707+0j]  -&gt; only |000⟩ and |111⟩ have amplitude</code></pre></div>
+<p>The linear chain of CNOTs is the readable construction, not the fastest. On hardware with limited connectivity a <strong>logarithmic-depth</strong> version wins:</p>
+<div class="codewrap"><pre><code>def ghz_log_depth(n):
+    qc = QuantumCircuit(n)
+    qc.h(0)
+    step = 1
+    while step &lt; n:              # double the entangled block each round
+        for q in range(0, min(step, n - step)):
+            qc.cx(q, q + step)
+        step *= 2
+    return qc</code></pre></div>
+<p>Depth O(log n) instead of O(n) — which matters because coherence time is fixed, so shallower circuits accumulate less decoherence. Depth, not gate count, is the quantity to minimize on NISQ hardware.</p>
+<h2 id="verifying-against-theory">Verifying against theory</h2>
+<p>Never trust a circuit you have not checked. Three levels:</p>
+<div class="codewrap"><pre><code>from qiskit.quantum_info import Statevector, Operator, state_fidelity
+import numpy as np
+
+# 1. State-level: does it produce the state you intended?
+target = Statevector([1/np.sqrt(2), 0, 0, 0, 0, 0, 0, 1/np.sqrt(2)])
+print(state_fidelity(Statevector(ghz(3)), target))     # 1.0
+
+# 2. Operator-level: is the whole unitary what you think?
+#    Stronger than state checks — it verifies behavior on ALL inputs.
+print(Operator(qc_a).equiv(Operator(qc_b)))            # True if equal up to global phase
+
+# 3. Structural: what will actually run?
+qc_t = transpile(qc, backend, optimization_level=3)
+print(qc_t.depth(), qc_t.count_ops())</code></pre></div>
+<p>Level 2 is the one people skip. A circuit can produce the right output on |000⟩ and be wrong everywhere else — which surfaces only when you use it as a subroutine.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — statevector inspection as a debugger.</strong> Reading amplitudes mid-circuit feels like inspecting variables at a breakpoint, and for <em>simulation</em> the analogy is exact. It fails completely on hardware: there is no way to observe a real quantum state without measuring and destroying it. Statevector debugging is available only in the classical simulation of your circuit — which means it stops working precisely when your circuit gets big enough to be interesting. Design for verifiability at small <em>n</em>, then scale.</p>
+<h2 id="measurement-and-shot-statistics">Measurement and shot statistics</h2>
+<p>Sampling error falls as 1/√N. To resolve a probability to ±ε you need N ≈ 1/ε² shots:</p>
+<div class="codewrap"><pre><code>    ±0.10  →      100 shots
+    ±0.01  →   10,000 shots
+    ±0.001 → 1,000,000 shots</code></pre></div>
+<p>This is a hard economic constraint. Variational algorithms requiring many expectation values to high precision can spend hours of device time on a single optimization step, and it is the reason "shots" appears in every hardware cost model.</p>
+<div class="codewrap"><pre><code>sim = AerSimulator()
+qc_m = ghz(3); qc_m.measure_all()
+for shots in (100, 10_000):
+    c = sim.run(transpile(qc_m, sim), shots=shots).result().get_counts()
+    p = c.get('000', 0) / shots
+    print(f"{shots:&gt;6}: P(000) = {p:.4f}  (expect 0.5000)")</code></pre></div>
+<h2 id="quiz-2-review">Quiz 2 review</h2>
+<p>Covering mathematical foundations, gates, and circuits.</p>
+<ul><li><strong>Bloch half-angles.</strong> |ψ⟩ = cos(θ/2)|0⟩ + e^{iφ}sin(θ/2)|1⟩. Orthogonal ⇒ antipodal.</li><li><strong>Gate identities.</strong> HZH = X, HXH = Z, S² = Z, T⁴ = Z, T⁸ = I. All Paulis square to I.</li><li><strong>Separability.</strong> ad − bc = 0 ⟺ product state.</li><li><strong>Little-endian.</strong> Qiskit prints qubit 0 rightmost.</li><li><strong>Clifford vs. T.</strong> H, S, CNOT are classically simulable; T supplies universality.</li><li><strong>Hermitian = observable, unitary = evolution.</strong> The Paulis are both.</li><li><strong>Depth vs. count.</strong> Depth is the coherence-limited quantity.</li></ul>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Verify with <code>Statevector</code> before spending shots; exact amplitudes expose logic errors that sampling noise hides.</li><li><code>Operator.equiv</code> checks behavior on all inputs — strictly stronger than checking one output state.</li><li>Circuit <strong>depth</strong> governs decoherence exposure; log-depth constructions beat linear ones on hardware.</li><li>Shot count scales as 1/ε². Precision is purchased at quadratic cost.</li><li>Statevector debugging exists only in simulation, and disappears exactly when circuits become large enough to matter.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 4)</em> — Two GHZ constructions produce identical statevectors on |000⟩ but differ in depth. Explain why <code>state_fidelity</code> = 1.0 is insufficient grounds to call them interchangeable, and give a test that would distinguish them.</p>
+<p><strong>Q2</strong> <em>(Objective 4)</em> — You need P(outcome) to ±0.5%. How many shots, and what does this imply for a variational algorithm requiring 200 such estimates per optimization step across 50 steps?</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — <code>state_fidelity</code> on one input checks a <strong>single column</strong> of the unitary. Two circuits agreeing on |000⟩ may disagree on every other basis state, and the difference surfaces the moment either is used as a controlled subroutine or applied to a superposed input — which is exactly how subroutines are used in Grover and Shor.</p>
+<p>Two tests, in increasing strength:</p>
+<div class="codewrap"><pre><code># Operator equivalence: compares the full 2ⁿ × 2ⁿ unitary, all inputs at once.
+Operator(qc_a).equiv(Operator(qc_b))     # up to global phase
+
+# If that is too large, sample random inputs — cheaper, probabilistic.
+for _ in range(20):
+    psi = random_statevector(2**n)
+    assert state_fidelity(psi.evolve(qc_a), psi.evolve(qc_b)) &gt; 1 - 1e-9</code></pre></div>
+<p>Beyond correctness, they are not interchangeable <strong>operationally</strong> even if the unitaries match exactly. The log-depth version has shorter depth, so it accumulates less decoherence; the linear version may transpile better on a linear-topology device by requiring no SWAPs. Unitary equivalence is a statement about the mathematical map, and says nothing about fidelity on hardware. Both facts matter, and they are checked by different means.</p>
+<p><strong>A2</strong> — For ε = 0.005, N ≈ 1/ε² = <strong>40,000 shots</strong> per estimate.</p>
+<p>Scaling up:</p>
+<div class="codewrap"><pre><code>    40,000 shots × 200 estimates × 50 steps = 400,000,000 shots</code></pre></div>
+<p>At a realistic 1–10 kHz effective sampling rate including reset and readout, that is <strong>11 to 110 hours</strong> of device time — for one optimization run, assuming no queue and no re-runs. This is the central practical obstacle to variational quantum algorithms, and it is usually understated in papers that report only circuit depth.</p>
+<p>The mitigations, all partial: reduce precision in early optimization steps and tighten as you converge; group commuting observables so one set of shots yields several expectation values; use shot-frugal optimizers (SPSA, Rosalin) that tolerate noisy gradients; and reduce the observable count through symmetry.</p>
+<p>The lesson worth carrying: quantum advantage claims must account for shot overhead. An algorithm with an asymptotic speedup that needs 10⁸ samples per step may lose to a classical method that needs none — and comparisons that omit shot cost are not comparisons.</p></section>
+<section class="chapter" id="ch10"><header class="chapter-open"><div class="eyebrow">Week 10</div><h1>Measurement, Collapse, and Reading Output</h1></header>
+<p><strong>20, 22 October · Objectives 2, 4</strong> <em>Tuesday 20 October: Fall Break — no class</em></p>
+<p>Measurement is where a quantum computation becomes a classical result, and it is the only lossy step in the pipeline. This week makes the projection formalism concrete and connects it to the counts dictionary you actually get back.</p>
+<h2 id="projective-measurement">Projective measurement</h2>
+<p>Measuring observable Â = Σₘ aₘ|m⟩⟨m| on |ψ⟩:</p>
+<div class="codewrap"><pre><code>    Outcome:      aₘ      with probability   P(m) = |⟨m|ψ⟩|²
+    Post-state:   |m⟩     (the projector applied and renormalized)</code></pre></div>
+<p>More generally, with projector P̂ₘ onto the eigenspace of aₘ:</p>
+<div class="codewrap"><pre><code>    P(m) = ⟨ψ|P̂ₘ|ψ⟩            |ψ'⟩ = P̂ₘ|ψ⟩ / √P(m)</code></pre></div>
+<p>Two properties define the operation:</p>
+<p><strong>Repeatability.</strong> Measure again immediately and you get the same result with certainty — the state is now an eigenstate. This is what makes measurement a <em>projection</em> rather than a random scramble.</p>
+<p><strong>Irreversibility.</strong> P̂ₘ is not unitary. P̂ₘ² = P̂ₘ (idempotent), and it has zero eigenvalues, so it has no inverse. The information in the discarded components is gone.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — collapse as a state-machine commit.</strong> The parallel is strong: observation transitions the system to a definite state, and prior alternatives become unreachable — exactly your audit-trail write. Two boundaries. First, the <em>timing</em> of collapse is interpretation-dependent (Week 3); the formalism specifies outcome statistics, not a moment of transition. Second, your commit selects among branches that were separately real; quantum measurement selects among branches that were interfering, and could have cancelled. There was no fact about which branch was "actual" beforehand — Bell's theorem forecloses that reading.</p>
+<h2 id="basis-choice-is-the-experiment">Basis choice is the experiment</h2>
+<p>Hardware measures in the computational (Z) basis only. Measuring anything else means <strong>rotating the state so your target basis becomes the Z basis</strong>:</p>
+<div class="codewrap"><pre><code>    Measure X:   apply H,        then measure Z
+    Measure Y:   apply S† then H, then measure Z</code></pre></div>
+<div class="codewrap"><pre><code># ⟨X⟩ on |+⟩ : rotate X-basis into Z-basis, then measure.
+qc = QuantumCircuit(1, 1)
+qc.h(0)                 # prepare |+⟩
+qc.h(0)                 # basis rotation: X-eigenbasis -&gt; Z-eigenbasis
+qc.measure(0, 0)
+# Result: '0' with certainty. |+⟩ is a definite state in the X basis.</code></pre></div>
+<p>The same |+⟩ gives 50/50 in Z and certainty in X. Superposition is basis-relative — Week 4's claim, now as an executable demonstration.</p>
+<h2 id="reading-the-counts-dictionary">Reading the counts dictionary</h2>
+<div class="codewrap"><pre><code>{'00': 512, '11': 488}</code></pre></div>
+<p>Three facts to keep straight:</p>
+<p><strong>Little-endian.</strong> <code>'01'</code> means qubit 1 = 0, qubit 0 = 1. Reversed from the natural reading, and the single most common bug in student code.</p>
+<p><strong>Counts are samples, not probabilities.</strong> With N shots, the standard error on each estimated probability is √(p(1−p)/N). At N = 1024 and p = 0.5, that is ±1.6% — so a 48/52 split is entirely consistent with a fair distribution.</p>
+<p><strong>Classical registers are indexed independently of qubits.</strong> <code>measure(2, 0)</code> puts qubit 2's result in classical bit 0. Multiple registers print space-separated, most-significant first.</p>
+<div class="codewrap"><pre><code>from qiskit.result import marginal_counts
+marginal_counts(counts, indices=[0])     # distribution over qubit 0 alone</code></pre></div>
+<h2 id="partial-measurement">Partial measurement</h2>
+<p>Measuring one qubit of an entangled pair collapses both:</p>
+<div class="codewrap"><pre><code>qc = QuantumCircuit(2, 1)
+qc.h(0); qc.cx(0, 1)      # |Φ⁺⟩
+qc.measure(0, 0)          # measure ONLY qubit 0
+# Qubit 1 is now determined: |0⟩ or |1⟩, matching qubit 0, though never measured.</code></pre></div>
+<p>Formally, the post-measurement state of the unmeasured qubit follows from applying P̂ₘ ⊗ I and renormalizing. This is the mechanism behind teleportation and behind the syndrome extraction of Week 16 — measuring <em>ancillas</em> to learn about data qubits without touching them.</p>
+<h2 id="deferred-measurement">Deferred measurement</h2>
+<p>A useful theorem: any measurement followed by a classically-controlled operation can be replaced by a coherent controlled operation, with all measurements moved to the end.</p>
+<div class="codewrap"><pre><code>    ─[M]─●─         ≡        ──■──[M]─
+         │                     │
+    ─────X─                  ──X──────</code></pre></div>
+<p>This matters practically. Mid-circuit measurement with feed-forward requires fast classical control that many devices lack or implement slowly; the deferred form runs on any device. Theoretically, it means measurement is never <em>necessary</em> mid-computation — a fact used constantly in proofs.</p>
+<h2 id="interpreting-noisy-output">Interpreting noisy output</h2>
+<p>Expected for a Bell state; observed on hardware:</p>
+<div class="codewrap"><pre><code>    ideal:     {'00': 512, '11': 512}
+    hardware:  {'00': 470, '11': 468, '01': 45, '10': 41}</code></pre></div>
+<p>The diagnostic sequence, in order:</p>
+<ol><li><strong>Baseline readout error.</strong> Run an empty circuit preparing |00⟩. Any non-<code>00</code> counts are pure readout error, correctable by inverting the confusion matrix.</li><li><strong>Compare against a noise model.</strong> <code>AerSimulator.from_backend(backend)</code> reproduces the device's error rates in simulation. If hardware is much worse, suspect calibration drift.</li><li><strong>Check depth after transpilation.</strong> SWAP insertion can multiply two-qubit gate count several-fold, and each CNOT carries ~1% error.</li></ol>
+<div class="codewrap"><pre><code>from qiskit_aer import AerSimulator
+noisy = AerSimulator.from_backend(backend)
+print(noisy.run(transpile(qc, noisy), shots=4096).result().get_counts())</code></pre></div>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Measurement applies a projector: outcome with probability ⟨ψ|P̂ₘ|ψ⟩, state renormalized to the eigenspace. Repeatable, and not unitary.</li><li>Hardware measures in Z only; other bases require an explicit rotation first (H for X, S†H for Y).</li><li>Counts are samples with standard error √(p(1−p)/N); Qiskit bitstrings are little-endian.</li><li>Measuring one qubit of an entangled pair determines the other without touching it.</li><li>Deferred measurement lets any mid-circuit measurement move to the end — essential on devices without fast feed-forward.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 2)</em> — Measuring |+⟩ in the Z basis gives 50/50; in the X basis it gives a certain outcome. A colleague concludes the qubit "had a hidden value revealed by the right question." Explain why this reading fails, referring to a specific experimental result.</p>
+<p><strong>Q2</strong> <em>(Objective 4)</em> — Your two-qubit circuit returns <code>{'01': 1000}</code>. You expected qubit 0 to be 0 and qubit 1 to be 1. Did the circuit work? Explain, and give the code that resolves the ambiguity.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — The hidden-value reading proposes that the qubit carries pre-existing answers for every possible measurement, and that measuring selects which to reveal. This is precisely the <strong>local hidden variable</strong> hypothesis, and it is experimentally refuted.</p>
+<p>For a single qubit the reading is not immediately contradictory — you can construct a hidden-variable model reproducing all single-qubit statistics. The refutation requires <strong>entangled pairs and Bell's inequality</strong>. If each particle carried definite values for all measurement directions, the CHSH correlation would satisfy S ≤ 2. Quantum mechanics predicts 2√2, and the loophole-free experiments of 2015 at Delft, NIST, and Vienna confirmed the violation with both the locality and detection loopholes closed simultaneously. Aspect, Clauser, and Zeilinger received the 2022 Nobel Prize for this line of work.</p>
+<p>So the accurate statement is not that measurement reveals a hidden value, but that it <strong>produces</strong> a value that did not exist beforehand — with statistics fixed by the state, and a correlation structure no assignment of pre-existing values can reproduce. Note the qubit <em>is</em> in a definite state, |+⟩; what it lacks is a definite Z-value. Those are different claims, and keeping them apart is most of the conceptual work.</p>
+<p><strong>A2</strong> — You cannot tell from the bitstring alone, and the ambiguity is <strong>little-endian ordering</strong>.</p>
+<p>Qiskit prints qubit 0 <strong>rightmost</strong>. So <code>'01'</code> means qubit 1 = 0, qubit 0 = 1 — the opposite of what you expected. If your intent was qubit 0 = 0 and qubit 1 = 1, the correct bitstring is <code>'10'</code>, and this result indicates a genuine bug.</p>
+<p>Resolve it by never parsing bitstrings positionally:</p>
+<div class="codewrap"><pre><code># Marginalize onto specific qubits — order-explicit, no manual indexing.
+from qiskit.result import marginal_counts
+print(marginal_counts(counts, indices=[0]))   # qubit 0 alone
+print(marginal_counts(counts, indices=[1]))   # qubit 1 alone
+
+# Or make the mapping explicit with named registers.
+from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit
+qr = QuantumRegister(2, 'q'); cr = ClassicalRegister(2, 'c')
+qc = QuantumCircuit(qr, cr)
+qc.measure(qr[0], cr[0])
+qc.measure(qr[1], cr[1])</code></pre></div>
+<p>The practice worth adopting: assert on marginals in tests rather than on full bitstrings. Positional string parsing is where endianness bugs hide, and they survive review because the string <em>looks</em> right.</p></section>
+<section class="chapter" id="ch11"><header class="chapter-open"><div class="eyebrow">Week 11</div><h1>Feynman's Vision and Deutsch's Algorithm</h1></header>
+<p><strong>27, 29 October · Objectives 6, 8</strong></p>
+<p>Feynman's 1981 observation was that simulating quantum systems on classical hardware costs exponentially, so the machine should be quantum. Deutsch turned that into the first algorithm with a provable quantum advantage — small, artificial, and containing the complete pattern every later algorithm follows.</p>
+<h2 id="feynman-s-argument">Feynman's argument</h2>
+<p>Representing <em>n</em> qubits classically requires 2ⁿ complex amplitudes. Fifty spins need 2⁵⁰ ≈ 10¹⁵ numbers; a hundred exceeds the atom count of any storage medium you could build. Chemistry and materials science therefore hit an exponential wall on classical hardware.</p>
+<p>Feynman's proposal, at MIT's 1981 <em>Physics of Computation</em> conference: use a controllable quantum system as the simulator. "Nature isn't classical, dammit, and if you want to make a simulation of nature, you'd better make it quantum mechanical."</p>
+<p>The framing that holds up: this is a <strong>native-execution</strong> argument, not an acceleration argument. You are not speeding up a classical algorithm; you are running the problem on hardware whose state space has the same structure as the problem's. Quantum chemistry remains the most credible near-term application for exactly this reason — the mapping is natural rather than contrived.</p>
+<h2 id="the-oracle-model">The oracle model</h2>
+<p>Deutsch's problem: given a black-box function f: {0,1} → {0,1}, decide whether it is <strong>constant</strong> (f(0) = f(1)) or <strong>balanced</strong> (f(0) ≠ f(1)).</p>
+<p>Four possible functions; two constant, two balanced. Classically you must evaluate f twice — one evaluation leaves both cases possible. <strong>One query is provably insufficient.</strong></p>
+<p>The quantum oracle must be unitary, hence reversible. The standard construction:</p>
+<div class="codewrap"><pre><code>    U_f |x⟩|y⟩ = |x⟩|y ⊕ f(x)⟩</code></pre></div>
+<p>XOR onto an ancilla, preserving <em>x</em>. This is reversible (apply twice to get the identity) and is the generic recipe for embedding any classical function in a quantum circuit.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — the oracle as a function call.</strong> U_f is a callable with a fixed signature, and query counting is a clean complexity measure. Two boundaries. First, U_f must be <strong>reversible</strong>, so it cannot discard inputs — every classical function needs the ancilla embedding, and that is a real cost. Second, and more important: you may call it on a <strong>superposition of arguments</strong>, which has no software analogue. That is not "calling it many times fast." It is one invocation whose input is a single state that happens not to be a basis state, and the distinction matters for reasoning about cost.</p>
+<h2 id="phase-kickback">Phase kickback</h2>
+<p>The mechanism that makes the algorithm work. Set the ancilla to |−⟩ = (|0⟩−|1⟩)/√2:</p>
+<div class="codewrap"><pre><code>    U_f |x⟩|−⟩ = |x⟩ · (|0 ⊕ f(x)⟩ − |1 ⊕ f(x)⟩)/√2</code></pre></div>
+<p>If f(x) = 0 the ancilla is unchanged. If f(x) = 1 the two terms swap, which is an overall sign flip. Combining:</p>
+<div class="codewrap"><pre><code>    U_f |x⟩|−⟩ = (−1)^{f(x)} |x⟩|−⟩</code></pre></div>
+<p>The ancilla is untouched. The function's <strong>output has become a phase on the input register</strong>. This is the same effect seen with CNOT in Week 8, and it is the workhorse of quantum algorithms: it converts a value you cannot read into a phase you can interfere.</p>
+<h2 id="deutsch-s-algorithm">Deutsch's algorithm</h2>
+<div class="codewrap"><pre><code>        ┌───┐      ┌─────┐      ┌───┐ ┌─┐
+  |0⟩ ──┤ H ├──────┤     ├──────┤ H ├─┤M├
+        └───┘      │ U_f │      └───┘ └─┘
+        ┌───┐┌───┐ │     │
+  |1⟩ ──┤ X ├┤ H ├─┤     ├───────────────
+        └───┘└───┘ └─────┘</code></pre></div>
+<p>Step by step. After the Hadamards, the input register is |+⟩ and the ancilla is |−⟩:</p>
+<div class="codewrap"><pre><code>    (|0⟩ + |1⟩)/√2 ⊗ |−⟩</code></pre></div>
+<p>Apply U_f, using phase kickback:</p>
+<div class="codewrap"><pre><code>    → ((−1)^{f(0)}|0⟩ + (−1)^{f(1)}|1⟩)/√2 ⊗ |−⟩</code></pre></div>
+<p>Factor out the global phase (−1)^{f(0)}, which is unobservable:</p>
+<div class="codewrap"><pre><code>    → (|0⟩ + (−1)^{f(0)⊕f(1)}|1⟩)/√2</code></pre></div>
+<p>The relative phase now encodes <strong>f(0) ⊕ f(1)</strong> — precisely the quantity asked for. Apply H:</p>
+<div class="codewrap"><pre><code>    f(0) ⊕ f(1) = 0  (constant)  →  |+⟩ → |0⟩
+    f(0) ⊕ f(1) = 1  (balanced)  →  |−⟩ → |1⟩</code></pre></div>
+<p>Measure. <strong>One query, deterministic answer.</strong></p>
+<p>Note what happened: at no point did you learn f(0) or f(1) individually. The algorithm extracts a <em>global property</em> of the function while leaving its values inaccessible. That trade is the essence of quantum algorithms — you get one bit about the whole function, not the function.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — "evaluating both inputs at once."</strong> The standard gloss is that the superposition evaluates f on 0 and 1 simultaneously. This is misleading in a way that will cost you later. Both amplitudes evolve, yes — but you can never read both results. The algorithm works because the <strong>final Hadamard interferes them</strong>, and the interference is constructive exactly when the answer is one bit. Drop the H and you get a random bit and learn nothing. Parallelism is not the resource; <strong>engineered interference</strong> is.</p>
+<h2 id="deutsch-jozsa">Deutsch–Jozsa</h2>
+<p>The <em>n</em>-bit generalization. Given f: {0,1}ⁿ → {0,1}, promised to be either constant or balanced (exactly half the inputs map to 1), decide which.</p>
+<p>Classically, worst case requires 2ⁿ⁻¹ + 1 queries for certainty. Quantum: <strong>one query</strong>, by the same H → U_f → H structure on <em>n</em> qubits. An exponential separation in exact query complexity.</p>
+<p>The caveat that matters for Week 16's honesty: with randomization, a classical algorithm decides this with high probability in <em>O</em>(1) queries — sample a few inputs and see if they differ. The exponential gap holds only for <em>deterministic exact</em> classical computation. Deutsch– Jozsa proves quantum computers are provably different, not that they are practically useful for this task. It is a proof of concept, and it should be described as one.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Feynman's argument is about native execution: quantum systems cost exponential classical memory, so simulate them on quantum hardware.</li><li>Reversible oracles use the XOR embedding U_f|x⟩|y⟩ = |x⟩|y ⊕ f(x)⟩, requiring an ancilla.</li><li>Phase kickback with the ancilla in |−⟩ converts function output into an input-register phase: U_f|x⟩|−⟩ = (−1)^{f(x)}|x⟩|−⟩.</li><li>Deutsch decides constant vs. balanced in one query; the final Hadamard converts phase into a measurable bit.</li><li>Deutsch–Jozsa gives exponential separation against <em>deterministic</em> classical algorithms only. Randomized classical algorithms close the gap.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 6)</em> — Remove the final Hadamard from Deutsch's algorithm and measure immediately after U_f. What do you observe, and what does this establish about the source of quantum advantage?</p>
+<p><strong>Q2</strong> <em>(Objectives 6, 8)</em> — Deutsch–Jozsa needs one query where deterministic classical needs 2ⁿ⁻¹+1. Explain why this does not demonstrate practical advantage, and identify the property a problem needs for the separation to survive randomization.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Without the final H you measure the state (|0⟩ ± |1⟩)/√2 in the computational basis and get <strong>0 or 1 with equal probability, regardless of f</strong>. Both the constant and balanced cases yield a uniform random bit, and the outcome carries no information about the function.</p>
+<p>The reason: the answer is encoded in the <strong>relative phase</strong> between |0⟩ and |1⟩, and computational-basis measurement is blind to relative phase — |⟨0|ψ⟩|² = |⟨1|ψ⟩|² = 1/2 for both |+⟩ and |−⟩. The information is present in the state and inaccessible to that measurement.</p>
+<p>This establishes that quantum advantage comes from <strong>interference, not superposition</strong>. The superposition existed and the oracle was queried on it, so if parallel evaluation were the resource, the answer would be available. It is not. The Hadamard rotates the {|+⟩, |−⟩} basis — in which the two cases are orthogonal and perfectly distinguishable — onto the computational basis the hardware can read. Every algorithm in this course ends with such a rotation: Grover's diffusion operator and Shor's inverse QFT are both this step generalized.</p>
+<p><strong>A2</strong> — Two independent reasons.</p>
+<p><strong>The problem is artificial.</strong> The promise that f is <em>either</em> constant <em>or</em> exactly balanced — never anything else — is not a property real functions have. Deutsch–Jozsa solves a problem constructed to be solvable, which makes it a proof of separation rather than an application.</p>
+<p><strong>Randomization closes the gap.</strong> Sample two random inputs. If they differ, f is balanced — certain. If they agree, guess constant. For a balanced f, each pair agrees with probability ≈ 1/2, so <em>k</em> samples give error ≤ 2^{−k}. Ten queries yield error under 0.1%, independent of <em>n</em>. The exponential separation exists only against algorithms required to be <em>exactly</em> correct with certainty, which is an unusual and rarely-needed requirement.</p>
+<p>For a separation to survive randomization, the problem needs structure that random sampling cannot exploit — typically a <strong>global, periodic, or algebraic property</strong> invisible in any small set of evaluations. Simon's problem is the clean example: it has a hidden XOR-mask period, requires exponentially many queries even for randomized classical algorithms, and directly inspired Shor's algorithm. Shor's period-finding is the same idea applied to modular exponentiation, and it is why factoring — not Deutsch–Jozsa — is the result that changed cryptography.</p></section>
+<section class="chapter" id="ch12"><header class="chapter-open"><div class="eyebrow">Week 12</div><h1>Deutsch in Qiskit, and Real Hardware</h1></header>
+<p><strong>3, 5 November · Objectives 5, 6</strong></p>
+<p>Building the four oracles, running the algorithm, and then running it somewhere the physics fights back. The gap between simulator and device is the actual subject of this week.</p>
+<h2 id="the-four-oracles">The four oracles</h2>
+<p>Each is a reversible circuit implementing U_f|x⟩|y⟩ = |x⟩|y ⊕ f(x)⟩:</p>
+<div class="codewrap"><pre><code>from qiskit import QuantumCircuit
+
+def oracle(kind):
+    """Two qubits: 0 = input x, 1 = ancilla y."""
+    qc = QuantumCircuit(2, name=f"U_f[{kind}]")
+    if kind == "constant_0":
+        pass                     # f(x) = 0: identity, nothing to XOR
+    elif kind == "constant_1":
+        qc.x(1)                  # f(x) = 1: flip ancilla unconditionally
+    elif kind == "balanced_id":
+        qc.cx(0, 1)              # f(x) = x: XOR input onto ancilla
+    elif kind == "balanced_not":
+        qc.cx(0, 1); qc.x(1)     # f(x) = NOT x
+    return qc</code></pre></div>
+<p>Note that the two constant oracles never touch qubit 0. Whatever the algorithm learns, it learns from a gate that does not act on the register being measured — which is phase kickback stated as an observation about the circuit diagram.</p>
+<h2 id="the-algorithm">The algorithm</h2>
+<div class="codewrap"><pre><code>def deutsch(kind):
+    qc = QuantumCircuit(2, 1)
+
+    qc.x(1); qc.h(1)             # ancilla -&gt; |−⟩, arming phase kickback
+    qc.h(0)                      # input   -&gt; |+⟩, both branches live
+
+    qc.compose(oracle(kind), inplace=True)
+
+    qc.h(0)                      # interfere: relative phase -&gt; amplitude
+    qc.measure(0, 0)
+    return qc
+
+from qiskit_aer import AerSimulator
+from qiskit import transpile
+
+sim = AerSimulator()
+for kind in ["constant_0", "constant_1", "balanced_id", "balanced_not"]:
+    qc = deutsch(kind)
+    counts = sim.run(transpile(qc, sim), shots=1024).result().get_counts()
+    verdict = "constant" if max(counts, key=counts.get) == "0" else "balanced"
+    print(f"{kind:&lt;14} {counts}  -&gt;  {verdict}")</code></pre></div>
+<div class="codewrap"><pre><code>constant_0     {'0': 1024}   -&gt;  constant
+constant_1     {'0': 1024}   -&gt;  constant
+balanced_id    {'1': 1024}   -&gt;  balanced
+balanced_not   {'1': 1024}   -&gt;  balanced</code></pre></div>
+<p>Deterministic — every shot agrees. Interference has made the answer certain, not merely likely. Any deviation on hardware is therefore pure error, which makes this circuit an unusually clean diagnostic.</p>
+<h2 id="verifying-the-phase">Verifying the phase</h2>
+<p>Confirm the mechanism rather than trusting the output:</p>
+<div class="codewrap"><pre><code>from qiskit.quantum_info import Statevector
+
+qc = QuantumCircuit(2)
+qc.x(1); qc.h(1); qc.h(0)
+qc.compose(oracle("balanced_id"), inplace=True)
+print(Statevector(qc).draw('latex_source'))
+# (|0⟩ − |1⟩)/√2 ⊗ |−⟩  — the minus sign IS the answer, before the final H</code></pre></div>
+<p>The ancilla returns unchanged in |−⟩ while the input register acquired a relative phase. Nothing was written to the ancilla; the function's value lives entirely in a sign on the register that was never the gate's target.</p>
+<h2 id="running-on-hardware">Running on hardware</h2>
+<div class="codewrap"><pre><code>from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2
+
+service = QiskitRuntimeService()
+backend = service.least_busy(operational=True, simulator=False)
+print(f"{backend.name}: {backend.num_qubits} qubits")
+
+qc = deutsch("balanced_id")
+
+# optimization_level=3 is not optional on hardware — it routes the circuit
+# onto physically coupled qubits and cancels redundant gates.
+qc_hw = transpile(qc, backend, optimization_level=3)
+print(f"depth {qc.depth()} -&gt; {qc_hw.depth()},  ops {qc_hw.count_ops()}")
+
+job = SamplerV2(mode=backend).run([qc_hw], shots=4096)
+print(job.result()[0].data.c.get_counts())
+# {'1': 3894, '0': 202}   — ~5% error on a 4-gate circuit</code></pre></div>
+<p>Five percent wrong on a circuit this shallow is the number to sit with. The theoretical answer is deterministic; the device disagrees one time in twenty.</p>
+<h2 id="where-the-error-comes-from">Where the error comes from</h2>
+<p>Budget it explicitly:</p>
+<div class="codewrap"><pre><code>  SOURCE                  TYPICAL RATE      NOTES
+  ─────────────────────────────────────────────────────────────────
+  Single-qubit gate       1e-4 – 1e-3       usually negligible here
+  Two-qubit gate (CX)     3e-3 – 1e-2       dominates gate error
+  Readout                 1e-2 – 3e-2       often the largest term
+  T1 (amplitude damping)  100–300 μs        |1⟩ decays toward |0⟩
+  T2 (dephasing)          80–200 μs         relative phase randomizes</code></pre></div>
+<p>For Deutsch, with one CX and one measurement, <strong>readout error dominates</strong>. T2 matters more than T1 in principle, because the algorithm stores its answer in a <em>phase</em> — though at ~1 μs circuit duration against ~100 μs T2, decoherence contributes little here. On deeper circuits that ordering reverses.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — decoherence as bit rot.</strong> Data degrading in storage is the right intuition for T1: |1⟩ relaxes toward |0⟩, an asymmetric, energy-losing process much like a biased corruption. T2 has no classical counterpart. <strong>Dephasing destroys relative phase while leaving every measurement probability in the computational basis unchanged.</strong> Your monitoring would report the data intact — populations correct, checksums matching in that basis — while the quantity the algorithm depends on has silently vanished. Detecting it requires measuring in a rotated basis, which is exactly what randomized benchmarking does.</p>
+<h2 id="measurement-error-mitigation">Measurement error mitigation</h2>
+<p>Readout error is the cheapest to correct, because it is characterized independently of the circuit:</p>
+<div class="codewrap"><pre><code># Calibrate: prepare each basis state, measure, build the confusion matrix.
+cal = []
+for bits in ["0", "1"]:
+    c = QuantumCircuit(1, 1)
+    if bits == "1": c.x(0)
+    c.measure(0, 0)
+    cal.append(transpile(c, backend, optimization_level=3))
+
+# The result is P(measured | prepared). Inverting it and applying to your
+# raw counts recovers an estimate of the true distribution.</code></pre></div>
+<p>Qiskit Runtime applies this automatically via <code>resilience_level=1</code>. Note the limit: mitigation is post-processing on the <em>distribution</em>, so it improves estimates while amplifying statistical noise, and it does nothing for gate error. It is not error correction — that is Week 16, and it is a different kind of thing entirely.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>The constant oracles never act on the measured register; the answer arrives entirely by phase kickback.</li><li>Deutsch's output is deterministic in theory, which makes any hardware deviation a direct error measurement.</li><li><code>optimization_level=3</code> is mandatory on hardware — routing and gate cancellation change depth substantially.</li><li>On shallow circuits readout error usually dominates; two-qubit gate error dominates as depth grows.</li><li>T2 dephasing destroys phase while leaving computational-basis statistics intact — invisible to the obvious diagnostic.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 5)</em> — Your Deutsch circuit returns 95% <code>'1'</code> on hardware and 100% on the simulator. Your colleague proposes averaging more shots. Explain why this cannot work, and give what would.</p>
+<p><strong>Q2</strong> <em>(Objectives 5, 6)</em> — A device reports T1 = 200 μs, T2 = 120 μs, and your circuit runs in 2 μs. Estimate the decoherence contribution, and explain why T2 &lt; T1 always holds.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — More shots cannot help because the error is <strong>systematic, not statistical</strong>. Additional sampling reduces the standard error of an estimate around whatever value the device actually produces — here ≈ 0.95. It converges more precisely on the wrong number. Statistical error already sits near ±0.7% at 4096 shots, far smaller than the 5% bias.</p>
+<p>What would work, in ascending cost:</p>
+<p><strong>Readout mitigation.</strong> Characterize the confusion matrix from calibration circuits and invert it. If readout is the dominant term, this recovers most of the gap for a few extra circuits. <code>resilience_level=1</code> in Qiskit Runtime does exactly this.</p>
+<p><strong>Better qubit selection.</strong> Device error rates vary substantially across qubits. Query <code>backend.properties()</code> for per-qubit readout error and per-pair CX fidelity and pin the circuit to the best ones with <code>initial_layout</code>.</p>
+<p><strong>Dynamical decoupling.</strong> Insert pulse sequences during idle periods to refocus dephasing. Available through the transpiler's scheduling passes; helps most on circuits with idle time.</p>
+<p><strong>Zero-noise extrapolation.</strong> Run at deliberately amplified noise (stretched gates or inserted CX pairs), fit the trend, extrapolate to zero. This costs several times the circuit executions and is what <code>resilience_level=2</code> provides.</p>
+<p>The general principle: statistical error scales as 1/√N and systematic error does not scale with N at all. Diagnose which you have before spending anything.</p>
+<p><strong>A2</strong> — Decoherence during the circuit is governed by the ratio of duration to coherence time:</p>
+<div class="codewrap"><pre><code>    phase coherence:  exp(−t/T2) = exp(−2/120)  ≈ 0.983   → ~1.7% loss
+    amplitude decay:  exp(−t/T1) = exp(−2/200)  ≈ 0.990   → ~1.0% loss</code></pre></div>
+<p>Roughly 2–3% combined — a meaningful fraction of the observed 5%, though readout error at 1–3% is likely the larger single contributor. Since Deutsch's answer is stored in a relative phase, the T2 term is the one that directly threatens correctness.</p>
+<p><strong>Why T2 ≤ 2·T1 always.</strong> T1 is energy relaxation — the |1⟩ population decaying to |0⟩. T2 is the loss of phase coherence, and it has two independent causes: energy relaxation (any T1 event destroys phase, since the state is gone) plus <strong>pure dephasing</strong> T_φ from noise that randomizes phase without exchanging energy. They combine as:</p>
+<div class="codewrap"><pre><code>    1/T2 = 1/(2·T1) + 1/T_φ</code></pre></div>
+<p>Since 1/T_φ ≥ 0, we get T2 ≤ 2·T1. The pure-dephasing channel is usually dominant in superconducting qubits — flux noise, charge noise, and thermal photons in the readout resonator all randomize phase without causing a transition. That is why T2 = 120 μs sits well below the 2·T1 = 400 μs ceiling, and why dynamical decoupling, which targets T_φ specifically, is worth the trouble.</p></section>
+<section class="chapter" id="ch13"><header class="chapter-open"><div class="eyebrow">Week 13</div><h1>Noise, Decoherence, and Grover's Algorithm</h1></header>
+<p><strong>10, 12 November · Objectives 5, 7</strong></p>
+<p>Two halves that belong together: the physics limiting how long a computation can run, and the first algorithm whose speedup applies to problems anyone actually has.</p>
+<h2 id="modelling-noise">Modelling noise</h2>
+<p>Noise is described by <strong>quantum channels</strong> — completely positive trace-preserving maps built from Kraus operators:</p>
+<div class="codewrap"><pre><code>    ε(ρ) = Σₖ Eₖ ρ Eₖ†          with Σₖ Eₖ†Eₖ = I</code></pre></div>
+<p>The three that matter:</p>
+<p><strong>Amplitude damping (T1)</strong> — energy loss to the environment. Asymmetric: |1⟩ decays to |0⟩, never the reverse (at zero temperature).</p>
+<div class="codewrap"><pre><code>    E₀ = [1    0    ]      E₁ = [0  √γ]        γ = 1 − e^{−t/T1}
+         [0  √(1−γ)]           [0   0 ]</code></pre></div>
+<p><strong>Phase damping (T2)</strong> — coherence loss with no energy exchange. Populations are untouched; off-diagonal elements shrink:</p>
+<div class="codewrap"><pre><code>    ρ = [ρ₀₀  ρ₀₁]   →   [ρ₀₀        ρ₀₁·e^{−t/T2}]
+        [ρ₁₀  ρ₁₁]       [ρ₁₀·e^{−t/T2}   ρ₁₁     ]</code></pre></div>
+<p><strong>Depolarizing</strong> — the state is replaced by the maximally mixed state with probability <em>p</em>:</p>
+<div class="codewrap"><pre><code>    ε(ρ) = (1−p)ρ + p·I/2</code></pre></div>
+<p>On the Bloch sphere, all three shrink the vector inward. Amplitude damping pulls toward the north pole; phase damping collapses the sphere toward the z-axis; depolarizing shrinks uniformly toward the center. Decoherence is the state vector leaving the surface — and points inside the ball are mixed states, which is where the picture from Week 7 pays off.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — noise as a corruption rate.</strong> A per-operation error probability is the right first model, and error budgets built that way are useful. Two boundaries. First, quantum errors are <strong>continuous</strong> — a gate can over-rotate by 0.03 radians, which is not a discrete bit flip and has no classical counterpart. (That error correction works <em>anyway</em> is the surprising result of Week 16: syndrome measurement digitizes continuous errors.) Second, <strong>coherent errors accumulate linearly in amplitude, hence quadratically in probability</strong>. A thousand gates each over-rotating by the same small angle compound into a large systematic error, far worse than a thousand independent random ones — which is why randomized compiling, deliberately converting coherent error into stochastic error, is a real technique.</p>
+<h2 id="building-a-noise-model">Building a noise model</h2>
+<div class="codewrap"><pre><code>from qiskit_aer import AerSimulator
+from qiskit_aer.noise import NoiseModel, depolarizing_error, thermal_relaxation_error
+
+nm = NoiseModel()
+nm.add_all_qubit_quantum_error(depolarizing_error(0.001, 1), ['h', 'x', 'rz'])
+nm.add_all_qubit_quantum_error(depolarizing_error(0.010, 2), ['cx'])
+nm.add_all_qubit_quantum_error(
+    thermal_relaxation_error(t1=200e-6, t2=120e-6, time=500e-9), ['cx'])
+
+sim = AerSimulator(noise_model=nm)
+
+# Or, more usefully, clone a real device's calibrated error rates:
+sim = AerSimulator.from_backend(backend)</code></pre></div>
+<p>The second form is the one to use before spending queue time — it reproduces the device's actual per-qubit rates and reveals whether a circuit is feasible at all.</p>
+<h2 id="grover-s-algorithm">Grover's algorithm</h2>
+<p><strong>Problem.</strong> Search <em>N</em> unstructured items for one satisfying f(x) = 1. Classically: <em>N</em>/2 expected queries. Grover: <strong>O(√N)</strong>.</p>
+<p>For a database of 10⁶ items, 10⁶ classical queries become ~10³. Quadratic, not exponential — and unlike Deutsch–Jozsa, the speedup survives randomization. It is also <strong>provably optimal</strong>: no quantum algorithm does unstructured search faster (Bennett–Bernstein–Brassard–Vazirani, 1997).</p>
+<p><strong>The geometry.</strong> Work in the two-dimensional plane spanned by the target |w⟩ and the uniform superposition of everything else |s'⟩. Start in the uniform state |s⟩, at angle θ from |s'⟩ where sin θ = 1/√N.</p>
+<p>Each Grover iteration is two reflections:</p>
+<div class="codewrap"><pre><code>    1. ORACLE:     reflect about |s'⟩     (flip the sign of |w⟩)
+    2. DIFFUSION:  reflect about |s⟩      (invert about the mean)</code></pre></div>
+<p>Two reflections compose into a <strong>rotation</strong> — by 2θ toward |w⟩ each time:</p>
+<div class="codewrap"><pre><code>        |w⟩
+         │        ●  after k iterations
+         │      ╱
+         │    ╱  (2k+1)θ
+         │  ╱
+         │╱
+    ─────┴──────────── |s'⟩</code></pre></div>
+<p>After <em>k</em> iterations the amplitude on |w⟩ is sin((2k+1)θ). Maximize it:</p>
+<div class="codewrap"><pre><code>    (2k+1)θ ≈ π/2      ⟹      k ≈ (π/4)√N</code></pre></div>
+<p><strong>Overshooting is real.</strong> Run too many iterations and the state rotates <em>past</em> |w⟩ and success probability falls. This is genuinely counterintuitive — more work makes the answer worse — and it is a favorite exam question.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — Grover as database search.</strong> The name misleads. Grover does not search a stored database; it searches the domain of a <em>function you can evaluate</em>. To search actual stored data you would first load <em>N</em> items into quantum superposition, which costs O(N) — destroying the speedup. Grover applies where the "database" is implicit: satisfying assignments of a formula, keys of a cipher, positions in a game tree. Nothing you would put in a table.</p>
+<h2 id="the-circuit">The circuit</h2>
+<div class="codewrap"><pre><code>import numpy as np
+from qiskit import QuantumCircuit
+
+def grover(n, marked):
+    N = 2**n
+    k = int(np.floor(np.pi/4 * np.sqrt(N)))
+    qc = QuantumCircuit(n, n)
+    qc.h(range(n))                       # uniform superposition over all N
+
+    for _ in range(k):
+        # --- oracle: phase-flip the marked state ---
+        for q in range(n):
+            if not (marked &gt;&gt; q) &amp; 1: qc.x(q)
+        qc.h(n-1); qc.mcx(list(range(n-1)), n-1); qc.h(n-1)   # multi-controlled Z
+        for q in range(n):
+            if not (marked &gt;&gt; q) &amp; 1: qc.x(q)
+
+        # --- diffusion: reflect about the uniform state ---
+        qc.h(range(n)); qc.x(range(n))
+        qc.h(n-1); qc.mcx(list(range(n-1)), n-1); qc.h(n-1)
+        qc.x(range(n)); qc.h(range(n))
+
+    qc.measure(range(n), range(n))
+    return qc, k
+
+qc, k = grover(4, marked=11)     # 16 items, target |1011⟩
+print(f"{k} iterations for N=16")     # 3</code></pre></div>
+<div class="codewrap"><pre><code>3 iterations for N=16
+{'1011': 3961, ...}   ≈ 96.7% success</code></pre></div>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Noise is modelled by Kraus channels: amplitude damping (T1), phase damping (T2), and depolarizing. All shrink the Bloch vector inward.</li><li>Coherent errors compound quadratically in probability; randomized compiling converts them to stochastic error deliberately.</li><li>Grover searches in O(√N) — quadratic, provably optimal, and robust to randomization.</li><li>Each iteration is two reflections composing to a rotation of 2θ; run ≈ (π/4)√N of them.</li><li>Overshooting reduces success probability. More iterations is not monotonically better.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 7)</em> — You run Grover with N = 2²⁰ and 2000 iterations instead of the optimal</p>
+<ol><li>Predict the success probability and explain the mechanism.</li></ol>
+<p><strong>Q2</strong> <em>(Objectives 5, 7)</em> — Grover on a 40-bit keyspace needs ~10⁶ iterations, each with several hundred gates. Given CX error 10⁻³, assess feasibility on current hardware and state what would change it.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Success probability is sin²((2k+1)θ) with sin θ = 1/√N = 2⁻¹⁰, so θ ≈ 0.000977 rad.</p>
+<div class="codewrap"><pre><code>    optimal k = 804:    (2·804+1)·θ = 1.5713 rad ≈ π/2   →  P ≈ 1.000
+    actual  k = 2000:   (2·2000+1)·θ = 3.9082 rad         →  P = sin²(3.9082) ≈ 0.481</code></pre></div>
+<p>Roughly <strong>48%</strong> — worse than half, and far worse than the optimal ~100%.</p>
+<p>The mechanism is that Grover is a <strong>rotation</strong>, not a convergence. Each iteration advances the state vector by a fixed angle 2θ in the plane spanned by |w⟩ and |s'⟩. There is no fixed point and no damping. Past k = 804 the state rotates beyond |w⟩ and the amplitude on the target decreases; at 3.9082 rad it has swung well past π/2 and is heading back toward |s'⟩. The process is periodic with period π/θ, so success probability oscillates indefinitely.</p>
+<p>The practical consequence: you must know <em>N</em> and the number of solutions <em>M</em> in advance, since optimal k = (π/4)√(N/M). When M is unknown, use the BBHT variant — try exponentially increasing iteration counts with randomization, which finds a solution in O(√(N/M)) expected time without prior knowledge. Amplitude amplification generalizes this further.</p>
+<p><strong>A2</strong> — <strong>Not remotely feasible</strong>, and the gate count settles it before anything else.</p>
+<div class="codewrap"><pre><code>    10⁶ iterations × ~300 gates = 3 × 10⁸ gates
+    Success probability ≈ (1 − 10⁻³)^{3×10⁸} ≈ e^{−3×10⁵} ≈ 0</code></pre></div>
+<p>The circuit fails with certainty. Even at CX error 10⁻⁶ — three orders of magnitude better than any device built — you would get e^{−300}, still zero. Coherence time confirms it independently: at ~500 ns per two-qubit gate, 3 × 10⁸ gates require ~150 seconds, against T2 of ~10⁻⁴ s. The computation exceeds coherence by six orders of magnitude.</p>
+<p>What changes it is <strong>fault-tolerant error correction</strong> (Week 16), not better physical qubits. Below a threshold physical error rate (~10⁻³ for the surface code, which current hardware has reached), logical error can be suppressed exponentially by increasing code distance. The cost is overhead: roughly 10³–10⁴ physical qubits per logical qubit at useful distances, plus magic- state distillation for the T gates inside those multi-controlled operations.</p>
+<p>A useful sense of scale: credible resource estimates for breaking AES-128 with Grover run to millions of physical qubits and years of runtime — which is why symmetric cryptography is considered comfortable against quantum attack, and why NIST's post-quantum standardization targeted the <em>asymmetric</em> primitives that Shor breaks exponentially. That asymmetry between Grover and Shor is the single most important fact for anyone writing a threat model, and it is Week 14's subject.</p></section>
+<section class="chapter" id="ch14"><header class="chapter-open"><div class="eyebrow">Week 14</div><h1>Grover in Practice, and Shor's Algorithm</h1></header>
+<p><strong>17, 19 November · Objectives 7, 8</strong></p>
+<p>Grover on hardware, then the algorithm that made quantum computing a policy question. Shor's is the one result in this course with a deadline attached to it.</p>
+<h2 id="grover-on-hardware">Grover on hardware</h2>
+<p>The multi-controlled Z gates dominate cost, and their expense is easy to underestimate:</p>
+<div class="codewrap"><pre><code>from qiskit import transpile
+
+qc, k = grover(4, marked=11)
+qc_hw = transpile(qc, backend, optimization_level=3)
+print(f"logical depth {qc.depth()} -&gt; physical {qc_hw.depth()}")
+print(f"CX count: {qc_hw.count_ops().get('cx', 0)}")
+# logical depth 61 -&gt; physical 388
+# CX count: 214</code></pre></div>
+<p>An <em>n</em>-controlled X decomposes into O(n) Toffolis, each needing 6 CNOTs, and every CNOT carries ~10⁻² error. With 214 CX gates:</p>
+<div class="codewrap"><pre><code>    (1 − 0.01)^214 ≈ 0.115</code></pre></div>
+<p>About 12% of runs survive without a two-qubit error. Measured success on a real device runs 20–40% for n = 4 — better than the naive estimate, since not every gate error flips the outcome, but far from the simulator's 96.7%.</p>
+<p><strong>Ancilla-assisted decomposition</strong> trades qubits for depth:</p>
+<div class="codewrap"><pre><code>qc.mcx(controls, target, mode='v-chain', ancilla_qubits=anc)
+# O(n) CX and O(n) depth, using n−2 ancillas — versus O(n²) CX without them.</code></pre></div>
+<p>On NISQ hardware this trade is usually correct: idle ancillas decohere, but a shallower circuit decoheres less overall.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — gate count as instruction count.</strong> Counting gates like instructions gives a reasonable first cost model, and depth-versus-count maps onto latency-versus-throughput. It fails on <strong>error compounding</strong>: instructions do not have a probability of silently corrupting the machine. Success falls off <em>exponentially</em> in gate count, so a circuit 2× longer is not 2× slower — it may be qualitatively infeasible. There is no NISQ equivalent of "let it run longer."</p>
+<h2 id="shor-s-algorithm">Shor's algorithm</h2>
+<p><strong>Problem.</strong> Factor a composite <em>N</em>. Best classical algorithm (general number field sieve) runs in sub-exponential time; Shor runs in <strong>polynomial</strong> time — O((log N)³). This is an exponential speedup on a problem the world's public-key infrastructure depends on.</p>
+<p><strong>The reduction to period-finding.</strong> Factoring is not attacked directly. The structure:</p>
+<div class="codewrap"><pre><code>  1. Pick random a with 1 &lt; a &lt; N.
+  2. If gcd(a, N) &gt; 1, that gcd is a factor. Done (rare).
+  3. Find the PERIOD r of f(x) = aˣ mod N  —  the smallest r with aʳ ≡ 1 (mod N).
+  4. If r is odd, or a^{r/2} ≡ −1 (mod N), restart with a different a.
+  5. Otherwise gcd(a^{r/2} ± 1, N) are nontrivial factors.</code></pre></div>
+<p>Steps 1, 2, 4, and 5 are classical and cheap. <strong>Only step 3 is quantum.</strong> The algebra of step 5: if r is the period, then aʳ − 1 ≡ 0 (mod N), so N divides (a^{r/2} − 1)(a^{r/2} + 1). Provided neither factor is a multiple of N, each shares a nontrivial divisor with N.</p>
+<p>Worked example, N = 15, a = 7:</p>
+<div class="codewrap"><pre><code>    7¹ = 7,  7² = 4,  7³ = 13,  7⁴ = 1  (mod 15)      →  r = 4
+    r even ✓,  7² = 4 ≢ −1 (mod 15) ✓
+    gcd(7² − 1, 15) = gcd(48, 15) = 3
+    gcd(7² + 1, 15) = gcd(50, 15) = 5           15 = 3 × 5  ✓</code></pre></div>
+<h2 id="why-period-finding-is-quantum-hard">Why period-finding is quantum-hard</h2>
+<p>Classically, finding the period of aˣ mod N requires evaluating f at exponentially many points — the period can be as large as N, and there is no structure a classical algorithm can exploit to locate it faster.</p>
+<p>Quantumly, prepare a superposition over all x, compute f(x) into a second register, and the first register is left in a <strong>periodic superposition</strong>. The quantum Fourier transform then converts period into frequency, which measurement can read.</p>
+<div class="codewrap"><pre><code>    1. |0⟩|0⟩  --H⊗ⁿ--&gt;  (1/√Q) Σₓ |x⟩|0⟩
+    2. modular exponentiation:  (1/√Q) Σₓ |x⟩|aˣ mod N⟩
+    3. measuring the second register collapses the first to
+       a comb of states spaced r apart:  |x₀⟩ + |x₀+r⟩ + |x₀+2r⟩ + ...
+    4. QFT⁻¹ maps the comb to peaks at multiples of Q/r
+    5. continued fractions on the measured value recovers r</code></pre></div>
+<p>Step 3 is worth pausing on: measuring the <em>second</em> register — which you never look at again — is what imposes periodicity on the first. This is a constructive use of collapse, and it is where partial measurement from Week 10 earns its keep.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — the QFT as an FFT.</strong> The QFT applies the same unitary as the DFT and does it in O((log Q)²) gates versus the FFT's O(Q log Q) — apparently an exponential speedup at signal processing. It is not, and the reason matters: the QFT's output amplitudes are <strong>not readable</strong>. You get one sample from the transformed distribution, not the spectrum. The QFT is useful only when the answer is a <em>single dominant frequency</em> you can identify from few samples. Shor's works because period-finding has exactly that structure. You cannot use the QFT to accelerate signal processing.</p>
+<h2 id="cryptographic-consequences">Cryptographic consequences</h2>
+<div class="codewrap"><pre><code>  PRIMITIVE            BASIS                QUANTUM STATUS
+  ─────────────────────────────────────────────────────────────────
+  RSA                  factoring            BROKEN (Shor, polynomial)
+  Diffie–Hellman       discrete log         BROKEN (Shor variant)
+  ECDSA / ECDH         elliptic-curve DL    BROKEN (Shor variant)
+  AES-128              brute force          weakened to ~2⁶⁴ (Grover)
+  AES-256              brute force          ~2¹²⁸ — safe
+  SHA-256              preimage             ~2¹²⁸ — safe</code></pre></div>
+<p>The asymmetry is the point: <strong>asymmetric cryptography falls exponentially, symmetric cryptography only quadratically.</strong> Doubling symmetric key lengths restores their margin. There is no equivalent patch for RSA or ECC — they require replacement, which is what NIST's post-quantum standards (ML-KEM, ML-DSA, SLH-DSA, finalized 2024) provide.</p>
+<p><strong>Harvest now, decrypt later.</strong> An adversary recording encrypted traffic today can decrypt it whenever a cryptographically relevant quantum computer exists. For data with a long confidentiality lifetime — health records, state secrets, provenance chains meant to hold for decades — the migration deadline is not the arrival of the machine. It is <em>now minus the required secrecy duration</em>. Anything you need confidential in 2050 needs post-quantum protection today.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>Grover's multi-controlled gates transpile to hundreds of CX; success falls exponentially in gate count. Ancilla-assisted decompositions trade qubits for depth, usually correctly.</li><li>Shor reduces factoring to period-finding; only that step is quantum, and it runs in O((log N)³).</li><li>Measuring the second register collapses the first into a periodic comb — a constructive use of measurement.</li><li>The QFT is not a faster FFT: its output is sampled, not read, so it helps only when a single frequency dominates.</li><li>RSA/DH/ECC break exponentially; AES and SHA lose only a quadratic factor. Harvest-now-decrypt- later moves the migration deadline into the present.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 7)</em> — Factor N = 21 with a = 5 by hand, showing each step. Then identify a value of <em>a</em> for which the algorithm fails and say what happens next.</p>
+<p><strong>Q2</strong> <em>(Objective 8)</em> — You maintain hash-chained audit trails intended to remain verifiable for 30 years. Assess your exposure to Shor and Grover, and state your migration priority.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — N = 21, a = 5:</p>
+<div class="codewrap"><pre><code>    gcd(5, 21) = 1                                    → proceed
+    5¹ = 5,  5² = 4,  5³ = 20,  5⁴ = 16,  5⁵ = 17,  5⁶ = 1  (mod 21)
+    → r = 6
+    r even ✓        5³ = 20 ≡ −1 (mod 21)  ✗  FAILS the second condition</code></pre></div>
+<p>So a = 5 fails at step 4. When a^{r/2} ≡ −1 (mod N), then N divides (a^{r/2}+1) entirely and gcd(a^{r/2}+1, N) = N while gcd(a^{r/2}−1, N) = 1 — both trivial. You learn nothing and must <strong>restart with a different random a</strong>.</p>
+<p>Try a = 2:</p>
+<div class="codewrap"><pre><code>    2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=11, 2⁶=1  (mod 21)   → r = 6
+    r even ✓        2³ = 8 ≢ −1 (mod 21) ✓
+    gcd(8 − 1, 21) = gcd(7, 21) = 7
+    gcd(8 + 1, 21) = gcd(9, 21) = 3            21 = 3 × 7  ✓</code></pre></div>
+<p>The failure probability is bounded: for N with at least two distinct odd prime factors, a random <em>a</em> succeeds with probability ≥ 1/2. So expected restarts are under 2, and the classical outer loop adds only a constant factor — which is why the algorithm's polynomial complexity is unaffected.</p>
+<p><strong>A2</strong> — Your exposure splits cleanly, and the split determines priority.</p>
+<p><strong>Hash chain integrity — low risk.</strong> SHA-256 faces only Grover, reducing preimage search from 2²⁵⁶ to ~2¹²⁸, and collision resistance degrades less than the naive analysis suggests (BHT gives 2^{n/3}, but with prohibitive quantum memory requirements). SHA-256 remains sound. Migrating to SHA-384/512 is prudent, not urgent.</p>
+<p><strong>Digital signatures — high risk, and this is the priority.</strong> If entries are signed with RSA or ECDSA, Shor breaks those <em>completely</em>. The consequence is specific to your threat model: an adversary with a quantum computer could <strong>forge signatures on backdated entries</strong>, retroactively destroying the non-repudiation your chain exists to provide. A 30-year horizon means signatures generated today must resist attack in 2056 — well beyond most credible estimates for cryptographically relevant quantum hardware.</p>
+<p><strong>Priority order:</strong></p>
+<ol><li><strong>Migrate signatures to ML-DSA or SLH-DSA now.</strong> SLH-DSA (SPHINCS+) is hash-based, so its security reduces to the hash function you already trust — a conservative choice for long-lived archival signatures, at the cost of larger signature sizes.</li><li><strong>Re-sign existing archives</strong> with post-quantum signatures before the classical ones become forgeable. Old signatures do not become secure by age.</li><li><strong>Adopt hybrid signatures</strong> (classical + PQ) during transition, so a flaw in the newer primitive does not leave you worse off.</li><li><strong>Upgrade hashes to SHA-384</strong> opportunistically.</li></ol>
+<p>The C2PA connection is direct: provenance manifests are signed assertions with exactly this longevity requirement, and the specification's crypto-agility provisions exist for this migration. A provenance claim that cannot be verified — or worse, can be forged — in 2056 has failed at precisely the moment it was built to matter.</p></section>
+<section class="chapter" id="ch15"><header class="chapter-open"><div class="eyebrow">Week 15</div><h1>Implementing Shor: Quantum Period Finding</h1></header>
+<p><strong>24, 26 November · Objective 7</strong> <em>Thursday 26 November: Thanksgiving Break — no class</em></p>
+<p>Building the pieces: the quantum Fourier transform, modular exponentiation, and the continued- fraction post-processing that turns a measured integer into a period. Then an honest accounting of why nobody has factored anything interesting.</p>
+<h2 id="the-quantum-fourier-transform">The quantum Fourier transform</h2>
+<p>The QFT maps computational basis states to Fourier basis states:</p>
+<div class="codewrap"><pre><code>    QFT |x⟩ = (1/√Q) Σ_{y=0}^{Q−1} e^{2πixy/Q} |y⟩          Q = 2ⁿ</code></pre></div>
+<p>The circuit is Hadamards interleaved with controlled phase rotations:</p>
+<div class="codewrap"><pre><code>import numpy as np
+from qiskit import QuantumCircuit
+
+def qft(n):
+    qc = QuantumCircuit(n, name="QFT")
+    for j in range(n):
+        qc.h(j)
+        for k in range(j + 1, n):
+            # Controlled rotation by π/2^(k−j): encodes the pairwise phase
+            # relationship that makes the transform separable.
+            qc.cp(np.pi / 2**(k - j), k, j)
+    for j in range(n // 2):
+        qc.swap(j, n - 1 - j)        # QFT reverses bit order
+    return qc</code></pre></div>
+<p><strong>O(n²) gates</strong> for a transform over 2ⁿ amplitudes — against the classical FFT's O(Q log Q). As Week 14 established, this is not usable for signal processing, because the output is sampled rather than read. It is usable when one frequency dominates.</p>
+<p><strong>Approximate QFT.</strong> Rotations by π/2^k with large k are below hardware precision and can be dropped, reducing to O(n log n) gates with negligible error. This is standard in resource estimates.</p>
+<h2 id="modular-exponentiation">Modular exponentiation</h2>
+<p>The expensive part — and the reason Shor is hard to run. You need a reversible circuit for:</p>
+<div class="codewrap"><pre><code>    |x⟩|1⟩  →  |x⟩|aˣ mod N⟩</code></pre></div>
+<p>built from repeated controlled modular multiplication, each from controlled modular addition. Resource requirements for an <em>n</em>-bit <em>N</em>:</p>
+<div class="codewrap"><pre><code>    Qubits:        ~2n + 3           (2n counting register + n work + ancillas)
+    Toffoli gates: ~O(n³)
+    For RSA-2048:  ~4100 logical qubits, ~10⁹ Toffoli gates</code></pre></div>
+<p>Modular exponentiation dominates the circuit — the QFT is a rounding error beside it. This is why "how many qubits to break RSA" has an answer in the thousands of <em>logical</em> qubits and the millions of <em>physical</em> ones.</p>
+<h2 id="continued-fractions">Continued fractions</h2>
+<p>Measurement returns <em>y</em> ≈ (Q/r)·k for some integer k, so y/Q ≈ k/r. Recovering r from that approximation is a classical number-theory step:</p>
+<div class="codewrap"><pre><code>from fractions import Fraction
+
+def period_from_measurement(y, Q, N, a):
+    frac = Fraction(y, Q).limit_denominator(N)     # continued-fraction convergent
+    r = frac.denominator
+    if r % 2 == 0 and pow(a, r, N) == 1:
+        return r
+    return None</code></pre></div>
+<p><code>limit_denominator</code> implements the continued-fraction expansion, returning the best rational approximation with denominator below N. It succeeds with constant probability per run, so a few repetitions suffice.</p>
+<h2 id="full-implementation-n-15">Full implementation, N = 15</h2>
+<div class="codewrap"><pre><code>from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.circuit.library import QFT
+import numpy as np
+from math import gcd
+from fractions import Fraction
+
+def amod15(a, power):
+    """Controlled a^(2^power) mod 15 — hardcoded permutations.
+    Real implementations build this from modular adders; these shortcuts
+    exist because the general circuit is too deep to simulate."""
+    if a not in [2, 4, 7, 8, 11, 13]:
+        raise ValueError("a must be coprime to 15")
+    U = QuantumCircuit(4)
+    for _ in range(power):
+        if a in [2, 13]:   U.swap(2,3); U.swap(1,2); U.swap(0,1)
+        if a in [7, 8]:    U.swap(0,1); U.swap(1,2); U.swap(2,3)
+        if a in [4, 11]:   U.swap(1,3); U.swap(0,2)
+        if a in [7, 11, 13]:
+            for q in range(4): U.x(q)
+    U = U.to_gate(); U.name = f"{a}^{2**power} mod 15"
+    return U.control()
+
+def shor_circuit(a, n_count=8):
+    qc = QuantumCircuit(n_count + 4, n_count)
+    qc.h(range(n_count))                  # superposition over all exponents
+    qc.x(n_count)                         # work register -&gt; |1⟩
+    for q in range(n_count):
+        qc.append(amod15(a, q), [q] + list(range(n_count, n_count + 4)))
+    qc.append(QFT(n_count, inverse=True), range(n_count))   # frequency -&gt; position
+    qc.measure(range(n_count), range(n_count))
+    return qc
+
+a, N, n_count = 7, 15, 8
+qc = shor_circuit(a, n_count)
+sim = AerSimulator()
+counts = sim.run(transpile(qc, sim), shots=2048).result().get_counts()
+
+for y_str, c in sorted(counts.items(), key=lambda kv: -kv[1])[:4]:
+    y = int(y_str, 2)
+    r = Fraction(y, 2**n_count).limit_denominator(N).denominator
+    print(f"y={y:&gt;3}  y/Q={y/2**n_count:.3f}  r={r}", end="")
+    if r % 2 == 0 and pow(a, r, N) == 1:
+        f = [gcd(pow(a, r//2, N) + s, N) for s in (-1, 1)]
+        print(f"  -&gt; factors {f}")
+    else:
+        print("  -&gt; retry")</code></pre></div>
+<div class="codewrap"><pre><code>y=  0  y/Q=0.000  r=1  -&gt; retry
+y= 64  y/Q=0.250  r=4  -&gt; factors [3, 5]
+y=128  y/Q=0.500  r=2  -&gt; retry
+y=192  y/Q=0.750  r=4  -&gt; factors [3, 5]</code></pre></div>
+<p>Peaks at multiples of Q/r = 256/4 = 64. Two of four measurements yield the period; the others are handled by rerunning. <strong>15 = 3 × 5.</strong></p>
+<p class="callout callout-boundary"><strong>Analogy boundary — Shor as a factoring service.</strong> The <code>amod15</code> shortcuts above are hardcoded permutations for one modulus, not a general implementation, and this is the standard practice in demonstrations. Published "factorizations" of 15, 21, and 35 have almost all used circuits <strong>compiled with knowledge of the answer</strong> — Smolin, Smith, and Vargo showed in 2013 that such demonstrations can be reduced to near-trivial circuits. No general-purpose Shor implementation has factored a number that classical methods could not factor instantly. When you read a factoring headline, the question to ask is whether the modular exponentiation was general or compiled against the known factors.</p>
+<h2 id="why-rsa-2048-is-not-imminent">Why RSA-2048 is not imminent</h2>
+<div class="codewrap"><pre><code>  REQUIREMENT             ESTIMATE            CURRENT (2026)
+  ────────────────────────────────────────────────────────────────
+  Logical qubits          ~4,100              ~10¹–10²
+  Physical qubits         ~2 × 10⁷            ~10³
+  Toffoli gates           ~10⁹                
+  Runtime                 ~8 hours            
+  Physical error rate     &lt; 10⁻³              ~10⁻³  ← threshold reached</code></pre></div>
+<p>The encouraging line is the last: physical error rates have reached the fault-tolerance threshold. The gap is now <strong>overhead</strong> — roughly 10³–10⁴ physical qubits per logical qubit — and that is an engineering problem rather than a physics one. Estimates for the arrival of cryptographically relevant machines cluster in the 2030s with wide error bars, and that uncertainty is precisely why harvest-now-decrypt-later makes migration a present-tense concern.</p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>The QFT costs O(n²) gates, reducible to O(n log n) by dropping sub-precision rotations.</li><li>Modular exponentiation dominates Shor's cost at O(n³) Toffolis — the QFT is negligible beside it.</li><li>Continued fractions recover r from the measured y/Q ≈ k/r; a few repetitions suffice.</li><li>Published small-number factorizations largely use circuits compiled with prior knowledge of the factors.</li><li>Physical error rates have reached threshold; the remaining barrier is error-correction overhead, measured in millions of physical qubits.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 7)</em> — Your Shor run on N = 15, a = 7 returns y = 128. Work through the post-processing and explain why this outcome is uninformative despite being a legitimate peak.</p>
+<p><strong>Q2</strong> <em>(Objective 7)</em> — Explain why the counting register needs ~2n qubits for an n-bit N, rather than n.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Post-processing y = 128 with Q = 256:</p>
+<div class="codewrap"><pre><code>    y/Q = 128/256 = 1/2
+    Fraction(1,2).limit_denominator(15)  →  1/2      →  r = 2
+    Check: 7² = 49 = 4 (mod 15) ≠ 1      →  r = 2 is NOT the period  →  retry</code></pre></div>
+<p>The true period is 4, and the peaks sit at multiples of Q/r = 64: y ∈ {0, 64, 128, 192}. The value 128 is a genuine peak — but 128/256 reduces to 1/2, and the continued-fraction expansion returns the denominator of the <strong>reduced</strong> fraction. The factor of 2 shared by k = 2 and r = 4 cancels, and the information about r is destroyed by the reduction.</p>
+<p>This is the general failure mode: measuring y = k·Q/r yields k/r in lowest terms, so whenever gcd(k, r) &gt; 1 you recover a proper divisor of r rather than r itself. Here k = 2, gcd(2, 4) = 2, and you get r/2 = 2.</p>
+<p>The remedy is built into the algorithm: <strong>verify and retry</strong>. Check pow(a, r, N) == 1; if it fails, rerun. Since the number of k values coprime to r is φ(r), the success probability per run is φ(r)/r, which is Ω(1/log log r) — good enough that a handful of runs suffices. You can also test small multiples of the recovered candidate, which often finds r without another quantum run. Note that y = 0 is likewise a legitimate peak carrying no information, for the same reason.</p>
+<p><strong>A2</strong> — The counting register must resolve the period, and the requirement comes from the resolution of the Fourier peak.</p>
+<p>The measured y approximates k·Q/r. To recover r by continued fractions you need y/Q close enough to k/r that k/r is the <em>unique</em> rational with denominator below N in that neighborhood. Two distinct fractions with denominators under N can differ by as little as:</p>
+<div class="codewrap"><pre><code>    |k₁/r₁ − k₂/r₂| = |k₁r₂ − k₂r₁| / (r₁r₂)  ≥  1/N²</code></pre></div>
+<p>So you need y/Q accurate to better than 1/(2N²). With Q = 2^{n_count} and N ≈ 2ⁿ:</p>
+<div class="codewrap"><pre><code>    1/Q &lt; 1/(2N²) = 1/(2·2^{2n})     ⟹     n_count ≳ 2n + 1</code></pre></div>
+<p>Hence ~2n counting qubits. With only n, the resolution is ~1/N and multiple candidate fractions fall within the measurement's uncertainty — the continued-fraction step cannot distinguish them, and r is unrecoverable.</p>
+<p>The intuition worth keeping: the counting register sets the <strong>frequency resolution</strong> of the QFT, exactly as record length sets resolution in a classical DFT. Periods up to N require resolving frequencies as fine as 1/N, and distinguishing <em>nearby</em> such frequencies requires 1/N² — so the register must be twice as wide as the number you are factoring. For RSA-2048 that is ~4096 counting qubits, which is where the ~4100 logical qubit figure originates.</p></section>
+<section class="chapter" id="ch16"><header class="chapter-open"><div class="eyebrow">Week 16</div><h1>Error Correction, Limits, and Honest Assessment</h1></header>
+<p><strong>1, 3 December · Objective 8 · Final project presentations</strong></p>
+<p>Everything so far assumed the computation survives. It does not. This week covers how error correction rescues it, what the overhead costs, and an assessment of where the field actually stands — which is the most professionally useful thing in the course.</p>
+<h2 id="why-quantum-error-correction-is-hard">Why quantum error correction is hard</h2>
+<p>Three obstacles that classical coding theory never faces:</p>
+<ol><li><strong>No-cloning.</strong> Repetition codes are unavailable. You cannot store three copies.</li><li><strong>Continuous errors.</strong> A gate can over-rotate by any angle — not a discrete bit flip.</li><li><strong>Measurement destroys.</strong> Reading a qubit to check it collapses the state you are protecting.</li></ol>
+<p>All three are circumvented by one idea: <strong>measure the error, not the state.</strong></p>
+<h2 id="stabilizer-measurement">Stabilizer measurement</h2>
+<p>Encode one logical qubit across several physical ones, then measure operators that reveal <em>whether an error occurred</em> while revealing nothing about the logical state.</p>
+<p>The three-qubit bit-flip code:</p>
+<div class="codewrap"><pre><code>    |0⟩_L = |000⟩          |1⟩_L = |111⟩
+    Stabilizers:  Z₀Z₁  and  Z₁Z₂</code></pre></div>
+<p>Measuring Z₀Z₁ asks "do qubits 0 and 1 agree?" — a parity check. It returns +1 or −1 and says nothing about whether the state is |000⟩, |111⟩, or a superposition. The <strong>syndrome</strong> localizes the error:</p>
+<div class="codewrap"><pre><code>    Z₀Z₁   Z₁Z₂    diagnosis
+    ─────────────────────────────
+     +1     +1     no error
+     −1     +1     qubit 0 flipped
+     −1     −1     qubit 1 flipped
+     +1     −1     qubit 2 flipped</code></pre></div>
+<div class="codewrap"><pre><code>qc = QuantumCircuit(5, 2)          # 3 data + 2 syndrome ancillas
+qc.cx(0, 3); qc.cx(1, 3)           # ancilla 3 accumulates parity of Z₀Z₁
+qc.cx(1, 4); qc.cx(2, 4)           # ancilla 4 accumulates parity of Z₁Z₂
+qc.measure([3, 4], [0, 1])         # measure ancillas ONLY — data untouched</code></pre></div>
+<p><strong>Continuous errors are digitized by this measurement.</strong> An error that rotates a qubit by small angle θ leaves it in a superposition of "no error" and "bit flip." Measuring the syndrome projects onto one or the other — with probability sin²θ you find a full flip and correct it; otherwise you find nothing and the state is restored exactly. The measurement discretizes the error, which is what makes a finite correction set sufficient. This is the single most elegant result in the subject.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — syndromes as checksums.</strong> Parity checks over data blocks, with the syndrome identifying the corrupted position, is genuinely the same mathematics — the surface code is a CSS code built from two classical codes. Two boundaries. First, your checksum reads the data; a stabilizer measurement must extract parity <strong>without</strong> learning any data value, since that would collapse the logical state. Second, quantum codes correct <strong>two independent error types</strong> — bit flips (X) and phase flips (Z) — and correcting one can introduce the other. The three-qubit code above handles only bit flips; Shor's nine-qubit code concatenates two such codes to handle both.</p>
+<h2 id="the-surface-code">The surface code</h2>
+<p>The leading architecture. Qubits on a 2-D lattice with only nearest-neighbour interactions — which matters because that is what hardware can build.</p>
+<div class="codewrap"><pre><code>    ─●───□───●───□───●─        ● data qubit
+     │   │   │   │   │         □ syndrome qubit (X or Z stabilizer)
+    ─□───●───□───●───□─
+     │   │   │   │   │         distance d lattice:
+    ─●───□───●───□───●─          2d² − 1 physical qubits
+     │   │   │   │   │           corrects ⌊(d−1)/2⌋ errors
+    ─□───●───□───●───□─</code></pre></div>
+<p>Below a threshold physical error rate p_th ≈ 10⁻³, logical error is suppressed <strong>exponentially</strong> in code distance:</p>
+<div class="codewrap"><pre><code>    p_logical ≈ (p_physical / p_th)^{(d+1)/2}</code></pre></div>
+<p>The threshold is the crucial concept. Above it, adding qubits makes things worse. Below it, every increase in <em>d</em> buys exponential improvement for polynomial cost. <strong>Current hardware has crossed the threshold</strong> — Google's 2023 and 2024 results demonstrated that a distance-5 logical qubit outperforms distance-3, confirming the scaling works in practice.</p>
+<h2 id="the-overhead">The overhead</h2>
+<div class="codewrap"><pre><code>  p_physical   d needed for p_L = 10⁻¹⁵   physical qubits per logical
+  ────────────────────────────────────────────────────────────────────
+    10⁻³              ~27                        ~1,500
+    10⁻⁴              ~13                          ~340</code></pre></div>
+<p>Add magic-state distillation for T gates — each logical T consumes many distilled states, and distillation factories can occupy the majority of a device's qubits.</p>
+<p>RSA-2048 in these terms: ~4,100 logical qubits × ~5,000 physical each ≈ <strong>2 × 10⁷ physical qubits</strong>, running ~8 hours. Against ~10³ today. The gap is four orders of magnitude, and it is overhead rather than physics — which is why forecasts vary so widely.</p>
+<h2 id="honest-assessment">Honest assessment</h2>
+<p><strong>Demonstrated:</strong></p>
+<ul><li>Quantum error correction below threshold, with logical error decreasing as distance grows.</li><li>Random circuit sampling beyond practical classical simulation (Google 2019, USTC 2020–21) — though classical algorithms have repeatedly narrowed these claims, which is itself informative.</li><li>Small-scale chemistry simulation, useful as validation rather than as new science.</li></ul>
+<p><strong>Not demonstrated:</strong></p>
+<ul><li>Any commercially valuable computation faster than the best classical method.</li><li>Factoring a number that classical methods could not factor instantly.</li><li>A variational algorithm outperforming classical optimization on a real problem.</li></ul>
+<p><strong>Where advantage is most credible</strong>, in order: quantum simulation of quantum systems (Feynman's original argument, and the only case where the mapping is native); then cryptanalysis, once fault tolerance arrives; then optimization, where claims remain unsubstantiated and the shot-count economics of Week 9 are frequently omitted.</p>
+<p class="callout callout-boundary"><strong>Analogy boundary — NISQ as early classical computing.</strong> The comparison to 1950s mainframes suggests steady scaling toward general usefulness. It misleads in both directions. Worse: without error correction, NISQ devices cannot simply be scaled — noise compounds exponentially, so a bigger noisy device is not a better one, and there is no Moore's-law path from here to there. Better: the theoretical foundation is far more developed than in 1950. We know what fault tolerance requires, we have proofs of the algorithms, and the threshold has been crossed experimentally. The remaining work is engineering at scale, which is a different kind of hard than "we do not know if this is possible."</p>
+<h2 id="ethics-and-near-term-posture">Ethics and near-term posture</h2>
+<p><strong>Cryptographic migration</strong> is the concrete near-term obligation, and it is not speculative. Harvest-now-decrypt-later means data requiring 30-year confidentiality needs post-quantum protection today. NIST's standards (ML-KEM, ML-DSA, SLH-DSA) were finalized in 2024; the engineering question is crypto-agility — whether your systems can swap primitives without redesign.</p>
+<p><strong>Access and concentration.</strong> Quantum computing requires capital at a scale that concentrates capability in a few states and firms. Cloud access mitigates this partially and creates its own dependency.</p>
+<p><strong>Overclaiming.</strong> The field has a persistent gap between marketing and results. As someone who will be asked to evaluate these claims professionally, the questions worth asking: <em>Logical or physical qubits? What is the two-qubit gate fidelity? Was the classical baseline the best known algorithm or a convenient one? Was the circuit compiled with knowledge of the answer?</em></p>
+<h2 id="key-takeaways" class="h-takeaway">Key takeaways</h2>
+<ul><li>QEC works by measuring stabilizers — error syndromes — without measuring the logical state, circumventing no-cloning and measurement collapse.</li><li>Syndrome measurement <strong>digitizes continuous errors</strong>, which is why a finite correction set suffices.</li><li>Below the ~10⁻³ threshold, logical error falls exponentially in code distance. Hardware has crossed this threshold.</li><li>Overhead is the barrier: ~10³–10⁴ physical qubits per logical qubit, putting RSA-2048 at ~10⁷ physical qubits against ~10³ today.</li><li>No commercially valuable quantum advantage has been demonstrated. Cryptographic migration is nonetheless a present-tense obligation.</li></ul>
+<h2 id="self-check" class="h-check">Self-check</h2>
+<p><strong>Q1</strong> <em>(Objective 8)</em> — Explain how syndrome measurement corrects an error of arbitrary continuous angle using only discrete corrections, and why this does not violate the continuity of quantum evolution.</p>
+<p><strong>Q2</strong> <em>(Objective 8)</em> — A vendor announces 1,000 qubits and claims imminent RSA-2048 factoring. Write the assessment you would give a CISO, with the specific questions that determine whether the claim is credible.</p>
+<hr>
+<h2 id="check-your-answers" class="h-answers">Check your answers</h2>
+<p><strong>A1</strong> — Consider a small rotation error on one qubit of |ψ⟩_L = α|000⟩ + β|111⟩:</p>
+<div class="codewrap"><pre><code>    E = cos θ · I + i sin θ · X₀
+    E|ψ⟩_L = cos θ · |ψ⟩_L  +  i sin θ · X₀|ψ⟩_L</code></pre></div>
+<p>The state is now a <strong>superposition of "no error" and "bit flip on qubit 0."</strong> The error is continuous — θ can take any value.</p>
+<p>Now measure the stabilizers Z₀Z₁ and Z₁Z₂. The no-error component has syndrome (+1, +1); the flipped component has (−1, +1). These are orthogonal eigenspaces, so the measurement <strong>projects</strong> onto one:</p>
+<div class="codewrap"><pre><code>    outcome (+1,+1) with probability cos²θ  →  state is exactly |ψ⟩_L, no correction needed
+    outcome (−1,+1) with probability sin²θ  →  state is exactly X₀|ψ⟩_L, apply X₀ to fix</code></pre></div>
+<p>Either way the post-measurement state is <em>exactly</em> correct — no residual error of size θ remains. The continuous parameter has been converted into a discrete outcome plus a probability.</p>
+<p>This does not violate continuity of evolution because <strong>measurement is not unitary evolution</strong>. The unitary part of the dynamics remains perfectly continuous; the projection is the non-unitary step, and it is the same projection postulate from Week 10 used constructively. The deep point: the set of correctable errors need only span the space of possible errors, not enumerate them. Correcting {I, X, Y, Z} on each qubit suffices to correct <em>any</em> single-qubit error, because those four operators form a basis for all 2×2 matrices.</p>
+<p><strong>A2</strong> — <strong>Assessment: not credible on the stated facts, and no change to migration planning.</strong></p>
+<p>The claim fails on arithmetic before any evaluation of the vendor. RSA-2048 requires ~4,100 <em>logical</em> qubits. At current physical error rates, each logical qubit costs ~10³–10⁴ physical qubits under the surface code, giving ~2 × 10⁷ physical qubits. A 1,000-qubit device is four orders of magnitude short. If the 1,000 are physical — which they invariably are — the device supports at most a handful of logical qubits, and plausibly none at useful distance.</p>
+<p><strong>Questions that determine credibility:</strong></p>
+<ol><li><strong>Logical or physical qubits?</strong> If unstated, assume physical. A specific logical-qubit count at a stated code distance and logical error rate is the only meaningful figure.</li><li><strong>Two-qubit gate fidelity and T2?</strong> Below-threshold error (&lt; 10⁻³) is necessary for any fault-tolerance claim. Ask for randomized benchmarking numbers, not marketing figures.</li><li><strong>What has actually been factored, and how?</strong> If the answer is 15, 21, or 35, ask whether the modular exponentiation circuit was general or compiled with knowledge of the factors — the 2013 Smolin result showed most such demonstrations reduce to trivial circuits.</li><li><strong>Is there a published resource estimate?</strong> Peer-reviewed estimates (Gidney–Ekerå 2021 is the standard reference) put RSA-2048 at ~20 million physical qubits and 8 hours.</li><li><strong>What is the classical baseline?</strong> Compare against the best known classical algorithm, not a convenient one.</li></ol>
+<p><strong>Recommendation regardless of this vendor's claim:</strong> proceed with post-quantum migration on the existing schedule. The justification is harvest-now-decrypt-later, not any particular announcement — traffic captured today is decryptable whenever a capable machine appears, so the migration deadline is set by your data's confidentiality lifetime, not by the hardware roadmap. Prioritize long-lived signatures and archival confidentiality; treat crypto-agility as the durable requirement, since it is the only property that survives being wrong about timing in either direction.</p>
+<hr>
+<p class="note">End of course. Final exam: 7–11 December 2026, cumulative.</p></section>
+</div>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Quantum — Karen Kilroy</title>
+<style>
+  :root {
+    --bg: #fbfaf8; --panel: #fff; --ink: #16151a; --muted: #605c6b;
+    --line: #e4e0da; --accent: #5b3fd6; --ok: #1f7a4d; --warn: #a8480f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131218; --panel: #1c1a22; --ink: #f0eef4; --muted: #a09aae;
+      --line: #2e2b38; --accent: #a595f5; --ok: #4fc98a; --warn: #e8975a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 62rem; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  header { display: flex; justify-content: space-between; align-items: baseline;
+           gap: 1rem; flex-wrap: wrap; padding-bottom: 1.25rem;
+           border-bottom: 1px solid var(--line); }
+  h1 { font-size: 1.6rem; margin: 0; letter-spacing: -0.02em; }
+  .who { font-size: .82rem; color: var(--muted); }
+  .who a { color: var(--muted); }
+  .lede { color: var(--muted); max-width: 42rem; margin: 1.5rem 0 2.25rem; }
+  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  a.card {
+    display: block; text-decoration: none; color: inherit; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem 1.35rem;
+    transition: border-color .15s, transform .15s;
+  }
+  a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.card h2 { margin: 0 0 .4rem; font-size: 1.02rem; letter-spacing: -0.01em; }
+  a.card p { margin: 0; font-size: .875rem; color: var(--muted); line-height: 1.5; }
+  .status { margin-top: 2.5rem; background: var(--panel); border: 1px solid var(--line);
+            border-radius: 12px; padding: 1.15rem 1.35rem; font-size: .875rem; }
+  .status h3 { margin: 0 0 .55rem; font-size: .78rem; text-transform: uppercase;
+               letter-spacing: .07em; color: var(--muted); font-weight: 600; }
+  .status p { margin: .4rem 0; color: var(--muted); }
+  .dot { display: inline-block; width: .55rem; height: .55rem; border-radius: 50%;
+         margin-right: .45rem; vertical-align: baseline; }
+  .dot.ok { background: var(--ok); } .dot.pending { background: var(--warn); }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85em; }
+  footer { margin-top: 3rem; font-size: .8rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Quantum</h1>
+    <div class="who" id="who"></div>
+  </header>
+
+  <p class="lede">
+    Coursework, hardware runs, and the provenance record for
+    <strong>QIS Fall 2026</strong>. This section is private — everything below
+    is behind your Microsoft login, and nothing here is indexed.
+  </p>
+
+  <div class="grid">
+    <a class="card" href="/quantum/ledger/">
+      <h2>Run ledger &rarr;</h2>
+      <p>Every hardware run, hash-chained. Device calibration captured at
+         submission, physics checks computed at record time, and interpretation
+         kept separate from fact.</p>
+    </a>
+    <a class="card" href="/quantum/book/">
+      <h2>Course book &rarr;</h2>
+      <p>All sixteen chapters, generated from the syllabus. Also available as
+         per-chapter PDFs and one print-ready volume.</p>
+    </a>
+    <a class="card" href="/quantum/runs/">
+      <h2>Run logs &rarr;</h2>
+      <p>The written record of each session on real hardware — what was
+         attempted, what came back, and what it turned out to mean.</p>
+    </a>
+  </div>
+
+  <div class="status">
+    <h3>Running experiments from here</h3>
+    <p><span class="dot pending"></span><strong>Not yet wired up.</strong>
+       Submitting circuits from this page spends real IBM Quantum quota, so the
+       runner is being built behind a proper identity check rather than a
+       forgeable header — a public endpoint that can spend your quota needs to
+       verify who is calling it, not just trust what the caller claims.</p>
+    <p>Until it lands, runs go through <code>claude.ai/code</code> against the
+       <code>kilroyblockchain/quantum</code> repository, or from your own
+       machine with <code>qiskit/bell-hardware.py --real</code>.</p>
+  </div>
+
+  <footer>
+    Ledger integrity is checked two ways, on purpose. Chain linkage is verified
+    live in your browser. Content hashes are verified at publish time by
+    <code>provenance/ledger.py</code> — the same code that computed them —
+    because a verifier that disagrees with the writer is worse than none.
+  </footer>
+</div>
+
+<script>
+  fetch('/.auth/me').then(r => r.json()).then(d => {
+    const p = d && d.clientPrincipal;
+    document.getElementById('who').innerHTML = p
+      ? `signed in as ${p.userDetails} · <a href="/.auth/logout">sign out</a>`
+      : `<a href="/.auth/login/aad">sign in</a>`;
+  }).catch(() => {});
+</script>
+</body>
+</html>

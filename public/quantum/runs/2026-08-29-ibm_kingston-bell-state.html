@@ -1,0 +1,277 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>2026-08-29-ibm_kingston-bell-state</title>
+<style>
+ :root{--bg:#fbfaf8;--ink:#16151a;--muted:#605c6b;--line:#e4e0da;--accent:#5b3fd6;--code:#f2efea}
+ @media(prefers-color-scheme:dark){:root{--bg:#131218;--ink:#f0eef4;--muted:#a09aae;--line:#2e2b38;--accent:#a595f5;--code:#22202a}}
+ body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.7 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+ .wrap{max-width:46rem;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+ a{color:var(--accent)} .back{font-size:.85rem;display:inline-block;margin-bottom:2rem}
+ h1{font-size:1.5rem;letter-spacing:-.02em;margin:0 0 1rem} h2{font-size:1.1rem;margin:2rem 0 .5rem}
+ hr{border:0;border-top:1px solid var(--line);margin:2rem 0}
+ table{border-collapse:collapse;width:100%;font-size:.9rem;display:block;overflow-x:auto}
+ th,td{border:1px solid var(--line);padding:.4rem .6rem;text-align:left}
+ code{background:var(--code);padding:.1em .35em;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.87em}
+ pre{background:var(--code);padding:1rem;border-radius:8px;overflow-x:auto}
+ pre code{background:none;padding:0} ul{padding-left:1.2rem}
+ blockquote{margin:1rem 0;padding-left:1rem;border-left:3px solid var(--line);color:var(--muted)}
+</style></head><body><div class="wrap">
+<a class="back" href="/quantum/runs/">&larr; All run logs</a>
+<h1>Run 002 — Bell state on ibm_kingston</h1>
+<p><strong>29 August 2026 · comparison run — ⚠️ RESULT INVALID, see below</strong></p>
+<p>Same circuit as <a href="2026-08-29-ibm_fez-bell-state.md">Run 001</a>, different machine.
+The point is to see how much of the 3.2% noise was <code>ibm_fez</code> specifically.</p>
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Machine</td>
+  <td><code>ibm_kingston</code> — 156 qubits</td>
+</tr>
+<tr>
+  <td>Job ID</td>
+  <td><code>da9b339qtnsc73d1d42g</code></td>
+</tr>
+<tr>
+  <td>Status</td>
+  <td>DONE — but the numbers are unphysical</td>
+</tr>
+<tr>
+  <td>Shots</td>
+  <td>5,000</td>
+</tr>
+<tr>
+  <td>Circuit</td>
+  <td>2 qubits: <code>H(0)</code>, then <code>CX(0,1)</code> — identical to Run 001</td>
+</tr>
+<tr>
+  <td>Depth</td>
+  <td>2 as written → <strong>7</strong> after rewriting (same as fez)</td>
+</tr>
+</tbody>
+</table>
+<h2>What I ran</h2>
+<pre><code>.venv/bin/python qiskit/bell-hardware.py --real --backend ibm_kingston
+</code></pre>
+<p>The <code>--backend</code> flag pins the run to a named machine. Without it, the script
+takes whichever machine has the shortest queue — fine for a single run, wrong
+for a comparison, where the machine is the variable under test.</p>
+<h2>Results — and why they are wrong</h2>
+<table>
+<thead>
+<tr>
+  <th>Observable</th>
+  <th>ibm_fez</th>
+  <th>ibm_kingston</th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>ZZ</code></td>
+  <td>+0.955 ± 0.007</td>
+  <td><strong>+1.429 ± 0.048</strong></td>
+  <td>⚠️ impossible</td>
+</tr>
+<tr>
+  <td><code>XX</code></td>
+  <td>+0.981 ± 0.006</td>
+  <td><strong>+1.149 ± 0.044</strong></td>
+  <td>⚠️ impossible</td>
+</tr>
+<tr>
+  <td><code>IZ</code></td>
+  <td>+0.002 ± 0.018</td>
+  <td>−0.000 ± 0.116</td>
+  <td>error bar 6× larger</td>
+</tr>
+<tr>
+  <td><code>IX</code></td>
+  <td>+0.011 ± 0.016</td>
+  <td>−0.004 ± 0.110</td>
+  <td>error bar 7× larger</td>
+</tr>
+<tr>
+  <td><code>ZI</code></td>
+  <td>−0.009 ± 0.019</td>
+  <td>+0.026 ± 0.038</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>XI</code></td>
+  <td>+0.012 ± 0.015</td>
+  <td>−0.010 ± 0.036</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>ZZ</code> cannot be 1.429.</strong> The observable <code>ZZ</code> has only two possible outcomes,
++1 and −1. An average of those can never exceed +1, the way an average of
+coin flips scored ±1 can never come out at 1.4. The bound is arithmetic, not
+a property of good hardware.</p>
+<p>So the correct reading is <strong>not</strong> &quot;kingston beat fez.&quot; It is &quot;this run is
+invalid and must be thrown out.&quot;</p>
+<h2>What I checked</h2>
+<p><strong>Was it my code?</strong> No. Both jobs used identical settings — same script, same
+5,024 shots, same options, no explicit resilience level on either.</p>
+<p><strong>Was kingston running on bad qubits?</strong> No — the opposite. Both runs landed on
+physical qubits 0 and 1, and kingston's are better on paper:</p>
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th>readout error</th>
+  <th>T1</th>
+  <th>T2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>fez q0 / q1</td>
+  <td>0.0195 / 0.0175</td>
+  <td>50 µs / 155 µs</td>
+  <td>53 µs / 184 µs</td>
+</tr>
+<tr>
+  <td>kingston q0 / q1</td>
+  <td>0.0149 / 0.0071</td>
+  <td>323 µs / 208 µs</td>
+  <td>326 µs / 290 µs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The clue is the error bars.</strong> Kingston's are 6–7× larger on identical shot
+counts. Statistical error should be about the same for the same number of
+shots — unless something is <em>scaling the numbers up</em>, which scales the
+uncertainty up with them.</p>
+<h2>Best explanation (not yet proven)</h2>
+<p>The Estimator applies <strong>readout-error mitigation by default</strong> (the result
+metadata shows <code>num_randomizations: 32</code>, the signature of readout twirling).
+Mitigation works by estimating how often the machine misreports a qubit, then
+dividing that effect back out.</p>
+<p>Divide by a badly estimated correction factor and you <strong>overshoot</strong> — the
+answer sails past the true value and out of the legal range. That fits every
+symptom: values too high, uncertainty inflated by the same multiplier, and no
+difference in the code.</p>
+<p>What I cannot confirm from here is <em>why</em> the correction was so far off. The
+calibration numbers above are the latest available, which may post-date the
+run — the machine may have drifted badly at run time and been recalibrated
+since.</p>
+<h2>The decisive test</h2>
+<p>Re-run with mitigation switched off and look at the raw numbers:</p>
+<pre><code class="language-python">estimator.options.resilience_level = 0    # no mitigation, raw values
+</code></pre>
+<p>Raw values are <em>always</em> pulled toward zero by noise, never pushed past 1. If
+the unmitigated run comes back at, say, +0.89, that confirms the machine was
+noisier than fez all along and the mitigation overcorrected.</p>
+<h2>What this run actually taught me</h2>
+<p>Sanity-check against physics before believing a number. <code>ZZ = 1.429</code> looks
+like a great result if you only compare it to <code>0.955</code> and assume bigger is
+better. Knowing the value is capped at 1 is what turns an exciting number into
+an obvious error.</p>
+<p>A tool will happily plot an impossible value. <strong>The plotting scripts now flag
+anything outside |value| ≤ 1 rather than drawing it as a taller bar.</strong></p>
+<h2>A detour: ibm_marrakesh</h2>
+<p>The first attempt at this comparison went to <code>ibm_marrakesh</code> (job
+<code>da9b0s4e74ec73ajilng</code>) and was <strong>cancelled before it ran</strong>.</p>
+<p>The machine reported <code>status=maintenance</code> while still showing
+<code>operational=True</code>. Those mean different things: operational says the machine
+accepts jobs, maintenance says it is not really working through them. The job
+queued and sat. Cancelling cost nothing — a job that never runs never spends
+quota.</p>
+<p><strong>Lesson:</strong> check <code>backend.status()</code> before submitting, not just whether the
+machine appears in the list.</p>
+<pre><code class="language-python">for b in service.backends():
+    st = b.status()
+    print(b.name, st.operational, st.status_msg, st.pending_jobs)
+</code></pre>
+<h2>Queue depth is not machine quality</h2>
+<p>When Run 001 went to <code>ibm_fez</code>, that machine had <strong>1</strong> job pending, so it came
+back quickly. <code>ibm_kingston</code> had 22 when this was submitted and 24 shortly
+after — the queue grew while waiting.</p>
+<p>Queue depth swings by the minute and says nothing about how noisy a machine is.
+Fast turnaround is not evidence of a better machine, which is exactly why this
+comparison needs measured numbers rather than impressions.</p>
+<h2>To finish this entry</h2>
+<pre><code>.venv/bin/python qiskit/compare_runs.py     # -&gt; qiskit/results/comparison.png
+</code></pre>
+<h2>Next</h2>
+<ul>
+<li>[ ] Re-run kingston with <code>resilience_level = 0</code> and compare raw vs mitigated</li>
+<li>[ ] Re-run fez the same way — how much is fez's +0.968 also a correction?</li>
+<li>[ ] Only then is the machine-vs-machine comparison meaningful</li>
+</ul>
+<hr />
+<h1>Follow-up — the raw test (mitigation off)</h1>
+<p><strong>Job <code>da9c0gke74ec73ajjm50</code> · same machine, same circuit, correction switched off</strong></p>
+<pre><code>.venv/bin/python qiskit/bell-hardware.py --real --backend ibm_kingston --raw
+</code></pre>
+<h2>Result: the mystery is solved</h2>
+<table>
+<thead>
+<tr>
+  <th>Observable</th>
+  <th>raw (no correction)</th>
+  <th>corrected</th>
+  <th>ibm_fez (corrected)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>ZZ</code></td>
+  <td><strong>+0.537</strong></td>
+  <td>+1.429 ⚠️</td>
+  <td>+0.955</td>
+</tr>
+<tr>
+  <td><code>XX</code></td>
+  <td><strong>+0.458</strong></td>
+  <td>+1.149 ⚠️</td>
+  <td>+0.981</td>
+</tr>
+<tr>
+  <td>pairs average</td>
+  <td><strong>+0.497</strong></td>
+  <td>+1.289 ⚠️</td>
+  <td>+0.968</td>
+</tr>
+</tbody>
+</table>
+<p>Raw, kingston scores <strong>0.497</strong> — about halfway between &quot;no correlation&quot; and
+&quot;perfect correlation.&quot; The entanglement is there, but half of it is buried in
+noise.</p>
+<p>That is the answer. Kingston was in poor shape. The correction step saw a
+badly degraded signal, tried to scale it back up to compensate, and pushed it
+straight past the maximum to 1.289.</p>
+<p><strong>Kingston was not better than fez. It was roughly twice as noisy</strong>, and the
+correction hid that behind an impossible number.</p>
+<h2>A second clue I had missed</h2>
+<p>Look at the raw single-qubit values: −0.255, −0.230, −0.120, −0.111.</p>
+<p>Those should all sit at <strong>zero</strong> — each qubit alone is supposed to be a coin
+flip. They are noticeably negative instead, meaning the machine was
+systematically misreading qubits in one direction. On fez the same
+measurements landed within 0.012 of zero.</p>
+<p>That bias is the thing the correction was trying to undo.</p>
+<h2>The general lesson</h2>
+<p>Error mitigation is a <strong>correction factor</strong>, not magic. It measures how wrong
+the machine tends to be, then scales the answer to compensate.</p>
+<ul>
+<li>Machine slightly off → small correction → good answer (fez).</li>
+<li>Machine badly off → large correction → the correction itself becomes
+unreliable and can overshoot (kingston).</li>
+</ul>
+<p><strong>When mitigated results look too good, check them raw.</strong> Raw values can only
+be dragged <em>toward</em> zero by noise; they can never exceed the maximum. That
+makes the raw run a reality check that cannot lie in the same direction.</p>
+<h2>Confirmed on the simulator too</h2>
+<p>The free noisy simulator shows the same pattern in miniature — raw <code>ZZ</code> 0.822,
+corrected 1.000. Same mechanism, small enough not to overshoot.</p>
+
+</div></body></html>

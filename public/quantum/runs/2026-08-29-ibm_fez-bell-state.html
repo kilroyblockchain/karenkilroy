@@ -1,0 +1,171 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>2026-08-29-ibm_fez-bell-state</title>
+<style>
+ :root{--bg:#fbfaf8;--ink:#16151a;--muted:#605c6b;--line:#e4e0da;--accent:#5b3fd6;--code:#f2efea}
+ @media(prefers-color-scheme:dark){:root{--bg:#131218;--ink:#f0eef4;--muted:#a09aae;--line:#2e2b38;--accent:#a595f5;--code:#22202a}}
+ body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.7 ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+ .wrap{max-width:46rem;margin:0 auto;padding:2.5rem 1.5rem 5rem}
+ a{color:var(--accent)} .back{font-size:.85rem;display:inline-block;margin-bottom:2rem}
+ h1{font-size:1.5rem;letter-spacing:-.02em;margin:0 0 1rem} h2{font-size:1.1rem;margin:2rem 0 .5rem}
+ hr{border:0;border-top:1px solid var(--line);margin:2rem 0}
+ table{border-collapse:collapse;width:100%;font-size:.9rem;display:block;overflow-x:auto}
+ th,td{border:1px solid var(--line);padding:.4rem .6rem;text-align:left}
+ code{background:var(--code);padding:.1em .35em;border-radius:4px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.87em}
+ pre{background:var(--code);padding:1rem;border-radius:8px;overflow-x:auto}
+ pre code{background:none;padding:0} ul{padding-left:1.2rem}
+ blockquote{margin:1rem 0;padding-left:1rem;border-left:3px solid var(--line);color:var(--muted)}
+</style></head><body><div class="wrap">
+<a class="back" href="/quantum/runs/">&larr; All run logs</a>
+<h1>Run 001 — Bell state on ibm_fez</h1>
+<p><strong>29 August 2026 · first run on real quantum hardware</strong></p>
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Machine</td>
+  <td><code>ibm_fez</code> — 156 qubits, IBM Quantum</td>
+</tr>
+<tr>
+  <td>Job ID</td>
+  <td><code>da9argmrbfbs73cheqrg</code></td>
+</tr>
+<tr>
+  <td>Shots</td>
+  <td>5,000</td>
+</tr>
+<tr>
+  <td>Circuit</td>
+  <td>2 qubits: <code>H(0)</code>, then <code>CX(0,1)</code></td>
+</tr>
+<tr>
+  <td>Depth</td>
+  <td>2 as written → <strong>7</strong> after rewriting for the chip</td>
+</tr>
+<tr>
+  <td>Chart</td>
+  <td><code>qiskit/results/da9argmrbfbs73cheqrg.png</code></td>
+</tr>
+<tr>
+  <td>Raw data</td>
+  <td><code>qiskit/results/da9argmrbfbs73cheqrg.json</code></td>
+</tr>
+</tbody>
+</table>
+<h2>What I ran</h2>
+<pre><code>.venv/bin/python qiskit/bell-hardware.py --real
+.venv/bin/python qiskit/plot_results.py
+</code></pre>
+<p>Two gates. <code>H</code> puts qubit 0 into a superposition; <code>CX</code> ties qubit 1 to it.
+That's the whole program — the shortest thing that produces entanglement.</p>
+<h2>Results</h2>
+<table>
+<thead>
+<tr>
+  <th>Observable</th>
+  <th>Value</th>
+  <th>±</th>
+  <th>What it asked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>ZZ</code></td>
+  <td><strong>+0.955</strong></td>
+  <td>0.007</td>
+  <td>do both qubits agree?</td>
+</tr>
+<tr>
+  <td><code>XX</code></td>
+  <td><strong>+0.981</strong></td>
+  <td>0.006</td>
+  <td>do both qubits agree (other way of asking)?</td>
+</tr>
+<tr>
+  <td><code>IZ</code></td>
+  <td>+0.002</td>
+  <td>0.018</td>
+  <td>what is qubit 0 doing alone?</td>
+</tr>
+<tr>
+  <td><code>IX</code></td>
+  <td>+0.011</td>
+  <td>0.016</td>
+  <td>what is qubit 0 doing alone?</td>
+</tr>
+<tr>
+  <td><code>ZI</code></td>
+  <td>−0.009</td>
+  <td>0.019</td>
+  <td>what is qubit 1 doing alone?</td>
+</tr>
+<tr>
+  <td><code>XI</code></td>
+  <td>+0.012</td>
+  <td>0.015</td>
+  <td>what is qubit 1 doing alone?</td>
+</tr>
+</tbody>
+</table>
+<p>Singles average <strong>+0.004</strong>. Pairs average <strong>+0.968</strong>.</p>
+<p>Reading the labels: <code>I</code> means <em>ignore this qubit</em>. So <code>IZ</code> looks at one qubit
+on its own, and <code>ZZ</code> looks at both together. <code>Z</code> and <code>X</code> are just two different
+questions you can ask — like measuring someone's height versus their weight.</p>
+<h2>What it means</h2>
+<p><strong>Each qubit alone is a coin flip.</strong> All four single measurements sit on zero.
+Zero means &quot;no tendency either way&quot; — heads as often as tails. There is no
+information in one qubit by itself.</p>
+<p><strong>Together they agree, nearly always.</strong> Ask whether the two match and you get
+yes ~97% of the time.</p>
+<p>That combination is the strange part, and it's the whole point. Neither qubit
+has a value of its own. The <em>pair</em> has a relationship. You can't find the
+relationship by examining either half — it only exists between them.</p>
+<h2>The 3.2% gap is the real finding</h2>
+<p>A simulator would have returned exactly 1.000 for <code>ZZ</code> and <code>XX</code>. Mine came back
+at 0.955 and 0.981.</p>
+<p>That shortfall is not a mistake in my code. It's the machine being a physical
+object — superconducting circuits chilled near absolute zero, with real errors
+in the gates and real errors when reading the answer out. <strong>Measuring that gap
+is the entire reason to run on hardware instead of a simulator.</strong></p>
+<p>Related: my 2-gate circuit became <strong>depth 7</strong> after being rewritten. Real chips
+have a fixed set of gates and fixed wiring between qubits, so the compiler has
+to translate. More gates means more chances to pick up error. That's part of
+where the 3.2% came from.</p>
+<h2>To repeat this</h2>
+<pre><code>.venv/bin/python qiskit/bell-hardware.py --real   # submit (uses free-plan minutes)
+.venv/bin/python qiskit/plot_results.py           # chart the newest result
+</code></pre>
+<p>Every run saves itself to <code>qiskit/results/&lt;job_id&gt;.json</code>, so nothing is lost and
+old runs can be re-charted by job ID:</p>
+<pre><code>.venv/bin/python qiskit/plot_results.py da9argmrbfbs73cheqrg
+</code></pre>
+<p>Rehearse for free first — drop <code>--real</code> and it runs on a noisy simulator
+instantly, no queue and no quota spent.</p>
+<h2>Things I learned the hard way</h2>
+<ul>
+<li><strong>Don't keep code in <code>.venv/</code>.</strong> That folder is installed libraries. The next
+<code>pip install</code> can wipe it and take your work with it.</li>
+<li><strong>Never paste an API key into a chat or a script.</strong> Credentials go in once via
+<code>qiskit/save_credentials.py</code>, which hides what you type. They live in
+<code>~/.qiskit/qiskit-ibm.json</code> after that.</li>
+<li><strong>Hardware jobs queue.</strong> The Job ID prints immediately — save it. The job keeps
+running on IBM's side even if your laptop sleeps.</li>
+<li><strong><code>measure_all()</code> is for counting bitstrings, not for the Estimator.</strong> The
+Estimator does its own measuring because it returns averages, not raw outcomes.</li>
+</ul>
+<h2>Next</h2>
+<ul>
+<li>[ ] Run the same circuit on <code>ibm_marrakesh</code> and <code>ibm_kingston</code> — different
+machines, different noise. How much do they differ?</li>
+<li>[ ] Try 3 qubits (a GHZ state) and see whether the correlation holds up.</li>
+<li>[ ] Watch what happens to the numbers with fewer shots — 100 instead of 5,000.</li>
+</ul>
+
+</div></body></html>
