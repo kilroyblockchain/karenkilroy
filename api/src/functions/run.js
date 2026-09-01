@@ -1,7 +1,7 @@
 const { app } = require('@azure/functions');
 const { REPO, WORKFLOW, authorise, github } = require('./_shared');
 
-const MODES = new Set(['sim-ideal', 'sim-noisy', 'hardware']);
+const MODES = new Set(['check', 'sim-ideal', 'sim-noisy', 'hardware']);
 const BACKEND_RE = /^[a-z0-9_-]{1,64}$/;
 
 app.http('run', {

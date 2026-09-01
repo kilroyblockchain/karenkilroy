@@ -79,6 +79,9 @@
     border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
   button:disabled { opacity: .5; cursor: default; }
   button.danger { background: var(--warn); }
+  button.ghost { background: transparent; color: var(--muted);
+                 border: 1px solid var(--line); font-weight: 500; }
+  button.ghost:hover { color: var(--ink); border-color: var(--accent); }
   #msg { font-size: .84rem; color: var(--muted); }
   .runs { display: grid; gap: .5rem; }
   .run { display: flex; align-items: center; gap: .7rem; font-size: .85rem;
@@ -159,6 +162,7 @@
 
     <div class="go">
       <button id="run">Run</button>
+      <button id="check" class="ghost">Check hardware access</button>
       <span id="msg"></span>
     </div>
   </section>
@@ -281,6 +285,28 @@ async function loadRuns() {
     $('runs').innerHTML = `<p class="muted">${e.message}</p>`;
   }
 }
+
+// Free: authenticates and lists the machines, submits nothing. Worth running
+// before you rely on hardware from somewhere you cannot debug.
+$('check').addEventListener('click', async () => {
+  $('check').disabled = true;
+  $('msg').textContent = 'checking…';
+  try {
+    const res = await fetch('/api/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode: 'check' }),
+    });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || `HTTP ${res.status}`);
+    $('msg').textContent = 'Checking access — the machine list appears in the run log.';
+    loadRuns();
+  } catch (e) {
+    $('msg').textContent = e.message;
+  } finally {
+    $('check').disabled = false;
+  }
+});
 
 syncMode();
 loadRuns();
