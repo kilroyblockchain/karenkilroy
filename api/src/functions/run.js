@@ -45,11 +45,15 @@ app.http('run', {
 
     const note = String(body.note || '').slice(0, 500);
 
+    // Dispatch inputs go over the wire as strings. The workflow declares these
+    // as `type: boolean`, and GitHub coerces "true"/"false" back to booleans —
+    // verified, because a string "false" is truthy inside a workflow expression
+    // and would silently turn error mitigation off on every run.
     const inputs = {
       mode,
       shots: String(shots),
-      raw: Boolean(body.raw),
-      record: Boolean(body.record),
+      raw: body.raw ? 'true' : 'false',
+      record: body.record ? 'true' : 'false',
     };
     if (backend) inputs.backend = backend;
     if (note) inputs.note = note;
