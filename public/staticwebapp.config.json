@@ -1,21 +1,55 @@
 {
   "routes": [
-    { "route": "/quantum",   "allowedRoles": ["quantum"], "rewrite": "/quantum/index.html" },
-    { "route": "/quantum/",  "allowedRoles": ["quantum"], "rewrite": "/quantum/index.html" },
-    { "route": "/quantum/*", "allowedRoles": ["quantum"] },
-    { "route": "/api/*",     "allowedRoles": ["quantum"] },
-    { "route": "/.auth/login/github", "statusCode": 404 }
+    {
+      "route": "/quantum",
+      "allowedRoles": [
+        "quantum"
+      ],
+      "rewrite": "/quantum/index.html"
+    },
+    {
+      "route": "/quantum/*",
+      "allowedRoles": [
+        "quantum"
+      ]
+    },
+    {
+      "route": "/api/*",
+      "allowedRoles": [
+        "quantum"
+      ]
+    },
+    {
+      "route": "/.auth/login/github",
+      "statusCode": 404
+    }
   ],
   "responseOverrides": {
     "401": {
       "statusCode": 302,
       "redirect": "/.auth/login/aad?post_login_redirect_uri=/quantum/"
     },
-    "403": { "rewrite": "/no-access.html" }
+    "403": {
+      "rewrite": "/no-access.html"
+    }
   },
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/quantum/*", "/img/*", "/static/*", "*.js", "*.css", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.svg", "*.ico", "*.xml", "*.txt"]
+    "exclude": [
+      "/quantum/*",
+      "/img/*",
+      "/static/*",
+      "*.js",
+      "*.css",
+      "*.png",
+      "*.jpg",
+      "*.jpeg",
+      "*.gif",
+      "*.svg",
+      "*.ico",
+      "*.xml",
+      "*.txt"
+    ]
   },
   "globalHeaders": {
     "X-Content-Type-Options": "nosniff"
