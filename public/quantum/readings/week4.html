@@ -1,0 +1,579 @@
+<!--
+  PROVENANCE
+  ==========
+  Generated: this file is the output of "Week 4 THE MASTER PROMPT.md" run against
+  learning_objectives.md, student_profile_1.md, weekly_content_brief_4.md and
+  assessment_bank_4.md (all in this directory). That generated output is commit
+  ebbdaa4's parent state of this file.
+
+  Post-generation corrections (2026-09-08, Claude Opus 5, reviewed by K. Kilroy).
+  These are hand edits, NOT generator output:
+
+  Physics corrections
+   1. Entanglement figure caption said "neither side alone looks random." That is
+      backwards and contradicts the no-signalling point in section 04. Each side
+      alone IS random; the correlation appears only on comparison. Rewritten.
+   2. Subtitle: "89 years to win a Nobel Prize" -> 87 (1935 to 2022).
+   3. Subtitle: "30 years to become a real experiment" -> 29 years to a testable
+      question (Bell, 1964), 37 to an experiment (Freedman & Clauser, 1972).
+   4. S <= 2 was attributed to Bell 1964. It is the CHSH form (1969). Reattributed.
+   5. "if you square alpha and square beta" -> magnitude-squared; alpha and beta
+      are complex. The displayed equation already used |alpha|^2.
+
+  Rendering correction
+   6. The Bell bar chart passed "\n" inside SVG <text>, which does not honour
+      newlines, so two labels rendered as single lines and collided (measured
+      overlap: x 387-441). Labels now use <tspan> per line; the classical bar's
+      value moved inside the bar so the limit annotation has room.
+
+  Accessibility
+   7. Bloch readouts given aria-live="polite" so applying a gate is announced.
+   8. All four figures were built by JavaScript at load, so none of them appeared
+      with JS disabled or in print/PDF export. The three static ones are now
+      inline SVG and their builders are gone; the Bloch sphere keeps its builder
+      because it must redraw per gate, but its |0> starting state is inline too.
+      The inline markup was extracted from what the original JS actually
+      rendered, not retyped, so it cannot have drifted from it.
+
+  Content expansion (section 04, to meet the brief's 60-minute target with ~30
+  minutes on experimental results, which the generated draft did not reach)
+   9. Added "Why the angles must be random - and chosen late", the three-loophole
+      table, and the 2015 turning point. Replaced the results table with measured
+      S values. Sources verified 2026-09-08:
+        Aspect, Grangier & Roger 1982, S = 2.697 +/- 0.015 (46 sigma)
+          https://link.aps.org/doi/10.1103/PhysRevLett.49.91
+        Hensen et al. 2015 (Delft, NV centres, 1.3 km), S = 2.42 +/- 0.20
+          https://www.nature.com/articles/nature15759
+        Rauch et al. 2018 cosmic Bell test, 9.3 sigma
+          https://link.aps.org/doi/10.1103/PhysRevLett.121.080403
+      Reading-time meter updated from "~35-40 min" to "~60 min" to match.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 4 — The Bet Einstein Lost</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+  :root{
+    --ink:        #0B2E2C;
+    --ink-2:      #123F3C;
+    --paper:      #F7F3EA;
+    --paper-dim:  #ECE4D2;
+    --gold:       #E3A73B;
+    --gold-dim:   #A97C29;
+    --blue:       #3E8FB0;
+    --orange:     #E2703A;
+    --charcoal:   #1C2321;
+    --line:       #DCD2B8;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--ink);color:var(--charcoal);font-family:'Inter',sans-serif;line-height:1.65;}
+  .page{max-width:760px;margin:0 auto;padding:0 20px 100px;}
+
+  .masthead{background:linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);color:var(--paper);padding:60px 20px 44px;border-bottom:3px solid var(--gold);}
+  .masthead-inner{max-width:760px;margin:0 auto;}
+  .eyebrow-row{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap;}
+  .pill{font-size:13px;font-weight:600;padding:5px 12px;border-radius:100px;border:1px solid var(--gold-dim);color:var(--gold);background:rgba(227,167,59,0.08);}
+  h1.title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:40px;line-height:1.12;margin:0 0 16px;max-width:16ch;}
+  .dek{font-size:17.5px;color:#CFE3DD;max-width:56ch;margin:0 0 26px;}
+  .framing{font-size:15.5px;color:var(--paper);max-width:60ch;border-left:3px solid var(--gold);padding-left:18px;margin:0;}
+  .meter{display:flex;align-items:center;gap:10px;margin-top:30px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#9FC7BE;}
+  .meter .bar{flex:1;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;}
+  .meter .bar span{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--blue),var(--gold));}
+
+  .content{background:var(--paper);padding:8px 0 0;}
+  section.part{padding:52px 0 8px;border-bottom:1px solid var(--line);}
+  section.part:last-of-type{border-bottom:none;}
+  .part-label{display:flex;align-items:baseline;gap:10px;margin-bottom:6px;}
+  .part-index{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;color:var(--gold-dim);letter-spacing:0.02em;}
+  .part-time{font-size:12.5px;color:#8A8168;font-family:'JetBrains Mono',monospace;}
+  h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:28px;margin:4px 0 20px;color:var(--ink);}
+  h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;margin:32px 0 12px;color:var(--ink-2);}
+  p{font-size:16.5px;margin:0 0 16px;max-width:66ch;}
+  ul,ol{margin:0 0 16px;padding-left:22px;}
+  li{font-size:16.5px;margin-bottom:8px;max-width:62ch;}
+  strong{color:var(--ink-2);}
+
+  .analogy{background:var(--paper-dim);border-left:3px solid var(--blue);border-radius:2px;padding:16px 20px;margin:22px 0;}
+  .analogy .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--blue);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:6px;}
+  .analogy.b{border-left-color:var(--orange);}
+  .analogy.b .tag{color:var(--orange);}
+  .analogy p{margin-bottom:0;font-size:16px;}
+
+  .refresher{background:var(--ink);color:var(--paper);border-radius:4px;padding:20px 22px;margin:24px 0;}
+  .refresher .tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--gold);text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:10px;}
+  .refresher p{color:#DDEAE5;font-size:15.5px;margin-bottom:10px;}
+  .refresher .eqn{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--paper);background:rgba(227,167,59,0.14);padding:10px 12px;border-radius:3px;margin:10px 0;}
+
+  .simplify{font-size:14px;color:#7A6E4E;font-style:italic;margin:-8px 0 18px;padding-left:14px;border-left:2px solid var(--line);}
+
+  figure{margin:26px 0;}
+  .svg-wrap{background:var(--paper-dim);border:1px solid var(--line);padding:12px;border-radius:4px;}
+  figcaption{font-size:13px;color:#7A7261;margin-top:8px;line-height:1.5;}
+
+  .scoreboard{width:100%;border-collapse:collapse;margin:22px 0;font-size:14.5px;}
+  .scoreboard th{background:var(--ink);color:var(--paper);font-family:'JetBrains Mono',monospace;font-weight:500;font-size:12px;text-align:left;padding:10px 12px;}
+  .scoreboard td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .scoreboard tr:nth-child(even) td{background:var(--paper-dim);}
+  .scoreboard td.lead{font-weight:600;color:var(--ink-2);white-space:nowrap;}
+
+  /* interactive bloch */
+  .bloch-widget{background:var(--paper-dim);border:1px solid var(--line);border-radius:6px;padding:20px;margin:24px 0;}
+  .bloch-flex{display:flex;gap:24px;flex-wrap:wrap;align-items:center;}
+  .bloch-controls{flex:1 1 200px;min-width:200px;}
+  .bloch-controls button{
+    display:block;width:100%;text-align:left;padding:10px 14px;margin-bottom:8px;
+    background:var(--ink);color:var(--paper);border:none;border-radius:4px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;cursor:pointer;
+  }
+  .bloch-controls button:hover{background:var(--ink-2);}
+  .bloch-controls button.reset{background:transparent;color:var(--ink-2);border:1px solid var(--gold-dim);}
+  .bloch-readout{margin-top:14px;font-size:14px;}
+  .bloch-readout div{margin-bottom:6px;}
+  .bloch-readout .lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-dim);text-transform:uppercase;}
+  .bloch-vis{flex:0 0 220px;}
+
+  .video-card{display:flex;gap:14px;align-items:flex-start;background:var(--paper-dim);border-radius:4px;padding:14px 16px;margin:14px 0;}
+  .video-icon{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--blue);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:14px;font-family:'JetBrains Mono',monospace;}
+  .video-card a{color:var(--ink-2);font-weight:600;text-decoration:none;font-size:15.5px;}
+  .video-card a:hover{text-decoration:underline;}
+  .video-card p{font-size:14px;margin:4px 0 0;color:#5B5342;}
+
+  .takeaways{background:var(--ink-2);color:var(--paper);border-radius:6px;padding:28px 26px;margin:40px 0 0;}
+  .takeaways h2{color:var(--paper);font-size:24px;margin-top:0;}
+  .takeaways ul{padding-left:0;list-style:none;margin:0;}
+  .takeaways li{display:flex;gap:12px;margin-bottom:14px;font-size:15.5px;color:#E7EFE9;}
+  .takeaways li::before{content:"—";color:var(--gold);flex:0 0 auto;}
+
+  .assessment{padding:52px 0 30px;}
+  .qcard{border:1px solid var(--line);border-radius:4px;padding:16px 18px;margin-bottom:14px;}
+  .qmeta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:0.03em;margin-bottom:6px;}
+  .qtext{font-size:16px;font-weight:500;color:var(--ink);}
+
+  details.answers{margin-top:24px;border:1px solid var(--gold-dim);border-radius:4px;overflow:hidden;}
+  details.answers summary{cursor:pointer;list-style:none;padding:16px 18px;background:var(--paper-dim);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:16px;color:var(--gold-dim);display:flex;justify-content:space-between;align-items:center;}
+  details.answers summary::after{content:"reveal ↓";font-family:'Inter',sans-serif;font-weight:600;font-size:12.5px;}
+  details.answers[open] summary::after{content:"hide ↑";}
+  details.answers .ans-body{padding:6px 18px 20px;}
+  details.answers .ans-block{margin-top:16px;}
+  details.answers .ans-block h4{font-size:14.5px;color:var(--ink-2);margin:0 0 6px;font-family:'Inter',sans-serif;}
+  details.answers .ans-block p{font-size:14.5px;color:#4A4536;}
+
+  footer{text-align:center;padding:30px 20px 10px;color:#B8AE8E;font-size:12.5px;}
+  @media (max-width:640px){ h1.title{font-size:32px;} .bloch-flex{flex-direction:column;} }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow-row">
+      <span class="pill">Week 4 · Reading</span>
+      <span class="pill">Objectives 1–3</span>
+    </div>
+    <h1 class="title">The Bet Einstein Lost</h1>
+    <p class="dek">Superposition, entanglement, and the 1935 argument between Einstein and quantum mechanics that took 29 years to become a testable question, 37 to become a real experiment — and 87 to win a Nobel Prize.</p>
+    <p class="framing">This reading covers Objectives 1–3: the physical foundations of superposition and entanglement, the historical argument (EPR) about whether quantum mechanics is even complete, and the experiment (Bell's theorem) that finally settled it. These are the two ideas — superposition and entanglement — that everything else in this course, from qubits to Grover's algorithm, is built on top of.</p>
+    <div class="meter"><span>~60 min read</span><div class="bar"><span></span></div><span>one sitting · ~30 min on Bell</span></div>
+  </div>
+</div>
+
+<div class="page">
+<div class="content">
+
+<!-- ================= PART 1: SUPERPOSITION ================= -->
+<section class="part" id="p1">
+  <div class="part-label"><span class="part-index">01 — Superposition</span></div>
+  <h2>Holding Every Bet at Once</h2>
+
+  <p>A regular computer bit is always definitely 0 or definitely 1 — like a light switch that's either on or off, no in-between. A <strong>qubit</strong> doesn't have to make that choice until it's measured. Before measurement, it can exist in a <strong>superposition</strong>: a genuine blend of both 0 and 1 at once, not "secretly one or the other and we just don't know which."</p>
+
+  <div class="analogy">
+    <span class="tag">Analogy — the parlay you haven't settled yet</span>
+    <p>Think of a superposition like a same-game parlay that hasn't resolved yet. It's not that the parlay secretly already won or lost and you just haven't checked the score — while the games are still live, the bet genuinely exists in a mixed, unresolved state, leaning toward one outcome or another based on the odds. The moment the final whistle blows (the "measurement"), it snaps to one definite result: win or lose, nothing in between.</p>
+  </div>
+
+  <div class="refresher">
+    <span class="tag">Math refresher — before this gets equation-heavy</span>
+    <p>You'll see superposition written like this:</p>
+    <div class="eqn">|ψ⟩ = α|0⟩ + β|1⟩</div>
+    <p>Don't let the symbols intimidate you — <strong>|0⟩</strong> and <strong>|1⟩</strong> are just labels for "the qubit reads 0" and "the qubit reads 1" (that bracket notation is called <em>Dirac notation</em> — it's just a container for a state, nothing more exotic than that). <strong>α</strong> and <strong>β</strong> are numbers that tell you how much of each outcome is "in the mix." The rule is: take the <em>size</em> of α and the size of β, square each one, and they must add up to 1 — because when you finally measure, you have to land on <em>something</em>. (The bars in |α|² mean "size of," which matters because these numbers can carry a direction as well as a magnitude — more on that later in the course.) |α|² is literally the probability of measuring 0, and |β|² is the probability of measuring 1.</p>
+  </div>
+
+  <div class="analogy b">
+    <span class="tag">Analogy — the mixing board</span>
+    <p>If you've ever used a music mixing board or a DJ crossfader, think of α and β as two channel volumes blended together into one signal. Turn one channel up and the other down, and you get a different mix — but until you "print" the final track (measure it), both channels are genuinely present in the sound, not just one of them hiding behind the other.</p>
+  </div>
+
+  <p>In quantum computing, this is what gives quantum computers their potential power: a single qubit holds a blend of 2 states, but <strong>n</strong> qubits together can hold a superposition of <strong>2ⁿ</strong> states simultaneously. A modest 20-qubit register can represent over a million states at once. The catch — and this matters, because it's the single most common misconception about quantum computing — is that measuring still only ever gives you <em>one</em> definite answer. The real engineering challenge (which you'll see later in Grover's and Shor's algorithms) is designing a computation so that the useful answer becomes overwhelmingly likely by the time you measure, through an effect called interference.</p>
+
+  <p class="simplify">Simplification note: the deeper mechanics of how interference amplifies the "right" answer involves complex-valued amplitudes and phase — that's coming later in the course once you've built up more of the mathematical toolkit. For now, the conceptual picture (many states blended, one state observed) is the correct foundation.</p>
+
+  <h3>See it move: an interactive qubit</h3>
+  <p>Physicists visualize a single qubit's state as a point on a sphere — called the <strong>Bloch sphere</strong>. The top of the sphere is |0⟩, the bottom is |1⟩, and anywhere on the surface in between represents a superposition. Try it below: apply a gate and watch the state move.</p>
+
+  <div class="bloch-widget">
+    <div class="bloch-flex">
+      <div class="bloch-vis">
+        <div class="svg-wrap" id="bloch-svg-wrap" style="padding:16px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 200" role="img" aria-label="Bloch sphere showing the qubit state at theta 0 degrees, phi 0 degrees"><circle cx="90" cy="100" r="70" fill="none" stroke="#B9AE8C" stroke-width="1.5"/><ellipse cx="90" cy="100" rx="70" ry="22.400000000000002" fill="none" stroke="#B9AE8C" stroke-width="1" stroke-dasharray="3,3"/><line x1="90" y1="30" x2="90" y2="170" stroke="#DCD2B8" stroke-width="1"/><text x="90" y="20" text-anchor="middle" font-size="13" font-family="JetBrains Mono, monospace" fill="#0B2E2C">|0⟩</text><text x="90" y="190" text-anchor="middle" font-size="13" font-family="JetBrains Mono, monospace" fill="#0B2E2C">|1⟩</text><line x1="90" y1="100" x2="90" y2="30" stroke="#E3A73B" stroke-width="3"/><circle cx="90" cy="30" r="6" fill="#E3A73B" stroke="#0B2E2C" stroke-width="1.5"/><circle cx="90" cy="100" r="3" fill="#0B2E2C"/></svg></div>
+      </div>
+      <div class="bloch-controls">
+        <button id="btn-h">Apply H gate — create superposition</button>
+        <button id="btn-x">Apply X gate — flip the bit</button>
+        <button id="btn-reset" class="reset">Reset to |0⟩</button>
+        <div class="bloch-readout" aria-live="polite">
+          <div><span class="lbl">State (Dirac notation)</span><br><span id="readout-dirac">|0⟩</span></div>
+          <div><span class="lbl">Bloch angles</span><br><span id="readout-angles">θ = 0°, φ = 0°</span></div>
+          <div><span class="lbl">Measurement probabilities</span><br><span id="readout-probs">P(0) = 100%, P(1) = 0%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:13.5px;color:#7A7261;margin-top:-6px;">Only H and X are shown here — the two gates relevant to this week's ideas. You'll meet the full gate set (Y, Z, S, T, rotations) later in the course once you're building real circuits.</p>
+</section>
+
+<!-- ================= PART 2: ENTANGLEMENT ================= -->
+<section class="part" id="p2">
+  <div class="part-label"><span class="part-index">02 — Entanglement</span></div>
+  <h2>Linked Fates</h2>
+
+  <p><strong>Entanglement</strong> happens when two or more qubits become correlated in a way that can't be broken down into "qubit A is doing its own thing, and qubit B is doing its own separate thing." Once entangled, they behave as one combined system — measuring one instantly tells you something about the other, no matter how far apart they are.</p>
+
+  <figure>
+    <div class="svg-wrap" id="entangle-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" role="img" aria-label="A shared source in the middle emits two entangled particles toward detectors on the left and right, whose outcomes are correlated."><line x1="340" y1="100" x2="140" y2="60" stroke="#3E8FB0" stroke-width="2.5"/><line x1="340" y1="100" x2="540" y2="60" stroke="#E2703A" stroke-width="2.5"/><line x1="150" y1="72" x2="530" y2="72" stroke="#B9AE8C" stroke-width="2.5" stroke-dasharray="4,4"/><circle cx="340" cy="100" r="14" fill="#0B2E2C"/><text x="340" y="105" font-family="Inter, sans-serif" font-size="12" fill="#F7F3EA" text-anchor="middle" font-weight="600">S</text><text x="340" y="130" font-family="Inter, sans-serif" font-size="12.5" fill="#1C2321" text-anchor="middle">shared source</text><circle cx="140" cy="60" r="20" fill="#3E8FB0"/><text x="140" y="65" font-family="Inter, sans-serif" font-size="14" fill="#F7F3EA" text-anchor="middle" font-weight="700">?</text><text x="140" y="95" font-family="Inter, sans-serif" font-size="13" fill="#1C2321" text-anchor="middle">Alice's qubit</text><circle cx="540" cy="60" r="20" fill="#E2703A"/><text x="540" y="65" font-family="Inter, sans-serif" font-size="14" fill="#F7F3EA" text-anchor="middle" font-weight="700">?</text><text x="540" y="95" font-family="Inter, sans-serif" font-size="13" fill="#1C2321" text-anchor="middle">Bob's qubit</text><text x="340" y="162" font-family="Inter, sans-serif" font-size="12.5" fill="#5B5342" text-anchor="middle">each side alone looks completely random</text><text x="340" y="180" font-family="Inter, sans-serif" font-size="12.5" fill="#5B5342" text-anchor="middle">the correlation only shows up when Alice and Bob compare notes</text></svg></div>
+    <figcaption>Two entangled qubits leave a shared source and travel to separate detectors. Before measurement, neither has a definite value — but their outcomes are correlated: measuring one immediately determines the probability distribution for the other.</figcaption>
+  </figure>
+
+  <div class="analogy">
+    <span class="tag">Analogy — hedged positions on opposite sides of the world</span>
+    <p>Picture two trading desks, one in New York and one in Tokyo, holding perfectly hedged positions on the same underlying asset — structured so that the instant one desk's position resolves, you know exactly what the other desk's position resolved to, even though no phone call happened between them. Entanglement has that flavor: correlated outcomes without any signal being sent. Where the analogy breaks down is that in finance, both positions were secretly determined the whole time — with entanglement, neither qubit had a definite value until the first measurement happened.</p>
+  </div>
+
+  <div class="analogy b">
+    <span class="tag">Analogy — the linked controller</span>
+    <p>In gaming terms, it's less like two players secretly following the same walkthrough (that would just be a hidden variable — see the next section) and more like two controllers that are, at a deep level, <em>one input device</em> pretending to be two. Pressing a button on one doesn't "send a signal" to the other — but the game engine treats their outputs as a single correlated event.</p>
+  </div>
+
+  <div class="refresher">
+    <span class="tag">Math refresher — the entangled state</span>
+    <p>A common entangled two-qubit state (called a Bell state) is written:</p>
+    <div class="eqn">|ψ⟩ = (|00⟩ + |11⟩) / √2</div>
+    <p>Read this as: there's a 50% chance both qubits measure 0, and a 50% chance both measure 1 — but a 0% chance of getting one of each. Critically, you cannot rewrite this as "qubit A's state" times "qubit B's state" separately — the correlation is baked into the combined description itself, not into each qubit individually. That inseparability is the formal definition of entanglement.</p>
+  </div>
+
+  <p>Entanglement isn't just a curiosity — it's a genuine computational resource. It's essential to quantum teleportation, superdense coding, and quantum error correction, and it's one of the two core ingredients (along with superposition) behind the computational advantages quantum computers can have over classical ones. But in 1935, entanglement's implications looked less like an engineering resource and more like a threat to physics as Einstein understood it — which is exactly what the EPR paper was about.</p>
+</section>
+
+<!-- ================= PART 3: EPR PARADOX ================= -->
+<section class="part" id="p3">
+  <div class="part-label"><span class="part-index">03 — The EPR Paradox</span></div>
+  <h2>Einstein Calls Foul</h2>
+
+  <p>In 1935, <strong>Albert Einstein, Boris Podolsky, and Nathan Rosen</strong> (EPR) published a paper arguing that quantum mechanics, despite its experimental success, could not be a <em>complete</em> description of physical reality.</p>
+
+  <p>Their argument used an entangled pair of particles. If you measure one particle's position, you instantly know the other's position. If you instead measure the first particle's momentum, you instantly know the other's momentum. Since you could have chosen either measurement, and the second particle was never touched, EPR argued that <strong>both</strong> position and momentum must have already been definite, "real" properties of the second particle all along — <em>before</em> anyone measured anything.</p>
+
+  <div class="analogy">
+    <span class="tag">Analogy — the receipt in the sealed envelope</span>
+    <p>EPR's intuition was basically: if I mail you a sealed envelope and, without opening it, I can correctly predict what's inside just by looking at my copy of the receipt, then surely there was always a definite answer inside that envelope — it's absurd to say the contents only became real the moment someone opened it. That's a completely reasonable way to think about receipts and envelopes. EPR's claim was that particles should work the same way.</p>
+  </div>
+
+  <p>The problem: standard quantum mechanics says a particle <em>cannot</em> simultaneously have a well-defined position and momentum — that's Heisenberg's uncertainty principle. So EPR were pointing at a real tension: either quantum mechanics is <strong>incomplete</strong> (there are hidden, pre-existing properties it fails to describe — often called <strong>hidden variables</strong>), or nature genuinely allows this "spooky action at a distance," which Einstein flatly refused to accept.</p>
+
+  <p>This was controversial in 1935 because it directly challenged the Copenhagen interpretation's claim to be the full picture of reality. It's still discussed today because EPR sits at the exact center of the modern debate over what entanglement actually implies about the universe — and because, for 29 years, it remained a purely philosophical argument. There was no experiment anyone could point to that would settle it either way. That changed in 1964.</p>
+</section>
+
+<!-- ================= PART 4: BELL'S THEOREM ================= -->
+<section class="part" id="p4">
+  <div class="part-label"><span class="part-index">04 — Bell's Theorem</span><span class="part-time">the required deep dive</span></div>
+  <h2>The Experiment That Settled It</h2>
+
+  <p><strong>John Stewart Bell</strong>, an Irish physicist at CERN, did something in 1964 that turned a 29-year-old philosophy debate into a testable science question. He didn't try to guess whether EPR or Bohr was "right." Instead, he asked: <em>if</em> EPR is right — if particles carry pre-existing, definite hidden properties, and nothing travels faster than light — <em>what statistical pattern would that force on the data?</em></p>
+
+  <h3>The game, not the math</h3>
+  <div class="analogy b">
+    <span class="tag">Think of it as a game show</span>
+    <p>Imagine a game show where you and a partner are separated into soundproof booths (no communicating once the round starts). A host gives each of you one of a few possible questions, chosen randomly and independently. You each answer yes or no. You win a point when your answers <em>match</em> in specific combinations of questions. If you and your partner agreed on a fixed strategy beforehand — a script, a shared playbook, "hidden variables" you both carry into your booths — there's a hard mathematical ceiling on how often you can win, no matter how clever your strategy is. That ceiling is <strong>Bell's inequality</strong>.</p>
+  </div>
+
+  <div class="refresher">
+    <span class="tag">Math refresher — the inequality, in plain terms</span>
+    <p>Bell derived that any "pre-agreed strategy" theory (a local hidden-variable theory) must satisfy a hard limit on how strongly the two sides' results can correlate. The version almost everyone quotes — and the one experiments actually test — was sharpened five years later by Clauser, Horne, Shimony and Holt, so it is usually called the <strong>CHSH inequality</strong>:</p>
+    <div class="eqn">S ≤ 2</div>
+    <p>where S is a combined score built from correlations measured at several different detector-angle combinations. You don't need to derive this yourself — the key fact is that <strong>2</strong> is the hard ceiling for any classical, pre-scripted strategy. Quantum mechanics predicts you can do better than that ceiling using entangled qubits instead of a pre-agreed script — up to <strong>S = 2√2 ≈ 2.83</strong>. That's not a small statistical wobble; it's a completely different regime, and it's why the test is decisive rather than ambiguous.</p>
+  </div>
+
+  <p>This was the breakthrough: Bell's inequality gave physicists an actual number to go measure in a lab. If real entangled particles broke through the classical ceiling of 2, local hidden-variable theories — the entire EPR picture — would be dead. If they never exceeded it, Einstein would have been right all along.</p>
+
+  <h3>The experimental setup</h3>
+  <figure>
+    <div class="svg-wrap" id="bell-setup-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="Bell test setup: a source emits entangled photon pairs toward two independently-angled polarizers and detectors, one on each side."><line x1="340" y1="110" x2="150" y2="70" stroke="#3E8FB0" stroke-width="2.5"/><line x1="340" y1="110" x2="530" y2="70" stroke="#E2703A" stroke-width="2.5"/><circle cx="340" cy="110" r="16" fill="#0B2E2C"/><text x="340" y="114" font-family="Inter, sans-serif" font-size="10.5" fill="#F7F3EA" text-anchor="middle" font-weight="600">Source</text><rect x="140" y="50" width="10" height="40" fill="#3E8FB0" transform="rotate(-20 145 70)"/><text x="120" y="50" font-family="Inter, sans-serif" font-size="11.5" fill="#1C2321" text-anchor="middle">angle a</text><circle cx="120" cy="90" r="14" fill="#3E8FB0"/><text x="120" y="94" font-family="Inter, sans-serif" font-size="11" fill="#F7F3EA" text-anchor="middle" font-weight="600">D</text><text x="120" y="120" font-family="Inter, sans-serif" font-size="12" fill="#1C2321" text-anchor="middle">Detector A</text><rect x="520" y="50" width="10" height="40" fill="#E2703A" transform="rotate(20 525 70)"/><text x="560" y="50" font-family="Inter, sans-serif" font-size="11.5" fill="#1C2321" text-anchor="middle">angle b</text><circle cx="560" cy="90" r="14" fill="#E2703A"/><text x="560" y="94" font-family="Inter, sans-serif" font-size="11" fill="#F7F3EA" text-anchor="middle" font-weight="600">D</text><text x="560" y="120" font-family="Inter, sans-serif" font-size="12" fill="#1C2321" text-anchor="middle">Detector B</text><text x="340" y="170" font-family="Inter, sans-serif" font-size="13" fill="#5B5342" text-anchor="middle">a and b are set independently and randomly for each pair</text><text x="340" y="190" font-family="Inter, sans-serif" font-size="12.5" fill="#5B5342" text-anchor="middle">correlation between the two detector outcomes is recorded over many trials</text></svg></div>
+    <figcaption>A source produces entangled photon pairs and fires them toward two detectors. Each detector's polarizer angle is set independently and randomly, and the correlation between outcomes is measured across many angle combinations.</figcaption>
+  </figure>
+
+  <h3>Why the angles must be random — and chosen late</h3>
+
+  <p>That one sentence in the caption is doing enormous work, and it is the reason Bell tests took fifty years to get right. If the two detector angles were fixed in advance, or picked in any way the particles could have "known about" when they left the source, then a clever pre-agreed script <em>could</em> reproduce the quantum-looking numbers. The whole experiment would prove nothing.</p>
+
+  <div class="analogy b">
+    <span class="tag">Analogy — the patched speedrun</span>
+    <p>Think of a speedrunner who has memorised a level frame by frame. Their run looks superhuman, but only because the level is identical every time. The way you find out whether they are genuinely reacting or just replaying a memorised script is to <strong>randomise the level after they have started running</strong>. A Bell test does exactly this to the particles: it decides which question to ask each detector so late that no memorised script — and no message travelling at light speed from the other detector — could have accounted for it.</p>
+  </div>
+
+  <p>So a convincing Bell test has to satisfy three conditions at once: the two choices must be <strong>independent of each other</strong>, <strong>independent of whatever the source did</strong>, and made <strong>late enough and far enough apart</strong> that light itself could not carry one choice to the other side before both measurements finish. Each of those conditions, left open, is a way for local realism to survive — and each one has its own name.</p>
+
+  <h3>The three escape routes</h3>
+
+  <p>Physicists call these <strong>loopholes</strong>. None of them is a flaw in Bell's reasoning; each is a practical gap between the ideal experiment Bell described and the messy one you can actually build. Closing them, one at a time and then all at once, <em>is</em> the story of the last fifty years:</p>
+
+  <table class="scoreboard">
+    <tr><th>Loophole</th><th>The escape it leaves open</th><th>How it was closed</th></tr>
+    <tr>
+      <td class="lead">Detection<br>(&ldquo;fair sampling&rdquo;)</td>
+      <td>Early detectors caught only a tiny fraction of photons. If the ones that got detected weren't a representative sample, the correlation could be an artefact of <em>which</em> pairs you happened to see.</td>
+      <td>Use systems you can read out almost every time — trapped ions (Rowe, 2001) or high-efficiency photon detectors (2013 onward).</td>
+    </tr>
+    <tr>
+      <td class="lead">Locality<br>(&ldquo;communication&rdquo;)</td>
+      <td>If the detectors are close together or slow to choose, one side could in principle influence the other at or below light speed without breaking any physics.</td>
+      <td>Push the detectors apart and switch the settings while the particles are in flight — Aspect (1982), then Weihs (1998) at 400&nbsp;m.</td>
+    </tr>
+    <tr>
+      <td class="lead">Freedom of choice</td>
+      <td>Subtler: what if the &ldquo;random&rdquo; setting choices share some common cause with the particles themselves? Then the choices were never really free.</td>
+      <td>Seed the choices from something wildly independent — light from quasars emitted billions of years ago (Rauch, 2018), or random bits typed by over 100,000 people (the BIG Bell Test, 2018).</td>
+    </tr>
+  </table>
+
+  <p>Until 2015, every experiment closed <em>some</em> of these while leaving another open, which left just enough room for a determined sceptic. That year, three independent groups — in <strong>Delft</strong>, <strong>Vienna</strong>, and <strong>Boulder</strong> — closed the detection and locality loopholes <em>simultaneously</em> for the first time. The Delft experiment separated its two entangled electrons, held in defects in diamond, by 1.3 kilometres.</p>
+
+  <h3>The results</h3>
+  <p>The experimental chase to actually run this test took decades, and the measured numbers are worth seeing rather than just being told about:</p>
+  <table class="scoreboard">
+    <tr><th>Year</th><th>Team</th><th>Measured S</th><th>What it settled</th></tr>
+    <tr><td class="lead">1972</td><td>Freedman &amp; Clauser</td><td>violation at ~6&sigma;</td><td>The first laboratory Bell test. Local hidden variables lose — but with both the detection and locality loopholes wide open.</td></tr>
+    <tr><td class="lead">1982</td><td>Aspect, Grangier &amp; Roger</td><td><strong>2.697 &plusmn; 0.015</strong></td><td>A 46&sigma; violation, 83% of the way to the quantum maximum. A companion experiment switched the analyser settings while the photons were in flight, attacking the locality loophole.</td></tr>
+    <tr><td class="lead">1998</td><td>Weihs <em>et&nbsp;al.</em></td><td>violation at ~30&sigma;</td><td>Detectors 400&nbsp;m apart with fast random switching — the locality loophole properly closed.</td></tr>
+    <tr><td class="lead">2015</td><td>Delft, Vienna, Boulder</td><td><strong>2.42 &plusmn; 0.20</strong> (Delft)</td><td>The first tests to close detection <em>and</em> locality at once. A smaller S, but a far harder result to explain away.</td></tr>
+    <tr><td class="lead">2018</td><td>Rauch <em>et&nbsp;al.</em>; BIG Bell Test</td><td>violation at 9.3&sigma; (quasar test)</td><td>Setting choices seeded by quasar light nearly 8 billion years old, and by 100,000 human volunteers — squeezing the freedom-of-choice loophole.</td></tr>
+    <tr><td class="lead">2022</td><td>Nobel Prize in Physics</td><td>&mdash;</td><td>Awarded jointly to Clauser, Aspect, and Zeilinger for this body of work.</td></tr>
+  </table>
+
+  <figure>
+    <div class="svg-wrap" id="bell-chart-svg"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 275" role="img" aria-label="Bar chart: classical limit is 2, quantum prediction is 2.83, and experimental results measure around 2.7 to 2.8, all above the classical limit."><line x1="70" y1="200" x2="620" y2="200" stroke="#B9AE8C" stroke-width="2"/><line x1="70" y1="30" x2="70" y2="200" stroke="#B9AE8C" stroke-width="2"/><line x1="65" y1="200" x2="70" y2="200" stroke="#B9AE8C" stroke-width="2"/><text x="56" y="204" font-family="Inter, sans-serif" font-size="11" fill="#7A7261" text-anchor="end">0</text><line x1="65" y1="143.33333333333334" x2="70" y2="143.33333333333334" stroke="#B9AE8C" stroke-width="2"/><text x="56" y="147.33333333333334" font-family="Inter, sans-serif" font-size="11" fill="#7A7261" text-anchor="end">1</text><line x1="65" y1="86.66666666666667" x2="70" y2="86.66666666666667" stroke="#B9AE8C" stroke-width="2"/><text x="56" y="90.66666666666667" font-family="Inter, sans-serif" font-size="11" fill="#7A7261" text-anchor="end">2</text><line x1="65" y1="30" x2="70" y2="30" stroke="#B9AE8C" stroke-width="2"/><text x="56" y="34" font-family="Inter, sans-serif" font-size="11" fill="#7A7261" text-anchor="end">3</text><line x1="70" y1="86.66666666666667" x2="620" y2="86.66666666666667" stroke="#E2703A" stroke-width="2" stroke-dasharray="5,4"/><text x="78" y="77.66666666666667" font-family="Inter, sans-serif" font-size="11.5" fill="#E2703A" text-anchor="start" font-weight="600">classical limit S = 2</text><rect x="140" y="86.66666666666667" width="90" height="113.33333333333333" fill="#DCD2B8" rx="3"/><text x="185" y="108.66666666666667" font-family="JetBrains Mono, monospace" font-size="13" fill="#1C2321" text-anchor="middle" font-weight="600">2.00</text><text x="185" y="222" font-family="Inter, sans-serif" font-size="12.5" fill="#1C2321" text-anchor="middle"><tspan x="185" dy="0">Classical</tspan><tspan x="185" dy="15">bound</tspan></text><rect x="320" y="39.633333333333326" width="90" height="160.36666666666667" fill="#3E8FB0" rx="3"/><text x="365" y="29.633333333333326" font-family="JetBrains Mono, monospace" font-size="13" fill="#1C2321" text-anchor="middle" font-weight="600">2.83</text><text x="365" y="222" font-family="Inter, sans-serif" font-size="12.5" fill="#1C2321" text-anchor="middle"><tspan x="365" dy="0">Quantum prediction</tspan><tspan x="365" dy="15">(2√2)</tspan></text><rect x="480" y="44.166666666666686" width="90" height="155.83333333333331" fill="#0B2E2C" rx="3"/><text x="525" y="34.166666666666686" font-family="JetBrains Mono, monospace" font-size="13" fill="#1C2321" text-anchor="middle" font-weight="600">2.75</text><text x="525" y="222" font-family="Inter, sans-serif" font-size="12.5" fill="#1C2321" text-anchor="middle"><tspan x="525" dy="0">Typical measured</tspan><tspan x="525" dy="15">result</tspan></text></svg></div>
+    <figcaption>Every rigorous Bell test to date has landed near the quantum prediction, well above the classical ceiling — never at or below it.</figcaption>
+  </figure>
+
+  <p class="simplify">Notice that the 2015 numbers are <em>lower</em> than Aspect's 1982 number, which looks backwards until you see why. A bigger S is not a better experiment. The loophole-free setups traded raw correlation strength for airtightness — harder physical systems, longer distances, stricter timing — so their S sits closer to 2 while ruling out far more. What matters is that the violation survives once the escape routes are shut.</p>
+
+  <p>Across every rigorous repetition, the measured correlations break through the classical limit of 2. The conclusion physicists draw from this is significant: nature does not behave according to <strong>local realism</strong> — the combined idea that particles carry definite pre-existing properties (realism) <em>and</em> that no influence travels faster than light between them (locality). At least one of those two assumptions has to go, and most physicists conclude it's realism in the EPR sense: entangled particles genuinely don't have definite values until measured.</p>
+
+  <p class="simplify">Simplification note: "nothing travels faster than light" is preserved — no usable information is actually transmitted between the two measurements, so this doesn't violate relativity. What's given up is the classical assumption that particles carry fixed, definite properties all along, independent of measurement.</p>
+
+  <h3>Watch: seeing the argument play out</h3>
+  <div class="video-card">
+    <div class="video-icon">▶</div>
+    <div>
+      <a href="https://www.youtube.com/watch?v=WMl0Pl75pnM" target="_blank" rel="noopener">Veritasium — "There Is Something Faster Than Light"</a>
+      <p>A visual, no-heavy-math walkthrough of Bell's theorem and why the experimental results are so strange — a strong match for a first pass through this material.</p>
+    </div>
+  </div>
+  <div class="video-card">
+    <div class="video-icon">▶</div>
+    <div>
+      <a href="https://www.youtube.com/watch?v=zcqZHYo7ONs" target="_blank" rel="noopener">MinutePhysics — "Bell's Theorem: The Quantum Venn Diagram Paradox"</a>
+      <p>A short, visual explanation using Venn diagrams instead of algebra — a good way to build intuition for the inequality before you see it written symbolically again later.</p>
+    </div>
+  </div>
+</section>
+
+<div class="takeaways">
+  <h2>Key takeaways</h2>
+  <ul>
+    <li>Superposition (α|0⟩ + β|1⟩) lets a qubit hold a genuine blend of 0 and 1 until measured; n qubits can hold 2ⁿ states in superposition at once, though measurement always yields one definite outcome.</li>
+    <li>Entanglement links two or more qubits so their combined state can't be split into separate individual descriptions — measuring one instantly correlates with the other, without transmitting any usable signal.</li>
+    <li>The 1935 EPR paper argued quantum mechanics must be incomplete, since entangled particles seemed to imply pre-existing "hidden variable" properties that quantum theory doesn't describe.</li>
+    <li>In 1964, John Bell derived a testable inequality that turned the EPR philosophical debate into an experimental question; the form experiments actually use (S ≤ 2 for any local hidden-variable theory) is the 1969 CHSH version.</li>
+    <li>Bell tests from Freedman & Clauser (1972) through Aspect (S = 2.697 ± 0.015 in 1982) to the loophole-free experiments of 2015 have consistently violated the classical limit. Closing the detection, locality, and freedom-of-choice loopholes is what made the result decisive — work recognized with the 2022 Nobel Prize in Physics.</li>
+  </ul>
+</div>
+
+<!-- ================= ASSESSMENT ================= -->
+<section class="assessment">
+  <div class="part-label"><span class="part-index">Check yourself</span></div>
+  <h2>Week 4 assessment</h2>
+  <p>Five short-answer questions. Try answering each in 2–4 sentences before revealing the answer key.</p>
+
+  <div class="qcard">
+    <div class="qmeta">Targets Objective 2 · 3</div>
+    <div class="qtext">1. Describe superposition and how it is used in quantum computing.</div>
+  </div>
+  <div class="qcard">
+    <div class="qmeta">Targets Objective 2 · 3</div>
+    <div class="qtext">2. Describe entanglement and how it is used in quantum computing.</div>
+  </div>
+  <div class="qcard">
+    <div class="qmeta">Targets Objective 1 · 2</div>
+    <div class="qtext">3. Describe the EPR paper and why it was controversial when it was written and still is today.</div>
+  </div>
+  <div class="qcard">
+    <div class="qmeta">Targets Objective 1</div>
+    <div class="qtext">4. What contributions did John Bell make to quantum mechanics?</div>
+  </div>
+  <div class="qcard">
+    <div class="qmeta">Targets Objective 1 · 2</div>
+    <div class="qtext">5. Describe Bell's inequality and the experimental results that came from testing it.</div>
+  </div>
+
+  <details class="answers">
+    <summary>Check your answers</summary>
+    <div class="ans-body">
+      <div class="ans-block">
+        <h4>1. Superposition</h4>
+        <p>Superposition is the principle that a quantum system can exist in a combination of multiple possible states at once, rather than being confined to just one, until measured. A qubit can be in a state α|0⟩ + β|1⟩, where the coefficients determine the probability of measuring each outcome. In quantum computing, n qubits in superposition can represent 2ⁿ states simultaneously, which is the basis for potential speedups in algorithms like Grover's and Shor's — though a measurement still only yields one definite outcome, so harnessing the parallelism requires carefully designed interference.</p>
+      </div>
+      <div class="ans-block">
+        <h4>2. Entanglement</h4>
+        <p>Entanglement is a phenomenon where two or more particles become correlated such that the group's quantum state cannot be described as the combination of separate individual states. Measuring one entangled particle instantly determines information about its partner's state, regardless of distance, though no information is transmitted faster than light. It's a key computational resource enabling quantum teleportation, superdense coding, and error correction, and is essential (alongside superposition) to quantum computational advantage.</p>
+      </div>
+      <div class="ans-block">
+        <h4>3. The EPR paper</h4>
+        <p>Published in 1935 by Einstein, Podolsky, and Rosen, it argued quantum mechanics must be incomplete. Using entangled particles, they reasoned that measuring either position or momentum on one particle let you instantly know the corresponding property of the other, implying both properties were already definite "elements of reality" — even though quantum mechanics says they can't both be well-defined at once. It was controversial because it directly challenged the Copenhagen interpretation's completeness, and remains controversial today because it's central to ongoing debates about locality, realism, and what entanglement implies about the universe.</p>
+      </div>
+      <div class="ans-block">
+        <h4>4. John Bell's contributions</h4>
+        <p>Bell transformed the EPR debate from philosophy into an experimentally testable question. In his 1964 paper, he derived an inequality that any local hidden-variable theory must satisfy, and showed that quantum mechanics predicts violations of it under certain conditions — meaning experiments could definitively distinguish between the two pictures of reality.</p>
+      </div>
+      <div class="ans-block">
+        <h4>5. Bell's inequality and experimental results</h4>
+        <p>Bell's inequality sets an upper limit on correlations between entangled-particle measurements that any local hidden-variable theory could produce. Quantum mechanics predicts correlations exceeding this limit under specific setups. Starting with Clauser and Freedman's 1970s experiments, followed by Aspect's more rigorous 1980s tests, and later loophole-closing experiments by Zeilinger's team and others in the 2000s–2010s, physicists have repeatedly measured violations matching quantum mechanics' predictions rather than the classical limit — work recognized with the 2022 Nobel Prize in Physics.</p>
+      </div>
+    </div>
+  </details>
+</section>
+
+</div>
+</div>
+
+<footer>Week 4 · Objectives 1–3 — Superposition, Entanglement, EPR, and Bell's Theorem</footer>
+
+<script>
+(function(){
+  const svgNS = "http://www.w3.org/2000/svg";
+
+  // The three static figures above are now inline SVG in the markup, so they
+  // survive with JavaScript off and in print. Only the Bloch sphere below is
+  // still drawn here, because it has to redraw as gates are applied; its |0>
+  // starting state is also inline, and this replaces it on load.
+
+  // ---------- Interactive Bloch sphere (H and X only, real amplitudes) ----------
+  (function(){
+    let state = {ar:1, ai:0, br:0, bi:0}; // alpha = ar+i*ai ; beta = br+i*bi
+
+    function applyMatrix(m){
+      // m is 2x2 complex: [[m00,m01],[m10,m11]] each {re,im}
+      const a = state; 
+      const newA = cadd(cmul(m[0][0],{re:a.ar,im:a.ai}), cmul(m[0][1],{re:a.br,im:a.bi}));
+      const newB = cadd(cmul(m[1][0],{re:a.ar,im:a.ai}), cmul(m[1][1],{re:a.br,im:a.bi}));
+      state = {ar:newA.re, ai:newA.im, br:newB.re, bi:newB.im};
+    }
+    function cmul(x,y){ return {re:x.re*y.re-x.im*y.im, im:x.re*y.im+x.im*y.re}; }
+    function cadd(x,y){ return {re:x.re+y.re, im:x.im+y.im}; }
+
+    const s = 1/Math.sqrt(2);
+    const H = [[{re:s,im:0},{re:s,im:0}],[{re:s,im:0},{re:-s,im:0}]];
+    const X = [[{re:0,im:0},{re:1,im:0}],[{re:1,im:0},{re:0,im:0}]];
+
+    function fmt(n){
+      const r = Math.round(n*1000)/1000;
+      return (r===0? "0" : r.toString());
+    }
+
+    function diracString(){
+      const parts=[];
+      if(Math.abs(state.ar)>0.001 || Math.abs(state.ai)>0.001){
+        parts.push(`${fmt(state.ar)}|0⟩`);
+      }
+      if(Math.abs(state.br)>0.001 || Math.abs(state.bi)>0.001){
+        const sign = state.br>=0 ? "+" : "−";
+        parts.push(`${parts.length? " "+sign+" " : (sign==="−"?"−":"")}${fmt(Math.abs(state.br))}|1⟩`);
+      }
+      return parts.join("") || "0";
+    }
+
+    function render(){
+      const alphaMag = Math.sqrt(state.ar*state.ar+state.ai*state.ai);
+      const betaMag = Math.sqrt(state.br*state.br+state.bi*state.bi);
+      const clampedAlpha = Math.min(1, Math.max(-1, alphaMag));
+      const theta = 2*Math.acos(clampedAlpha);
+      let phi = Math.atan2(state.bi,state.br) - Math.atan2(state.ai,state.ar);
+      if(betaMag < 0.0001) phi = 0;
+      // normalize phi to [0, 2pi)
+      phi = ((phi % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+
+      document.getElementById('readout-dirac').textContent = diracString();
+      document.getElementById('readout-angles').textContent =
+        `θ = ${Math.round(theta*180/Math.PI)}°, φ = ${Math.round(phi*180/Math.PI)}°`;
+      document.getElementById('readout-probs').textContent =
+        `P(0) = ${Math.round(alphaMag*alphaMag*100)}%, P(1) = ${Math.round(betaMag*betaMag*100)}%`;
+
+      drawSphere(theta, phi);
+    }
+
+    function drawSphere(theta, phi){
+      const wrap = document.getElementById('bloch-svg-wrap');
+      wrap.innerHTML = "";
+      const w=180,h=200;
+      const svg = document.createElementNS(svgNS,"svg");
+      svg.setAttribute("viewBox",`0 0 ${w} ${h}`);
+      svg.setAttribute("role","img");
+      svg.setAttribute("aria-label",`Bloch sphere showing the qubit state at theta ${Math.round(theta*180/Math.PI)} degrees, phi ${Math.round(phi*180/Math.PI)} degrees`);
+
+      const cx=90, cy=100, R=70;
+
+      function el(tag,attrs){
+        const e=document.createElementNS(svgNS,tag);
+        for(const k in attrs) e.setAttribute(k,attrs[k]);
+        svg.appendChild(e);
+        return e;
+      }
+
+      // outer sphere circle
+      el("circle",{cx:cx,cy:cy,r:R,fill:"none",stroke:"#B9AE8C","stroke-width":1.5});
+      // equator ellipse
+      el("ellipse",{cx:cx,cy:cy,rx:R,ry:R*0.32,fill:"none",stroke:"#B9AE8C","stroke-width":1,"stroke-dasharray":"3,3"});
+      // vertical axis
+      el("line",{x1:cx,y1:cy-R,x2:cx,y2:cy+R,stroke:"#DCD2B8","stroke-width":1});
+
+      // labels
+      el("text",{x:cx,y:cy-R-10,"text-anchor":"middle","font-size":13,"font-family":"JetBrains Mono, monospace",fill:"#0B2E2C"}).textContent="|0⟩";
+      el("text",{x:cx,y:cy+R+20,"text-anchor":"middle","font-size":13,"font-family":"JetBrains Mono, monospace",fill:"#0B2E2C"}).textContent="|1⟩";
+
+      // state vector: x = sin(theta)*cos(phi), z = cos(theta); project z as vertical, x as horizontal
+      const vx = Math.sin(theta)*Math.cos(phi);
+      const vz = Math.cos(theta);
+      const px = cx + vx*R;
+      const py = cy - vz*R;
+
+      el("line",{x1:cx,y1:cy,x2:px,y2:py,stroke:"#E3A73B","stroke-width":3});
+      el("circle",{cx:px,cy:py,r:6,fill:"#E3A73B",stroke:"#0B2E2C","stroke-width":1.5});
+      el("circle",{cx:cx,cy:cy,r:3,fill:"#0B2E2C"});
+
+      wrap.appendChild(svg);
+    }
+
+    document.getElementById('btn-h').addEventListener('click', ()=>{ applyMatrix(H); render(); });
+    document.getElementById('btn-x').addEventListener('click', ()=>{ applyMatrix(X); render(); });
+    document.getElementById('btn-reset').addEventListener('click', ()=>{ state={ar:1,ai:0,br:0,bi:0}; render(); });
+
+    render();
+  })();
+
+})();
+</script>
+</body>
+</html>

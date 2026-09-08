@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 3 — When certainty broke: the birth of quantum mechanics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12172A;
+    --surface:#1A2036;
+    --surface-2:#212A47;
+    --border:#2C3554;
+    --border-strong:#3E4A70;
+    --text:#EDEAE0;
+    --text-secondary:#ADA9A0;
+    --text-muted:#8A8779;
+    --gold:#D9A441;
+    --gold-dim:#9C7A38;
+    --teal:#4FB3A9;
+    --teal-dim:#347A73;
+    --font-serif:'Spectral', Georgia, 'Times New Roman', serif;
+    --font-sans:'Source Sans 3', -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-sans);
+    font-size:17px;
+    line-height:1.7;
+  }
+  .wrap{max-width:700px;margin:0 auto;padding:3rem 1.5rem 5rem;}
+  h1,h2,h3{font-family:var(--font-serif);font-weight:500;color:var(--text);}
+  h1{font-size:2.1rem;line-height:1.25;font-weight:600;margin:0 0 0.75rem;}
+  h2{font-size:1.5rem;margin:3rem 0 1rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+  h2 .num{color:var(--gold);font-style:italic;font-weight:400;margin-right:0.5rem;}
+  h3{font-size:1.15rem;margin:1.75rem 0 0.75rem;color:var(--teal);}
+  p{margin:0 0 1.1rem;color:var(--text);}
+  .lede{font-family:var(--font-serif);font-style:italic;font-size:1.15rem;color:var(--text-secondary);line-height:1.6;margin-bottom:2rem;}
+  .meta-row{display:flex;gap:1.5rem;flex-wrap:wrap;font-size:0.85rem;color:var(--text-muted);margin-bottom:2.5rem;border-bottom:1px solid var(--border);padding-bottom:1.5rem;}
+  .meta-row span{display:flex;align-items:center;gap:0.4rem;}
+  a{color:var(--teal);text-decoration:underline;text-decoration-color:var(--teal-dim);text-underline-offset:3px;}
+  a:hover{color:#6FCABF;}
+  .callout{
+    background:var(--surface-2);
+    border-left:3px solid var(--gold);
+    border-radius:0 8px 8px 0;
+    padding:1rem 1.25rem;
+    margin:1.5rem 0;
+  }
+  .callout .label{font-size:0.8rem;letter-spacing:0.02em;color:var(--gold);font-weight:600;margin-bottom:0.4rem;display:block;}
+  .callout p:last-child{margin-bottom:0;}
+  .analogy{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.1rem 1.3rem;
+    margin:1.4rem 0;
+  }
+  .analogy .label{font-size:0.8rem;color:var(--teal);font-weight:600;margin-bottom:0.4rem;display:block;}
+  .analogy p:last-child{margin-bottom:0;}
+  .figure{margin:1.75rem 0;}
+  .figure-cap{font-size:0.85rem;color:var(--text-muted);margin-top:0.6rem;line-height:1.5;}
+  .photo-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:1.25rem 1.4rem;
+  }
+  .photo-card a{font-weight:600;}
+  table.compare{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.92rem;}
+  table.compare th, table.compare td{text-align:left;padding:0.7rem 0.8rem;border-bottom:1px solid var(--border);vertical-align:top;}
+  table.compare th{color:var(--gold);font-weight:600;font-size:0.82rem;border-bottom:1px solid var(--border-strong);}
+  table.compare td{color:var(--text-secondary);}
+  table.compare tr td:first-child{color:var(--text);font-weight:600;white-space:nowrap;}
+  .video-card{display:flex;gap:1rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.3rem;margin-bottom:1rem;}
+  .video-card .vlabel{font-size:0.78rem;color:var(--teal);font-weight:600;}
+  .takeaways{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem 1.75rem;margin:1.5rem 0;}
+  .takeaways ul{margin:0;padding-left:1.2rem;}
+  .takeaways li{margin-bottom:0.6rem;color:var(--text);}
+  .takeaways li:last-child{margin-bottom:0;}
+  .qcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.4rem;margin-bottom:1.1rem;}
+  .qcard .qtag{font-size:0.75rem;color:var(--gold-dim);background:rgba(217,164,65,0.12);display:inline-block;padding:0.15rem 0.6rem;border-radius:20px;margin-bottom:0.6rem;}
+  .qcard p.qtext{font-weight:600;margin-bottom:0.6rem;color:var(--text);}
+  details{margin-top:0.5rem;}
+  details summary{cursor:pointer;color:var(--teal);font-size:0.9rem;font-weight:600;}
+  details summary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;}
+  details .hint-body, details .answer-body{margin-top:0.6rem;padding:0.9rem 1rem;background:var(--surface-2);border-radius:8px;font-size:0.92rem;color:var(--text-secondary);}
+  .divider{display:flex;align-items:center;gap:1rem;margin:2.5rem 0;color:var(--gold-dim);}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border);}
+  .bloch-widget{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin:1.5rem 0;}
+  .bloch-flex{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start;}
+  .bloch-controls{flex:1;min-width:220px;}
+  .bloch-controls button{
+    font-family:var(--font-sans);
+    background:var(--surface-2);
+    border:1px solid var(--border-strong);
+    color:var(--text);
+    padding:0.6rem 1rem;
+    border-radius:8px;
+    font-size:0.95rem;
+    cursor:pointer;
+    margin:0 0.5rem 0.5rem 0;
+  }
+  .bloch-controls button:hover{border-color:var(--teal);color:var(--teal);}
+  .bloch-controls button:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+  .bloch-readout{margin-top:1rem;font-size:0.9rem;color:var(--text-secondary);line-height:1.9;}
+  .bloch-readout b{color:var(--text);font-weight:600;}
+  .bloch-svg-wrap{flex:0 0 260px;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  ol.timeline-list{list-style:none;margin:0;padding:0;}
+  ol.timeline-list li{position:relative;padding:0 0 1.3rem 1.6rem;border-left:1px solid var(--border);}
+  ol.timeline-list li:last-child{border-left:1px solid transparent;padding-bottom:0;}
+  ol.timeline-list li::before{content:"";position:absolute;left:-4.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--gold);}
+  ol.timeline-list .year{font-family:var(--font-serif);color:var(--gold);font-weight:600;font-size:1rem;}
+  ol.timeline-list .desc{color:var(--text-secondary);font-size:0.92rem;margin-top:0.15rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>When certainty broke: the birth of quantum mechanics</h1>
+  <p class="lede">Two young physicists, working almost a year apart and from opposite starting points, independently invented the mathematics of the quantum world — and then had to argue with Einstein about what that mathematics actually meant.</p>
+
+  <div class="meta-row">
+    <span>Week 3 reading</span>
+    <span>~30 min</span>
+    <span>Objective 1: the historical evolution of physics from Newtonian mechanics into early quantum theory</span>
+  </div>
+
+  <p>This week you're going to meet the two people most responsible for quantum mechanics as we now teach it, watch them clash with Einstein at possibly the most famous conference photo ever taken, and land on the interpretation of quantum theory that most textbooks — including this course — still teach first: the Copenhagen interpretation. None of this is trivia. The measurement problem you'll meet at the end of this reading is the same conceptual gap that later ideas like superposition and entanglement (objective 2, coming soon) are built to formalize. Understanding <em>why</em> physicists were so unsettled in 1927 makes the strangeness of qubits feel a lot less arbitrary later on.</p>
+
+  <div class="callout">
+    <span class="label">Quick vector refresher</span>
+    <p>A couple of sections below use the idea of a state as an <strong>arrow</strong> — something with both a length and a direction, like a joystick pushed partway toward a corner of the screen. In classical physics, an arrow like this might represent velocity: 30 mph, heading northeast. In quantum mechanics, we'll use a similar arrow — called a state vector — to represent everything that can currently be said about a particle's condition. You don't need any calculus for this reading; just the idea that "pointing in a certain direction" can stand in for "being in a certain condition."</p>
+  </div>
+
+  <h2><span class="num">1</span>The birth of quantum mechanics</h2>
+  <p>By 1900, physics looked close to finished. Newton's laws predicted the motion of planets and cannonballs alike; Maxwell's equations explained light and electricity. Then a small number of experiments refused to fit. Hot glowing objects radiated energy in a pattern that classical physics said was impossible. Light hitting a metal plate knocked electrons loose in a way that made no sense if light was purely a wave. Atoms, according to the accepted rules of electromagnetism, should have collapsed in a fraction of a second — and yet atoms were obviously stable.</p>
+  <p>Max Planck's 1900 proposal that energy comes in discrete chunks, or <em>quanta</em>, was meant as a mathematical patch, not a revolution — he didn't fully believe it himself at first. Einstein took it seriously in 1905 to explain the photoelectric effect, and Niels Bohr used it in 1913 to build a model of the atom where electrons could only occupy certain fixed orbits. Each of these was a brilliant patch on top of classical physics rather than a new theory in its own right. What quantum mechanics needed by the mid-1920s was a complete, self-consistent mathematical framework — not more patches. That framework arrived from two directions at once, within about a year of each other.</p>
+
+  <div class="figure" id="timeline-figure">
+    <ol class="timeline-list" aria-label="Timeline from 1900 to 1927">
+      <li><span class="year">1900</span><div class="desc">Planck introduces energy quanta to explain glowing-hot objects.</div></li>
+      <li><span class="year">1905</span><div class="desc">Einstein explains the photoelectric effect using light quanta (photons).</div></li>
+      <li><span class="year">1913</span><div class="desc">Bohr proposes an atom with fixed, quantized electron orbits.</div></li>
+      <li><span class="year">1925</span><div class="desc">Heisenberg publishes matrix mechanics — the first complete quantum framework.</div></li>
+      <li><span class="year">1926</span><div class="desc">Schrödinger publishes wave mechanics, an alternative, equivalent framework.</div></li>
+      <li><span class="year">1927</span><div class="desc">Heisenberg states the uncertainty principle; the Solvay Conference debates what it all means.</div></li>
+    </ol>
+    <p class="figure-cap">Six milestones from the first crack in classical physics to the framework physicists still use today.</p>
+  </div>
+
+  <h2><span class="num">2</span>Heisenberg's breakthrough</h2>
+  <p>Werner Heisenberg was 23 in 1925, recovering from hay fever on the remote island of Helgoland, when he had the key insight: stop trying to picture what an electron is doing inside the atom, and only work with what can actually be measured — the frequencies and intensities of light the atom emits.</p>
+  <div class="analogy">
+    <span class="label">Sports analogy</span>
+    <p>Imagine a coach who never watches game footage and refuses to picture a player's exact position on the field at any instant. Instead, the coach only works from the box score: shots taken, passes completed, goals scored. It sounds like a strange restriction, but the box score is <em>real</em> — it's exactly what you can actually observe and measure, game after game. Heisenberg did the equivalent for the atom: instead of imagining an electron tracing a smooth orbit (something nobody can observe), he organized only the observable quantities — the "box score" of spectral lines — into a grid of numbers. That grid is a <em>matrix</em>, and the resulting theory is called <strong>matrix mechanics</strong>. Max Born and Pascual Jordan quickly showed Heisenberg's scheme was fully consistent mathematics, and by late 1925 it was the first complete, internally consistent version of quantum theory.</p>
+  </div>
+  <p>Two years later, in 1927, Heisenberg made an even more famous contribution: the <strong>uncertainty principle</strong>. It states that there is a hard mathematical limit on how precisely you can simultaneously know certain pairs of properties — position and momentum, for instance. This is not a statement about clumsy instruments that might one day be improved. It is a built-in feature of nature: the more precisely a particle's position is pinned down, the less precisely its momentum can be known, no matter how good your equipment gets. This was a genuinely new kind of claim in physics — not "we don't know yet," but "this cannot be known, even in principle."</p>
+
+  <h2><span class="num">3</span>Schrödinger's breakthrough</h2>
+  <p>Erwin Schrödinger disliked Heisenberg's approach — he found working with abstract grids of numbers, with no picture to visualize, deeply unsatisfying. Building on Louis de Broglie's idea that particles have a wave-like nature, Schrödinger spent the winter of 1925–26 developing an alternative: describe the electron not as a particle in an orbit, but as a wave spread through space.</p>
+  <div class="analogy">
+    <span class="label">Music analogy</span>
+    <p>Pluck a guitar string and it doesn't vibrate randomly — it settles into specific allowed patterns, or <em>modes</em>: the fundamental note, then the octave above it, then the fifth above that, and so on. Each mode has a fixed shape and a fixed frequency; you can't get a note "in between" two adjacent modes on an open string. Schrödinger's equation treats an electron bound to an atom the same way: instead of a string vibrating in one dimension, you get a three-dimensional wave — the <strong>wave function</strong>, written ψ (the Greek letter psi) — that can only settle into specific allowed patterns around the nucleus. Each allowed pattern corresponds to a specific, quantized energy level, in the same way each mode of the guitar string corresponds to a specific note. The "weirdness" of quantized atomic energy levels turns out to be the same mathematics as why a guitar string can't play a note halfway between two frets.</p>
+  </div>
+  <p>The Schrödinger equation describes how this wave function evolves smoothly over time — no jumps, no grids, just a continuous wave, which felt far more intuitive to most physicists of the day. Remarkably, within months it was proven that Schrödinger's wave mechanics and Heisenberg's matrix mechanics, despite looking completely different, make identical predictions. They are two languages for the same underlying theory. Today we mostly use Schrödinger's picture for its visual intuition and Heisenberg's for certain calculations — but in 1926, that equivalence wasn't yet clear, and each camp initially believed the other was on the wrong track.</p>
+
+  <h2><span class="num">4</span>The 1927 Solvay Conference</h2>
+  <p>In October 1927, the Fifth Solvay Conference on Electrons and Photons brought 29 of the era's leading physicists to Brussels to argue out what this new mathematics actually meant. Seventeen of the attendees either had already won, or would go on to win, a Nobel Prize. Einstein, Bohr, Heisenberg, Schrödinger, Marie Curie, Max Born, Paul Dirac, Louis de Broglie, and Wolfgang Pauli were all in the room.</p>
+
+  <div class="figure">
+    <div class="photo-card">
+      <p style="margin-bottom:0.5rem;">The conference's group portrait — often called "the most intelligent photograph ever taken" — is in the public domain and archived on Wikimedia Commons rather than reproduced here:</p>
+      <p style="margin-bottom:0;"><a href="https://commons.wikimedia.org/wiki/File:Solvay_conference_1927_(group_photograph).jpg" target="_blank" rel="noopener">Solvay Conference 1927, group photograph — Wikimedia Commons ↗</a></p>
+    </div>
+    <p class="figure-cap">Photo credit: Benjamin Couprie, Institut International de Physique Solvay. Public domain (published 1927, photographer died 1934).</p>
+  </div>
+
+  <p>The conference is remembered less for its official talks and more for what happened in the hallways and over dinner: the start of the running argument between Einstein and Bohr, now called the <strong>Bohr–Einstein debates</strong>. Einstein was uneasy with the probabilistic, indeterminate picture that Heisenberg and Bohr were proposing — this is the origin of his later remark that "God does not play dice." Over breakfast each morning at the conference, Einstein would present a thought experiment designed to show quantum mechanics was incomplete or inconsistent; by dinner, Bohr would usually have found the flaw in it. Neither man ever fully persuaded the other, but the exchange sharpened the emerging interpretation into something the rest of the physics community could evaluate — and largely accept.</p>
+
+  <h2><span class="num">5</span>The Copenhagen interpretation and the measurement problem</h2>
+  <p>The view that Bohr and Heisenberg defended at Solvay, developed over the previous two years at Bohr's institute in Copenhagen, holds a few core claims:</p>
+  <ul>
+    <li>A quantum system does not have a definite value for a property — like position — until that property is actually measured.</li>
+    <li>Before measurement, the system exists in a <strong>superposition</strong>: a combination of every possible outcome, weighted by probability.</li>
+    <li>The probabilities are governed by the <strong>Born rule</strong>, using the wave function ψ.</li>
+    <li>The act of measurement causes the wave function to <strong>collapse</strong> into one definite, actual outcome.</li>
+  </ul>
+  <p>This collapse is the heart of what's called the <strong>measurement problem</strong>: the mathematics of the Schrödinger equation describes smooth, continuous evolution with no collapse in it anywhere — so what, physically, is actually happening at the moment of measurement, and why does looking at something seem to change it? Bohr's answer, roughly, was not to ask. He argued that quantum and classical descriptions apply to different domains — the quantum system being measured, and the classical measuring device doing the measuring — and that physics only needs to predict outcomes, not settle what's "really" happening in between. Not everyone found (or finds) that satisfying, which is exactly why alternative interpretations exist, covered in the next section.</p>
+
+  <div class="analogy">
+    <span class="label">Gaming analogy</span>
+    <p>Think of a multiplayer game with a fog-of-war map. Until you actually move a unit into an unexplored tile, the game engine doesn't fully commit to what's sitting there — it might be tracking several possibilities at once for efficiency. The moment your scout's line of sight reaches that tile, the game "resolves" it into one definite thing. Copenhagen's picture of measurement has a similar flavor: the electron isn't hiding a definite position that you simply haven't found yet — in this interpretation, it doesn't have one until the measurement happens. That's a much stronger and stranger claim than "we don't know where it is," and it's the part of quantum mechanics most people find hardest to accept.</p>
+  </div>
+
+  <h3>See it happen: superposition on a Bloch sphere</h3>
+  <p>You'll use the Bloch sphere throughout this course to track the state of a single qubit — a state vector that's initially undefined and can visually represent superposition. Below, the qubit starts in a definite state, written |0⟩ (read "ket zero"). Press <strong>H</strong> to apply a Hadamard gate and watch the arrow move to the equator — that's a 50/50 superposition, the same kind of "no definite value yet" state the Copenhagen interpretation describes. Press <strong>X</strong> to flip the state instead, which stays definite the whole time. This isn't this week's main topic — you'll go much deeper on gates soon — it's here just to make superposition concrete rather than abstract.</p>
+
+  <div class="bloch-widget">
+    <h2 class="sr-only" style="border:none;margin:0;padding:0;">Interactive Bloch sphere showing a qubit state moving between definite states and superposition as gates are applied</h2>
+    <div class="bloch-flex">
+      <div class="bloch-svg-wrap">
+        <svg id="blochSvg" width="100%" viewBox="0 0 240 240" role="img" aria-labelledby="blochTitle blochDesc">
+          <title id="blochTitle">Bloch sphere</title>
+          <desc id="blochDesc">A sphere with a point representing the qubit state, currently described in the readout text below.</desc>
+          <ellipse cx="120" cy="120" rx="95" ry="95" fill="none" stroke="#3E4A70" stroke-width="1"/>
+          <ellipse cx="120" cy="120" rx="95" ry="33" fill="none" stroke="#3E4A70" stroke-width="1" stroke-dasharray="3 4"/>
+          <line x1="120" y1="25" x2="120" y2="215" stroke="#3E4A70" stroke-width="1"/>
+          <text x="120" y="16" text-anchor="middle" fill="#8A8779" font-size="12" font-family="Source Sans 3, sans-serif">|0⟩</text>
+          <text x="120" y="232" text-anchor="middle" fill="#8A8779" font-size="12" font-family="Source Sans 3, sans-serif">|1⟩</text>
+          <line id="stateLine" x1="120" y1="120" x2="120" y2="25" stroke="#4FB3A9" stroke-width="2"/>
+          <circle id="statePoint" cx="120" cy="25" r="6" fill="#D9A441"/>
+        </svg>
+      </div>
+      <div class="bloch-controls">
+        <button type="button" id="btnH">Apply H</button>
+        <button type="button" id="btnX">Apply X</button>
+        <button type="button" id="btnReset">Reset to |0⟩</button>
+        <div class="bloch-readout">
+          <div>State: <b id="readoutDirac">|0⟩</b></div>
+          <div>θ (theta): <b id="readoutTheta">0°</b> &nbsp; φ (phi): <b id="readoutPhi">0°</b></div>
+          <div id="readoutNote" style="margin-top:0.4rem;color:var(--text-muted);font-size:0.85rem;">Definite state — measuring now always gives 0.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">⟡</div>
+
+  <h2><span class="num">6</span>Other interpretations</h2>
+  <p>Copenhagen remains the interpretation most often taught first, but it never fully settled the argument it started at Solvay in 1927. Because every interpretation below makes the exact same experimental predictions, choosing between them is more a matter of philosophical taste and mathematical elegance than something a lab experiment can currently decide.</p>
+
+  <table class="compare">
+    <tr><th>Interpretation</th><th>Core idea</th><th>At measurement</th><th>Deterministic?</th></tr>
+    <tr><td>Copenhagen</td><td>No definite property until measured; only probabilities exist beforehand.</td><td>Wave function collapses to one outcome.</td><td>No — outcomes are fundamentally random.</td></tr>
+    <tr><td>Many-worlds</td><td>Every possible outcome happens, each in its own branching universe.</td><td>No collapse — the universe splits.</td><td>Yes, for the whole multiverse; random from inside any one branch.</td></tr>
+    <tr><td>Pilot-wave (de Broglie–Bohm)</td><td>Particles always have a real, definite position, guided by a hidden wave.</td><td>Reveals a position that was already real, just unknown.</td><td>Yes — but the guiding wave is nonlocal.</td></tr>
+    <tr><td>Objective collapse</td><td>Collapse is a real, spontaneous physical process, not caused by observers.</td><td>Genuine physical collapse, built into the equations.</td><td>No — collapse is random, like radioactive decay.</td></tr>
+  </table>
+
+  <p>A few others worth knowing by name: <strong>QBism</strong> treats the wave function as a description of one observer's personal beliefs rather than an objective feature of the world, and <strong>consistent histories</strong> analyzes quantum systems in terms of which sequences of events can be talked about together without contradiction. None of these interpretations changes a single prediction of quantum mechanics — they change what story you tell about why the predictions come out the way they do.</p>
+
+  <div class="divider">⟡</div>
+
+  <h2><span class="num">7</span>Watch</h2>
+  <div class="video-card">
+    <div>
+      <span class="vlabel">PBS Space Time — "Heisenberg made a discovery in 1925. We still can't explain it"</span>
+      <p style="margin:0.3rem 0 0.4rem;">A 2025 centenary retrospective on Heisenberg's Helgoland breakthrough, going a level deeper into matrix mechanics than this reading does — good if the "box score" analogy left you wanting the real math.</p>
+      <a href="https://www.pbs.org/video/heisenberg-made-a-discovery-in-1925-we-still-cant-explain-it-krsz7i" target="_blank" rel="noopener">Watch on PBS ↗</a>
+    </div>
+  </div>
+  <div class="video-card">
+    <div>
+      <span class="vlabel">Veritasium — "Copenhagen Interpretation Explained"</span>
+      <p style="margin:0.3rem 0 0.4rem;">A clear, visually driven walkthrough of the measurement problem and why Bohr and Heisenberg's picture became the default — worth watching right after finishing section 5 above.</p>
+      <a href="https://www.youtube.com/watch?v=l-Hhm7PA81c" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+    </div>
+  </div>
+
+  <h2><span class="num">8</span>Key takeaways</h2>
+  <div class="takeaways">
+    <ul>
+      <li>Heisenberg's matrix mechanics (1925) built quantum theory purely from measurable quantities; his 1927 uncertainty principle showed some pairs of properties can never both be known precisely, even in principle.</li>
+      <li>Schrödinger's wave mechanics (1926) described particles as waves obeying a smooth equation, and was later proven mathematically equivalent to Heisenberg's approach.</li>
+      <li>The 1927 Solvay Conference is remembered for the start of the Bohr–Einstein debates, where Einstein pushed back on the new theory's reliance on probability.</li>
+      <li>The Copenhagen interpretation says properties don't have definite values until measured, and that measurement collapses a superposition into one outcome — this is the measurement problem.</li>
+      <li>Many-worlds, pilot-wave theory, objective collapse, and other interpretations all match every experiment Copenhagen matches — they differ only in the story behind the same math.</li>
+    </ul>
+  </div>
+
+  <h2><span class="num">9</span>Check your understanding</h2>
+  <p>Four questions on this week's core material, plus one optional stretch question. Try each before revealing the hint or the answer.</p>
+
+  <div class="qcard">
+    <span class="qtag">Objective 1 · intro</span>
+    <p class="qtext">1. What was the main contribution of Schrödinger in quantum mechanics?</p>
+    <details><summary>Need a hint?</summary><div class="hint-body">Think about the difference between a grid of numbers and a smooth wave — which physicist worked with waves?</div></details>
+    <details><summary>Check your answer</summary><div class="answer-body">Schrödinger's central contribution was wave mechanics (1926), built around the Schrödinger equation, which describes how a system's wave function ψ evolves over time. It let physicists calculate energy levels and behavior — like the hydrogen atom's electron — using continuous wave mathematics, and it was later shown to be mathematically equivalent to Heisenberg's matrix mechanics.</div></details>
+  </div>
+
+  <div class="qcard">
+    <span class="qtag">Objective 1 · intro</span>
+    <p class="qtext">2. What was the main contribution of Heisenberg in quantum mechanics?</p>
+    <details><summary>Need a hint?</summary><div class="hint-body">Two big ideas: a new mathematical language built only from measurable quantities, and a hard limit on what can be known at once.</div></details>
+    <details><summary>Check your answer</summary><div class="answer-body">Heisenberg's main contributions were matrix mechanics (1925) — the first complete, self-consistent formulation of quantum theory, built from observable quantities like spectral lines rather than an imagined orbit — and the uncertainty principle (1927), which established a fundamental limit on how precisely complementary properties such as position and momentum can be simultaneously known.</div></details>
+  </div>
+
+  <div class="qcard">
+    <span class="qtag">Objective 1 · intro</span>
+    <p class="qtext">3. What happened at the 1927 Solvay Conference?</p>
+    <details><summary>Need a hint?</summary><div class="hint-body">Think about who attended, and the famous ongoing disagreement that began there over breakfast and dinner.</div></details>
+    <details><summary>Check your answer</summary><div class="answer-body">The Fifth Solvay Conference on Electrons and Photons, held in Brussels in October 1927, brought together the field's leading physicists — including Einstein, Bohr, Heisenberg, Schrödinger, Born, de Broglie, Dirac, and Curie — to debate the new quantum theory. It's best known for the start of the Bohr–Einstein debates, in which Einstein challenged the theory's reliance on probability while Bohr defended the emerging Copenhagen interpretation. The conference marked a turning point where the quantum framework, though still contested, began gaining broad acceptance.</div></details>
+  </div>
+
+  <div class="qcard">
+    <span class="qtag">Objective 1 · intro</span>
+    <p class="qtext">4. What is the Copenhagen interpretation?</p>
+    <details><summary>Need a hint?</summary><div class="hint-body">What does it claim happens to a property — like position — before you measure it?</div></details>
+    <details><summary>Check your answer</summary><div class="answer-body">The Copenhagen interpretation, developed mainly by Bohr and Heisenberg in the late 1920s, holds that a quantum system doesn't have definite properties until measured; instead it exists in a superposition described by the wave function, with probabilities given by the Born rule. On measurement, the wave function "collapses" to one definite outcome. It also includes complementarity — that particles can behave as waves or particles depending on the experiment, but never show both at once — and treats quantum randomness as fundamental, not a gap in our knowledge.</div></details>
+  </div>
+
+  <div class="qcard" style="border-style:dashed;">
+    <span class="qtag">Objective 1 · stretch, optional</span>
+    <p class="qtext">5. What are other interpretations of quantum mechanics?</p>
+    <details><summary>Need a hint?</summary><div class="hint-body">There are several — think about worlds splitting apart, a hidden wave that guides a real particle, and a collapse that happens on its own.</div></details>
+    <details><summary>Check your answer</summary><div class="answer-body">Besides Copenhagen, several alternatives exist: many-worlds (every outcome actually happens, each in a separate branching universe, so no collapse is needed); pilot-wave theory (particles always have a real position guided by a hidden wave, restoring determinism); objective collapse theories (collapse is a real, spontaneous physical process); QBism (the wave function reflects one observer's beliefs, not an objective fact); and consistent histories (analyzing which sequences of events can be described together without contradiction). All make identical experimental predictions to Copenhagen — they differ in what they say is "really" happening underneath.</div></details>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var state = {re0:1, im0:0, re1:0, im1:0};
+
+  function cmul(are, aim, bre, bim){
+    return {re: are*bre - aim*bim, im: are*bim + aim*bre};
+  }
+
+  function applyGate(g){
+    var g00=g[0], g01=g[1], g10=g[2], g11=g[3];
+    var t00 = cmul(g00.re, g00.im, state.re0, state.im0);
+    var t01 = cmul(g01.re, g01.im, state.re1, state.im1);
+    var t10 = cmul(g10.re, g10.im, state.re0, state.im0);
+    var t11 = cmul(g11.re, g11.im, state.re1, state.im1);
+    state.re0 = t00.re + t01.re; state.im0 = t00.im + t01.im;
+    state.re1 = t10.re + t11.re; state.im1 = t10.im + t11.im;
+    render();
+  }
+
+  function reset(){
+    state = {re0:1, im0:0, re1:0, im1:0};
+    render();
+  }
+
+  function fmt(n){
+    n = Math.round(n*100)/100;
+    if (Object.is(n, -0)) n = 0;
+    return n.toFixed(2);
+  }
+
+  function render(){
+    var mag0 = Math.sqrt(state.re0*state.re0 + state.im0*state.im0);
+    var mag0c = Math.min(1, Math.max(-1, mag0));
+    var theta = 2*Math.acos(mag0c);
+    var phase0 = Math.atan2(state.im0, state.re0);
+    var phase1 = Math.atan2(state.im1, state.re1);
+    var mag1 = Math.sqrt(state.re1*state.re1 + state.im1*state.im1);
+    var phi = mag1 < 1e-9 ? 0 : phase1 - phase0;
+    while(phi < 0) phi += 2*Math.PI;
+    while(phi >= 2*Math.PI) phi -= 2*Math.PI;
+
+    var cx=120, cy=120, R=95;
+    var sx = cx + R*Math.sin(theta)*Math.cos(phi);
+    var sy = cy - R*Math.cos(theta) - R*0.35*Math.sin(theta)*Math.sin(phi);
+
+    document.getElementById('stateLine').setAttribute('x2', sx);
+    document.getElementById('stateLine').setAttribute('y2', sy);
+    document.getElementById('statePoint').setAttribute('cx', sx);
+    document.getElementById('statePoint').setAttribute('cy', sy);
+
+    var thetaDeg = Math.round(theta*180/Math.PI);
+    var phiDeg = Math.round(phi*180/Math.PI);
+    document.getElementById('readoutTheta').textContent = thetaDeg + '°';
+    document.getElementById('readoutPhi').textContent = phiDeg + '°';
+
+    var diracParts = [];
+    if (Math.abs(state.re0) > 0.005 || Math.abs(state.im0) > 0.005){
+      diracParts.push('(' + fmt(state.re0) + (state.im0>=0?'+':'') + fmt(state.im0) + 'i)|0\u27E9');
+    }
+    if (Math.abs(state.re1) > 0.005 || Math.abs(state.im1) > 0.005){
+      diracParts.push('(' + fmt(state.re1) + (state.im1>=0?'+':'') + fmt(state.im1) + 'i)|1\u27E9');
+    }
+    document.getElementById('readoutDirac').textContent = diracParts.join(' + ') || '0';
+
+    var note = document.getElementById('readoutNote');
+    if (thetaDeg < 3 || thetaDeg > 177){
+      note.textContent = thetaDeg < 3 ? 'Definite state — measuring now always gives 0.' : 'Definite state — measuring now always gives 1.';
+    } else if (Math.abs(thetaDeg-90) < 3){
+      note.textContent = 'Superposition — measuring now gives 0 or 1 with equal probability.';
+    } else {
+      note.textContent = 'Superposition — somewhere between definite and 50/50.';
+    }
+  }
+
+  var H = [{re:1/Math.SQRT2,im:0},{re:1/Math.SQRT2,im:0},{re:1/Math.SQRT2,im:0},{re:-1/Math.SQRT2,im:0}];
+  var X = [{re:0,im:0},{re:1,im:0},{re:1,im:0},{re:0,im:0}];
+
+  document.getElementById('btnH').addEventListener('click', function(){ applyGate(H); });
+  document.getElementById('btnX').addEventListener('click', function(){ applyGate(X); });
+  document.getElementById('btnReset').addEventListener('click', reset);
+
+  render();
+})();
+</script>
+</body>
+</html>
