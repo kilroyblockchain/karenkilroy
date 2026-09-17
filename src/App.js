@@ -145,7 +145,7 @@ Building <span className="text-blue-500">agents you can hold accountable</span>.
               <p>NYX NoCode is an educator-led platform serving public school customers, transforming classrooms into creative studios where students get hands-on experience with generative AI and modern computing.</p>
             </div>
             <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Current agent platform</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 mb-1">Recent agent platform</p>
               <p className="text-slate-100 font-semibold">Six-agent regulated pipeline</p>
               <p>
                 Architected the capability abstraction layer, policy-first control plane, and hash-chained forensic execution traces behind a HIPAA-regulated multi-agent system.
