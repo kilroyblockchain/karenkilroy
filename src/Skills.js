@@ -4,11 +4,9 @@ import {
   ClipboardCheck,
   Cloud,
   FileCheck,
-  HeartPulse,
   Home,
   Layers,
   ShieldCheck,
-  Stethoscope,
   Terminal,
   Wrench
 } from 'lucide-react';
@@ -18,35 +16,12 @@ const skillGroups = [
     title: 'AI & Agentic Systems',
     icon: BrainCircuit,
     items: [
-      'Azure AI Foundry agent setup, configuration, and validation',
       'Codex 5.6, ChatGPT 5.6, Claude Fable, Claude Code, and Azure OpenAI workflows',
       'Retrieval-augmented generation, model routing, prompt guardrails, and abstention design',
       'Agent capability abstraction, capability routing, drift audits, and conformance checks',
       'Free2PA-style signed control-file verification before model context load',
       'Phyllis-style fulfillment APIs for bot-built commerce and agent-operated storefronts',
       'Model Context Protocol and AI assistant tool orchestration'
-    ]
-  },
-  {
-    title: 'Healthcare AI & Prior Authorization',
-    icon: HeartPulse,
-    items: [
-      'Patient prior authorization QA systems for oncology workflows',
-      'Clinical NLP extraction for ECOG, biomarkers, trial status, and guideline fields',
-      'RCM evidence panels for denial risk, calibration, leakage review, and model validation',
-      'Workflow optimization for intake, document review, clinical review, submission, appeals, and follow-up',
-      'PHI-safe clinical review patterns and human-in-the-loop routing'
-    ]
-  },
-  {
-    title: 'Clinical Data & Terminology',
-    icon: Stethoscope,
-    items: [
-      'FHIR R4 data modeling, mock services, patient-resource seeding, and integration testing',
-      'SNOMED CT subsumption research and terminology-service integration',
-      'ICD-10 scraper/indexer research and sync pipeline analysis',
-      'NCCN and ASCO guideline provenance, citation handling, and RAG evaluation',
-      'OpenEMR, Availity, payer-policy, and CMS interoperability research'
     ]
   },
   {
@@ -66,7 +41,6 @@ const skillGroups = [
     items: [
       'Tamper-evident audit hash chains and rechain approval workflows',
       'RBAC, RLS, role hierarchy review, and permission-bound admin surfaces',
-      'HIPAA-oriented audit logging, PHI persistence guards, and Safe Harbor review',
       'Free2PA, C2PA content provenance, AI supply-chain governance, and signed artifacts',
       'Technical standards leadership and boardroom-ready risk communication'
     ]
@@ -98,8 +72,8 @@ const skillGroups = [
 ];
 
 const highlights = [
-  { label: 'Healthcare AI', value: 'Prior Auth QA' },
-  { label: 'Agent Platforms', value: 'Foundry + Codex + Claude' },
+  { label: 'Now Learning', value: 'Quantum Computing' },
+  { label: 'Agent Platforms', value: 'Codex + Claude' },
   { label: 'Governance', value: 'Free2PA + C2PA' },
   { label: 'Delivery', value: 'React + Azure' }
 ];
@@ -129,8 +103,8 @@ export default function Skills() {
             Practical AI engineering skills for regulated, auditable systems.
           </h1>
           <p className="text-lg text-slate-300 leading-relaxed">
-            This is the working skill map behind my resume: agentic AI, patient prior authorization QA, Free2PA provenance, healthcare data,
-            cloud infrastructure, provenance, and full-stack product delivery.
+            This is the working skill map behind my resume: agentic AI, Free2PA provenance,
+            cloud infrastructure, audit and governance, and full-stack product delivery.
           </p>
         </div>
 
@@ -172,9 +146,9 @@ export default function Skills() {
             <h2 className="text-xl font-bold">How I Describe the Bundle</h2>
           </div>
           <p className="text-slate-300 leading-relaxed">
-            I build AI systems where the output is not enough. The work has to be traceable, reviewable, clinically grounded,
-            secure enough for PHI boundaries, and practical enough that product teams can ship it. Free2PA adds signed control-file
-            verification to that core skill set; my recent healthcare client work adds patient prior authorization QA, agent observability,
+            I build AI systems where the output is not enough. The work has to be traceable, reviewable, secure,
+            and practical enough that product teams can ship it. Free2PA adds signed control-file
+            verification to that core skill set, alongside agent observability,
             capability conformance, and audit infrastructure.
           </p>
         </section>
