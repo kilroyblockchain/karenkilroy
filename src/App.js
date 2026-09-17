@@ -36,8 +36,8 @@ const Portfolio = () => {
       text: "I built Free2PA to verify signed agent control files before they enter model context."
     },
     {
-      title: "Healthcare QA Infrastructure",
-      text: "I build QA surfaces for patient prior authorization workflows, including trace review, PHI-safe paths, and clinical evidence checks."
+      title: "Quantum-Centric Supercomputing",
+      text: "I'm studying quantum computing at the University of Arkansas Walton College this fall, focused on quantum-centric supercomputing, where quantum processors, classical supercomputers, and AI work together on problems none of them can handle alone."
     },
     {
       title: "Supply Chain Traceability",
